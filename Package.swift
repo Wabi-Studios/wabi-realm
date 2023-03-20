@@ -1,10 +1,10 @@
-// swift-tools-version:5.5
+// swift-tools-version:5.7
 
 import PackageDescription
 import Foundation
 
 let coreVersionStr = "13.7.1"
-let cocoaVersionStr = "10.37.0"
+let cocoaVersionStr = "10.37.1"
 
 let coreVersionPieces = coreVersionStr.split(separator: ".")
 let coreVersionExtra = coreVersionPieces[2].split(separator: "-")
@@ -100,10 +100,10 @@ func objectServerTestTarget(name: String, sources: [String]) -> Target {
 let package = Package(
     name: "Realm",
     platforms: [
-        .macOS(.v10_10),
-        .iOS(.v11),
-        .tvOS(.v9),
-        .watchOS(.v2)
+        .macOS(.v13),
+        .iOS(.v14),
+        .tvOS(.v11),
+        .watchOS(.v4)
     ],
     products: [
         .library(
@@ -114,12 +114,14 @@ let package = Package(
             targets: ["Realm", "RealmSwift"]),
     ],
     dependencies: [
-        .package(name: "RealmDatabase", url: "https://github.com/realm/realm-core.git", branch: "master")
+        .package(url: "https://github.com/realm/realm-core.git", branch: "master")
     ],
     targets: [
       .target(
             name: "Realm",
-            dependencies: [.product(name: "RealmCore", package: "RealmDatabase")],
+            dependencies: [
+              .product(name: "RealmCore", package: "realm-core")
+            ],
             path: ".",
             exclude: [
                 "CHANGELOG.md",
