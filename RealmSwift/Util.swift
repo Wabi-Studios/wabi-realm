@@ -160,7 +160,6 @@ internal func logRuntimeIssue(_ message: StaticString) {
     }
 }
 
-#if swift(<5.9)
 // These are added in SE-0392, but can be partially polyfilled for older versions.
 // We can't actually perform the proper checks to see if we're actually on the
 // expected executor, though.
@@ -183,5 +182,3 @@ internal func assumeOnActorExecutor<A: Actor, T>(_ actor: A,
         try unsafeBitCast(fn, to: ((A) throws -> T).self)(actor)
     }
 }
-
-#endif
