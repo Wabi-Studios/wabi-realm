@@ -24,8 +24,8 @@
 
 typedef void (^RLMLoggerFunction)(RLMLogLevel level, NSString *message);
 
-using namespace wabi_realm;
-using Logger = wabi_realm::util::Logger;
+using namespace realm;
+using Logger = realm::util::Logger;
 using Level = Logger::Level;
 
 namespace {

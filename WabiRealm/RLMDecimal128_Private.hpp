@@ -18,12 +18,12 @@
 
 #import <WabiRealm/RLMDecimal128.h>
 
-namespace wabi_realm {
+namespace realm {
 class Decimal128;
 }
 
 RLM_DIRECT_MEMBERS
 @interface RLMDecimal128 ()
-- (instancetype)initWithDecimal128:(wabi_realm::Decimal128)value;
-- (wabi_realm::Decimal128)decimal128Value;
+- (instancetype)initWithDecimal128:(realm::Decimal128)value;
+- (realm::Decimal128)decimal128Value;
 @end

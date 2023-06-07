@@ -31,7 +31,7 @@
 #import <realm/object-store/object_schema.hpp>
 #import <realm/object-store/object_store.hpp>
 
-using namespace wabi_realm;
+using namespace realm;
 
 @protocol RLMCustomEventRepresentable
 @end
@@ -394,7 +394,7 @@ using namespace wabi_realm;
   return _objectStoreName;
 }
 
-- (wabi_realm::ObjectSchema)objectStoreCopy:(RLMSchema *)schema {
+- (realm::ObjectSchema)objectStoreCopy:(RLMSchema *)schema {
   using Type = ObjectSchema::ObjectType;
   ObjectSchema objectSchema;
   objectSchema.name = self.objectStoreName;
@@ -415,7 +415,7 @@ using namespace wabi_realm;
 }
 
 + (instancetype)objectSchemaForObjectStoreSchema:
-    (wabi_realm::ObjectSchema const &)objectSchema {
+    (realm::ObjectSchema const &)objectSchema {
   RLMObjectSchema *schema = [RLMObjectSchema new];
   schema.className = @(objectSchema.name.c_str());
   schema.isEmbedded =

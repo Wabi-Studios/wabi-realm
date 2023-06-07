@@ -26,9 +26,9 @@
 
 @implementation RLMEmailPasswordAuth
 
-- (wabi_realm::app::App::UsernamePasswordProviderClient)client {
+- (realm::app::App::UsernamePasswordProviderClient)client {
   return self.app._realmApp
-      ->provider_client<wabi_realm::app::App::UsernamePasswordProviderClient>();
+      ->provider_client<realm::app::App::UsernamePasswordProviderClient>();
 }
 
 - (void)registerUserWithEmail:(NSString *)email
@@ -82,7 +82,7 @@
                            (RLMEmailPasswordAuthOptionalErrorBlock)completion {
   self.client.call_reset_password_function(
       email.UTF8String, password.UTF8String,
-      static_cast<wabi_realm::bson::BsonArray>(RLMConvertRLMBSONToBson(args)),
+      static_cast<realm::bson::BsonArray>(RLMConvertRLMBSONToBson(args)),
       RLMWrapCompletion(completion));
 }
 

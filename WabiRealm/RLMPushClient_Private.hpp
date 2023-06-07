@@ -18,11 +18,11 @@
 
 #import "RLMPushClient.h"
 
-namespace wabi_realm::app {
+namespace realm::app {
 class PushClient;
 }
 
 RLM_DIRECT_MEMBERS
 @interface RLMPushClient ()
-- (instancetype)initWithPushClient:(wabi_realm::app::PushClient &&)pushClient;
+- (instancetype)initWithPushClient:(realm::app::PushClient &&)pushClient;
 @end

@@ -26,21 +26,21 @@ NSString *const kRLMSyncErrorActionTokenKey = @"error_action_token";
 
 #pragma mark - C++ APIs
 
-using namespace wabi_realm;
+using namespace realm;
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 static_assert((int)RLMClientResetModeDiscardLocal ==
-              (int)wabi_realm::ClientResyncMode::DiscardLocal);
+              (int)realm::ClientResyncMode::DiscardLocal);
 #pragma clang diagnostic pop
 static_assert((int)RLMClientResetModeDiscardUnsyncedChanges ==
-              (int)wabi_realm::ClientResyncMode::DiscardLocal);
+              (int)realm::ClientResyncMode::DiscardLocal);
 static_assert((int)RLMClientResetModeRecoverUnsyncedChanges ==
-              (int)wabi_realm::ClientResyncMode::Recover);
+              (int)realm::ClientResyncMode::Recover);
 static_assert((int)RLMClientResetModeRecoverOrDiscardUnsyncedChanges ==
-              (int)wabi_realm::ClientResyncMode::RecoverOrDiscard);
+              (int)realm::ClientResyncMode::RecoverOrDiscard);
 static_assert((int)RLMClientResetModeManual ==
-              (int)wabi_realm::ClientResyncMode::Manual);
+              (int)realm::ClientResyncMode::Manual);
 
 static_assert(int(RLMSyncStopPolicyImmediately) ==
               int(SyncSessionStopPolicy::Immediately));
@@ -58,7 +58,7 @@ RLMSyncStopPolicy translateStopPolicy(SyncSessionStopPolicy stopPolicy) {
 }
 
 CocoaSyncUserContext &
-context_for(const std::shared_ptr<wabi_realm::SyncUser> &user) {
+context_for(const std::shared_ptr<realm::SyncUser> &user) {
   return *std::static_pointer_cast<CocoaSyncUserContext>(
       user->binding_context());
 }

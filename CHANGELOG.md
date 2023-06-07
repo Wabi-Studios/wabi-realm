@@ -3219,7 +3219,7 @@ Xcode 12.2 is now the minimum supported version.
 ### Fixed
 
 * Integrating changesets from the server would sometimes hit the assertion
-  failure "n != wabi_realm::npos" inside Table::create_object_with_primary_key()
+  failure "n != realm::npos" inside Table::create_object_with_primary_key()
   when creating an object with a primary key which previously had been used and
   had incoming links. ([Core PR #4180](https://github.com/realm/realm-core/pull/4180), since v10.0.0).
 * The arm64 simulator slices were not actually included in the XCFramework
@@ -3680,7 +3680,7 @@ This release also contains the following changes from 5.4.0 - 5.4.6:
 * Fix Archiving the WabiRealm and WabiRealmKit frameworks with Xcode 12.
   ([#6774](https://github.com/Wabi-Studios/wabi-realm/issues/6774))
 * Fix compilation via Carthage when using Xcode 12 ([#6717](https://github.com/Wabi-Studios/wabi-realm/issues/6717)).
-* Fix a crash inside `wabi_realm::Array(Type)::init_from_mem()` which would
+* Fix a crash inside `realm::Array(Type)::init_from_mem()` which would
   sometimes occur when running a query over links immediately after creating
   objects of the queried type.
   ([#6789](https://github.com/Wabi-Studios/wabi-realm/issues/6789) and possibly others, since 5.0.0).
@@ -4090,7 +4090,7 @@ non-SPM installation methods.
 
 ### Fixed
 
-* Fix a crash inside `wabi_realm::Array(Type)::init_from_mem()` which would
+* Fix a crash inside `realm::Array(Type)::init_from_mem()` which would
   sometimes occur when running a query over links immediately after creating
   objects of the queried type.
   ([#6789](https://github.com/Wabi-Studios/wabi-realm/issues/6789) and possibly others, since 5.0.0).
@@ -4344,7 +4344,7 @@ upgraded Realms.
 * A use-after-free would occur if a WabiRealm was compacted, opened on multiple
   threads prior to the first write, then written to while reads were happening
   on other threads. This could result in a variety of crashes, often inside
-  wabi_realm::util::EncryptedFileMapping::read_barrier.
+  realm::util::EncryptedFileMapping::read_barrier.
   (Since v5.0.0, [#6626](https://github.com/Wabi-Studios/wabi-realm/issues/6626),
   [#6628](https://github.com/Wabi-Studios/wabi-realm/issues/6628),
   [#6652](https://github.com/Wabi-Studios/wabi-realm/issues/6652),

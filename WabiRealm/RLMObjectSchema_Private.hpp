@@ -20,7 +20,7 @@
 
 #import <string>
 
-namespace wabi_realm {
+namespace realm {
 class ObjectSchema;
 }
 @class RLMSchema;
@@ -28,10 +28,10 @@ class ObjectSchema;
 @interface RLMObjectSchema ()
 - (std::string const &)objectStoreName;
 
-// create wabi_realm::ObjectSchema copy
-- (wabi_realm::ObjectSchema)objectStoreCopy:(RLMSchema *)schema;
+// create realm::ObjectSchema copy
+- (realm::ObjectSchema)objectStoreCopy:(RLMSchema *)schema;
 
-// initialize with wabi_realm::ObjectSchema
+// initialize with realm::ObjectSchema
 + (instancetype)objectSchemaForObjectStoreSchema:
-    (wabi_realm::ObjectSchema const &)objectSchema;
+    (realm::ObjectSchema const &)objectSchema;
 @end

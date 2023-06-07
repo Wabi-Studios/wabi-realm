@@ -685,7 +685,7 @@
 
   // Let the background job run now
   auto coord =
-      wabi_realm::_impl::RealmCoordinator::get_coordinator(config.path);
+      realm::_impl::RealmCoordinator::get_coordinator(config.path);
   coord->on_change();
 
   for (int i = 7; i < 10; ++i) {

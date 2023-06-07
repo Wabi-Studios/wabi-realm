@@ -40,7 +40,7 @@
 
 #import <objc/message.h>
 
-using namespace wabi_realm;
+using namespace realm;
 
 static inline void
 RLMVerifyRealmRead(__unsafe_unretained RLMRealm *const realm) {
@@ -164,7 +164,7 @@ void RLMCreateAsymmetricObjectInRealm(RLMRealm *realm, NSString *className,
 }
 
 RLMObjectBase *RLMObjectFromObjLink(RLMRealm *realm,
-                                    wabi_realm::ObjLink &&objLink,
+                                    realm::ObjLink &&objLink,
                                     bool parentIsSwiftObject) {
   if (auto *tableInfo = realm->_info[objLink.get_table_key()]) {
     return RLMCreateObjectAccessor(*tableInfo, objLink.get_obj_key().value);
@@ -174,7 +174,7 @@ RLMObjectBase *RLMObjectFromObjLink(RLMRealm *realm,
     Class cls = parentIsSwiftObject ? [WabiRealmKitDynamicObject class]
                                     : [RLMDynamicObject class];
     auto &group = realm->_realm->read_group();
-    auto schema = std::make_unique<wabi_realm::ObjectSchema>(
+    auto schema = std::make_unique<realm::ObjectSchema>(
         group, group.get_table_name(objLink.get_table_key()),
         objLink.get_table_key());
     RLMObjectSchema *rlmObjectSchema =
@@ -226,17 +226,17 @@ RLMResults *RLMGetObjects(__unsafe_unretained RLMRealm *const realm,
   }
 
   if (predicate) {
-    wabi_realm::Query query = RLMPredicateToQuery(
+    realm::Query query = RLMPredicateToQuery(
         predicate, info.rlmObjectSchema, realm.schema, realm.group);
     return [RLMResults
         resultsWithObjectInfo:info
-                      results:wabi_realm::Results(realm->_realm,
+                      results:realm::Results(realm->_realm,
                                                   std::move(query))];
   }
 
   return [RLMResults
       resultsWithObjectInfo:info
-                    results:wabi_realm::Results(realm->_realm, info.table())];
+                    results:realm::Results(realm->_realm, info.table())];
 }
 
 id RLMGetObject(RLMRealm *realm, NSString *objectClassName, id key) {
@@ -248,7 +248,7 @@ id RLMGetObject(RLMRealm *realm, NSString *objectClassName, id key) {
   }
   try {
     RLMAccessorContext c{info};
-    auto obj = wabi_realm::Object::get_for_primary_key(
+    auto obj = realm::Object::get_for_primary_key(
         c, realm->_realm, *info.objectSchema, key ?: NSNull.null);
     if (!obj.is_valid())
       return nil;
@@ -260,12 +260,12 @@ id RLMGetObject(RLMRealm *realm, NSString *objectClassName, id key) {
 
 RLMObjectBase *RLMCreateObjectAccessor(RLMClassInfo &info, int64_t key) {
   return RLMCreateObjectAccessor(
-      info, info.table()->get_object(wabi_realm::ObjKey(key)));
+      info, info.table()->get_object(realm::ObjKey(key)));
 }
 
 // Create accessor and register with realm
 RLMObjectBase *RLMCreateObjectAccessor(RLMClassInfo &info,
-                                       wabi_realm::Obj &&obj) {
+                                       realm::Obj &&obj) {
   RLMObjectBase *accessor =
       RLMCreateManagedAccessor(info.rlmObjectSchema.accessorClass, &info);
   accessor->_row = std::move(obj);

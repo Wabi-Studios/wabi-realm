@@ -370,7 +370,7 @@ static void validateSetBounds(__unsafe_unretained RLMSet *const set,
   }
 
   // `valueForKeyPath` on NSSet will only return distinct values, which is an
-  // issue as the wabi_realm::object_store::Set aggregate methods will calculate
+  // issue as the realm::object_store::Set aggregate methods will calculate
   // the result based on each element of a property regardless of uniqueness.
   // To get around this we will need to use the `array` property of the
   // NSMutableOrderedSet
@@ -569,7 +569,7 @@ void RLMSetValidateMatchingObjectType(__unsafe_unretained RLMSet *const set,
 
 #pragma mark - Thread Confined Protocol Conformance
 
-- (wabi_realm::ThreadSafeReference)makeThreadSafeReference {
+- (realm::ThreadSafeReference)makeThreadSafeReference {
   REALM_TERMINATE("Unexpected handover of unmanaged `RLMSet`");
 }
 
@@ -578,7 +578,7 @@ void RLMSetValidateMatchingObjectType(__unsafe_unretained RLMSet *const set,
 }
 
 + (instancetype)objectWithThreadSafeReference:
-                    (wabi_realm::ThreadSafeReference)reference
+                    (realm::ThreadSafeReference)reference
                                      metadata:(id)metadata
                                         realm:(RLMRealm *)realm {
   REALM_TERMINATE("Unexpected handover of unmanaged `RLMSet`");

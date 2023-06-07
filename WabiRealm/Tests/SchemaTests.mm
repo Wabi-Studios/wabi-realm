@@ -1328,15 +1328,15 @@ RLM_COLLECTION_TYPE(NotARealClass)
 
 - (void)testInsertingColumnsInBackgroundProcess {
   RLMRealmConfiguration *config = [RLMRealmConfiguration defaultConfiguration];
-  config.schemaMode = wabi_realm::SchemaMode::AdditiveDiscovered;
+  config.schemaMode = realm::SchemaMode::AdditiveDiscovered;
   if (!self.isParent) {
     config.dynamic = true;
     RLMRealm *realm = [RLMRealm realmWithConfiguration:config error:nil];
     [realm beginWriteTransaction];
     auto table = realm->_info[@"IntObject"].table();
     table->add_column(
-        wabi_realm::type_String,
-        wabi_realm::util::format("col%1", table->get_column_count()).c_str());
+        realm::type_String,
+        realm::util::format("col%1", table->get_column_count()).c_str());
     [realm commitWriteTransaction];
     return;
   }

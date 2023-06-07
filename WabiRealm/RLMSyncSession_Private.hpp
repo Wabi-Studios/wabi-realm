@@ -20,16 +20,16 @@
 
 #import <memory>
 
-namespace wabi_realm {
+namespace realm {
 class AsyncOpenTask;
 class SyncSession;
-} // namespace wabi_realm
+} // namespace realm
 
 RLM_HEADER_AUDIT_BEGIN(nullability, sendability)
 
 @interface RLMSyncSession () {
 @public // So it's visible to tests
-  std::weak_ptr<wabi_realm::SyncSession> _session;
+  std::weak_ptr<realm::SyncSession> _session;
 }
 
 - (instancetype)init
@@ -38,7 +38,7 @@ RLM_HEADER_AUDIT_BEGIN(nullability, sendability)
     __attribute__((unavailable("This type cannot be created directly")));
 
 - (instancetype)initWithSyncSession:
-    (std::shared_ptr<wabi_realm::SyncSession> const &)session;
+    (std::shared_ptr<realm::SyncSession> const &)session;
 
 /// Wait for pending uploads to complete or the session to expire, and dispatch
 /// the callback onto the specified queue.

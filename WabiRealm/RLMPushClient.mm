@@ -24,10 +24,10 @@
 #import <realm/object-store/sync/push_client.hpp>
 
 @implementation RLMPushClient {
-  std::optional<wabi_realm::app::PushClient> _pushClient;
+  std::optional<realm::app::PushClient> _pushClient;
 }
 
-- (instancetype)initWithPushClient:(wabi_realm::app::PushClient &&)pushClient {
+- (instancetype)initWithPushClient:(realm::app::PushClient &&)pushClient {
   if (self = [super init]) {
     _pushClient = std::move(pushClient);
     return self;
@@ -40,7 +40,7 @@
                      completion:(RLMOptionalErrorBlock)completion {
   _pushClient->register_device(
       token.UTF8String, user._syncUser,
-      ^(std::optional<wabi_realm::app::AppError> error) {
+      ^(std::optional<realm::app::AppError> error) {
         if (error) {
           return completion(makeError(*error));
         }
@@ -51,7 +51,7 @@
 - (void)deregisterDeviceForUser:(RLMUser *)user
                      completion:(RLMOptionalErrorBlock)completion {
   _pushClient->deregister_device(
-      user._syncUser, ^(std::optional<wabi_realm::app::AppError> error) {
+      user._syncUser, ^(std::optional<realm::app::AppError> error) {
         if (error) {
           return completion(makeError(*error));
         }

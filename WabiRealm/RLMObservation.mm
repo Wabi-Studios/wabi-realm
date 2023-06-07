@@ -32,7 +32,7 @@
 
 #import <realm/group.hpp>
 
-using namespace wabi_realm;
+using namespace realm;
 
 namespace {
 template <typename Iterator> struct IteratorPair {
@@ -53,7 +53,7 @@ template <typename Container> auto reverse(Container const &c) {
 } // namespace
 
 RLMObservationInfo::RLMObservationInfo(RLMClassInfo &objectSchema,
-                                       wabi_realm::ObjKey row, id object)
+                                       realm::ObjKey row, id object)
     : object(object), objectSchema(&objectSchema) {
   setRow(*objectSchema.table(), row);
 }
@@ -96,7 +96,7 @@ RLMObservationInfo::~RLMObservationInfo() {
 }
 
 NSString *
-RLMObservationInfo::columnName(wabi_realm::ColKey col) const noexcept {
+RLMObservationInfo::columnName(realm::ColKey col) const noexcept {
   return objectSchema->propertyForTableColumn(col).name;
 }
 
@@ -129,8 +129,8 @@ void RLMObservationInfo::prepareForInvalidation() {
     info->invalidated = true;
 }
 
-void RLMObservationInfo::setRow(wabi_realm::Table const &table,
-                                wabi_realm::ObjKey key) {
+void RLMObservationInfo::setRow(realm::Table const &table,
+                                realm::ObjKey key) {
   REALM_ASSERT_DEBUG(!row);
   REALM_ASSERT_DEBUG(objectSchema);
   row = table.get_object(key);
@@ -148,7 +148,7 @@ void RLMObservationInfo::setRow(wabi_realm::Table const &table,
 }
 
 void RLMObservationInfo::recordObserver(
-    wabi_realm::Obj &objectRow, RLMClassInfo *objectInfo,
+    realm::Obj &objectRow, RLMClassInfo *objectInfo,
     __unsafe_unretained RLMObjectSchema *const objectSchema,
     __unsafe_unretained NSString *const keyPath) {
   ++observerCount;
@@ -234,7 +234,7 @@ id RLMObservationInfo::valueForKey(NSString *key) {
     }
 
     RLMObjectBase *value = cachedObjects[key];
-    if (value && value->_row.get_key() == row.get<wabi_realm::ObjKey>(col)) {
+    if (value && value->_row.get_key() == row.get<realm::ObjKey>(col)) {
       return value;
     }
     value = getSuper();
@@ -249,7 +249,7 @@ id RLMObservationInfo::valueForKey(NSString *key) {
 }
 
 RLMObservationInfo *RLMGetObservationInfo(RLMObservationInfo *info,
-                                          wabi_realm::ObjKey row,
+                                          realm::ObjKey row,
                                           RLMClassInfo &objectSchema) {
   if (info) {
     return info;
@@ -333,7 +333,7 @@ void RLMObservationTracker::trackDeletions() {
   }
 
   _group.set_cascade_notification_handler(
-      [=](wabi_realm::Group::CascadeNotification const &cs) {
+      [=](realm::Group::CascadeNotification const &cs) {
         cascadeNotification(cs);
       });
 }
@@ -391,14 +391,14 @@ void RLMObservationTracker::cascadeNotification(CascadeNotification const &cs) {
     }
   }
   if (!cs.rows.empty()) {
-    using Row = wabi_realm::Group::CascadeNotification::row;
+    using Row = realm::Group::CascadeNotification::row;
     auto begin = cs.rows.begin();
     for (auto table : _observedTables) {
       auto currentTableKey = tableKey(table->front());
       if (begin->table_key < currentTableKey) {
         // Find the first deleted object in or after this table
         begin = std::lower_bound(begin, cs.rows.end(),
-                                 Row{currentTableKey, wabi_realm::ObjKey(0)});
+                                 Row{currentTableKey, realm::ObjKey(0)});
       }
       if (begin == cs.rows.end()) {
         // No more deleted objects
@@ -412,8 +412,8 @@ void RLMObservationTracker::cascadeNotification(CascadeNotification const &cs) {
       // Find the end of the deletions in this table
       auto end =
           std::lower_bound(begin, cs.rows.end(),
-                           Row{wabi_realm::TableKey(currentTableKey.value + 1),
-                               wabi_realm::ObjKey(0)});
+                           Row{realm::TableKey(currentTableKey.value + 1),
+                               realm::ObjKey(0)});
 
       // Check each observed object to see if it's in the deleted rows
       for (auto info : *table) {
@@ -469,18 +469,18 @@ void RLMObservationTracker::didChange() {
 
 namespace {
 template <typename Func>
-void forEach(wabi_realm::BindingContext::ObserverState const &state,
+void forEach(realm::BindingContext::ObserverState const &state,
              Func &&func) {
   for (auto &change : state.changes) {
-    func(wabi_realm::ColKey(change.first), change.second,
+    func(realm::ColKey(change.first), change.second,
          static_cast<RLMObservationInfo *>(state.info));
   }
 }
 } // namespace
 
-std::vector<wabi_realm::BindingContext::ObserverState>
+std::vector<realm::BindingContext::ObserverState>
 RLMGetObservedRows(RLMSchemaInfo const &schema) {
-  std::vector<wabi_realm::BindingContext::ObserverState> observers;
+  std::vector<realm::BindingContext::ObserverState> observers;
   for (auto &table : schema) {
     for (auto info : table.second.observedObjects) {
       auto const &row = info->getRow();
@@ -494,21 +494,21 @@ RLMGetObservedRows(RLMSchemaInfo const &schema) {
 }
 
 static NSKeyValueChange
-convert(wabi_realm::BindingContext::ColumnInfo::Kind kind) {
+convert(realm::BindingContext::ColumnInfo::Kind kind) {
   switch (kind) {
-  case wabi_realm::BindingContext::ColumnInfo::Kind::None:
-  case wabi_realm::BindingContext::ColumnInfo::Kind::SetAll:
+  case realm::BindingContext::ColumnInfo::Kind::None:
+  case realm::BindingContext::ColumnInfo::Kind::SetAll:
     return NSKeyValueChangeSetting;
-  case wabi_realm::BindingContext::ColumnInfo::Kind::Set:
+  case realm::BindingContext::ColumnInfo::Kind::Set:
     return NSKeyValueChangeReplacement;
-  case wabi_realm::BindingContext::ColumnInfo::Kind::Insert:
+  case realm::BindingContext::ColumnInfo::Kind::Insert:
     return NSKeyValueChangeInsertion;
-  case wabi_realm::BindingContext::ColumnInfo::Kind::Remove:
+  case realm::BindingContext::ColumnInfo::Kind::Remove:
     return NSKeyValueChangeRemoval;
   }
 }
 
-static NSIndexSet *convert(wabi_realm::IndexSet const &in,
+static NSIndexSet *convert(realm::IndexSet const &in,
                            NSMutableIndexSet *out) {
   if (in.empty()) {
     return nil;
@@ -522,7 +522,7 @@ static NSIndexSet *convert(wabi_realm::IndexSet const &in,
 }
 
 void RLMWillChange(
-    std::vector<wabi_realm::BindingContext::ObserverState> const &observed,
+    std::vector<realm::BindingContext::ObserverState> const &observed,
     std::vector<void *> const &invalidated) {
   for (auto info : invalidated) {
     static_cast<RLMObservationInfo *>(info)->willChange(RLMInvalidatedKey);
@@ -530,7 +530,7 @@ void RLMWillChange(
   if (!observed.empty()) {
     NSMutableIndexSet *indexes = [NSMutableIndexSet new];
     for (auto const &o : observed) {
-      forEach(o, [&](wabi_realm::ColKey colKey, auto const &change,
+      forEach(o, [&](realm::ColKey colKey, auto const &change,
                      RLMObservationInfo *info) {
         info->willChange(info->columnName(colKey), convert(change.kind),
                          convert(change.indices, indexes));
@@ -543,13 +543,13 @@ void RLMWillChange(
 }
 
 void RLMDidChange(
-    std::vector<wabi_realm::BindingContext::ObserverState> const &observed,
+    std::vector<realm::BindingContext::ObserverState> const &observed,
     std::vector<void *> const &invalidated) {
   if (!observed.empty()) {
     // Loop in reverse order to avoid O(N^2) behavior in Foundation
     NSMutableIndexSet *indexes = [NSMutableIndexSet new];
     for (auto const &o : reverse(observed)) {
-      forEach(o, [&](wabi_realm::ColKey col, auto const &change,
+      forEach(o, [&](realm::ColKey col, auto const &change,
                      RLMObservationInfo *info) {
         info->didChange(info->columnName(col), convert(change.kind),
                         convert(change.indices, indexes));

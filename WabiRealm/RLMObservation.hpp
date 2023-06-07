@@ -27,12 +27,12 @@
 class RLMClassInfo;
 class RLMSchemaInfo;
 
-namespace wabi_realm {
+namespace realm {
 class History;
 class SharedGroup;
 struct TableKey;
 struct ColKey;
-} // namespace wabi_realm
+} // namespace realm
 
 // RLMObservationInfo stores all of the KVO-related data for RLMObjectBase and
 // RLMSet/Array. There is a one-to-one relationship between observed objects and
@@ -50,13 +50,13 @@ struct ColKey;
 class RLMObservationInfo {
 public:
   RLMObservationInfo(id object);
-  RLMObservationInfo(RLMClassInfo &objectSchema, wabi_realm::ObjKey row,
+  RLMObservationInfo(RLMClassInfo &objectSchema, realm::ObjKey row,
                      id object);
   ~RLMObservationInfo();
 
-  wabi_realm::Obj const &getRow() const { return row; }
+  realm::Obj const &getRow() const { return row; }
 
-  NSString *columnName(wabi_realm::ColKey col) const noexcept;
+  NSString *columnName(realm::ColKey col) const noexcept;
 
   // Send willChange/didChange notifications to all observers for this
   // object/row Sends the array versions if indexes is non-nil, normal versions
@@ -67,9 +67,9 @@ public:
   void didChange(NSString *key, NSKeyValueChange kind = NSKeyValueChangeSetting,
                  NSIndexSet *indexes = nil) const;
 
-  bool isForRow(wabi_realm::ObjKey key) const { return row.get_key() == key; }
+  bool isForRow(realm::ObjKey key) const { return row.get_key() == key; }
 
-  void recordObserver(wabi_realm::Obj &row, RLMClassInfo *objectInfo,
+  void recordObserver(realm::Obj &row, RLMClassInfo *objectInfo,
                       RLMObjectSchema *objectSchema, NSString *keyPath);
   void removeObserver();
   bool hasObservers() const { return observerCount > 0; }
@@ -96,7 +96,7 @@ private:
   RLMObservationInfo *prev = nullptr;
 
   // Row being observed
-  wabi_realm::Obj row;
+  realm::Obj row;
   RLMClassInfo *objectSchema = nullptr;
 
   // Object doing the observing
@@ -112,7 +112,7 @@ private:
   // are added and so that they can still be accessed after row is detached
   NSMutableDictionary *cachedObjects;
 
-  void setRow(wabi_realm::Table const &table, wabi_realm::ObjKey newRow);
+  void setRow(realm::Table const &table, realm::ObjKey newRow);
 
   template <typename F> void forEach(F &&f) const {
     // The user's observation handler may release their last reference to
@@ -142,7 +142,7 @@ private:
 // Will simply return info if it's non-null, and will search ojectSchema's array
 // for a matching one otherwise, and return null if there are none
 RLMObservationInfo *RLMGetObservationInfo(RLMObservationInfo *info,
-                                          wabi_realm::ObjKey row,
+                                          realm::ObjKey row,
                                           RLMClassInfo &objectSchema);
 
 // delete all objects from a single table with change notifications
@@ -163,7 +163,7 @@ public:
 private:
   std::vector<std::vector<RLMObservationInfo *> *> _observedTables;
   __unsafe_unretained RLMRealm const *_realm;
-  wabi_realm::Group &_group;
+  realm::Group &_group;
   RLMObservationInfo *_info = nullptr;
 
   NSString *_key;
@@ -182,13 +182,13 @@ private:
   void cascadeNotification(CascadeNotification const &);
 };
 
-std::vector<wabi_realm::BindingContext::ObserverState>
+std::vector<realm::BindingContext::ObserverState>
 RLMGetObservedRows(RLMSchemaInfo const &schema);
 void RLMWillChange(
-    std::vector<wabi_realm::BindingContext::ObserverState> const &observed,
+    std::vector<realm::BindingContext::ObserverState> const &observed,
     std::vector<void *> const &invalidated);
 void RLMDidChange(
-    std::vector<wabi_realm::BindingContext::ObserverState> const &observed,
+    std::vector<realm::BindingContext::ObserverState> const &observed,
     std::vector<void *> const &invalidated);
 
 // Used for checking if an `Object` declared with `@StateRealmObject` needs to

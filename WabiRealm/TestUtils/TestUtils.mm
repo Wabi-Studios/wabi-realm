@@ -227,13 +227,13 @@ static std::string fakeJWT() {
   });
   std::string encoded_prefix, encoded_body;
   encoded_prefix.resize(
-      wabi_realm::util::base64_encoded_size(unencoded_prefix.size()));
+      realm::util::base64_encoded_size(unencoded_prefix.size()));
   encoded_body.resize(
-      wabi_realm::util::base64_encoded_size(unencoded_body.size()));
-  wabi_realm::util::base64_encode(unencoded_prefix.data(),
+      realm::util::base64_encoded_size(unencoded_body.size()));
+  realm::util::base64_encode(unencoded_prefix.data(),
                                   unencoded_prefix.size(), &encoded_prefix[0],
                                   encoded_prefix.size());
-  wabi_realm::util::base64_encode(unencoded_body.data(), unencoded_body.size(),
+  realm::util::base64_encode(unencoded_body.data(), unencoded_body.size(),
                                   &encoded_body[0], encoded_body.size());
   std::string suffix = "Et9HFtf9R3GEMA0IICOfFMVXY7kkTX1wr4qCyhIf58U";
   return encoded_prefix + "." + encoded_body + "." + suffix;
@@ -258,14 +258,14 @@ RLMUser *RLMDummyUser() {
   @autoreleasepool {
     auto config = [RLMSyncManager configurationWithRootDirectory:nil
                                                            appId:@"dummy"];
-    wabi_realm::SyncFileManager sfm(config.base_file_path, "dummy");
+    realm::SyncFileManager sfm(config.base_file_path, "dummy");
     std::optional<std::vector<char>> encryption_key;
     if (config.metadata_mode ==
-        wabi_realm::SyncClientConfig::MetadataMode::Encryption) {
-      encryption_key = wabi_realm::keychain::get_existing_metadata_realm_key();
+        realm::SyncClientConfig::MetadataMode::Encryption) {
+      encryption_key = realm::keychain::get_existing_metadata_realm_key();
     }
-    wabi_realm::SyncMetadataManager metadata_manager(
-        sfm.metadata_path(), encryption_key != wabi_realm::util::none,
+    realm::SyncMetadataManager metadata_manager(
+        sfm.metadata_path(), encryption_key != realm::util::none,
         encryption_key);
     auto user = metadata_manager.get_or_make_user_metadata(
         "dummy", "https://example.invalid");

@@ -100,8 +100,8 @@ def is_object_deleted(obj):
     global object_table_ptr_offset
     if not object_table_ptr_offset:
         row, _, _ = get_ivar_info(obj, 'RLMObject._row')
-        table, _, _ = get_ivar_info(obj, 'wabi_realm::Row.m_table')
-        ptr, _, _ = get_ivar_info(obj, 'wabi_realm::TableRef.m_ptr')
+        table, _, _ = get_ivar_info(obj, 'realm::Row.m_table')
+        ptr, _, _ = get_ivar_info(obj, 'realm::TableRef.m_ptr')
         object_table_ptr_offset = row + table + ptr
 
     ptr = obj.GetProcess().ReadUnsignedFromMemory(addr + object_table_ptr_offset,

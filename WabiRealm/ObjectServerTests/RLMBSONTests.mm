@@ -23,7 +23,7 @@
 
 #import <XCTest/XCTest.h>
 
-using namespace wabi_realm::bson;
+using namespace realm::bson;
 
 @interface RLMBSONTestCase : XCTestCase
 
@@ -75,7 +75,7 @@ using namespace wabi_realm::bson;
 }
 
 - (void)testDatetimeMongoTimestampRoundTrip {
-  auto bson = Bson(wabi_realm::Timestamp(42, 0));
+  auto bson = Bson(realm::Timestamp(42, 0));
   NSDate *rlm = (NSDate *)RLMConvertBsonToRLMBSON(bson);
   NSDate *d = [[NSDate alloc] initWithTimeIntervalSince1970:42];
   XCTAssert([rlm isEqualToDate:d]);
@@ -83,17 +83,17 @@ using namespace wabi_realm::bson;
 }
 
 - (void)testDatetimeTimestampRoundTrip {
-  auto bson = Bson(wabi_realm::Timestamp(42, 0));
+  auto bson = Bson(realm::Timestamp(42, 0));
   NSDate *rlm = (NSDate *)RLMConvertBsonToRLMBSON(bson);
   NSDate *d = [[NSDate alloc] initWithTimeIntervalSince1970:42];
   XCTAssert([rlm isEqualToDate:d]);
   // Not an exact round trip since we ignore Timestamp Cocoa side
   XCTAssertEqual(RLMConvertRLMBSONToBson(rlm),
-                 Bson(wabi_realm::Timestamp(42, 0)));
+                 Bson(realm::Timestamp(42, 0)));
 }
 
 - (void)testObjectIdRoundTrip {
-  auto bson = Bson(wabi_realm::ObjectId::gen());
+  auto bson = Bson(realm::ObjectId::gen());
   RLMObjectId *rlm = (RLMObjectId *)RLMConvertBsonToRLMBSON(bson);
   RLMObjectId *d = [[RLMObjectId alloc] initWithString:rlm.stringValue
                                                  error:nil];

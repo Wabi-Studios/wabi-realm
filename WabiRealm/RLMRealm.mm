@@ -62,7 +62,7 @@
 #import <realm/object-store/sync/sync_session.hpp>
 #endif
 
-using namespace wabi_realm;
+using namespace realm;
 using util::File;
 
 @interface RLMRealmNotificationToken : RLMNotificationToken
@@ -76,7 +76,7 @@ using util::File;
 - (void)sendNotifications:(RLMNotification)notification;
 @end
 
-void RLMDisableSyncToDisk() { wabi_realm::disable_sync_to_disk(); }
+void RLMDisableSyncToDisk() { realm::disable_sync_to_disk(); }
 
 static std::atomic<bool> s_set_skip_backup_attribute{true};
 void RLMSetSkipBackupAttribute(bool value) {
@@ -279,7 +279,7 @@ bool copySeedFile(RLMRealmConfiguration *configuration, NSError **error) {
 }
 
 - (BOOL)isEmpty {
-  return wabi_realm::ObjectStore::is_empty(self.group);
+  return realm::ObjectStore::is_empty(self.group);
 }
 
 - (void)verifyThread {
@@ -294,7 +294,7 @@ bool copySeedFile(RLMRealmConfiguration *configuration, NSError **error) {
   return _realm->is_in_transaction();
 }
 
-- (wabi_realm::Group &)group {
+- (realm::Group &)group {
   return _realm->read_group();
 }
 
@@ -519,7 +519,7 @@ bool copySeedFile(RLMRealmConfiguration *configuration, NSError **error) {
 
 + (void)resetRealmState {
   RLMClearRealmCache();
-  wabi_realm::_impl::RealmCoordinator::clear_cache();
+  realm::_impl::RealmCoordinator::clear_cache();
   [RLMRealmConfiguration resetRealmConfigurationState];
 }
 
@@ -576,7 +576,7 @@ bool copySeedFile(RLMRealmConfiguration *configuration, NSError **error) {
   }
 
   _sendingNotifications = true;
-  auto cleanup = wabi_realm::util::make_scope_exit(
+  auto cleanup = realm::util::make_scope_exit(
       [&]() noexcept { _sendingNotifications = false; });
 
   // call this realm's notification blocks
@@ -1018,7 +1018,7 @@ bool copySeedFile(RLMRealmConfiguration *configuration, NSError **error) {
     return version;
   }
 
-  if (error && version == wabi_realm::ObjectStore::NotVersioned) {
+  if (error && version == realm::ObjectStore::NotVersioned) {
     auto msg = [NSString
         stringWithFormat:@"WabiRealm at path '%@' has not been initialized.",
                          fileURL.path];
@@ -1085,11 +1085,11 @@ bool copySeedFile(RLMRealmConfiguration *configuration, NSError **error) {
                               error:(NSError **)error {
   bool didDeleteAny = false;
   try {
-    wabi_realm::WabiRealm::delete_files(config.path, &didDeleteAny);
-  } catch (wabi_realm::FileAccessError const &e) {
+    realm::WabiRealm::delete_files(config.path, &didDeleteAny);
+  } catch (realm::FileAccessError const &e) {
     if (error) {
       // For backwards compatibility, but this should go away in 11.0
-      if (e.code() == wabi_realm::ErrorCodes::PermissionDenied) {
+      if (e.code() == realm::ErrorCodes::PermissionDenied) {
         *error = [NSError errorWithDomain:NSCocoaErrorDomain
                                      code:NSFileWriteNoPermissionError
                                  userInfo:@{

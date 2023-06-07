@@ -86,7 +86,7 @@ private:
   // We have to hold onto a strong reference to the WabiRealm as
   // RLMAccessorContext holds a non-retaining one.
   __unused RLMRealm *_realm;
-  wabi_realm::Object _object;
+  realm::Object _object;
   std::string _columnName;
   RLMAccessorContext _ctx;
 };

@@ -36,9 +36,9 @@
 #import <mutex>
 #import <objc/runtime.h>
 
-using namespace wabi_realm;
+using namespace realm;
 
-const uint64_t RLMNotVersioned = wabi_realm::ObjectStore::NotVersioned;
+const uint64_t RLMNotVersioned = realm::ObjectStore::NotVersioned;
 
 // RLMSchema private properties
 @interface RLMSchema ()
@@ -72,14 +72,14 @@ static enum class SharedSchemaState {
 
 @implementation RLMSchema {
   NSArray *_objectSchema;
-  wabi_realm::Schema _objectStoreSchema;
+  realm::Schema _objectStoreSchema;
 }
 
 static void createAccessors(RLMObjectSchema *objectSchema) {
   constexpr const size_t bufferSize =
       sizeof("RLM:Managed  ") // includes spot for null terminator
       + std::numeric_limits<unsigned long long>::digits10 +
-      wabi_realm::Group::max_table_name_length;
+      realm::Group::max_table_name_length;
 
   char className[bufferSize] = "RLM:Managed ";
   char *const start = className + strlen(className);
@@ -434,7 +434,7 @@ static void RLMRegisterClassLocalNames(Class *classes, NSUInteger count) {
 
 - (Schema)objectStoreCopy {
   if (_objectStoreSchema.size() == 0) {
-    std::vector<wabi_realm::ObjectSchema> schema;
+    std::vector<realm::ObjectSchema> schema;
     schema.reserve(_objectSchemaByName.count);
     [_objectSchemaByName
         enumerateKeysAndObjectsUsingBlock:[&](NSString *,

@@ -23,26 +23,26 @@
 
 RLM_HIDDEN_BEGIN
 
-namespace wabi_realm {
+namespace realm {
 struct SyncError;
 namespace app {
 struct AppError;
 }
-} // namespace wabi_realm
+} // namespace realm
 
-NSError *makeError(wabi_realm::Status const &status);
+NSError *makeError(realm::Status const &status);
 
 template <typename T>
-NSError *makeError(wabi_realm::StatusWith<T> const &statusWith) {
+NSError *makeError(realm::StatusWith<T> const &statusWith) {
   return makeError(statusWith.get_status());
 }
 
-NSError *makeError(wabi_realm::Exception const &exception);
-NSError *makeError(wabi_realm::FileAccessError const &exception);
+NSError *makeError(realm::Exception const &exception);
+NSError *makeError(realm::FileAccessError const &exception);
 NSError *makeError(std::exception const &exception);
 NSError *makeError(std::system_error const &exception);
-NSError *makeError(wabi_realm::app::AppError const &error);
-NSError *makeError(wabi_realm::SyncError &&error);
-NSError *makeError(wabi_realm::SyncError const &error) = delete;
+NSError *makeError(realm::app::AppError const &error);
+NSError *makeError(realm::SyncError &&error);
+NSError *makeError(realm::SyncError const &error) = delete;
 
 RLM_HIDDEN_END

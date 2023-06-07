@@ -34,13 +34,13 @@
 #import "RLMVersion.h"
 #endif
 
-using namespace wabi_realm;
+using namespace realm;
 
 #pragma mark CocoaNetworkTransport
 namespace {
 /// Internal transport struct to bridge RLMNetworkingTransporting to the
 /// GenericNetworkTransport.
-class CocoaNetworkTransport : public wabi_realm::app::GenericNetworkTransport {
+class CocoaNetworkTransport : public realm::app::GenericNetworkTransport {
 public:
   CocoaNetworkTransport(id<RLMNetworkTransport> transport)
       : m_transport(transport) {}
@@ -96,10 +96,10 @@ private:
 
 #pragma mark RLMAppConfiguration
 @implementation RLMAppConfiguration {
-  wabi_realm::app::App::Config _config;
+  realm::app::App::Config _config;
 }
 
-- (instancetype)initWithConfig:(const wabi_realm::app::App::Config &)config {
+- (instancetype)initWithConfig:(const realm::app::App::Config &)config {
   if (self = [super init]) {
     _config = config;
     return self;
@@ -154,7 +154,7 @@ private:
   return nil;
 }
 
-- (wabi_realm::app::App::Config &)config {
+- (realm::app::App::Config &)config {
   return _config;
 }
 
@@ -249,7 +249,7 @@ static void setOptionalString(std::optional<std::string> &dst, NSString *src) {
 
 #pragma mark RLMApp
 @interface RLMApp () <ASAuthorizationControllerDelegate> {
-  std::shared_ptr<wabi_realm::app::App> _app;
+  std::shared_ptr<realm::app::App> _app;
   __weak id<RLMASLoginDelegate> _authorizationDelegate
       API_AVAILABLE(ios(13.0), macos(10.15), tvos(13.0), watchos(6.0));
 }
@@ -265,7 +265,7 @@ static void setOptionalString(std::optional<std::string> &dst, NSString *src) {
   [RLMLogger class];
 }
 
-- (instancetype)initWithApp:(std::shared_ptr<wabi_realm::app::App>)app {
+- (instancetype)initWithApp:(std::shared_ptr<realm::app::App>)app {
   if (self = [super init]) {
     _configuration = [[RLMAppConfiguration alloc] initWithConfig:app->config()];
     _app = app;
@@ -365,7 +365,7 @@ static std::mutex &s_appMutex = *new std::mutex();
   return @(_app->config().app_id.c_str());
 }
 
-- (std::shared_ptr<wabi_realm::app::App>)_realmApp {
+- (std::shared_ptr<realm::app::App>)_realmApp {
   return _app;
 }
 

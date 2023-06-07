@@ -103,42 +103,42 @@
 
 - (void)testSchemaModeTransitions {
   RLMRealmConfiguration *configuration = [[RLMRealmConfiguration alloc] init];
-  XCTAssertEqual(configuration.schemaMode, wabi_realm::SchemaMode::Automatic);
+  XCTAssertEqual(configuration.schemaMode, realm::SchemaMode::Automatic);
 
   configuration.readOnly = true;
-  XCTAssertEqual(configuration.schemaMode, wabi_realm::SchemaMode::Immutable);
+  XCTAssertEqual(configuration.schemaMode, realm::SchemaMode::Immutable);
 
   configuration.readOnly = false;
-  XCTAssertEqual(configuration.schemaMode, wabi_realm::SchemaMode::Automatic);
+  XCTAssertEqual(configuration.schemaMode, realm::SchemaMode::Automatic);
   configuration.deleteRealmIfMigrationNeeded = true;
   XCTAssertEqual(configuration.schemaMode,
-                 wabi_realm::SchemaMode::SoftResetFile);
+                 realm::SchemaMode::SoftResetFile);
 
   configuration.deleteRealmIfMigrationNeeded = false;
-  XCTAssertEqual(configuration.schemaMode, wabi_realm::SchemaMode::Automatic);
+  XCTAssertEqual(configuration.schemaMode, realm::SchemaMode::Automatic);
 
   RLMUser *user = RLMDummyUser();
   configuration.syncConfiguration =
       [user configurationWithPartitionValue:@"dummy"].syncConfiguration;
   XCTAssertEqual(configuration.schemaMode,
-                 wabi_realm::SchemaMode::AdditiveDiscovered);
+                 realm::SchemaMode::AdditiveDiscovered);
   configuration.objectClasses = @[];
   XCTAssertEqual(configuration.schemaMode,
-                 wabi_realm::SchemaMode::AdditiveExplicit);
+                 realm::SchemaMode::AdditiveExplicit);
   configuration.readOnly = true;
-  XCTAssertEqual(configuration.schemaMode, wabi_realm::SchemaMode::ReadOnly);
+  XCTAssertEqual(configuration.schemaMode, realm::SchemaMode::ReadOnly);
   configuration.objectClasses = nil;
-  XCTAssertEqual(configuration.schemaMode, wabi_realm::SchemaMode::ReadOnly);
+  XCTAssertEqual(configuration.schemaMode, realm::SchemaMode::ReadOnly);
   configuration.readOnly = false;
   XCTAssertEqual(configuration.schemaMode,
-                 wabi_realm::SchemaMode::AdditiveDiscovered);
+                 realm::SchemaMode::AdditiveDiscovered);
   configuration.readOnly = true;
-  XCTAssertEqual(configuration.schemaMode, wabi_realm::SchemaMode::ReadOnly);
+  XCTAssertEqual(configuration.schemaMode, realm::SchemaMode::ReadOnly);
   configuration.objectClasses = @[];
-  XCTAssertEqual(configuration.schemaMode, wabi_realm::SchemaMode::ReadOnly);
+  XCTAssertEqual(configuration.schemaMode, realm::SchemaMode::ReadOnly);
   configuration.readOnly = false;
   XCTAssertEqual(configuration.schemaMode,
-                 wabi_realm::SchemaMode::AdditiveExplicit);
+                 realm::SchemaMode::AdditiveExplicit);
 
   [user logOut];
   [RLMApp resetAppCache];

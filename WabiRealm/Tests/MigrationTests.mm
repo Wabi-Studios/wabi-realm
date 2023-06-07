@@ -37,7 +37,7 @@
 
 #import <objc/runtime.h>
 
-using namespace wabi_realm;
+using namespace realm;
 
 static void RLMAssertRealmSchemaMatchesTable(id self, RLMRealm *realm) {
   for (RLMObjectSchema *objectSchema in realm.schema.objectSchema) {

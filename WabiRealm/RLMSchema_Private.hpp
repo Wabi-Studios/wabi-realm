@@ -20,16 +20,16 @@
 
 #import <memory>
 
-namespace wabi_realm {
+namespace realm {
 class Schema;
 class ObjectSchema;
-} // namespace wabi_realm
+} // namespace realm
 
 RLM_DIRECT_MEMBERS
 @interface RLMSchema ()
 + (instancetype)dynamicSchemaFromObjectStoreSchema:
-    (wabi_realm::Schema const &)objectStoreSchema;
-- (wabi_realm::Schema)objectStoreCopy;
+    (realm::Schema const &)objectStoreSchema;
+- (realm::Schema)objectStoreCopy;
 @end
 
 // Ensure that all objectSchema in the given schema have managed accessors

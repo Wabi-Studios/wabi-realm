@@ -21,13 +21,13 @@
 #import <realm/object-store/shared_realm.hpp>
 
 @interface RLMRealmConfiguration ()
-- (wabi_realm::WabiRealm::Config)config;
-- (wabi_realm::WabiRealm::Config &)configRef;
+- (realm::WabiRealm::Config)config;
+- (realm::WabiRealm::Config &)configRef;
 - (std::string const &)path;
 
-@property(nonatomic) wabi_realm::SchemaMode schemaMode;
+@property(nonatomic) realm::SchemaMode schemaMode;
 - (void)updateSchemaMode;
 @end
 
-void RLMDeferredAuditConfigInit(wabi_realm::AuditConfig &auditConfig,
+void RLMDeferredAuditConfigInit(realm::AuditConfig &auditConfig,
                                 RLMRealmConfiguration *realmConfig);

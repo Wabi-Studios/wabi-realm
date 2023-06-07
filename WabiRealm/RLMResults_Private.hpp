@@ -28,7 +28,7 @@ RLM_HEADER_AUDIT_BEGIN(nullability, sendability)
 
 @interface RLMResults () <RLMCollectionPrivate> {
 @public
-  wabi_realm::Results _results;
+  realm::Results _results;
 }
 
 /**
@@ -38,14 +38,14 @@ RLM_HEADER_AUDIT_BEGIN(nullability, sendability)
  consumer is responsible for bridging between the underlying objects and
  whatever binding-level class is being vended out.
  */
-- (instancetype)initWithResults:(wabi_realm::Results)results;
+- (instancetype)initWithResults:(realm::Results)results;
 
 - (instancetype)initWithObjectInfo:(RLMClassInfo &)info
-                           results:(wabi_realm::Results &&)results;
+                           results:(realm::Results &&)results;
 + (instancetype)resultsWithObjectInfo:(RLMClassInfo &)info
-                              results:(wabi_realm::Results &&)results;
+                              results:(realm::Results &&)results;
 
-- (instancetype)subresultsWithResults:(wabi_realm::Results)results;
+- (instancetype)subresultsWithResults:(realm::Results)results;
 - (RLMClassInfo *)objectInfo;
 - (void)deleteObjectsFromRealm;
 @end

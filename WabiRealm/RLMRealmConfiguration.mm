@@ -66,11 +66,11 @@ NSString *RLMRealmPathForFile(NSString *fileName) {
 }
 
 @implementation RLMRealmConfiguration {
-  wabi_realm::WabiRealm::Config _config;
+  realm::WabiRealm::Config _config;
   RLMSyncErrorReportingBlock _manualClientResetHandler;
 }
 
-- (wabi_realm::WabiRealm::Config &)configRef {
+- (realm::WabiRealm::Config &)configRef {
   return _config;
 }
 
@@ -215,7 +215,7 @@ NSString *RLMRealmPathForFile(NSString *fileName) {
   return _config.immutable() || _config.read_only();
 }
 
-static bool isSync(wabi_realm::WabiRealm::Config const &config) {
+static bool isSync(realm::WabiRealm::Config const &config) {
 #if REALM_ENABLE_SYNC
   return !!config.sync_config;
 #endif
@@ -229,16 +229,16 @@ static bool isSync(wabi_realm::WabiRealm::Config const &config) {
                           @"sync is enabled ('syncConfig' is set).");
     }
   } else if (self.readOnly) {
-    _config.schema_mode = isSync(_config) ? wabi_realm::SchemaMode::ReadOnly
-                                          : wabi_realm::SchemaMode::Immutable;
+    _config.schema_mode = isSync(_config) ? realm::SchemaMode::ReadOnly
+                                          : realm::SchemaMode::Immutable;
   } else if (isSync(_config)) {
     if (_customSchema) {
-      _config.schema_mode = wabi_realm::SchemaMode::AdditiveExplicit;
+      _config.schema_mode = realm::SchemaMode::AdditiveExplicit;
     } else {
-      _config.schema_mode = wabi_realm::SchemaMode::AdditiveDiscovered;
+      _config.schema_mode = realm::SchemaMode::AdditiveDiscovered;
     }
   } else {
-    _config.schema_mode = wabi_realm::SchemaMode::Automatic;
+    _config.schema_mode = realm::SchemaMode::Automatic;
   }
 }
 
@@ -251,10 +251,10 @@ static bool isSync(wabi_realm::WabiRealm::Config const &config) {
       @throw RLMException(
           @"Cannot set `readOnly` when `shouldCompactOnLaunch` is set.");
     }
-    _config.schema_mode = isSync(_config) ? wabi_realm::SchemaMode::ReadOnly
-                                          : wabi_realm::SchemaMode::Immutable;
+    _config.schema_mode = isSync(_config) ? realm::SchemaMode::ReadOnly
+                                          : realm::SchemaMode::Immutable;
   } else if (self.readOnly) {
-    _config.schema_mode = wabi_realm::SchemaMode::Automatic;
+    _config.schema_mode = realm::SchemaMode::Automatic;
     [self updateSchemaMode];
   }
 }
@@ -272,7 +272,7 @@ static bool isSync(wabi_realm::WabiRealm::Config const &config) {
 }
 
 - (BOOL)deleteRealmIfMigrationNeeded {
-  return _config.schema_mode == wabi_realm::SchemaMode::SoftResetFile;
+  return _config.schema_mode == realm::SchemaMode::SoftResetFile;
 }
 
 - (void)setDeleteRealmIfMigrationNeeded:(BOOL)deleteRealmIfMigrationNeeded {
@@ -285,9 +285,9 @@ static bool isSync(wabi_realm::WabiRealm::Config const &config) {
       @throw RLMException(@"Cannot set 'deleteRealmIfMigrationNeeded' when "
                           @"sync is enabled ('syncConfig' is set).");
     }
-    _config.schema_mode = wabi_realm::SchemaMode::SoftResetFile;
+    _config.schema_mode = realm::SchemaMode::SoftResetFile;
   } else if (self.deleteRealmIfMigrationNeeded) {
-    _config.schema_mode = wabi_realm::SchemaMode::Automatic;
+    _config.schema_mode = realm::SchemaMode::Automatic;
   }
 }
 
@@ -332,11 +332,11 @@ static bool isSync(wabi_realm::WabiRealm::Config const &config) {
   _config.disable_format_upgrade = disableFormatUpgrade;
 }
 
-- (wabi_realm::SchemaMode)schemaMode {
+- (realm::SchemaMode)schemaMode {
   return _config.schema_mode;
 }
 
-- (void)setSchemaMode:(wabi_realm::SchemaMode)mode {
+- (void)setSchemaMode:(realm::SchemaMode)mode {
   _config.schema_mode = mode;
 }
 
@@ -387,7 +387,7 @@ static bool isSync(wabi_realm::WabiRealm::Config const &config) {
       user.identifier,
       @"Cannot call this method on a user that doesn't have an identifier.");
   _config.in_memory = false;
-  _config.sync_config = std::make_shared<wabi_realm::SyncConfig>(
+  _config.sync_config = std::make_shared<realm::SyncConfig>(
       syncConfiguration.rawConfiguration);
   _config.path = syncConfiguration.path;
 
@@ -415,11 +415,11 @@ static bool isSync(wabi_realm::WabiRealm::Config const &config) {
 }
 #endif // REALM_ENABLE_SYNC
 
-- (wabi_realm::WabiRealm::Config)config {
+- (realm::WabiRealm::Config)config {
   auto config = _config;
   if (config.sync_config) {
     config.sync_config =
-        std::make_shared<wabi_realm::SyncConfig>(*config.sync_config);
+        std::make_shared<realm::SyncConfig>(*config.sync_config);
   }
 #if REALM_ENABLE_SYNC
   if (config.sync_config) {

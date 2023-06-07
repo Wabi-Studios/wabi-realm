@@ -24,7 +24,7 @@
 @implementation RLMUpdateResult
 
 - (instancetype)initWithUpdateResult:
-    (wabi_realm::app::MongoCollection::UpdateResult)updateResult {
+    (realm::app::MongoCollection::UpdateResult)updateResult {
   if (self = [super init]) {
     _matchedCount = updateResult.matched_count;
     _modifiedCount = updateResult.modified_count;

@@ -24,13 +24,13 @@
 #import <unordered_map>
 #import <vector>
 
-namespace wabi_realm {
+namespace realm {
 class ObjectSchema;
 class Schema;
 struct Property;
 struct ColKey;
 struct TableKey;
-} // namespace wabi_realm
+} // namespace realm
 
 class RLMObservationInfo;
 @class RLMRealm, RLMSchema, RLMObjectSchema, RLMProperty;
@@ -57,14 +57,14 @@ template <> struct equal_to<NSString *> {
 // reference, handles table column lookups, and tracks observed objects
 class RLMClassInfo {
 public:
-  RLMClassInfo(RLMRealm *, RLMObjectSchema *, const wabi_realm::ObjectSchema *);
+  RLMClassInfo(RLMRealm *, RLMObjectSchema *, const realm::ObjectSchema *);
 
   RLMClassInfo(RLMRealm *realm, RLMObjectSchema *rlmObjectSchema,
-               std::unique_ptr<wabi_realm::ObjectSchema> objectSchema);
+               std::unique_ptr<realm::ObjectSchema> objectSchema);
 
   __unsafe_unretained RLMRealm *const realm;
   __unsafe_unretained RLMObjectSchema *const rlmObjectSchema;
-  const wabi_realm::ObjectSchema *const objectSchema;
+  const realm::ObjectSchema *const objectSchema;
 
   // Storage for the functionality in RLMObservation for handling indirect
   // changes to KVO-observed things
@@ -72,12 +72,12 @@ public:
 
   // Get the table for this object type. Will return nullptr only if it's a
   // read-only WabiRealm that is missing the table entirely.
-  wabi_realm::TableRef table() const;
+  realm::TableRef table() const;
 
   // Get the RLMProperty for a given table column, or `nil` if it is a column
   // not used by the current schema
   RLMProperty *_Nullable propertyForTableColumn(
-      wabi_realm::ColKey) const noexcept;
+      realm::ColKey) const noexcept;
 
   // Get the RLMProperty that's used as the primary key, or `nil` if there is
   // no primary key for the current schema
@@ -85,22 +85,22 @@ public:
 
   // Get the table column for the given property. The property must be a valid
   // persisted property.
-  wabi_realm::ColKey tableColumn(NSString *propertyName) const;
-  wabi_realm::ColKey tableColumn(RLMProperty *property) const;
+  realm::ColKey tableColumn(NSString *propertyName) const;
+  realm::ColKey tableColumn(RLMProperty *property) const;
   // Get the table column key for the given computed property. The property
   // must be a valid computed property.
   // Subscripting a
-  // `wabi_realm::ObjectSchema->computed_properties[property.index]` does not
+  // `realm::ObjectSchema->computed_properties[property.index]` does not
   // return a valid colKey, unlike subscripting persisted_properties. This
   // method retrieves a valid column key for computed properties by getting the
   // opposite table column of the origin's "forward" link.
-  wabi_realm::ColKey computedTableColumn(RLMProperty *property) const;
+  realm::ColKey computedTableColumn(RLMProperty *property) const;
 
   // Get the info for the target of the link at the given property index.
   RLMClassInfo &linkTargetType(size_t propertyIndex);
 
   // Get the info for the target of the given property
-  RLMClassInfo &linkTargetType(wabi_realm::Property const &property);
+  RLMClassInfo &linkTargetType(realm::Property const &property);
 
   // Get the corresponding ClassInfo for the given WabiRealm
   RLMClassInfo &resolve(RLMRealm *);
@@ -116,13 +116,13 @@ public:
   // NEXT-MAJOR: This conflates a nil array and an empty array for backwards
   // compatibility, but core now gives them different semantics
   std::optional<std::vector<
-      std::vector<std::pair<wabi_realm::TableKey, wabi_realm::ColKey>>>>
+      std::vector<std::pair<realm::TableKey, realm::ColKey>>>>
   keyPathArrayFromStringArray(NSArray<NSString *> *keyPaths) const;
 
 private:
   // If the ObjectSchema is not owned by the realm instance
   // we need to manually manage the ownership of the object.
-  std::unique_ptr<wabi_realm::ObjectSchema> dynamicObjectSchema;
+  std::unique_ptr<realm::ObjectSchema> dynamicObjectSchema;
   [[maybe_unused]] RLMObjectSchema *_Nullable dynamicRLMObjectSchema;
 };
 
@@ -134,19 +134,19 @@ public:
   RLMSchemaInfo() = default;
   RLMSchemaInfo(RLMRealm *realm);
 
-  RLMSchemaInfo clone(wabi_realm::Schema const &source_schema,
+  RLMSchemaInfo clone(realm::Schema const &source_schema,
                       RLMRealm *target_realm);
 
   // Look up by name, throwing if it's not present
   RLMClassInfo &operator[](NSString *name);
   // Look up by table key, return none if its not present.
-  RLMClassInfo *operator[](wabi_realm::TableKey tableKey);
+  RLMClassInfo *operator[](realm::TableKey tableKey);
 
   // Emplaces a locally derived object schema into RLMSchemaInfo. This is used
   // when creating objects dynamically that are not registered in the Cocoa
   // schema. Note: `RLMClassInfo` assumes ownership of `schema`.
   void
-  appendDynamicObjectSchema(std::unique_ptr<wabi_realm::ObjectSchema> schema,
+  appendDynamicObjectSchema(std::unique_ptr<realm::ObjectSchema> schema,
                             RLMObjectSchema *objectSchema,
                             RLMRealm *const target_realm);
 

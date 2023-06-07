@@ -25,7 +25,7 @@
 #import <realm/sync/client_base.hpp>
 #import <realm/sync/protocol.hpp>
 
-using namespace wabi_realm;
+using namespace realm;
 
 @implementation RLMUser (ObjectServerTests)
 
@@ -73,12 +73,12 @@ using namespace wabi_realm;
 
   std::shared_ptr<SyncSession> raw_session = session->_session.lock();
   std::error_code code = std::error_code{
-      static_cast<int>(wabi_realm::sync::ProtocolError::bad_client_file_ident),
-      wabi_realm::sync::protocol_error_category()};
-  wabi_realm::sync::SessionErrorInfo error = {code, "Not a real error message",
+      static_cast<int>(realm::sync::ProtocolError::bad_client_file_ident),
+      realm::sync::protocol_error_category()};
+  realm::sync::SessionErrorInfo error = {code, "Not a real error message",
                                               true};
   error.server_requests_action =
-      wabi_realm::sync::ProtocolErrorInfo::Action::ClientReset;
+      realm::sync::ProtocolErrorInfo::Action::ClientReset;
   SyncSession::OnlyForTesting::handle_error(*raw_session, std::move(error));
 }
 

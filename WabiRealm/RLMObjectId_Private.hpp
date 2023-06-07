@@ -18,12 +18,12 @@
 
 #import <WabiRealm/RLMObjectId.h>
 
-namespace wabi_realm {
+namespace realm {
 class ObjectId;
 }
 
 RLM_DIRECT_MEMBERS
 @interface RLMObjectId ()
-@property(nonatomic, readonly) wabi_realm::ObjectId value;
-- (instancetype)initWithValue:(wabi_realm::ObjectId)value;
+@property(nonatomic, readonly) realm::ObjectId value;
+- (instancetype)initWithValue:(realm::ObjectId)value;
 @end

@@ -54,7 +54,7 @@
 //
 @implementation RLMManagedSet {
 @public
-  wabi_realm::object_store::Set _backingSet;
+  realm::object_store::Set _backingSet;
   RLMRealm *_realm;
   RLMClassInfo *_objectInfo;
   RLMClassInfo *_ownerInfo;
@@ -62,7 +62,7 @@
 }
 
 - (RLMManagedSet *)
-    initWithBackingCollection:(wabi_realm::object_store::Set)set
+    initWithBackingCollection:(realm::object_store::Set)set
                    parentInfo:(RLMClassInfo *)parentInfo
                      property:(__unsafe_unretained RLMProperty *const)property {
   if (property.type == RLMPropertyTypeObject)
@@ -89,18 +89,18 @@
   __unsafe_unretained RLMRealm *const realm = parentObject->_realm;
   auto col = parentObject->_info->tableColumn(property);
   return [self
-      initWithBackingCollection:wabi_realm::object_store::Set(
+      initWithBackingCollection:realm::object_store::Set(
                                     realm->_realm, parentObject->_row, col)
                      parentInfo:parentObject->_info
                        property:property];
 }
 
-- (RLMManagedSet *)initWithParent:(wabi_realm::Obj)parent
+- (RLMManagedSet *)initWithParent:(realm::Obj)parent
                          property:
                              (__unsafe_unretained RLMProperty *const)property
                        parentInfo:(RLMClassInfo &)info {
   auto col = info.tableColumn(property);
-  return [self initWithBackingCollection:wabi_realm::object_store::Set(
+  return [self initWithBackingCollection:realm::object_store::Set(
                                              info.realm->_realm, parent, col)
                               parentInfo:&info
                                 property:property];
@@ -175,7 +175,7 @@ static void changeSet(__unsafe_unretained RLMManagedSet *const set,
   return _objectInfo;
 }
 
-- (bool)isBackedBySet:(wabi_realm::object_store::Set const &)set {
+- (bool)isBackedBySet:(realm::object_store::Set const &)set {
   return _backingSet == set;
 }
 
@@ -185,7 +185,7 @@ static void changeSet(__unsafe_unretained RLMManagedSet *const set,
 }
 
 - (NSUInteger)hash {
-  return std::hash<wabi_realm::object_store::Set>()(_backingSet);
+  return std::hash<realm::object_store::Set>()(_backingSet);
 }
 
 - (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state
@@ -287,7 +287,7 @@ static void ensureInWriteTransaction(NSString *message, RLMManagedSet *set,
   RLMSetValidateMatchingObjectType(self, obj);
   RLMAccessorContext context(*_objectInfo);
   auto r = _backingSet.find(context, obj);
-  return r != wabi_realm::npos;
+  return r != realm::npos;
 }
 
 - (BOOL)isEqualToSet:(RLMSet<id> *)set {
@@ -523,7 +523,7 @@ static void ensureInWriteTransaction(NSString *message, RLMManagedSet *set,
   });
 }
 
-- (wabi_realm::TableView)tableView {
+- (realm::TableView)tableView {
   return translateErrors([&] { return _backingSet.get_query(); }).find_all();
 }
 
@@ -555,11 +555,11 @@ static void ensureInWriteTransaction(NSString *message, RLMManagedSet *set,
   return [self resolveInRealm:_realm.thaw];
 }
 
-- (wabi_realm::NotificationToken)
+- (realm::NotificationToken)
     addNotificationCallback:(id)block
                    keyPaths:
                        (std::optional<std::vector<std::vector<std::pair<
-                            wabi_realm::TableKey, wabi_realm::ColKey>>>> &&)
+                            realm::TableKey, realm::ColKey>>>> &&)
                            keyPaths {
   return _backingSet.add_notification_callback(
       RLMWrapCollectionChangeCallback(block, self, false), std::move(keyPaths));
@@ -567,7 +567,7 @@ static void ensureInWriteTransaction(NSString *message, RLMManagedSet *set,
 
 #pragma mark - Thread Confined Protocol Conformance
 
-- (wabi_realm::ThreadSafeReference)makeThreadSafeReference {
+- (realm::ThreadSafeReference)makeThreadSafeReference {
   return _backingSet;
 }
 
@@ -580,10 +580,10 @@ static void ensureInWriteTransaction(NSString *message, RLMManagedSet *set,
 }
 
 + (instancetype)
-    objectWithThreadSafeReference:(wabi_realm::ThreadSafeReference)reference
+    objectWithThreadSafeReference:(realm::ThreadSafeReference)reference
                          metadata:(RLMManagedSetHandoverMetadata *)metadata
                             realm:(RLMRealm *)realm {
-  auto set = reference.resolve<wabi_realm::object_store::Set>(realm->_realm);
+  auto set = reference.resolve<realm::object_store::Set>(realm->_realm);
   if (!set.is_valid()) {
     return nil;
   }

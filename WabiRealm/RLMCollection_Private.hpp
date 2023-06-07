@@ -26,7 +26,7 @@
 #import <mutex>
 #import <vector>
 
-namespace wabi_realm {
+namespace realm {
 class CollectionChangeCallback;
 class List;
 class Obj;
@@ -39,7 +39,7 @@ class Collection;
 class Dictionary;
 class Set;
 } // namespace object_store
-} // namespace wabi_realm
+} // namespace realm
 class RLMClassInfo;
 @class RLMFastEnumerator, RLMManagedArray, RLMManagedSet, RLMManagedDictionary,
     RLMProperty, RLMObjectBase;
@@ -51,13 +51,13 @@ RLM_HIDDEN_BEGIN
 @property(nonatomic, readonly) RLMClassInfo *objectInfo;
 @property(nonatomic, readonly) NSUInteger count;
 
-- (wabi_realm::TableView)tableView;
+- (realm::TableView)tableView;
 - (RLMFastEnumerator *)fastEnumerator;
-- (wabi_realm::NotificationToken)
+- (realm::NotificationToken)
     addNotificationCallback:(id)block
                    keyPaths:
                        (std::optional<std::vector<std::vector<std::pair<
-                            wabi_realm::TableKey, wabi_realm::ColKey>>>> &&)
+                            realm::TableKey, realm::ColKey>>>> &&)
                            keyPaths;
 @end
 
@@ -67,18 +67,18 @@ RLM_HIDDEN_BEGIN
 RLM_DIRECT_MEMBERS
 @interface RLMFastEnumerator : NSObject
 - (instancetype)initWithBackingCollection:
-                    (wabi_realm::object_store::Collection const &)
+                    (realm::object_store::Collection const &)
                         backingCollection
                                collection:(id)collection
                                 classInfo:(RLMClassInfo &)info;
 
 - (instancetype)initWithBackingDictionary:
-                    (wabi_realm::object_store::Dictionary const &)
+                    (realm::object_store::Dictionary const &)
                         backingDictionary
                                dictionary:(RLMManagedDictionary *)dictionary
                                 classInfo:(RLMClassInfo &)info;
 
-- (instancetype)initWithResults:(wabi_realm::Results &)results
+- (instancetype)initWithResults:(realm::Results &)results
                      collection:(id)collection
                       classInfo:(RLMClassInfo &)info;
 
@@ -98,10 +98,10 @@ NSUInteger RLMFastEnumerate(NSFastEnumerationState *state, NSUInteger len,
 @end
 
 @interface RLMCollectionChange ()
-- (instancetype)initWithChanges:(wabi_realm::CollectionChangeSet)indices;
+- (instancetype)initWithChanges:(realm::CollectionChangeSet)indices;
 @end
 
-wabi_realm::CollectionChangeCallback
+realm::CollectionChangeCallback
 RLMWrapCollectionChangeCallback(void (^block)(id, id, NSError *), id collection,
                                 bool skipFirst);
 
@@ -112,9 +112,9 @@ NSArray *RLMCollectionValueForKey(Collection &collection, NSString *key,
 std::vector<std::pair<std::string, bool>>
 RLMSortDescriptorsToKeypathArray(NSArray<RLMSortDescriptor *> *properties);
 
-wabi_realm::ColKey
+realm::ColKey
 columnForProperty(NSString *propertyName,
-                  wabi_realm::object_store::Collection const &backingCollection,
+                  realm::object_store::Collection const &backingCollection,
                   RLMClassInfo *objectInfo, RLMPropertyType propertyType,
                   RLMCollectionType collectionType);
 
@@ -133,7 +133,7 @@ static inline bool canAggregate(RLMPropertyType type, bool allowDate) {
   }
 }
 
-NSArray *RLMToIndexPathArray(wabi_realm::IndexSet const &set,
+NSArray *RLMToIndexPathArray(realm::IndexSet const &set,
                              NSUInteger section);
 
 RLM_HIDDEN_END

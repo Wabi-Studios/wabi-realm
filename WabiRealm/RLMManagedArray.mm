@@ -56,7 +56,7 @@
 //
 @implementation RLMManagedArray {
 @public
-  wabi_realm::List _backingList;
+  realm::List _backingList;
   RLMRealm *_realm;
   RLMClassInfo *_objectInfo;
   RLMClassInfo *_ownerInfo;
@@ -64,7 +64,7 @@
 }
 
 - (RLMManagedArray *)
-    initWithBackingCollection:(wabi_realm::List)list
+    initWithBackingCollection:(realm::List)list
                    parentInfo:(RLMClassInfo *)parentInfo
                      property:(__unsafe_unretained RLMProperty *const)property {
   if (property.type == RLMPropertyTypeObject)
@@ -91,18 +91,18 @@
   __unsafe_unretained RLMRealm *const realm = parentObject->_realm;
   auto col = parentObject->_info->tableColumn(property);
   return
-      [self initWithBackingCollection:wabi_realm::List(realm->_realm,
+      [self initWithBackingCollection:realm::List(realm->_realm,
                                                        parentObject->_row, col)
                            parentInfo:parentObject->_info
                              property:property];
 }
 
-- (RLMManagedArray *)initWithParent:(wabi_realm::Obj)parent
+- (RLMManagedArray *)initWithParent:(realm::Obj)parent
                            property:
                                (__unsafe_unretained RLMProperty *const)property
                          parentInfo:(RLMClassInfo &)info {
   auto col = info.tableColumn(property);
-  return [self initWithBackingCollection:wabi_realm::List(info.realm->_realm,
+  return [self initWithBackingCollection:realm::List(info.realm->_realm,
                                                           parent, col)
                               parentInfo:&info
                                 property:property];
@@ -191,7 +191,7 @@ static void changeArray(__unsafe_unretained RLMManagedArray *const ar,
   return _objectInfo;
 }
 
-- (bool)isBackedByList:(wabi_realm::List const &)list {
+- (bool)isBackedByList:(realm::List const &)list {
   return _backingList == list;
 }
 
@@ -201,7 +201,7 @@ static void changeArray(__unsafe_unretained RLMManagedArray *const ar,
 }
 
 - (NSUInteger)hash {
-  return std::hash<wabi_realm::List>()(_backingList);
+  return std::hash<realm::List>()(_backingList);
 }
 
 - (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state
@@ -468,7 +468,7 @@ static void RLMInsertObject(RLMManagedArray *ar, id object, NSUInteger index) {
     @throw RLMException(@"Querying is currently only implemented for arrays of "
                         @"WabiRealm Objects");
   }
-  wabi_realm::Query query = RLMPredicateToQuery(
+  realm::Query query = RLMPredicateToQuery(
       predicate, _objectInfo->rlmObjectSchema, _realm.schema, _realm.group);
 
   return translateErrors(
@@ -526,7 +526,7 @@ static void RLMInsertObject(RLMManagedArray *ar, id object, NSUInteger index) {
              context:context];
 }
 
-- (wabi_realm::TableView)tableView {
+- (realm::TableView)tableView {
   return translateErrors([&] { return _backingList.get_query(); }).find_all();
 }
 
@@ -566,11 +566,11 @@ static void RLMInsertObject(RLMManagedArray *ar, id object, NSUInteger index) {
   return [self resolveInRealm:_realm.thaw];
 }
 
-- (wabi_realm::NotificationToken)
+- (realm::NotificationToken)
     addNotificationCallback:(id)block
                    keyPaths:
                        (std::optional<std::vector<std::vector<std::pair<
-                            wabi_realm::TableKey, wabi_realm::ColKey>>>> &&)
+                            realm::TableKey, realm::ColKey>>>> &&)
                            keyPaths {
   return _backingList.add_notification_callback(
       RLMWrapCollectionChangeCallback(block, self, false), std::move(keyPaths));
@@ -578,7 +578,7 @@ static void RLMInsertObject(RLMManagedArray *ar, id object, NSUInteger index) {
 
 #pragma mark - Thread Confined Protocol Conformance
 
-- (wabi_realm::ThreadSafeReference)makeThreadSafeReference {
+- (realm::ThreadSafeReference)makeThreadSafeReference {
   return _backingList;
 }
 
@@ -591,10 +591,10 @@ static void RLMInsertObject(RLMManagedArray *ar, id object, NSUInteger index) {
 }
 
 + (instancetype)
-    objectWithThreadSafeReference:(wabi_realm::ThreadSafeReference)reference
+    objectWithThreadSafeReference:(realm::ThreadSafeReference)reference
                          metadata:(RLMManagedArrayHandoverMetadata *)metadata
                             realm:(RLMRealm *)realm {
-  auto list = reference.resolve<wabi_realm::List>(realm->_realm);
+  auto list = reference.resolve<realm::List>(realm->_realm);
   if (!list.is_valid()) {
     return nil;
   }

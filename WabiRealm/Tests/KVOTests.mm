@@ -1918,7 +1918,7 @@ public:
 - (RLMRealm *)getRealm {
   RLMRealmConfiguration *configuration = [[RLMRealmConfiguration alloc] init];
   configuration.inMemoryIdentifier = @"test";
-  configuration.schemaMode = wabi_realm::SchemaMode::AdditiveDiscovered;
+  configuration.schemaMode = realm::SchemaMode::AdditiveDiscovered;
   return [RLMRealm realmWithConfiguration:configuration error:nil];
 }
 

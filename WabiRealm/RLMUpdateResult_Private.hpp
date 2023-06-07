@@ -23,6 +23,6 @@
 RLM_HEADER_AUDIT_BEGIN(nullability, sendability)
 @interface RLMUpdateResult ()
 - (instancetype)initWithUpdateResult:
-    (wabi_realm::app::MongoCollection::UpdateResult)UpdateResult;
+    (realm::app::MongoCollection::UpdateResult)UpdateResult;
 @end
 RLM_HEADER_AUDIT_END(nullability, sendability)

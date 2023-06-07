@@ -44,7 +44,7 @@ static NSError *s_canceledError = [NSError
 __attribute__((objc_direct_members))
 @implementation RLMAsyncOpenTask {
   RLMUnfairMutex _mutex;
-  std::shared_ptr<wabi_realm::AsyncOpenTask> _task;
+  std::shared_ptr<realm::AsyncOpenTask> _task;
   std::vector<RLMProgressNotificationBlock> _progressBlocks;
   bool _cancel;
 
@@ -85,7 +85,7 @@ __attribute__((objc_direct_members))
   _progressBlocks.clear();
   if (_task) {
     _task->cancel();
-    // Cancelling wabi_realm::AsyncOpenTask results in it never calling our
+    // Cancelling realm::AsyncOpenTask results in it never calling our
     // callback, so if we're currently in that we have to just send the
     // cancellation error immediately. In all other cases, though, we want to
     // wait until we've actually cancelled and will send the error the next time
@@ -181,12 +181,12 @@ __attribute__((objc_direct_members))
   if (_waitForDownloadCompletion && _configuration.configRef.sync_config) {
 #if REALM_ENABLE_SYNC
     _task =
-        wabi_realm::WabiRealm::get_synchronized_realm(_configuration.config);
+        realm::WabiRealm::get_synchronized_realm(_configuration.config);
     for (auto &block : _progressBlocks) {
       _task->register_download_progress_notifier(block);
     }
     _progressBlocks.clear();
-    _task->start([=](wabi_realm::ThreadSafeReference ref,
+    _task->start([=](realm::ThreadSafeReference ref,
                      std::exception_ptr err) {
       std::lock_guard lock(_mutex);
       if ([self checkCancellation]) {
@@ -200,7 +200,7 @@ __attribute__((objc_direct_members))
 
       // Dispatch blocks can only capture copyable types, so we need to
       // resolve the TSR to a shared_ptr<WabiRealm>
-      auto realm = ref.resolve<std::shared_ptr<wabi_realm::WabiRealm>>(nullptr);
+      auto realm = ref.resolve<std::shared_ptr<realm::WabiRealm>>(nullptr);
       // We're now running on the sync worker thread, so hop back
       // to a more appropriate queue for the next stage of init.
       dispatch_async(s_async_open_queue, ^{
@@ -308,8 +308,8 @@ __attribute__((objc_direct_members))
 - (void)reportException:(std::exception_ptr const &)err {
   try {
     std::rethrow_exception(err);
-  } catch (wabi_realm::Exception const &e) {
-    if (e.code() == wabi_realm::ErrorCodes::OperationAborted) {
+  } catch (realm::Exception const &e) {
+    if (e.code() == realm::ErrorCodes::OperationAborted) {
       return [self reportError:s_canceledError];
     }
     [self reportError:makeError(e)];
@@ -343,7 +343,7 @@ __attribute__((objc_direct_members))
 
 @implementation RLMAsyncDownloadTask {
   RLMUnfairMutex _mutex;
-  std::shared_ptr<wabi_realm::SyncSession> _session;
+  std::shared_ptr<realm::SyncSession> _session;
   bool _started;
 }
 
@@ -364,7 +364,7 @@ __attribute__((objc_direct_members))
   _started = true;
   _session->revive_if_needed();
   _session->wait_for_download_completion(
-      [=](wabi_realm::Status status) { completion(makeError(status)); });
+      [=](realm::Status status) { completion(makeError(status)); });
 }
 
 - (void)cancel {

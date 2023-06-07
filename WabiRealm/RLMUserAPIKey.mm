@@ -22,14 +22,14 @@
 #import "RLMUtil.hpp"
 
 @interface RLMUserAPIKey () {
-  wabi_realm::app::App::UserAPIKey _userAPIKey;
+  realm::app::App::UserAPIKey _userAPIKey;
 }
 @end
 
 @implementation RLMUserAPIKey
 
 - (instancetype)initWithUserAPIKey:
-    (wabi_realm::app::App::UserAPIKey)userAPIKey {
+    (realm::app::App::UserAPIKey)userAPIKey {
   if (self = [super init]) {
     _userAPIKey = userAPIKey;
     return self;
@@ -62,7 +62,7 @@
   return [[RLMObjectId alloc] initWithValue:_userAPIKey.id];
 }
 
-- (wabi_realm::app::App::UserAPIKey)_apiKey {
+- (realm::app::App::UserAPIKey)_apiKey {
   return _userAPIKey;
 }
 

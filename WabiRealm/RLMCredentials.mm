@@ -23,7 +23,7 @@
 
 #import <realm/object-store/util/bson/bson.hpp>
 
-using namespace wabi_realm::app;
+using namespace realm::app;
 
 @implementation RLMCredentials
 - (instancetype)initWithAppCredentials:(AppCredentials &&)credentials {
@@ -71,7 +71,7 @@ using namespace wabi_realm::app;
     (NSDictionary<NSString *, id<RLMBSON>> *)payload {
   return [[self alloc]
       initWithAppCredentials:AppCredentials::function(
-                                 static_cast<wabi_realm::bson::BsonDocument>(
+                                 static_cast<realm::bson::BsonDocument>(
                                      RLMConvertRLMBSONToBson(payload)))];
 }
 

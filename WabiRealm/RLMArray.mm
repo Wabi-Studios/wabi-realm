@@ -646,7 +646,7 @@ static void validateArrayBounds(__unsafe_unretained RLMArray *const ar,
 
 #pragma mark - Thread Confined Protocol Conformance
 
-- (wabi_realm::ThreadSafeReference)makeThreadSafeReference {
+- (realm::ThreadSafeReference)makeThreadSafeReference {
   REALM_TERMINATE("Unexpected handover of unmanaged `RLMArray`");
 }
 
@@ -655,7 +655,7 @@ static void validateArrayBounds(__unsafe_unretained RLMArray *const ar,
 }
 
 + (instancetype)objectWithThreadSafeReference:
-                    (wabi_realm::ThreadSafeReference)reference
+                    (realm::ThreadSafeReference)reference
                                      metadata:(id)metadata
                                         realm:(RLMRealm *)realm {
   REALM_TERMINATE("Unexpected handover of unmanaged `RLMArray`");

@@ -30,11 +30,11 @@
 #import <objc/runtime.h>
 #import <os/lock.h>
 
-namespace wabi_realm {
+namespace realm {
 class Decimal128;
 class Exception;
 class Mixed;
-} // namespace wabi_realm
+} // namespace realm
 
 class RLMClassInfo;
 
@@ -44,7 +44,7 @@ class RLMClassInfo;
 __attribute__((format(NSString, 1, 2))) NSException *RLMException(NSString *fmt,
                                                                   ...);
 NSException *RLMException(std::exception const &exception);
-NSException *RLMException(wabi_realm::Exception const &exception);
+NSException *RLMException(realm::Exception const &exception);
 
 void RLMSetErrorOrThrow(NSError *error, NSError **outError);
 
@@ -109,7 +109,7 @@ bool RLMIsSwiftObjectClass(Class cls);
 
 // String conversion utilities
 static inline NSString *
-RLMStringDataToNSString(wabi_realm::StringData stringData) {
+RLMStringDataToNSString(realm::StringData stringData) {
   static_assert(
       sizeof(NSUInteger) >= sizeof(size_t),
       "Need runtime overflow check for size_t to NSUInteger conversion");
@@ -131,31 +131,31 @@ static inline NSString *RLMStringViewToNSString(std::string_view stringView) {
                                 encoding:NSUTF8StringEncoding];
 }
 
-static inline wabi_realm::StringData
+static inline realm::StringData
 RLMStringDataWithNSString(__unsafe_unretained NSString *const string) {
   static_assert(
       sizeof(size_t) >= sizeof(NSUInteger),
       "Need runtime overflow check for NSUInteger to size_t conversion");
-  return wabi_realm::StringData(
+  return realm::StringData(
       string.UTF8String,
       [string lengthOfBytesUsingEncoding:NSUTF8StringEncoding]);
 }
 
 // Binary conversion utilities
-static inline NSData *RLMBinaryDataToNSData(wabi_realm::BinaryData binaryData) {
+static inline NSData *RLMBinaryDataToNSData(realm::BinaryData binaryData) {
   return binaryData
              ? [NSData dataWithBytes:binaryData.data() length:binaryData.size()]
              : nil;
 }
 
-static inline wabi_realm::BinaryData
+static inline realm::BinaryData
 RLMBinaryDataForNSData(__unsafe_unretained NSData *const data) {
   // this is necessary to ensure that the empty NSData isn't treated by core as
-  // the null wabi_realm::BinaryData because data.bytes == 0 when data.length ==
+  // the null realm::BinaryData because data.bytes == 0 when data.length ==
   // 0 the casting bit ensures that we create a data with a non-null pointer
   auto bytes = static_cast<const char *>(data.bytes)
                    ?: static_cast<char *>((__bridge void *)data);
-  return wabi_realm::BinaryData(bytes, data.length);
+  return realm::BinaryData(bytes, data.length);
 }
 
 // Date conversion utilities
@@ -163,7 +163,7 @@ RLMBinaryDataForNSData(__unsafe_unretained NSData *const data) {
 // the time interval since the epoch directly to avoid losing sub-second
 // precision
 static inline NSDate *
-RLMTimestampToNSDate(wabi_realm::Timestamp ts) NS_RETURNS_RETAINED {
+RLMTimestampToNSDate(realm::Timestamp ts) NS_RETURNS_RETAINED {
   if (ts.is_null())
     return nil;
   auto timeInterval = ts.get_seconds() - NSTimeIntervalSince1970 +
@@ -171,7 +171,7 @@ RLMTimestampToNSDate(wabi_realm::Timestamp ts) NS_RETURNS_RETAINED {
   return [[NSDate alloc] initWithTimeIntervalSinceReferenceDate:timeInterval];
 }
 
-static inline wabi_realm::Timestamp
+static inline realm::Timestamp
 RLMTimestampForNSDate(__unsafe_unretained NSDate *const date) {
   if (!date)
     return {};
@@ -201,7 +201,7 @@ RLMTimestampForNSDate(__unsafe_unretained NSDate *const date) {
 }
 
 static inline NSUInteger RLMConvertNotFound(size_t index) {
-  return index == wabi_realm::not_found ? NSNotFound : index;
+  return index == realm::not_found ? NSNotFound : index;
 }
 
 static inline void RLMNSStringToStdString(std::string &out, NSString *in) {
@@ -224,14 +224,14 @@ static inline void RLMNSStringToStdString(std::string &out, NSString *in) {
   out.resize(size);
 }
 
-wabi_realm::Mixed RLMObjcToMixed(__unsafe_unretained id value,
+realm::Mixed RLMObjcToMixed(__unsafe_unretained id value,
                                  __unsafe_unretained RLMRealm *realm = nil,
-                                 wabi_realm::CreatePolicy createPolicy = {});
-id RLMMixedToObjc(wabi_realm::Mixed const &value,
+                                 realm::CreatePolicy createPolicy = {});
+id RLMMixedToObjc(realm::Mixed const &value,
                   __unsafe_unretained RLMRealm *realm = nil,
                   RLMClassInfo *classInfo = nullptr);
 
-wabi_realm::Decimal128 RLMObjcToDecimal128(id value);
+realm::Decimal128 RLMObjcToDecimal128(id value);
 realm::UUID RLMObjcToUUID(__unsafe_unretained id const value);
 
 // Given a bundle identifier, return the base directory on the disk within which

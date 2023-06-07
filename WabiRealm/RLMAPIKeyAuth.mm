@@ -23,7 +23,7 @@
 #import "RLMObjectId_Private.hpp"
 #import "RLMUserAPIKey_Private.hpp"
 
-using namespace wabi_realm::app;
+using namespace realm::app;
 
 @implementation RLMAPIKeyAuth
 
@@ -31,11 +31,11 @@ using namespace wabi_realm::app;
   return self.app._realmApp->provider_client<App::UserAPIKeyProviderClient>();
 }
 
-- (std::shared_ptr<wabi_realm::SyncUser>)currentUser {
+- (std::shared_ptr<realm::SyncUser>)currentUser {
   return self.app._realmApp->current_user();
 }
 
-static wabi_realm::util::UniqueFunction<void(App::UserAPIKey,
+static realm::util::UniqueFunction<void(App::UserAPIKey,
                                              std::optional<AppError>)>
 wrapCompletion(RLMOptionalUserAPIKeyBlock completion) {
   return

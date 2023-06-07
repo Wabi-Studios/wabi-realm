@@ -80,17 +80,17 @@ void RLMInitializeSwiftAccessor(RLMObjectBase *object, bool promotingExisting);
 #ifdef __cplusplus
 }
 
-namespace wabi_realm {
+namespace realm {
 class Obj;
 class Table;
 struct ColKey;
 struct ObjLink;
-} // namespace wabi_realm
+} // namespace realm
 class RLMClassInfo;
 
 // get an object with a given table & object key
 RLMObjectBase *
-RLMObjectFromObjLink(RLMRealm *realm, wabi_realm::ObjLink &&objLink,
+RLMObjectFromObjLink(RLMRealm *realm, realm::ObjLink &&objLink,
                      bool parentIsSwiftObject) NS_RETURNS_RETAINED;
 
 // Create accessors
@@ -98,7 +98,7 @@ RLMObjectBase *RLMCreateObjectAccessor(RLMClassInfo &info,
                                        int64_t key) NS_RETURNS_RETAINED;
 RLMObjectBase *
 RLMCreateObjectAccessor(RLMClassInfo &info,
-                        wabi_realm::Obj &&obj) NS_RETURNS_RETAINED;
+                        realm::Obj &&obj) NS_RETURNS_RETAINED;
 #endif
 
 RLM_HEADER_AUDIT_END(nullability)

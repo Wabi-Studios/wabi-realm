@@ -38,16 +38,16 @@
 
 @interface RLMManagedDictionary () <RLMThreadConfined_Private> {
 @public
-  wabi_realm::object_store::Dictionary _backingCollection;
+  realm::object_store::Dictionary _backingCollection;
 }
 @end
 
 @implementation RLMDictionaryChange {
-  wabi_realm::DictionaryChangeSet _changes;
+  realm::DictionaryChangeSet _changes;
 }
 
 - (instancetype)initWithChanges:
-    (wabi_realm::DictionaryChangeSet const &)changes {
+    (realm::DictionaryChangeSet const &)changes {
   self = [super init];
   if (self) {
     _changes = changes;
@@ -55,7 +55,7 @@
   return self;
 }
 
-static NSArray *toArray(std::vector<wabi_realm::Mixed> const &v) {
+static NSArray *toArray(std::vector<realm::Mixed> const &v) {
   NSMutableArray *ret = [[NSMutableArray alloc] initWithCapacity:v.size()];
   for (auto &mixed : v) {
     [ret addObject:RLMMixedToObjc(mixed)];
@@ -101,7 +101,7 @@ static NSArray *toArray(std::vector<wabi_realm::Mixed> const &v) {
 }
 
 - (RLMManagedDictionary *)
-    initWithBackingCollection:(wabi_realm::object_store::Dictionary)dictionary
+    initWithBackingCollection:(realm::object_store::Dictionary)dictionary
                    parentInfo:(RLMClassInfo *)parentInfo
                      property:(__unsafe_unretained RLMProperty *const)property {
   if (property.type == RLMPropertyTypeObject)
@@ -131,18 +131,18 @@ static NSArray *toArray(std::vector<wabi_realm::Mixed> const &v) {
   __unsafe_unretained RLMRealm *const realm = parentObject->_realm;
   auto col = parentObject->_info->tableColumn(property);
   return [self
-      initWithBackingCollection:wabi_realm::object_store::Dictionary(
+      initWithBackingCollection:realm::object_store::Dictionary(
                                     realm->_realm, parentObject->_row, col)
                      parentInfo:parentObject->_info
                        property:property];
 }
 
 - (RLMManagedDictionary *)
-    initWithParent:(wabi_realm::Obj)parent
+    initWithParent:(realm::Obj)parent
           property:(__unsafe_unretained RLMProperty *const)property
         parentInfo:(RLMClassInfo &)info {
   auto col = info.tableColumn(property);
-  return [self initWithBackingCollection:wabi_realm::object_store::Dictionary(
+  return [self initWithBackingCollection:realm::object_store::Dictionary(
                                              info.realm->_realm, parent, col)
                               parentInfo:&info
                                 property:property];
@@ -209,7 +209,7 @@ changeDictionary(__unsafe_unretained RLMManagedDictionary *const dict,
 }
 
 static NSMutableArray *resultsToArray(RLMClassInfo &info,
-                                      wabi_realm::Results r) {
+                                      realm::Results r) {
   RLMAccessorContext c(info);
   NSMutableArray *array = [NSMutableArray arrayWithCapacity:r.size()];
   for (size_t i = 0, size = r.size(); i < size; ++i) {
@@ -239,7 +239,7 @@ static NSMutableArray *resultsToArray(RLMClassInfo &info,
 }
 
 - (bool)isBackedByDictionary:
-    (wabi_realm::object_store::Dictionary const &)dictionary {
+    (realm::object_store::Dictionary const &)dictionary {
   return _backingCollection == dictionary;
 }
 
@@ -262,7 +262,7 @@ static NSMutableArray *resultsToArray(RLMClassInfo &info,
     [self.realm verifyThread];
     RLMAccessorContext context(*_objectInfo);
     if (auto value = _backingCollection.try_get_any(
-            context.unbox<wabi_realm::StringData>(key))) {
+            context.unbox<realm::StringData>(key))) {
       return context.box(*value);
     }
     return nil;
@@ -273,7 +273,7 @@ static NSMutableArray *resultsToArray(RLMClassInfo &info,
   changeDictionary(self, ^{
     RLMAccessorContext c(*_objectInfo);
     _backingCollection.insert(
-        c, c.unbox<wabi_realm::StringData>(RLMDictionaryKey(self, key)),
+        c, c.unbox<realm::StringData>(RLMDictionaryKey(self, key)),
         RLMDictionaryValue(self, obj));
   });
 }
@@ -288,7 +288,7 @@ static NSMutableArray *resultsToArray(RLMClassInfo &info,
   RLMAccessorContext context(*_objectInfo);
   changeDictionary(self, [&] {
     for (id key in keyArray) {
-      _backingCollection.try_erase(context.unbox<wabi_realm::StringData>(key));
+      _backingCollection.try_erase(context.unbox<realm::StringData>(key));
     }
   });
 }
@@ -296,7 +296,7 @@ static NSMutableArray *resultsToArray(RLMClassInfo &info,
 - (void)removeObjectForKey:(id)key {
   changeDictionary(self, ^{
     RLMAccessorContext context(*_objectInfo);
-    _backingCollection.try_erase(context.unbox<wabi_realm::StringData>(key));
+    _backingCollection.try_erase(context.unbox<realm::StringData>(key));
   });
 }
 
@@ -333,7 +333,7 @@ static NSMutableArray *resultsToArray(RLMClassInfo &info,
     [dictionary
         enumerateKeysAndObjectsUsingBlock:[&](id key, id value, BOOL *) {
           _backingCollection.insert(
-              c, c.unbox<wabi_realm::StringData>(RLMDictionaryKey(self, key)),
+              c, c.unbox<realm::StringData>(RLMDictionaryKey(self, key)),
               RLMDictionaryValue(self, value));
         }];
   });
@@ -473,7 +473,7 @@ static NSMutableArray *resultsToArray(RLMClassInfo &info,
              context:context];
 }
 
-- (wabi_realm::TableView)tableView {
+- (realm::TableView)tableView {
   return translateErrors(
              [&] { return _backingCollection.as_results().get_query(); })
       .find_all();
@@ -520,16 +520,16 @@ namespace {
 struct DictionaryCallbackWrapper {
   void (^block)(id, RLMDictionaryChange *, NSError *);
   RLMManagedDictionary *collection;
-  wabi_realm::TransactionRef previousTransaction;
+  realm::TransactionRef previousTransaction;
 
   DictionaryCallbackWrapper(void (^block)(id, RLMDictionaryChange *, NSError *),
                             RLMManagedDictionary *dictionary)
       : block(block), collection(dictionary),
         previousTransaction(
-            static_cast<wabi_realm::Transaction &>(collection.realm.group)
+            static_cast<realm::Transaction &>(collection.realm.group)
                 .duplicate()) {}
 
-  void operator()(wabi_realm::DictionaryChangeSet const &changes) {
+  void operator()(realm::DictionaryChangeSet const &changes) {
     if (changes.deletions.empty() && changes.insertions.empty() &&
         changes.modifications.empty()) {
       block(collection, nil, nil);
@@ -541,18 +541,18 @@ struct DictionaryCallbackWrapper {
       previousTransaction->end_read();
     } else {
       previousTransaction->advance_read(
-          static_cast<wabi_realm::Transaction &>(collection.realm.group)
+          static_cast<realm::Transaction &>(collection.realm.group)
               .get_version_of_current_transaction());
     }
   }
 };
 } // anonymous namespace
 
-- (wabi_realm::NotificationToken)
+- (realm::NotificationToken)
     addNotificationCallback:(id)block
                    keyPaths:
                        (std::optional<std::vector<std::vector<std::pair<
-                            wabi_realm::TableKey, wabi_realm::ColKey>>>> &&)
+                            realm::TableKey, realm::ColKey>>>> &&)
                            keyPaths {
   return _backingCollection.add_key_based_notification_callback(
       DictionaryCallbackWrapper{block, self}, std::move(keyPaths));
@@ -560,7 +560,7 @@ struct DictionaryCallbackWrapper {
 
 #pragma mark - Thread Confined Protocol Conformance
 
-- (wabi_realm::ThreadSafeReference)makeThreadSafeReference {
+- (realm::ThreadSafeReference)makeThreadSafeReference {
   return _backingCollection;
 }
 
@@ -573,12 +573,12 @@ struct DictionaryCallbackWrapper {
 }
 
 + (instancetype)
-    objectWithThreadSafeReference:(wabi_realm::ThreadSafeReference)reference
+    objectWithThreadSafeReference:(realm::ThreadSafeReference)reference
                          metadata:
                              (RLMManagedCollectionHandoverMetadata *)metadata
                             realm:(RLMRealm *)realm {
   auto dictionary =
-      reference.resolve<wabi_realm::object_store::Dictionary>(realm->_realm);
+      reference.resolve<realm::object_store::Dictionary>(realm->_realm);
   if (!dictionary.is_valid()) {
     return nil;
   }

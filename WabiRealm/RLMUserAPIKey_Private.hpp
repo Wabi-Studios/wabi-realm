@@ -21,6 +21,6 @@
 #import <realm/object-store/sync/app.hpp>
 
 @interface RLMUserAPIKey ()
-- (wabi_realm::app::App::UserAPIKey)_apiKey;
-- (instancetype)initWithUserAPIKey:(wabi_realm::app::App::UserAPIKey)userAPIKey;
+- (realm::app::App::UserAPIKey)_apiKey;
+- (instancetype)initWithUserAPIKey:(realm::app::App::UserAPIKey)userAPIKey;
 @end

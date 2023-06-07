@@ -25,10 +25,10 @@
 RLM_DIRECT_MEMBERS
 @interface RLMProperty ()
 + (instancetype)propertyForObjectStoreProperty:
-    (const wabi_realm::Property &)property;
-- (wabi_realm::Property)objectStoreCopy:(RLMSchema *)schema;
+    (const realm::Property &)property;
+- (realm::Property)objectStoreCopy:(RLMSchema *)schema;
 @end
 
-static inline bool isNullable(const wabi_realm::PropertyType &t) {
-  return t != wabi_realm::PropertyType::Mixed && is_nullable(t);
+static inline bool isNullable(const realm::PropertyType &t) {
+  return t != realm::PropertyType::Mixed && is_nullable(t);
 }

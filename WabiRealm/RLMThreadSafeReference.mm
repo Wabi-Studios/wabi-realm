@@ -20,7 +20,7 @@
 #import "RLMUtil.hpp"
 
 @implementation RLMThreadSafeReference {
-  wabi_realm::ThreadSafeReference _reference;
+  realm::ThreadSafeReference _reference;
   id _metadata;
   Class _type;
 }

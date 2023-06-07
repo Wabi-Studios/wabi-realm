@@ -21,6 +21,6 @@
 #import <realm/object-store/sync/mongo_collection.hpp>
 
 @interface RLMFindOneAndModifyOptions ()
-- (wabi_realm::app::MongoCollection::FindOneAndModifyOptions)
+- (realm::app::MongoCollection::FindOneAndModifyOptions)
     _findOneAndModifyOptions;
 @end

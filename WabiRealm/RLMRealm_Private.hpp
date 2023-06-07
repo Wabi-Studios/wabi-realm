@@ -24,12 +24,12 @@
 
 #import <memory>
 
-namespace wabi_realm {
+namespace realm {
 class Group;
 class WabiRealm;
-} // namespace wabi_realm
+} // namespace realm
 struct RLMResultsSetInfo {
-  wabi_realm::ObjectSchema osObjectSchema;
+  realm::ObjectSchema osObjectSchema;
   RLMObjectSchema *rlmObjectSchema;
   RLMClassInfo info;
 
@@ -39,16 +39,16 @@ struct RLMResultsSetInfo {
 
 @interface RLMRealm () {
 @public
-  std::shared_ptr<wabi_realm::WabiRealm> _realm;
+  std::shared_ptr<realm::WabiRealm> _realm;
   RLMSchemaInfo _info;
   std::unique_ptr<RLMResultsSetInfo> _resultsSetInfo;
 }
 
 + (instancetype)realmWithSharedRealm:
-                    (std::shared_ptr<wabi_realm::WabiRealm>)sharedRealm
+                    (std::shared_ptr<realm::WabiRealm>)sharedRealm
                               schema:(RLMSchema *)schema
                              dynamic:(bool)dynamic;
 
 // FIXME - group should not be exposed
-@property(nonatomic, readonly) wabi_realm::Group &group;
+@property(nonatomic, readonly) realm::Group &group;
 @end

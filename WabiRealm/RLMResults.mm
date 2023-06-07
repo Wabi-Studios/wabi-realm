@@ -39,7 +39,7 @@
 
 #import <objc/message.h>
 
-using namespace wabi_realm;
+using namespace realm;
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wincomplete-implementation"
@@ -83,13 +83,13 @@ static void assertKeyPathIsNotNested(NSString *keyPath) {
 void RLMThrowCollectionException(NSString *collectionName) {
   try {
     throw;
-  } catch (wabi_realm::WrongTransactionState const &) {
+  } catch (realm::WrongTransactionState const &) {
     @throw RLMException(@"Cannot modify %@ outside of a write transaction.",
                         collectionName);
-  } catch (wabi_realm::OutOfBounds const &e) {
+  } catch (realm::OutOfBounds const &e) {
     @throw RLMException(@"Index %zu is out of bounds (must be less than %zu).",
                         e.index, e.size);
-  } catch (wabi_realm::Exception const &e) {
+  } catch (realm::Exception const &e) {
     @throw RLMException(e);
   } catch (std::exception const &e) {
     @throw RLMException(e);
@@ -102,7 +102,7 @@ __attribute__((always_inline)) static auto translateErrors(Function &&f) {
 }
 
 - (instancetype)initWithObjectInfo:(RLMClassInfo &)info
-                           results:(wabi_realm::Results &&)results {
+                           results:(realm::Results &&)results {
   if (self = [super init]) {
     _results = std::move(results);
     _realm = info.realm;
@@ -112,7 +112,7 @@ __attribute__((always_inline)) static auto translateErrors(Function &&f) {
 }
 
 + (instancetype)resultsWithObjectInfo:(RLMClassInfo &)info
-                              results:(wabi_realm::Results &&)results {
+                              results:(realm::Results &&)results {
   return [[self alloc] initWithObjectInfo:info results:std::move(results)];
 }
 
@@ -120,7 +120,7 @@ __attribute__((always_inline)) static auto translateErrors(Function &&f) {
   return [[self alloc] initPrivate];
 }
 
-- (instancetype)subresultsWithResults:(wabi_realm::Results)results {
+- (instancetype)subresultsWithResults:(realm::Results)results {
   return [self.class resultsWithObjectInfo:*_info results:std::move(results)];
 }
 
@@ -141,7 +141,7 @@ RLMResultsValidateInWriteTransaction(__unsafe_unretained RLMResults *const ar) {
 - (RLMPropertyType)type {
   return translateErrors([&] {
     return static_cast<RLMPropertyType>(_results.get_type() &
-                                        ~wabi_realm::PropertyType::Nullable);
+                                        ~realm::PropertyType::Nullable);
   });
 }
 
@@ -151,7 +151,7 @@ RLMResultsValidateInWriteTransaction(__unsafe_unretained RLMResults *const ar) {
 
 - (NSString *)objectClassName {
   return translateErrors([&] {
-    if (_info && _results.get_type() == wabi_realm::PropertyType::Object) {
+    if (_info && _results.get_type() == realm::PropertyType::Object) {
       return _info->rlmObjectSchema.className;
     }
     return (NSString *)nil;
@@ -197,7 +197,7 @@ RLMResultsValidateInWriteTransaction(__unsafe_unretained RLMResults *const ar) {
   }
 
   return translateErrors([&] {
-    if (_results.get_type() != wabi_realm::PropertyType::Object) {
+    if (_results.get_type() != realm::PropertyType::Object) {
       @throw RLMException(@"Querying is currently only implemented for arrays "
                           @"of WabiRealm Objects");
     }
@@ -396,7 +396,7 @@ RLMResultsValidateInWriteTransaction(__unsafe_unretained RLMResults *const ar) {
     if (_results.get_mode() == Results::Mode::Empty) {
       return self;
     }
-    if (_results.get_type() != wabi_realm::PropertyType::Object) {
+    if (_results.get_type() != realm::PropertyType::Object) {
       @throw RLMException(@"Querying is currently only implemented for arrays "
                           @"of WabiRealm Objects");
     }
@@ -529,7 +529,7 @@ RLMResultsValidateInWriteTransaction(__unsafe_unretained RLMResults *const ar) {
                                     RLMDescriptionMaxDepth);
 }
 
-- (wabi_realm::TableView)tableView {
+- (realm::TableView)tableView {
   return translateErrors([&] { return _results.get_tableview(); });
 }
 
@@ -604,11 +604,11 @@ RLMResultsValidateInWriteTransaction(__unsafe_unretained RLMResults *const ar) {
 }
 #pragma clang diagnostic pop
 
-- (wabi_realm::NotificationToken)
+- (realm::NotificationToken)
     addNotificationCallback:(id)block
                    keyPaths:
                        (std::optional<std::vector<std::vector<std::pair<
-                            wabi_realm::TableKey, wabi_realm::ColKey>>>> &&)
+                            realm::TableKey, realm::ColKey>>>> &&)
                            keyPaths {
   return _results.add_notification_callback(
       RLMWrapCollectionChangeCallback(block, self, true), std::move(keyPaths));
@@ -620,7 +620,7 @@ RLMResultsValidateInWriteTransaction(__unsafe_unretained RLMResults *const ar) {
 
 #pragma mark - Thread Confined Protocol Conformance
 
-- (wabi_realm::ThreadSafeReference)makeThreadSafeReference {
+- (realm::ThreadSafeReference)makeThreadSafeReference {
   return _results;
 }
 
@@ -629,7 +629,7 @@ RLMResultsValidateInWriteTransaction(__unsafe_unretained RLMResults *const ar) {
 }
 
 + (instancetype)objectWithThreadSafeReference:
-                    (wabi_realm::ThreadSafeReference)reference
+                    (realm::ThreadSafeReference)reference
                                      metadata:(__unused id)metadata
                                         realm:(RLMRealm *)realm {
   auto results = reference.resolve<Results>(realm->_realm);

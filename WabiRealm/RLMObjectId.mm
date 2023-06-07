@@ -53,7 +53,7 @@
 - (instancetype)initWithString:(NSString *)string error:(NSError **)error {
   if ((self = [self init])) {
     const char *str = string.UTF8String;
-    if (!wabi_realm::ObjectId::is_valid_str(str)) {
+    if (!realm::ObjectId::is_valid_str(str)) {
       if (error) {
         NSString *msg = [NSString
             stringWithFormat:
@@ -65,7 +65,7 @@
       }
       return nil;
     }
-    _value = wabi_realm::ObjectId(str);
+    _value = realm::ObjectId(str);
   }
   return self;
 }
@@ -74,13 +74,13 @@
                 machineIdentifier:(int)machineIdentifier
                 processIdentifier:(int)processIdentifier {
   if ((self = [self init])) {
-    _value = wabi_realm::ObjectId(RLMTimestampForNSDate(timestamp),
+    _value = realm::ObjectId(RLMTimestampForNSDate(timestamp),
                                   machineIdentifier, processIdentifier);
   }
   return self;
 }
 
-- (instancetype)initWithValue:(wabi_realm::ObjectId)value {
+- (instancetype)initWithValue:(realm::ObjectId)value {
   if ((self = [self init])) {
     _value = value;
   }
@@ -93,7 +93,7 @@
 }
 
 + (instancetype)objectId {
-  return [[RLMObjectId alloc] initWithValue:wabi_realm::ObjectId::gen()];
+  return [[RLMObjectId alloc] initWithValue:realm::ObjectId::gen()];
 }
 
 - (BOOL)isEqual:(id)object {

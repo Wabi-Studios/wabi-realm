@@ -51,20 +51,20 @@ struct RLMStatelessAccessorContext {
   static id box(double v) { return @(v); }
   static id box(float v) { return @(v); }
   static id box(long long v) { return @(v); }
-  static id box(wabi_realm::StringData v) {
+  static id box(realm::StringData v) {
     return RLMStringDataToNSString(v) ?: NSNull.null;
   }
-  static id box(wabi_realm::BinaryData v) {
+  static id box(realm::BinaryData v) {
     return RLMBinaryDataToNSData(v) ?: NSNull.null;
   }
-  static id box(wabi_realm::Timestamp v) {
+  static id box(realm::Timestamp v) {
     return RLMTimestampToNSDate(v) ?: NSNull.null;
   }
-  static id box(wabi_realm::Decimal128 v) {
+  static id box(realm::Decimal128 v) {
     return v.is_null() ? NSNull.null
                        : [[RLMDecimal128 alloc] initWithDecimal128:v];
   }
-  static id box(wabi_realm::ObjectId v) {
+  static id box(realm::ObjectId v) {
     return [[RLMObjectId alloc] initWithValue:v];
   }
   static id box(realm::UUID v) {
@@ -75,7 +75,7 @@ struct RLMStatelessAccessorContext {
   static id box(std::optional<double> v) { return v ? @(*v) : NSNull.null; }
   static id box(std::optional<float> v) { return v ? @(*v) : NSNull.null; }
   static id box(std::optional<int64_t> v) { return v ? @(*v) : NSNull.null; }
-  static id box(std::optional<wabi_realm::ObjectId> v) {
+  static id box(std::optional<realm::ObjectId> v) {
     return v ? box(*v) : NSNull.null;
   }
   static id box(std::optional<realm::UUID> v) {
@@ -98,7 +98,7 @@ struct RLMStatelessAccessorContext {
                                    Func &&func) {
     id enumerable = RLMAsFastEnumeration(v) ?: v;
     for (id key in enumerable) {
-      func(unbox<wabi_realm::StringData>(key), v[key]);
+      func(unbox<realm::StringData>(key), v[key]);
     }
   }
 
@@ -109,10 +109,10 @@ struct RLMStatelessAccessorContext {
     return [v isKindOfClass:[NSArray class]];
   }
 
-  static bool is_same_list(wabi_realm::List const &list, id v) noexcept;
-  static bool is_same_dictionary(wabi_realm::object_store::Dictionary const &,
+  static bool is_same_list(realm::List const &list, id v) noexcept;
+  static bool is_same_dictionary(realm::object_store::Dictionary const &,
                                  id) noexcept;
-  static bool is_same_set(wabi_realm::object_store::Set const &, id) noexcept;
+  static bool is_same_set(realm::object_store::Set const &, id) noexcept;
 
   static std::string print(id obj) { return [obj description].UTF8String; }
 };
@@ -123,63 +123,63 @@ public:
 
   // Accessor context interface
   RLMAccessorContext(RLMAccessorContext &parent,
-                     wabi_realm::Obj const &parent_obj,
-                     wabi_realm::Property const &property);
+                     realm::Obj const &parent_obj,
+                     realm::Property const &property);
 
   using RLMStatelessAccessorContext::box;
-  id box(wabi_realm::List &&);
-  id box(wabi_realm::Results &&);
-  id box(wabi_realm::Object &&);
-  id box(wabi_realm::Obj &&);
-  id box(wabi_realm::object_store::Dictionary &&);
-  id box(wabi_realm::object_store::Set &&);
-  id box(wabi_realm::Mixed);
+  id box(realm::List &&);
+  id box(realm::Results &&);
+  id box(realm::Object &&);
+  id box(realm::Obj &&);
+  id box(realm::object_store::Dictionary &&);
+  id box(realm::object_store::Set &&);
+  id box(realm::Mixed);
 
-  void will_change(wabi_realm::Obj const &, wabi_realm::Property const &);
-  void will_change(wabi_realm::Object &obj, wabi_realm::Property const &prop) {
+  void will_change(realm::Obj const &, realm::Property const &);
+  void will_change(realm::Object &obj, realm::Property const &prop) {
     will_change(obj.obj(), prop);
   }
   void did_change();
 
-  RLMOptionalId value_for_property(id dict, wabi_realm::Property const &,
+  RLMOptionalId value_for_property(id dict, realm::Property const &,
                                    size_t prop_index);
-  RLMOptionalId default_value_for_property(wabi_realm::ObjectSchema const &,
-                                           wabi_realm::Property const &prop);
+  RLMOptionalId default_value_for_property(realm::ObjectSchema const &,
+                                           realm::Property const &prop);
 
   template <typename T>
   T unbox(__unsafe_unretained id const v,
-          wabi_realm::CreatePolicy = wabi_realm::CreatePolicy::Skip,
-          wabi_realm::ObjKey = {}) {
+          realm::CreatePolicy = realm::CreatePolicy::Skip,
+          realm::ObjKey = {}) {
     return RLMStatelessAccessorContext::unbox<T>(v);
   }
   template <>
-  wabi_realm::Obj unbox(id v, wabi_realm::CreatePolicy, wabi_realm::ObjKey);
+  realm::Obj unbox(id v, realm::CreatePolicy, realm::ObjKey);
   template <>
-  wabi_realm::Mixed unbox(id v, wabi_realm::CreatePolicy, wabi_realm::ObjKey);
+  realm::Mixed unbox(id v, realm::CreatePolicy, realm::ObjKey);
 
-  wabi_realm::Obj create_embedded_object();
+  realm::Obj create_embedded_object();
 
   // Internal API
   RLMAccessorContext(RLMObjectBase *parentObject,
-                     const wabi_realm::Property *property = nullptr);
-  RLMAccessorContext(RLMObjectBase *parentObject, wabi_realm::ColKey);
+                     const realm::Property *property = nullptr);
+  RLMAccessorContext(RLMObjectBase *parentObject, realm::ColKey);
   RLMAccessorContext(RLMClassInfo &info);
 
   // The property currently being accessed; needed for KVO things for boxing
   // List and Results
   RLMProperty *currentProperty;
 
-  std::pair<wabi_realm::Obj, bool>
-  createObject(id value, wabi_realm::CreatePolicy policy,
-               bool forceCreate = false, wabi_realm::ObjKey existingKey = {});
+  std::pair<realm::Obj, bool>
+  createObject(id value, realm::CreatePolicy policy,
+               bool forceCreate = false, realm::ObjKey existingKey = {});
 
 private:
   __unsafe_unretained RLMRealm *const _realm;
   RLMClassInfo &_info;
 
-  wabi_realm::Obj _parentObject;
+  realm::Obj _parentObject;
   RLMClassInfo *_parentObjectInfo = nullptr;
-  wabi_realm::ColKey _colKey;
+  realm::ColKey _colKey;
 
   // Cached default values dictionary to avoid having to call the class method
   // for every property

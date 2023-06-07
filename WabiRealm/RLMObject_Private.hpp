@@ -29,7 +29,7 @@ class RLMObservationInfo;
 // RLMObject accessor and read/write realm
 @interface RLMObjectBase () {
 @public
-  wabi_realm::Obj _row;
+  realm::Obj _row;
   RLMObservationInfo *_observationInfo;
   RLMClassInfo *_info;
 }

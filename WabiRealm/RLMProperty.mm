@@ -30,24 +30,24 @@
 
 #import <realm/object-store/property.hpp>
 
-static_assert((int)RLMPropertyTypeInt == (int)wabi_realm::PropertyType::Int);
-static_assert((int)RLMPropertyTypeBool == (int)wabi_realm::PropertyType::Bool);
+static_assert((int)RLMPropertyTypeInt == (int)realm::PropertyType::Int);
+static_assert((int)RLMPropertyTypeBool == (int)realm::PropertyType::Bool);
 static_assert((int)RLMPropertyTypeFloat ==
-              (int)wabi_realm::PropertyType::Float);
+              (int)realm::PropertyType::Float);
 static_assert((int)RLMPropertyTypeDouble ==
-              (int)wabi_realm::PropertyType::Double);
+              (int)realm::PropertyType::Double);
 static_assert((int)RLMPropertyTypeString ==
-              (int)wabi_realm::PropertyType::String);
-static_assert((int)RLMPropertyTypeData == (int)wabi_realm::PropertyType::Data);
-static_assert((int)RLMPropertyTypeDate == (int)wabi_realm::PropertyType::Date);
+              (int)realm::PropertyType::String);
+static_assert((int)RLMPropertyTypeData == (int)realm::PropertyType::Data);
+static_assert((int)RLMPropertyTypeDate == (int)realm::PropertyType::Date);
 static_assert((int)RLMPropertyTypeObject ==
-              (int)wabi_realm::PropertyType::Object);
+              (int)realm::PropertyType::Object);
 static_assert((int)RLMPropertyTypeObjectId ==
-              (int)wabi_realm::PropertyType::ObjectId);
+              (int)realm::PropertyType::ObjectId);
 static_assert((int)RLMPropertyTypeDecimal128 ==
-              (int)wabi_realm::PropertyType::Decimal);
-static_assert((int)RLMPropertyTypeUUID == (int)wabi_realm::PropertyType::UUID);
-static_assert((int)RLMPropertyTypeAny == (int)wabi_realm::PropertyType::Mixed);
+              (int)realm::PropertyType::Decimal);
+static_assert((int)RLMPropertyTypeUUID == (int)realm::PropertyType::UUID);
+static_assert((int)RLMPropertyTypeAny == (int)realm::PropertyType::Mixed);
 
 BOOL RLMPropertyTypeIsComputed(RLMPropertyType propertyType) {
   return propertyType == RLMPropertyTypeLinkingObjects;
@@ -95,11 +95,11 @@ static bool rawTypeShouldBeTreatedAsComputedProperty(NSString *rawType) {
 @implementation RLMProperty
 
 + (instancetype)propertyForObjectStoreProperty:
-    (const wabi_realm::Property &)prop {
+    (const realm::Property &)prop {
   auto ret = [[RLMProperty alloc]
                 initWithName:@(prop.name.c_str())
                         type:static_cast<RLMPropertyType>(
-                                 prop.type & ~wabi_realm::PropertyType::Flags)
+                                 prop.type & ~realm::PropertyType::Flags)
              objectClassName:prop.object_type.length()
                                  ? @(prop.object_type.c_str())
                                  : nil
@@ -116,7 +116,7 @@ static bool rawTypeShouldBeTreatedAsComputedProperty(NSString *rawType) {
   }
   if (is_dictionary(prop.type)) {
     // TODO: We need a way to store the dictionary
-    // key type in wabi_realm::Property once we support more
+    // key type in realm::Property once we support more
     // key types.
     ret->_dictionaryKeyType = RLMPropertyTypeString;
     ret->_dictionary = true;
@@ -173,7 +173,7 @@ static std::optional<RLMPropertyType> typeFromProtocolString(const char *type) {
     return RLMPropertyTypeAny;
   }
   if (strncmp(type, "RLM", 3)) {
-    return wabi_realm::none;
+    return realm::none;
   }
   type += 3;
   if (strcmp(type, "Int>\"") == 0) {
@@ -206,7 +206,7 @@ static std::optional<RLMPropertyType> typeFromProtocolString(const char *type) {
   if (strcmp(type, "UUID>\"") == 0) {
     return RLMPropertyTypeUUID;
   }
-  return wabi_realm::none;
+  return realm::none;
 }
 
 // determine RLMPropertyType from objc code - returns true if valid type was
@@ -804,8 +804,8 @@ static std::optional<RLMPropertyType> typeFromProtocolString(const char *type) {
   return _columnName ?: _name;
 }
 
-- (wabi_realm::Property)objectStoreCopy:(RLMSchema *)schema {
-  wabi_realm::Property p;
+- (realm::Property)objectStoreCopy:(RLMSchema *)schema {
+  realm::Property p;
   p.name = self.columnName.UTF8String;
   if (_columnName) {
     p.public_name = _name.UTF8String;
@@ -821,18 +821,18 @@ static std::optional<RLMPropertyType> typeFromProtocolString(const char *type) {
     }
   }
   p.is_indexed = static_cast<bool>(_indexed);
-  p.type = static_cast<wabi_realm::PropertyType>(_type);
+  p.type = static_cast<realm::PropertyType>(_type);
   if (_array) {
-    p.type |= wabi_realm::PropertyType::Array;
+    p.type |= realm::PropertyType::Array;
   }
   if (_set) {
-    p.type |= wabi_realm::PropertyType::Set;
+    p.type |= realm::PropertyType::Set;
   }
   if (_dictionary) {
-    p.type |= wabi_realm::PropertyType::Dictionary;
+    p.type |= realm::PropertyType::Dictionary;
   }
-  if (_optional || p.type == wabi_realm::PropertyType::Mixed) {
-    p.type |= wabi_realm::PropertyType::Nullable;
+  if (_optional || p.type == realm::PropertyType::Mixed) {
+    p.type |= realm::PropertyType::Nullable;
   }
   return p;
 }

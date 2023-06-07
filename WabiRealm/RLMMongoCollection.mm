@@ -34,7 +34,7 @@
 __attribute__((objc_direct_members))
 @implementation RLMChangeStream {
 @public
-  wabi_realm::app::WatchStream _watchStream;
+  realm::app::WatchStream _watchStream;
   id<RLMChangeEventDelegate> _subscriber;
   __weak NSURLSession *_session;
   void (^_schedule)(dispatch_block_t);
@@ -69,7 +69,7 @@ __attribute__((objc_direct_members))
 }
 
 - (void)didReceiveEvent:(nonnull NSData *)event {
-  if (_watchStream.state() == wabi_realm::app::WatchStream::State::NEED_DATA) {
+  if (_watchStream.state() == realm::app::WatchStream::State::NEED_DATA) {
     [event enumerateByteRangesUsingBlock:^(const void *bytes, NSRange byteRange,
                                            BOOL *) {
       _watchStream.feed_buffer(
@@ -78,14 +78,14 @@ __attribute__((objc_direct_members))
   }
 
   while (_watchStream.state() ==
-         wabi_realm::app::WatchStream::State::HAVE_EVENT) {
+         realm::app::WatchStream::State::HAVE_EVENT) {
     id<RLMBSON> event = RLMConvertBsonToRLMBSON(_watchStream.next_event());
     _schedule(^{
       [_subscriber changeStreamDidReceiveChangeEvent:event];
     });
   }
 
-  if (_watchStream.state() == wabi_realm::app::WatchStream::State::HAVE_ERROR) {
+  if (_watchStream.state() == realm::app::WatchStream::State::HAVE_ERROR) {
     [self didReceiveError:makeError(_watchStream.error())];
   }
 }
@@ -99,11 +99,11 @@ __attribute__((objc_direct_members))
 }
 @end
 
-static wabi_realm::bson::BsonDocument toBsonDocument(id<RLMBSON> bson) {
-  return wabi_realm::bson::BsonDocument(RLMConvertRLMBSONToBson(bson));
+static realm::bson::BsonDocument toBsonDocument(id<RLMBSON> bson) {
+  return realm::bson::BsonDocument(RLMConvertRLMBSONToBson(bson));
 }
-static wabi_realm::bson::BsonArray toBsonArray(id<RLMBSON> bson) {
-  return wabi_realm::bson::BsonArray(RLMConvertRLMBSONToBson(bson));
+static realm::bson::BsonArray toBsonArray(id<RLMBSON> bson) {
+  return realm::bson::BsonArray(RLMConvertRLMBSONToBson(bson));
 }
 
 __attribute__((objc_direct_members))
@@ -128,13 +128,13 @@ __attribute__((objc_direct_members))
   return self;
 }
 
-- (wabi_realm::app::MongoCollection)collection:(NSString *)name {
+- (realm::app::MongoCollection)collection:(NSString *)name {
   return _user._syncUser->mongo_client(self.serviceName.UTF8String)
       .db(self.databaseName.UTF8String)
       .collection(name.UTF8String);
 }
 
-- (wabi_realm::app::MongoCollection)collection {
+- (realm::app::MongoCollection)collection {
   return [self collection:self.name];
 }
 
@@ -143,8 +143,8 @@ __attribute__((objc_direct_members))
        completion:(RLMMongoFindBlock)completion {
   self.collection.find(
       toBsonDocument(document), [options _findOptions],
-      [completion](std::optional<wabi_realm::bson::BsonArray> documents,
-                   std::optional<wabi_realm::app::AppError> error) {
+      [completion](std::optional<realm::bson::BsonArray> documents,
+                   std::optional<realm::app::AppError> error) {
         if (error) {
           return completion(nil, makeError(*error));
         }
@@ -166,8 +166,8 @@ __attribute__((objc_direct_members))
                   completion:(RLMMongoFindOneBlock)completion {
   self.collection.find_one(
       toBsonDocument(document), [options _findOptions],
-      [completion](std::optional<wabi_realm::bson::BsonDocument> document,
-                   std::optional<wabi_realm::app::AppError> error) {
+      [completion](std::optional<realm::bson::BsonDocument> document,
+                   std::optional<realm::app::AppError> error) {
         if (error) {
           return completion(nil, makeError(*error));
         }
@@ -192,8 +192,8 @@ __attribute__((objc_direct_members))
                completion:(RLMMongoInsertBlock)completion {
   self.collection.insert_one(
       toBsonDocument(document),
-      [completion](std::optional<wabi_realm::bson::Bson> objectId,
-                   std::optional<wabi_realm::app::AppError> error) {
+      [completion](std::optional<realm::bson::Bson> objectId,
+                   std::optional<realm::app::AppError> error) {
         if (error) {
           return completion(nil, makeError(*error));
         }
@@ -206,8 +206,8 @@ __attribute__((objc_direct_members))
                  completion:(RLMMongoInsertManyBlock)completion {
   self.collection.insert_many(
       toBsonArray(documents),
-      [completion](std::vector<wabi_realm::bson::Bson> insertedIds,
-                   std::optional<wabi_realm::app::AppError> error) {
+      [completion](std::vector<realm::bson::Bson> insertedIds,
+                   std::optional<realm::app::AppError> error) {
         if (error) {
           return completion(nil, makeError(*error));
         }
@@ -225,8 +225,8 @@ __attribute__((objc_direct_members))
                    completion:(RLMMongoFindBlock)completion {
   self.collection.aggregate(
       toBsonArray(pipeline),
-      [completion](std::optional<wabi_realm::bson::BsonArray> documents,
-                   std::optional<wabi_realm::app::AppError> error) {
+      [completion](std::optional<realm::bson::BsonArray> documents,
+                   std::optional<realm::app::AppError> error) {
         if (error) {
           return completion(nil, makeError(*error));
         }
@@ -240,7 +240,7 @@ __attribute__((objc_direct_members))
   self.collection.count(
       toBsonDocument(document), limit,
       [completion](uint64_t count,
-                   std::optional<wabi_realm::app::AppError> error) {
+                   std::optional<realm::app::AppError> error) {
         if (error) {
           return completion(0, makeError(*error));
         }
@@ -258,7 +258,7 @@ __attribute__((objc_direct_members))
   self.collection.delete_one(
       toBsonDocument(document),
       [completion](uint64_t count,
-                   std::optional<wabi_realm::app::AppError> error) {
+                   std::optional<realm::app::AppError> error) {
         if (error) {
           return completion(0, makeError(*error));
         }
@@ -272,7 +272,7 @@ __attribute__((objc_direct_members))
   self.collection.delete_many(
       toBsonDocument(document),
       [completion](uint64_t count,
-                   std::optional<wabi_realm::app::AppError> error) {
+                   std::optional<realm::app::AppError> error) {
         if (error) {
           return completion(0, makeError(*error));
         }
@@ -288,8 +288,8 @@ __attribute__((objc_direct_members))
                     completion:(RLMMongoUpdateBlock)completion {
   self.collection.update_one(
       toBsonDocument(filterDocument), toBsonDocument(updateDocument), upsert,
-      [completion](wabi_realm::app::MongoCollection::UpdateResult result,
-                   std::optional<wabi_realm::app::AppError> error) {
+      [completion](realm::app::MongoCollection::UpdateResult result,
+                   std::optional<realm::app::AppError> error) {
         if (error) {
           return completion(nil, makeError(*error));
         }
@@ -316,8 +316,8 @@ __attribute__((objc_direct_members))
                       completion:(RLMMongoUpdateBlock)completion {
   self.collection.update_many(
       toBsonDocument(filterDocument), toBsonDocument(updateDocument), upsert,
-      [completion](wabi_realm::app::MongoCollection::UpdateResult result,
-                   std::optional<wabi_realm::app::AppError> error) {
+      [completion](realm::app::MongoCollection::UpdateResult result,
+                   std::optional<realm::app::AppError> error) {
         if (error) {
           return completion(nil, makeError(*error));
         }
@@ -345,8 +345,8 @@ __attribute__((objc_direct_members))
   self.collection.find_one_and_update(
       toBsonDocument(filterDocument), toBsonDocument(updateDocument),
       [options _findOneAndModifyOptions],
-      [completion](std::optional<wabi_realm::bson::BsonDocument> document,
-                   std::optional<wabi_realm::app::AppError> error) {
+      [completion](std::optional<realm::bson::BsonDocument> document,
+                   std::optional<realm::app::AppError> error) {
         if (error) {
           return completion(nil, makeError(*error));
         }
@@ -376,8 +376,8 @@ __attribute__((objc_direct_members))
   self.collection.find_one_and_replace(
       toBsonDocument(filterDocument), toBsonDocument(replacementDocument),
       [options _findOneAndModifyOptions],
-      [completion](std::optional<wabi_realm::bson::BsonDocument> document,
-                   std::optional<wabi_realm::app::AppError> error) {
+      [completion](std::optional<realm::bson::BsonDocument> document,
+                   std::optional<realm::app::AppError> error) {
         if (error) {
           return completion(nil, makeError(*error));
         }
@@ -404,8 +404,8 @@ __attribute__((objc_direct_members))
                    completion:(RLMMongoDeleteBlock)completion {
   self.collection.find_one_and_delete(
       toBsonDocument(filterDocument), [options _findOneAndModifyOptions],
-      [completion](std::optional<wabi_realm::bson::BsonDocument> document,
-                   std::optional<wabi_realm::app::AppError> error) {
+      [completion](std::optional<realm::bson::BsonDocument> document,
+                   std::optional<realm::app::AppError> error) {
         if (error) {
           return completion(nil, makeError(*error));
         }
@@ -470,7 +470,7 @@ __attribute__((objc_direct_members))
                                  delegate:(id<RLMChangeEventDelegate>)delegate
                                 scheduler:
                                     (void (^)(dispatch_block_t))scheduler {
-  wabi_realm::bson::BsonDocument baseArgs = {
+  realm::bson::BsonDocument baseArgs = {
       {"database", self.databaseName.UTF8String},
       {"collection", self.name.UTF8String}};
 
@@ -480,7 +480,7 @@ __attribute__((objc_direct_members))
   if (idFilter) {
     baseArgs["ids"] = RLMConvertRLMBSONToBson(idFilter);
   }
-  auto args = wabi_realm::bson::BsonArray{baseArgs};
+  auto args = realm::bson::BsonArray{baseArgs};
   auto app = self.user.app._realmApp;
   auto request = app->make_streaming_request(
       app->current_user(), "watch", args,

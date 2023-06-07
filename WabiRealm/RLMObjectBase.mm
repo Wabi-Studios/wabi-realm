@@ -38,7 +38,7 @@
 #import <realm/object-store/object_schema.hpp>
 #import <realm/object-store/shared_realm.hpp>
 
-using namespace wabi_realm;
+using namespace realm;
 
 const NSUInteger RLMDescriptionMaxDepth = 5;
 
@@ -441,7 +441,7 @@ id RLMCreateManagedAccessor(Class cls, RLMClassInfo *info) {
 
 #pragma mark - Thread Confined Protocol Conformance
 
-- (wabi_realm::ThreadSafeReference)makeThreadSafeReference {
+- (realm::ThreadSafeReference)makeThreadSafeReference {
   return Object(_realm->_realm, *_info->objectSchema, _row);
 }
 
@@ -450,7 +450,7 @@ id RLMCreateManagedAccessor(Class cls, RLMClassInfo *info) {
 }
 
 + (instancetype)objectWithThreadSafeReference:
-                    (wabi_realm::ThreadSafeReference)reference
+                    (realm::ThreadSafeReference)reference
                                      metadata:(__unused id)metadata
                                         realm:(RLMRealm *)realm {
   Object object = reference.resolve<Object>(realm->_realm);
@@ -587,7 +587,7 @@ struct ObjectChangeCallbackWrapper {
   NSArray *oldValues = nil;
   bool deleted = false;
 
-  void populateProperties(wabi_realm::CollectionChangeSet const &c) {
+  void populateProperties(realm::CollectionChangeSet const &c) {
     if (propertyNames) {
       return;
     }
@@ -620,7 +620,7 @@ struct ObjectChangeCallbackWrapper {
     }
   }
 
-  NSArray *readValues(wabi_realm::CollectionChangeSet const &c) {
+  NSArray *readValues(realm::CollectionChangeSet const &c) {
     if (c.empty()) {
       return nil;
     }
@@ -641,13 +641,13 @@ struct ObjectChangeCallbackWrapper {
     return values;
   }
 
-  void before(wabi_realm::CollectionChangeSet const &c) {
+  void before(realm::CollectionChangeSet const &c) {
     @autoreleasepool {
       oldValues = readValues(c);
     }
   }
 
-  void after(wabi_realm::CollectionChangeSet const &c) {
+  void after(realm::CollectionChangeSet const &c) {
     @autoreleasepool {
       if (registrationCompletion) {
         registrationCompletion();
@@ -686,8 +686,8 @@ RLM_DIRECT_MEMBERS
 @implementation RLMObjectNotificationToken {
   RLMUnfairMutex _mutex;
   __unsafe_unretained RLMRealm *_realm;
-  wabi_realm::Object _object;
-  wabi_realm::NotificationToken _token;
+  realm::Object _object;
+  realm::NotificationToken _token;
   void (^_completion)(void);
   TokenState _state;
 }
@@ -744,7 +744,7 @@ RLM_DIRECT_MEMBERS
   RLMObjectBase *obj = [_realm resolveThreadSafeReference:tsr];
 
   _object =
-      wabi_realm::Object(_realm->_realm, *obj->_info->objectSchema, obj->_row);
+      realm::Object(_realm->_realm, *obj->_info->objectSchema, obj->_row);
   _token = _object.add_notification_callback(
       ObjectChangeCallbackWrapper{block, obj},
       obj->_info->keyPathArrayFromStringArray(keyPaths));
@@ -757,7 +757,7 @@ RLM_DIRECT_MEMBERS
   if (_state != TokenState::Initializing) {
     return;
   }
-  _object = wabi_realm::Object(obj->_realm->_realm, *obj->_info->objectSchema,
+  _object = realm::Object(obj->_realm->_realm, *obj->_info->objectSchema,
                                obj->_row);
   _realm = obj->_realm;
 

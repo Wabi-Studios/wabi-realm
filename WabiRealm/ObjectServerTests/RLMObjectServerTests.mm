@@ -712,7 +712,7 @@ static NSString *randomEmail() {
 
 - (void)testUserProfileInitialization {
   RLMUserProfile *profile = [[RLMUserProfile alloc]
-      initWithUserProfile:wabi_realm::SyncUserProfile()];
+      initWithUserProfile:realm::SyncUserProfile()];
   XCTAssertNil(profile.name);
   XCTAssertNil(profile.maxAge);
   XCTAssertNil(profile.minAge);
@@ -722,11 +722,11 @@ static NSString *randomEmail() {
   XCTAssertNil(profile.lastName);
   XCTAssertNil(profile.pictureURL);
 
-  auto metadata = wabi_realm::bson::BsonDocument({{"some_key", "some_value"}});
+  auto metadata = realm::bson::BsonDocument({{"some_key", "some_value"}});
 
   profile = [[RLMUserProfile alloc]
-      initWithUserProfile:wabi_realm::SyncUserProfile(
-                              wabi_realm::bson::BsonDocument(
+      initWithUserProfile:realm::SyncUserProfile(
+                              realm::bson::BsonDocument(
                                   {{"name", "Jane"},
                                    {"max_age", "40"},
                                    {"min_age", "30"},
@@ -1830,15 +1830,15 @@ static NSString *randomEmail() {
                                                      error:nil];
     XCTAssertEqual(0U, versioned->_realm->schema_version());
   }
-  std::shared_ptr<wabi_realm::WabiRealm> versioned =
-      wabi_realm::WabiRealm::get_shared_realm(configVersioned.config);
+  std::shared_ptr<realm::WabiRealm> versioned =
+      realm::WabiRealm::get_shared_realm(configVersioned.config);
 
   // Create a config that's not versioned.
   RLMRealmConfiguration *configUnversioned =
       [RLMRealmConfiguration defaultConfiguration];
   configUnversioned.configRef.schema_version = RLMNotVersioned;
-  std::shared_ptr<wabi_realm::WabiRealm> unversioned =
-      wabi_realm::WabiRealm::get_shared_realm(configUnversioned.config);
+  std::shared_ptr<realm::WabiRealm> unversioned =
+      realm::WabiRealm::get_shared_realm(configUnversioned.config);
 
   XCTAssertNotEqual(versioned->schema_version(), RLMNotVersioned);
   XCTAssertEqual(unversioned->schema_version(), RLMNotVersioned);
@@ -1868,10 +1868,10 @@ static NSString *randomEmail() {
   RLMRealmConfiguration *configUnversioned =
       [RLMRealmConfiguration defaultConfiguration];
   configUnversioned.configRef.schema_version = RLMNotVersioned;
-  std::shared_ptr<wabi_realm::WabiRealm> unversioned =
-      wabi_realm::WabiRealm::get_shared_realm(configUnversioned.config);
+  std::shared_ptr<realm::WabiRealm> unversioned =
+      realm::WabiRealm::get_shared_realm(configUnversioned.config);
 
-  auto unversionedTsr = wabi_realm::ThreadSafeReference(unversioned);
+  auto unversionedTsr = realm::ThreadSafeReference(unversioned);
   XCTAssertEqual(unversioned->schema_version(), RLMNotVersioned);
   afterWrapper(unversioned, std::move(unversionedTsr), false);
 
@@ -2287,7 +2287,7 @@ static const NSInteger NUMBER_OF_BIG_OBJECTS = 2;
                                                   error:nil][NSFileSize]
       unsignedLongLongValue];
   XCTAssertLessThan(finalSize, initialSize);
-  XCTAssertLessThanOrEqual(finalSize, usedSize + wabi_realm::util::page_size());
+  XCTAssertLessThanOrEqual(finalSize, usedSize + realm::util::page_size());
 }
 
 - (void)testWriteCopy {
@@ -3426,7 +3426,7 @@ static NSString *newPathForPartitionValue(RLMUser *user,
   s << RLMConvertRLMBSONToBson(partitionValue);
   // Intentionally not passing the correct partition value here as we
   // (accidentally?) don't use the filename generated from the partition value
-  wabi_realm::SyncConfig config(user._syncUser, "null");
+  realm::SyncConfig config(user._syncUser, "null");
   return @(
       user._syncUser->sync_manager()->path_for_realm(config, s.str()).c_str());
 }
@@ -3461,7 +3461,7 @@ static NSString *newPathForPartitionValue(RLMUser *user,
 }
 
 static NSString *oldPathForPartitionValue(RLMUser *user, NSString *oldName) {
-  wabi_realm::SyncConfig config(user._syncUser, "null");
+  realm::SyncConfig config(user._syncUser, "null");
   return [NSString
       stringWithFormat:@"%@/%s%@.realm",
                        [@(user._syncUser->sync_manager()

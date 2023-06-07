@@ -22,13 +22,13 @@
 
 #import "RLMResults_Private.hpp"
 
-namespace wabi_realm {
+namespace realm {
 class SetBase;
 class CollectionBase;
 namespace object_store {
 class Set;
 }
-} // namespace wabi_realm
+} // namespace realm
 
 @class RLMObjectBase, RLMObjectSchema, RLMProperty;
 class RLMClassInfo;
@@ -49,11 +49,11 @@ class RLMObservationInfo;
 @interface RLMManagedSet () <RLMCollectionPrivate>
 
 - (RLMManagedSet *)
-    initWithBackingCollection:(wabi_realm::object_store::Set)set
+    initWithBackingCollection:(realm::object_store::Set)set
                    parentInfo:(RLMClassInfo *)parentInfo
                      property:(__unsafe_unretained RLMProperty *const)property;
 
-- (bool)isBackedBySet:(wabi_realm::object_store::Set const &)set;
+- (bool)isBackedBySet:(realm::object_store::Set const &)set;
 
 // deletes all objects in the RLMSet from their containing realms
 - (void)deleteObjectsFromRealm;

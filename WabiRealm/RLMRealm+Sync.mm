@@ -29,7 +29,7 @@
 #import <realm/object-store/results.hpp>
 #import <realm/object-store/shared_realm.hpp>
 
-using namespace wabi_realm;
+using namespace realm;
 
 @implementation RLMRealm (Sync)
 

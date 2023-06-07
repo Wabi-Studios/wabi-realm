@@ -538,7 +538,7 @@ changeDictionary(__unsafe_unretained RLMDictionary *const dictionary,
 
 #pragma mark - Thread Confined Protocol Conformance
 
-- (wabi_realm::ThreadSafeReference)makeThreadSafeReference {
+- (realm::ThreadSafeReference)makeThreadSafeReference {
   REALM_TERMINATE("Unexpected handover of unmanaged `RLMDictionary`");
 }
 
@@ -547,7 +547,7 @@ changeDictionary(__unsafe_unretained RLMDictionary *const dictionary,
 }
 
 + (instancetype)objectWithThreadSafeReference:
-                    (wabi_realm::ThreadSafeReference)reference
+                    (realm::ThreadSafeReference)reference
                                      metadata:(id)metadata
                                         realm:(RLMRealm *)realm {
   REALM_TERMINATE("Unexpected handover of unmanaged `RLMDictionary`");

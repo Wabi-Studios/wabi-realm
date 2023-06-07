@@ -29,7 +29,7 @@
 #import <realm/object-store/sync/app.hpp>
 #import <realm/object-store/sync/sync_session.hpp>
 
-using namespace wabi_realm;
+using namespace realm;
 
 @interface RLMSyncErrorActionToken () {
 @public

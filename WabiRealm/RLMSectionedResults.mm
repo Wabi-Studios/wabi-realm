@@ -32,7 +32,7 @@ struct CollectionCallbackWrapper {
   id collection;
   bool ignoreChangesInInitialNotification = true;
 
-  void operator()(wabi_realm::SectionedResultsChangeSet const &changes) {
+  void operator()(realm::SectionedResultsChangeSet const &changes) {
     if (ignoreChangesInInitialNotification) {
       ignoreChangesInInitialNotification = false;
       return block(collection, nil);
@@ -51,10 +51,10 @@ __attribute__((always_inline)) auto translateErrors(Function &&f) {
 } // anonymous namespace
 
 @implementation RLMSectionedResultsChange {
-  wabi_realm::SectionedResultsChangeSet _indices;
+  realm::SectionedResultsChangeSet _indices;
 }
 
-- (instancetype)initWithChanges:(wabi_realm::SectionedResultsChangeSet)indices {
+- (instancetype)initWithChanges:(realm::SectionedResultsChangeSet)indices {
   self = [super init];
   if (self) {
     _indices = std::move(indices);
@@ -63,7 +63,7 @@ __attribute__((always_inline)) auto translateErrors(Function &&f) {
 }
 
 - (NSArray<NSIndexPath *> *)indexesFromVector:
-    (std::vector<wabi_realm::IndexSet> const &)indexMap {
+    (std::vector<realm::IndexSet> const &)indexMap {
   NSMutableArray<NSIndexPath *> *a = [NSMutableArray new];
   for (size_t i = 0; i < indexMap.size(); ++i) {
     NSUInteger path[2] = {i, 0};
@@ -153,10 +153,10 @@ struct SectionedResultsKeyProjection {
   RLMClassInfo *_info;
   RLMSectionedResultsKeyBlock _block;
 
-  wabi_realm::Mixed operator()(wabi_realm::Mixed obj, wabi_realm::SharedRealm) {
+  realm::Mixed operator()(realm::Mixed obj, realm::SharedRealm) {
     RLMAccessorContext context(*_info);
     id value = _block(context.box(obj));
-    return context.unbox<wabi_realm::Mixed>(value);
+    return context.unbox<realm::Mixed>(value);
   }
 };
 
@@ -254,18 +254,18 @@ NSUInteger RLMFastEnumerate(NSFastEnumerationState *state, NSUInteger len,
 
 @implementation RLMSectionedResults {
 @public
-  wabi_realm::SectionedResults _sectionedResults;
+  realm::SectionedResults _sectionedResults;
   RLMSectionedResultsKeyBlock _keyBlock;
   // We need to hold an instance to the parent
   // `Results` so we can obtain a ThreadSafeReference
   // for notifications.
-  wabi_realm::Results _results;
+  realm::Results _results;
 @private
   RLMRealm *_realm;
   RLMClassInfo *_info;
 }
 
-- (instancetype)initWithResults:(wabi_realm::Results &&)results
+- (instancetype)initWithResults:(realm::Results &&)results
                           realm:(RLMRealm *)realm
                      objectInfo:(RLMClassInfo &)objectInfo
                        keyBlock:(RLMSectionedResultsKeyBlock)keyBlock {
@@ -281,7 +281,7 @@ NSUInteger RLMFastEnumerate(NSFastEnumerationState *state, NSUInteger len,
 }
 
 - (instancetype)initWithSectionedResults:
-                    (wabi_realm::SectionedResults &&)sectionedResults
+                    (realm::SectionedResults &&)sectionedResults
                               objectInfo:(RLMClassInfo &)objectInfo
                                 keyBlock:(RLMSectionedResultsKeyBlock)keyBlock {
   if (self = [super init]) {
@@ -378,11 +378,11 @@ NSUInteger RLMFastEnumerate(NSFastEnumerationState *state, NSUInteger len,
 }
 #pragma clang diagnostic pop
 
-- (wabi_realm::NotificationToken)
+- (realm::NotificationToken)
     addNotificationCallback:(id)block
                    keyPaths:
                        (std::optional<std::vector<std::vector<std::pair<
-                            wabi_realm::TableKey, wabi_realm::ColKey>>>> &&)
+                            realm::TableKey, realm::ColKey>>>> &&)
                            keyPaths {
   return _sectionedResults.add_notification_callback(
       CollectionCallbackWrapper{block, self}, std::move(keyPaths));
@@ -427,7 +427,7 @@ NSUInteger RLMFastEnumerate(NSFastEnumerationState *state, NSUInteger len,
 
 #pragma mark - Thread Confined Protocol Conformance
 
-- (wabi_realm::ThreadSafeReference)makeThreadSafeReference {
+- (realm::ThreadSafeReference)makeThreadSafeReference {
   return _results;
 }
 
@@ -436,10 +436,10 @@ NSUInteger RLMFastEnumerate(NSFastEnumerationState *state, NSUInteger len,
 }
 
 + (instancetype)objectWithThreadSafeReference:
-                    (wabi_realm::ThreadSafeReference)reference
+                    (realm::ThreadSafeReference)reference
                                      metadata:(id)metadata
                                         realm:(RLMRealm *)realm {
-  auto results = reference.resolve<wabi_realm::Results>(realm->_realm);
+  auto results = reference.resolve<realm::Results>(realm->_realm);
   auto objType = RLMStringDataToNSString(results.get_object_type());
   return [[RLMSectionedResults alloc]
       initWithResults:std::move(results)
@@ -527,7 +527,7 @@ NSUInteger RLMFastEnumerate(NSFastEnumerationState *state, NSUInteger len,
 
 @implementation RLMSection {
   RLMSectionedResults *_parent;
-  wabi_realm::ResultsSection _resultsSection;
+  realm::ResultsSection _resultsSection;
 }
 
 - (NSString *)description {
@@ -559,7 +559,7 @@ NSUInteger RLMFastEnumerate(NSFastEnumerationState *state, NSUInteger len,
 }
 
 - (instancetype)initWithResultsSection:
-                    (wabi_realm::ResultsSection &&)resultsSection
+                    (realm::ResultsSection &&)resultsSection
                                 parent:(RLMSectionedResults *)parent {
   if (self = [super init]) {
     _resultsSection = std::move(resultsSection);
@@ -645,11 +645,11 @@ NSUInteger RLMFastEnumerate(NSFastEnumerationState *state, NSUInteger len,
 }
 #pragma clang diagnostic pop
 
-- (wabi_realm::NotificationToken)
+- (realm::NotificationToken)
     addNotificationCallback:(id)block
                    keyPaths:
                        (std::optional<std::vector<std::vector<std::pair<
-                            wabi_realm::TableKey, wabi_realm::ColKey>>>> &&)
+                            realm::TableKey, realm::ColKey>>>> &&)
                            keyPaths {
   return _resultsSection.add_notification_callback(
       CollectionCallbackWrapper{block, self}, std::move(keyPaths));
@@ -657,7 +657,7 @@ NSUInteger RLMFastEnumerate(NSFastEnumerationState *state, NSUInteger len,
 
 #pragma mark - Thread Confined Protocol Conformance
 
-- (wabi_realm::ThreadSafeReference)makeThreadSafeReference {
+- (realm::ThreadSafeReference)makeThreadSafeReference {
   return _parent->_results;
 }
 
@@ -667,10 +667,10 @@ NSUInteger RLMFastEnumerate(NSFastEnumerationState *state, NSUInteger len,
 }
 
 + (instancetype)objectWithThreadSafeReference:
-                    (wabi_realm::ThreadSafeReference)reference
+                    (realm::ThreadSafeReference)reference
                                      metadata:(RLMSectionMetadata *)metadata
                                         realm:(RLMRealm *)realm {
-  auto results = reference.resolve<wabi_realm::Results>(realm->_realm);
+  auto results = reference.resolve<realm::Results>(realm->_realm);
   auto objType = RLMStringDataToNSString(results.get_object_type());
 
   RLMSectionedResults *sr =

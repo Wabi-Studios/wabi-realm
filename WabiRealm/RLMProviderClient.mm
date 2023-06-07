@@ -32,9 +32,9 @@
   return self;
 }
 
-wabi_realm::util::UniqueFunction<void(std::optional<wabi_realm::app::AppError>)>
+realm::util::UniqueFunction<void(std::optional<realm::app::AppError>)>
 RLMWrapCompletion(RLMProviderClientOptionalErrorBlock completion) {
-  return [completion](std::optional<wabi_realm::app::AppError> error) {
+  return [completion](std::optional<realm::app::AppError> error) {
     if (error) {
       return completion(makeError(*error));
     }

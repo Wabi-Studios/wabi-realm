@@ -20,7 +20,7 @@
 
 #ifdef __cplusplus
 #include <memory>
-namespace wabi_realm::util {
+namespace realm::util {
 class Scheduler;
 }
 #endif
@@ -55,7 +55,7 @@ RLM_SWIFT_SENDABLE // is immutable
 
 #ifdef __cplusplus
 // The object store Scheduler corresponding to this scheduler
-- (std::shared_ptr<wabi_realm::util::Scheduler>)osScheduler;
+- (std::shared_ptr<realm::util::Scheduler>)osScheduler;
 #endif
 @end
 

@@ -111,7 +111,7 @@ RLMRealm *RLMGetFrozenRealmForSourceRealm(
 }
 
 namespace {
-void advance_to_ready(wabi_realm::WabiRealm &realm) {
+void advance_to_ready(realm::WabiRealm &realm) {
   if (!realm.auto_refresh()) {
     realm.set_auto_refresh(true);
     realm.notify();
@@ -119,7 +119,7 @@ void advance_to_ready(wabi_realm::WabiRealm &realm) {
   }
 }
 
-class RLMNotificationHelper : public wabi_realm::BindingContext {
+class RLMNotificationHelper : public realm::BindingContext {
 public:
   RLMNotificationHelper(RLMRealm *realm) : _realm(realm) {}
 
@@ -213,7 +213,7 @@ public:
     _beforeNotify.push_back(block);
   }
 
-  void wait_for_refresh(wabi_realm::DB::version_type version,
+  void wait_for_refresh(realm::DB::version_type version,
                         RLMAsyncRefreshCompletion completion) {
     _refreshHandlers.emplace_back(version, completion);
   }
@@ -223,14 +223,14 @@ private:
   __weak RLMRealm *const _realm;
   std::vector<dispatch_block_t> _beforeNotify;
   std::vector<
-      std::pair<wabi_realm::DB::version_type, RLMAsyncRefreshCompletion>>
+      std::pair<realm::DB::version_type, RLMAsyncRefreshCompletion>>
       _refreshHandlers;
 };
 } // anonymous namespace
 
-std::unique_ptr<wabi_realm::BindingContext>
+std::unique_ptr<realm::BindingContext>
 RLMCreateBindingContext(__unsafe_unretained RLMRealm *const realm) {
-  return std::unique_ptr<wabi_realm::BindingContext>(
+  return std::unique_ptr<realm::BindingContext>(
       new RLMNotificationHelper(realm));
 }
 
@@ -240,7 +240,7 @@ void RLMAddBeforeNotifyBlock(RLMRealm *realm, dispatch_block_t block) {
 }
 
 @implementation RLMPinnedRealm {
-  wabi_realm::TransactionRef _pin;
+  realm::TransactionRef _pin;
 }
 
 - (instancetype)initWithRealm:(RLMRealm *)realm {
@@ -290,6 +290,6 @@ RLMAsyncRefreshTask *RLMRealmRefreshAsync(RLMRealm *rlmRealm) {
 }
 
 void RLMRunAsyncNotifiers(NSString *path) {
-  wabi_realm::_impl::RealmCoordinator::get_existing_coordinator(path.UTF8String)
+  realm::_impl::RealmCoordinator::get_existing_coordinator(path.UTF8String)
       ->on_change();
 }

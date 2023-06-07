@@ -266,8 +266,8 @@
   do {                                                                         \
     NSData *oldData = [NSData dataWithContentsOfURL:oldURL];                   \
     NSData *newData = [NSData dataWithContentsOfURL:newURL];                   \
-    if (oldData.length < wabi_realm::util::page_size()) {                      \
-      XCTAssertEqual(newData.length, wabi_realm::util::page_size());           \
+    if (oldData.length < realm::util::page_size()) {                      \
+      XCTAssertEqual(newData.length, realm::util::page_size());           \
       XCTAssertEqualObjects(oldData,                                           \
                             ([newData subdataWithRange:{0, oldData.length}])); \
     } else                                                                     \
@@ -3060,8 +3060,8 @@
                             error:nil];
 
   // Ensure that it doesn't try to fall back to putting it in the temp directory
-  auto oldTempDir = wabi_realm::DBOptions::get_sys_tmp_dir();
-  wabi_realm::DBOptions::set_sys_tmp_dir("");
+  auto oldTempDir = realm::DBOptions::get_sys_tmp_dir();
+  realm::DBOptions::set_sys_tmp_dir("");
 
   NSError *error;
   XCTAssertNil([RLMRealm realmWithConfiguration:configuration error:&error],
@@ -3071,7 +3071,7 @@
                         @"already exists at that path.",
                         [testURL.path stringByAppendingString:@".note"]);
 
-  wabi_realm::DBOptions::set_sys_tmp_dir(std::move(oldTempDir));
+  realm::DBOptions::set_sys_tmp_dir(std::move(oldTempDir));
 }
 #endif
 

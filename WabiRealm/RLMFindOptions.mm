@@ -21,7 +21,7 @@
 #import "RLMFindOptions_Private.hpp"
 
 @interface RLMFindOptions () {
-  wabi_realm::app::MongoCollection::FindOptions _options;
+  realm::app::MongoCollection::FindOptions _options;
 };
 @end
 
@@ -67,7 +67,7 @@
   return self;
 }
 
-- (wabi_realm::app::MongoCollection::FindOptions)_findOptions {
+- (realm::app::MongoCollection::FindOptions)_findOptions {
   return _options;
 }
 
@@ -86,20 +86,20 @@
 - (void)setProjection:(id<RLMBSON>)projection {
   if (projection) {
     auto bson =
-        wabi_realm::bson::BsonDocument(RLMConvertRLMBSONToBson(projection));
+        realm::bson::BsonDocument(RLMConvertRLMBSONToBson(projection));
     _options.projection_bson =
-        std::optional<wabi_realm::bson::BsonDocument>(bson);
+        std::optional<realm::bson::BsonDocument>(bson);
   } else {
-    _options.projection_bson = wabi_realm::util::none;
+    _options.projection_bson = realm::util::none;
   }
 }
 
 - (void)setSort:(id<RLMBSON>)sort {
   if (sort) {
-    auto bson = wabi_realm::bson::BsonDocument(RLMConvertRLMBSONToBson(sort));
-    _options.sort_bson = std::optional<wabi_realm::bson::BsonDocument>(bson);
+    auto bson = realm::bson::BsonDocument(RLMConvertRLMBSONToBson(sort));
+    _options.sort_bson = std::optional<realm::bson::BsonDocument>(bson);
   } else {
-    _options.sort_bson = wabi_realm::util::none;
+    _options.sort_bson = realm::util::none;
   }
 }
 

@@ -19,17 +19,17 @@
 #import <WabiRealm/RLMBSON.h>
 #import <realm/util/optional.hpp>
 
-namespace wabi_realm::bson {
+namespace realm::bson {
 class Bson;
 template <typename> class IndexedMap;
 using BsonDocument = IndexedMap<Bson>;
-} // namespace wabi_realm::bson
+} // namespace realm::bson
 
-wabi_realm::bson::Bson RLMConvertRLMBSONToBson(id<RLMBSON> b);
-wabi_realm::bson::BsonDocument
+realm::bson::Bson RLMConvertRLMBSONToBson(id<RLMBSON> b);
+realm::bson::BsonDocument
 RLMConvertRLMBSONArrayToBsonDocument(NSArray<id<RLMBSON>> *array);
-id<RLMBSON> RLMConvertBsonToRLMBSON(const wabi_realm::bson::Bson &b);
+id<RLMBSON> RLMConvertBsonToRLMBSON(const realm::bson::Bson &b);
 id<RLMBSON> RLMConvertBsonDocumentToRLMBSON(
-    std::optional<wabi_realm::bson::BsonDocument> b);
+    std::optional<realm::bson::BsonDocument> b);
 NSArray<id<RLMBSON>> *RLMConvertBsonDocumentToRLMBSONArray(
-    std::optional<wabi_realm::bson::BsonDocument> b);
+    std::optional<realm::bson::BsonDocument> b);

@@ -27,7 +27,7 @@
 
 RLM_HEADER_AUDIT_BEGIN(nullability, sendability)
 
-class CocoaSyncUserContext : public wabi_realm::SyncUserContext {
+class CocoaSyncUserContext : public realm::SyncUserContext {
 public:
 private:
   /**
@@ -43,18 +43,18 @@ private:
 };
 
 @interface RLMUser ()
-- (instancetype)initWithUser:(std::shared_ptr<wabi_realm::SyncUser>)user
+- (instancetype)initWithUser:(std::shared_ptr<realm::SyncUser>)user
                          app:(RLMApp *)app;
 - (std::string)pathForPartitionValue:(std::string const &)partitionValue;
 - (std::string)pathForFlexibleSync;
-- (std::shared_ptr<wabi_realm::SyncUser>)_syncUser;
+- (std::shared_ptr<realm::SyncUser>)_syncUser;
 + (void)_setUpBindingContextFactory;
 @property(weak, readonly) RLMApp *app;
 
 @end
 
 @interface RLMUserProfile ()
-- (instancetype)initWithUserProfile:(wabi_realm::SyncUserProfile)userProfile;
+- (instancetype)initWithUserProfile:(realm::SyncUserProfile)userProfile;
 @end
 
 RLM_HEADER_AUDIT_END(nullability, sendability)

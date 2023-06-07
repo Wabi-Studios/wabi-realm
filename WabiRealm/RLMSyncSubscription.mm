@@ -31,7 +31,7 @@
 #pragma mark - Subscription
 
 @interface RLMSyncSubscription () {
-  std::unique_ptr<wabi_realm::sync::Subscription> _subscription;
+  std::unique_ptr<realm::sync::Subscription> _subscription;
   RLMSyncSubscriptionSet *_subscriptionSet;
 }
 @end
@@ -39,11 +39,11 @@
 @implementation RLMSyncSubscription
 
 - (instancetype)initWithSubscription:
-                    (wabi_realm::sync::Subscription)subscription
+                    (realm::sync::Subscription)subscription
                      subscriptionSet:(RLMSyncSubscriptionSet *)subscriptionSet {
   if (self = [super init]) {
     _subscription =
-        std::make_unique<wabi_realm::sync::Subscription>(subscription);
+        std::make_unique<realm::sync::Subscription>(subscription);
     _subscriptionSet = subscriptionSet;
     return self;
   }
@@ -116,8 +116,8 @@
 #pragma mark - SubscriptionSet
 
 @interface RLMSyncSubscriptionSet () {
-  std::unique_ptr<wabi_realm::sync::SubscriptionSet> _subscriptionSet;
-  std::unique_ptr<wabi_realm::sync::MutableSubscriptionSet>
+  std::unique_ptr<realm::sync::SubscriptionSet> _subscriptionSet;
+  std::unique_ptr<realm::sync::MutableSubscriptionSet>
       _mutableSubscriptionSet;
   NSHashTable<RLMSyncSubscriptionEnumerator *> *_enumerators;
 }
@@ -193,11 +193,11 @@ NSUInteger RLMFastEnumerate(NSFastEnumerationState *state, NSUInteger len,
 }
 
 - (instancetype)initWithSubscriptionSet:
-                    (wabi_realm::sync::SubscriptionSet)subscriptionSet
+                    (realm::sync::SubscriptionSet)subscriptionSet
                                   realm:(RLMRealm *)realm {
   if (self = [super init]) {
     _subscriptionSet =
-        std::make_unique<wabi_realm::sync::SubscriptionSet>(subscriptionSet);
+        std::make_unique<realm::sync::SubscriptionSet>(subscriptionSet);
     _realm = realm;
     return self;
   }
@@ -228,16 +228,16 @@ NSUInteger RLMFastEnumerate(NSFastEnumerationState *state, NSUInteger len,
 - (RLMSyncSubscriptionState)state {
   _subscriptionSet->refresh();
   switch (_subscriptionSet->state()) {
-  case wabi_realm::sync::SubscriptionSet::State::Uncommitted:
-  case wabi_realm::sync::SubscriptionSet::State::Pending:
-  case wabi_realm::sync::SubscriptionSet::State::Bootstrapping:
-  case wabi_realm::sync::SubscriptionSet::State::AwaitingMark:
+  case realm::sync::SubscriptionSet::State::Uncommitted:
+  case realm::sync::SubscriptionSet::State::Pending:
+  case realm::sync::SubscriptionSet::State::Bootstrapping:
+  case realm::sync::SubscriptionSet::State::AwaitingMark:
     return RLMSyncSubscriptionStatePending;
-  case wabi_realm::sync::SubscriptionSet::State::Complete:
+  case realm::sync::SubscriptionSet::State::Complete:
     return RLMSyncSubscriptionStateComplete;
-  case wabi_realm::sync::SubscriptionSet::State::Error:
+  case realm::sync::SubscriptionSet::State::Error:
     return RLMSyncSubscriptionStateError;
-  case wabi_realm::sync::SubscriptionSet::State::Superseded:
+  case realm::sync::SubscriptionSet::State::Superseded:
     return RLMSyncSubscriptionStateSuperseded;
   }
 }
@@ -255,9 +255,9 @@ NSUInteger RLMFastEnumerate(NSFastEnumerationState *state, NSUInteger len,
                         @"set that is already being updated.");
   }
   _mutableSubscriptionSet =
-      std::make_unique<wabi_realm::sync::MutableSubscriptionSet>(
+      std::make_unique<realm::sync::MutableSubscriptionSet>(
           _subscriptionSet->make_mutable_copy());
-  wabi_realm::util::ScopeExit cleanup([&]() noexcept {
+  realm::util::ScopeExit cleanup([&]() noexcept {
     if (_mutableSubscriptionSet) {
       _mutableSubscriptionSet = nullptr;
       _subscriptionSet->refresh();
@@ -267,10 +267,10 @@ NSUInteger RLMFastEnumerate(NSFastEnumerationState *state, NSUInteger len,
   block();
 
   try {
-    _subscriptionSet = std::make_unique<wabi_realm::sync::SubscriptionSet>(
+    _subscriptionSet = std::make_unique<realm::sync::SubscriptionSet>(
         std::move(*_mutableSubscriptionSet).commit());
     _mutableSubscriptionSet = nullptr;
-  } catch (wabi_realm::Exception const &ex) {
+  } catch (realm::Exception const &ex) {
     @throw RLMException(ex);
   } catch (std::exception const &ex) {
     @throw RLMException(ex);
@@ -285,10 +285,10 @@ NSUInteger RLMFastEnumerate(NSFastEnumerationState *state, NSUInteger len,
                       completionBlock:(void (^)(NSError *))completionBlock {
   _subscriptionSet
       ->get_state_change_notification(
-          wabi_realm::sync::SubscriptionSet::State::Complete)
+          realm::sync::SubscriptionSet::State::Complete)
       .get_async(
           [completionBlock, queue](
-              wabi_realm::StatusWith<wabi_realm::sync::SubscriptionSet::State>
+              realm::StatusWith<realm::sync::SubscriptionSet::State>
                   state) noexcept {
             if (queue) {
               return dispatch_async(queue, ^{

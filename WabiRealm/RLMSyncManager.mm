@@ -34,11 +34,11 @@
 
 #include <os/lock.h>
 
-using namespace wabi_realm;
+using namespace realm;
 
 // NEXT-MAJOR: All the code associated to the logger from sync manager should be
 // removed.
-using Level = wabi_realm::util::Logger::Level;
+using Level = realm::util::Logger::Level;
 
 namespace {
 #pragma clang diagnostic push
@@ -94,20 +94,20 @@ RLMSyncLogLevel logLevelForLevel(Level logLevel) {
 
 #pragma mark - Loggers
 
-struct CocoaSyncLogger : public wabi_realm::util::Logger {
+struct CocoaSyncLogger : public realm::util::Logger {
   void do_log(Level, const std::string &message) override {
     NSLog(@"Sync: %@", RLMStringDataToNSString(message));
   }
 };
 
-static std::unique_ptr<wabi_realm::util::Logger>
-defaultSyncLogger(wabi_realm::util::Logger::Level level) {
+static std::unique_ptr<realm::util::Logger>
+defaultSyncLogger(realm::util::Logger::Level level) {
   auto logger = std::make_unique<CocoaSyncLogger>();
   logger->set_level_threshold(level);
   return std::move(logger);
 }
 
-struct CallbackLogger : public wabi_realm::util::Logger {
+struct CallbackLogger : public realm::util::Logger {
   RLMSyncLogFunction logFn;
   void do_log(Level level, const std::string &message) override {
     @autoreleasepool {
@@ -118,7 +118,7 @@ struct CallbackLogger : public wabi_realm::util::Logger {
 
 } // anonymous namespace
 
-std::shared_ptr<wabi_realm::util::Logger>
+std::shared_ptr<realm::util::Logger>
 RLMWrapLogFunction(RLMSyncLogFunction fn) {
   auto logger = std::make_shared<CallbackLogger>();
   logger->logFn = fn;
@@ -130,9 +130,9 @@ RLMWrapLogFunction(RLMSyncLogFunction fn) {
 
 @interface RLMSyncTimeoutOptions () {
 @public
-  wabi_realm::SyncClientTimeouts _options;
+  realm::SyncClientTimeouts _options;
 }
-- (instancetype)initWithOptions:(wabi_realm::SyncClientTimeouts)options;
+- (instancetype)initWithOptions:(realm::SyncClientTimeouts)options;
 @end
 
 @implementation RLMSyncManager {
@@ -143,7 +143,7 @@ RLMWrapLogFunction(RLMSyncLogFunction fn) {
 }
 
 - (instancetype)initWithSyncManager:
-    (std::shared_ptr<wabi_realm::SyncManager>)syncManager {
+    (std::shared_ptr<realm::SyncManager>)syncManager {
   if (self = [super init]) {
     [RLMUser _setUpBindingContextFactory];
     _syncManager = syncManager;
@@ -180,7 +180,7 @@ RLMWrapLogFunction(RLMSyncLogFunction fn) {
   return config;
 }
 
-- (std::weak_ptr<wabi_realm::app::App>)app {
+- (std::weak_ptr<realm::app::App>)app {
   return _syncManager->app();
 }
 
@@ -221,7 +221,7 @@ RLMWrapLogFunction(RLMSyncLogFunction fn) {
   }
   if (logFn) {
     _syncManager->set_logger_factory(
-        [logFn](wabi_realm::util::Logger::Level level) {
+        [logFn](realm::util::Logger::Level level) {
           auto logger = std::make_unique<CallbackLogger>();
           logger->logFn = logFn;
           logger->set_level_threshold(level);
@@ -269,7 +269,7 @@ RLMWrapLogFunction(RLMSyncLogFunction fn) {
   _syncManager->reset_for_testing();
 }
 
-- (std::shared_ptr<wabi_realm::SyncManager>)syncManager {
+- (std::shared_ptr<realm::SyncManager>)syncManager {
   return _syncManager;
 }
 
@@ -277,7 +277,7 @@ RLMWrapLogFunction(RLMSyncLogFunction fn) {
   _syncManager->wait_for_sessions_to_terminate();
 }
 
-- (void)populateConfig:(wabi_realm::SyncConfig &)config {
+- (void)populateConfig:(realm::SyncConfig &)config {
   @synchronized(self) {
     if (_authorizationHeaderName) {
       config.authorization_header_name.emplace(
@@ -294,7 +294,7 @@ RLMWrapLogFunction(RLMSyncLogFunction fn) {
 #pragma mark - RLMSyncTimeoutOptions
 
 @implementation RLMSyncTimeoutOptions
-- (instancetype)initWithOptions:(wabi_realm::SyncClientTimeouts)options {
+- (instancetype)initWithOptions:(realm::SyncClientTimeouts)options {
   if (self = [super init]) {
     _options = options;
   }

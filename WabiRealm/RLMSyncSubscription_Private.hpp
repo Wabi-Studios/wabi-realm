@@ -18,17 +18,17 @@
 
 #import "RLMSyncSubscription_Private.h"
 
-namespace wabi_realm::sync {
+namespace realm::sync {
 class Subscription;
 class SubscriptionSet;
-} // namespace wabi_realm::sync
+} // namespace realm::sync
 
 RLM_HEADER_AUDIT_BEGIN(nullability, sendability)
 
 @interface RLMSyncSubscription ()
 
 - (instancetype)initWithSubscription:
-                    (wabi_realm::sync::Subscription)subscription
+                    (realm::sync::Subscription)subscription
                      subscriptionSet:(RLMSyncSubscriptionSet *)subscriptionSet;
 
 @end
@@ -36,7 +36,7 @@ RLM_HEADER_AUDIT_BEGIN(nullability, sendability)
 @interface RLMSyncSubscriptionSet ()
 
 - (instancetype)initWithSubscriptionSet:
-                    (wabi_realm::sync::SubscriptionSet)subscriptionSet
+                    (realm::sync::SubscriptionSet)subscriptionSet
                                   realm:(RLMRealm *)realm;
 
 @end

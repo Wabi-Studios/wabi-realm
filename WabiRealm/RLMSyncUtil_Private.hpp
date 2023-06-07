@@ -22,16 +22,16 @@
 
 class CocoaSyncUserContext;
 
-wabi_realm::SyncSessionStopPolicy
+realm::SyncSessionStopPolicy
 translateStopPolicy(RLMSyncStopPolicy stopPolicy);
 RLMSyncStopPolicy
-translateStopPolicy(wabi_realm::SyncSessionStopPolicy stop_policy);
+translateStopPolicy(realm::SyncSessionStopPolicy stop_policy);
 
 typedef NS_ENUM(NSUInteger, RLMClientResetMode);
-RLMClientResetMode translateClientResetMode(wabi_realm::ClientResyncMode mode);
-wabi_realm::ClientResyncMode translateClientResetMode(RLMClientResetMode mode);
+RLMClientResetMode translateClientResetMode(realm::ClientResyncMode mode);
+realm::ClientResyncMode translateClientResetMode(RLMClientResetMode mode);
 
 #pragma mark - Get user context
 
 CocoaSyncUserContext &
-context_for(const std::shared_ptr<wabi_realm::SyncUser> &user);
+context_for(const std::shared_ptr<realm::SyncUser> &user);

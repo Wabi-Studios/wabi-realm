@@ -33,7 +33,7 @@
 #import <realm/object-store/sync/sync_user.hpp>
 #import <realm/object-store/util/bson/bson.hpp>
 
-using namespace wabi_realm;
+using namespace realm;
 
 @interface RLMUser () {
   std::shared_ptr<SyncUser> _user;
@@ -42,12 +42,12 @@ using namespace wabi_realm;
 
 @implementation RLMUserSubscriptionToken {
   std::shared_ptr<SyncUser> _user;
-  std::optional<wabi_realm::Subscribable<SyncUser>::Token> _token;
+  std::optional<realm::Subscribable<SyncUser>::Token> _token;
 }
 
 - (instancetype)initWithUser:(std::shared_ptr<SyncUser>)user
                        token:
-                           (wabi_realm::Subscribable<SyncUser>::Token &&)token {
+                           (realm::Subscribable<SyncUser>::Token &&)token {
   if (self = [super init]) {
     _user = std::move(user);
     _token = std::move(token);
@@ -274,7 +274,7 @@ using namespace wabi_realm;
   }
 
   SyncConfig config(_user, SyncConfig::FLXSyncEnabled{});
-  return _user->sync_manager()->path_for_realm(config, wabi_realm::none);
+  return _user->sync_manager()->path_for_realm(config, realm::none);
 }
 
 - (nullable RLMSyncSession *)sessionForPartitionValue:
@@ -414,7 +414,7 @@ using namespace wabi_realm;
       });
 }
 
-- (void)handleResponse:(std::optional<wabi_realm::app::AppError>)error
+- (void)handleResponse:(std::optional<realm::app::AppError>)error
             completion:(RLMOptionalErrorBlock)completion {
   if (error) {
     return completion(makeError(*error));

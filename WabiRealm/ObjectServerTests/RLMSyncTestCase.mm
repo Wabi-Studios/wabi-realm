@@ -59,7 +59,7 @@
 @end
 
 @interface RLMUser ()
-- (std::shared_ptr<wabi_realm::SyncUser>)_syncUser;
+- (std::shared_ptr<realm::SyncUser>)_syncUser;
 @end
 
 @interface TestNetworkTransport : RLMNetworkTransport
@@ -924,7 +924,7 @@ static NSURL *syncDirectoryForChildProcess() {
 @end
 
 int64_t RLMGetClientFileIdent(RLMRealm *realm) {
-  return wabi_realm::SyncSession::OnlyForTesting::get_file_ident(
+  return realm::SyncSession::OnlyForTesting::get_file_ident(
              *realm->_realm->sync_session())
       .ident;
 }

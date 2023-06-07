@@ -42,8 +42,8 @@ NSString *const RLMHTTPStatusCodeKey = @"HTTP Status Code";
 static NSString *const RLMDeprecatedErrorCodeKey = @"Error Code";
 
 namespace {
-NSInteger translateFileError(wabi_realm::ErrorCodes::Error code) {
-  using ec = wabi_realm::ErrorCodes::Error;
+NSInteger translateFileError(realm::ErrorCodes::Error code) {
+  using ec = realm::ErrorCodes::Error;
   switch (code) {
   case ec::AddressSpaceExhausted:
     return RLMErrorAddressSpaceExhausted;
@@ -144,11 +144,11 @@ NSInteger translateFileError(wabi_realm::ErrorCodes::Error code) {
     return RLMAppErrorBadRequest;
 
   default: {
-    auto category = wabi_realm::ErrorCodes::error_categories(code);
-    if (category.test(wabi_realm::ErrorCategory::file_access)) {
+    auto category = realm::ErrorCodes::error_categories(code);
+    if (category.test(realm::ErrorCategory::file_access)) {
       return RLMErrorFileAccess;
     }
-    if (category.test(wabi_realm::ErrorCategory::app_error)) {
+    if (category.test(realm::ErrorCategory::app_error)) {
       return RLMAppErrorUnknown;
     }
     return RLMErrorFail;
@@ -156,23 +156,23 @@ NSInteger translateFileError(wabi_realm::ErrorCodes::Error code) {
   }
 }
 
-NSString *errorDomain(wabi_realm::ErrorCodes::Error error) {
-  auto category = wabi_realm::ErrorCodes::error_categories(error);
-  if (category.test(wabi_realm::ErrorCategory::app_error)) {
+NSString *errorDomain(realm::ErrorCodes::Error error) {
+  auto category = realm::ErrorCodes::error_categories(error);
+  if (category.test(realm::ErrorCategory::app_error)) {
     return RLMAppErrorDomain;
   }
   return RLMErrorDomain;
 }
 
-NSString *errorString(wabi_realm::ErrorCodes::Error error) {
-  return RLMStringViewToNSString(wabi_realm::ErrorCodes::error_string(error));
+NSString *errorString(realm::ErrorCodes::Error error) {
+  return RLMStringViewToNSString(realm::ErrorCodes::error_string(error));
 }
 
 NSError *translateSystemError(std::error_code ec, const char *msg) {
   int code = ec.value();
   BOOL isGenericCategoryError =
       ec.category() == std::generic_category() ||
-      ec.category() == wabi_realm::util::error::basic_system_error_category();
+      ec.category() == realm::util::error::basic_system_error_category();
   NSString *errorDomain =
       isGenericCategoryError ? NSPOSIXErrorDomain : RLMUnknownSystemErrorDomain;
 
@@ -183,9 +183,9 @@ NSError *translateSystemError(std::error_code ec, const char *msg) {
   userInfo[@"Category"] = @(ec.category().name());
 
 #if REALM_ENABLE_SYNC
-  if (ec.category() == wabi_realm::sync::client_error_category()) {
+  if (ec.category() == realm::sync::client_error_category()) {
     if (code ==
-        static_cast<int>(wabi_realm::sync::Client::Error::connect_timeout)) {
+        static_cast<int>(realm::sync::Client::Error::connect_timeout)) {
       errorDomain = NSPOSIXErrorDomain;
       code = ETIMEDOUT;
     } else {
@@ -198,7 +198,7 @@ NSError *translateSystemError(std::error_code ec, const char *msg) {
 }
 } // anonymous namespace
 
-NSError *makeError(wabi_realm::Status const &status) {
+NSError *makeError(realm::Status const &status) {
   if (status.is_ok()) {
     return nil;
   }
@@ -213,9 +213,9 @@ NSError *makeError(wabi_realm::Status const &status) {
                       }];
 }
 
-NSError *makeError(wabi_realm::Exception const &exception) {
+NSError *makeError(realm::Exception const &exception) {
   auto status = exception.to_status();
-  if (status.code() == wabi_realm::ErrorCodes::SystemError &&
+  if (status.code() == realm::ErrorCodes::SystemError &&
       status.get_std_error_code() != std::error_code{}) {
     return translateSystemError(status.get_std_error_code(), exception.what());
   }
@@ -230,7 +230,7 @@ NSError *makeError(wabi_realm::Exception const &exception) {
                          }];
 }
 
-NSError *makeError(wabi_realm::FileAccessError const &exception) {
+NSError *makeError(realm::FileAccessError const &exception) {
   NSInteger code = translateFileError(exception.code());
   return [NSError errorWithDomain:errorDomain(exception.code())
                              code:code
@@ -256,11 +256,11 @@ NSError *makeError(std::system_error const &exception) {
 
 __attribute__((objc_direct_members))
 @implementation RLMCompensatingWriteInfo {
-  wabi_realm::sync::CompensatingWriteErrorInfo _info;
+  realm::sync::CompensatingWriteErrorInfo _info;
 }
 
 - (instancetype)initWithInfo:
-    (wabi_realm::sync::CompensatingWriteErrorInfo &&)info {
+    (realm::sync::CompensatingWriteErrorInfo &&)info {
   if ((self = [super init])) {
     _info = std::move(info);
   }
@@ -280,7 +280,7 @@ __attribute__((objc_direct_members))
 }
 @end
 
-NSError *makeError(wabi_realm::SyncError &&error) {
+NSError *makeError(realm::SyncError &&error) {
   auto &status = error.to_status();
   if (status.is_ok()) {
     return nil;
@@ -302,10 +302,10 @@ NSError *makeError(wabi_realm::SyncError &&error) {
     userInfo[RLMCompensatingWriteInfoKey] = [array copy];
   }
   for (auto &pair : error.user_info) {
-    if (pair.first == wabi_realm::SyncError::c_original_file_path_key) {
+    if (pair.first == realm::SyncError::c_original_file_path_key) {
       userInfo[kRLMSyncErrorActionTokenKey] =
           [[RLMSyncErrorActionToken alloc] initWithOriginalPath:pair.second];
-    } else if (pair.first == wabi_realm::SyncError::c_recovery_file_path_key) {
+    } else if (pair.first == realm::SyncError::c_recovery_file_path_key) {
       userInfo[kRLMSyncPathOfRealmBackupCopyKey] = @(pair.second.c_str());
     }
   }
@@ -314,8 +314,8 @@ NSError *makeError(wabi_realm::SyncError &&error) {
   if (error.is_client_reset_requested())
     errorCode = RLMSyncErrorClientResetError;
   else if (error.is_session_level_protocol_error()) {
-    using enum wabi_realm::sync::ProtocolError;
-    switch (static_cast<wabi_realm::sync::ProtocolError>(
+    using enum realm::sync::ProtocolError;
+    switch (static_cast<realm::sync::ProtocolError>(
         error.to_status().get_std_error_code().value())) {
     case permission_denied:
       errorCode = RLMSyncErrorPermissionDeniedError;
@@ -338,7 +338,7 @@ NSError *makeError(wabi_realm::SyncError &&error) {
                          userInfo:userInfo.copy];
 }
 
-NSError *makeError(wabi_realm::app::AppError const &appError) {
+NSError *makeError(realm::app::AppError const &appError) {
   auto &status = appError.to_status();
   if (status.is_ok()) {
     return nil;

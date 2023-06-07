@@ -35,15 +35,15 @@
 #import <realm/object-store/shared_realm.hpp>
 #import <realm/table.hpp>
 
-using namespace wabi_realm;
+using namespace realm;
 
 @implementation RLMMigration {
-  wabi_realm::Schema *_schema;
+  realm::Schema *_schema;
 }
 
 - (instancetype)initWithRealm:(RLMRealm *)realm
                      oldRealm:(RLMRealm *)oldRealm
-                       schema:(wabi_realm::Schema &)schema {
+                       schema:(realm::Schema &)schema {
   self = [super init];
   if (self) {
     _realm = realm;
@@ -169,7 +169,7 @@ using namespace wabi_realm;
 - (void)renamePropertyForClass:(NSString *)className
                        oldName:(NSString *)oldName
                        newName:(NSString *)newName {
-  wabi_realm::ObjectStore::rename_property(
+  realm::ObjectStore::rename_property(
       _realm.group, *_schema, className.UTF8String, oldName.UTF8String,
       newName.UTF8String);
 }

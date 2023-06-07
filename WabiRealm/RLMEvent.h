@@ -21,7 +21,7 @@
 #ifdef __cplusplus
 #include <memory>
 
-namespace wabi_realm {
+namespace realm {
 struct AuditConfig;
 }
 #endif
@@ -65,7 +65,7 @@ RLMEventUpdateMetadata(struct RLMEventContext *context,
     (NSError *);
 
 #ifdef __cplusplus
-- (std::shared_ptr<wabi_realm::AuditConfig>)auditConfigWithRealmConfiguration:
+- (std::shared_ptr<realm::AuditConfig>)auditConfigWithRealmConfiguration:
     (RLMRealmConfiguration *)realmConfig;
 #endif
 @end

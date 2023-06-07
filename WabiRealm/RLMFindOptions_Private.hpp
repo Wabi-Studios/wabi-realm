@@ -23,7 +23,7 @@
 RLM_HEADER_AUDIT_BEGIN(nullability, sendability)
 
 @interface RLMFindOptions ()
-- (wabi_realm::app::MongoCollection::FindOptions)_findOptions;
+- (realm::app::MongoCollection::FindOptions)_findOptions;
 @end
 
 RLM_HEADER_AUDIT_END(nullability, sendability)

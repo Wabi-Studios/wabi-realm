@@ -33,7 +33,7 @@
 #import <realm/util/cf_ptr.hpp>
 #import <realm/util/overload.hpp>
 
-using namespace wabi_realm;
+using namespace realm;
 
 NSString *const RLMPropertiesComparisonTypeMismatchException =
     @"RLMPropertiesComparisonTypeMismatchException";
@@ -593,7 +593,7 @@ public:
   void add_link_constraint(NSPredicateOperatorType operatorType,
                            const ColumnReference &column, RLMObjectBase *obj);
   void add_link_constraint(NSPredicateOperatorType operatorType,
-                           const ColumnReference &column, wabi_realm::null);
+                           const ColumnReference &column, realm::null);
   void add_link_constraint(NSPredicateOperatorType, const ColumnReference &,
                            const ColumnReference &);
 
@@ -1014,7 +1014,7 @@ void QueryBuilder::add_link_constraint(NSPredicateOperatorType operatorType,
 
 void QueryBuilder::add_link_constraint(NSPredicateOperatorType operatorType,
                                        const ColumnReference &column,
-                                       wabi_realm::null) {
+                                       realm::null) {
   if (column.property().dictionary) {
     add_bool_constraint(RLMPropertyTypeObject, operatorType,
                         column.resolve<Dictionary>(), null());
@@ -1068,8 +1068,8 @@ void process_or_group(Query &query, id array, Func &&func) {
 
 #pragma mark Conversion Helpers
 
-template <typename> wabi_realm::null value_of_type(wabi_realm::null) {
-  return wabi_realm::null();
+template <typename> realm::null value_of_type(realm::null) {
+  return realm::null();
 }
 
 template <typename RequestedType>
@@ -1186,7 +1186,7 @@ void QueryBuilder::add_mixed_constraint(
   if constexpr (std::is_same_v<T, id>) {
     if (auto str = RLMDynamicCast<NSString>(value)) {
       add_string_constraint(operatorType, predicateOptions, std::move(column),
-                            wabi_realm::Mixed([str UTF8String]));
+                            realm::Mixed([str UTF8String]));
       return;
     }
   }
@@ -2049,7 +2049,7 @@ void QueryBuilder::apply_predicate(NSPredicate *predicate,
 }
 } // namespace
 
-wabi_realm::Query RLMPredicateToQuery(NSPredicate *predicate,
+realm::Query RLMPredicateToQuery(NSPredicate *predicate,
                                       RLMObjectSchema *objectSchema,
                                       RLMSchema *schema, Group &group) {
   auto query = get_table(group, objectSchema).where();

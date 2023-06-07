@@ -21,7 +21,7 @@
 #import "RLMNetworkTransport.h"
 #import <memory>
 
-namespace wabi_realm {
+namespace realm {
 struct SyncClientConfig;
 struct SyncConfig;
 class SyncManager;
@@ -31,28 +31,28 @@ class App;
 namespace util {
 class Logger;
 }
-} // namespace wabi_realm
+} // namespace realm
 
 @class RLMAppConfiguration, RLMUser, RLMSyncConfiguration;
 
 RLM_HEADER_AUDIT_BEGIN(nullability, sendability)
 
 @interface RLMSyncManager ()
-- (std::weak_ptr<wabi_realm::app::App>)app;
-- (std::shared_ptr<wabi_realm::SyncManager>)syncManager;
+- (std::weak_ptr<realm::app::App>)app;
+- (std::shared_ptr<realm::SyncManager>)syncManager;
 - (instancetype)initWithSyncManager:
-    (std::shared_ptr<wabi_realm::SyncManager>)syncManager;
+    (std::shared_ptr<realm::SyncManager>)syncManager;
 
-+ (wabi_realm::SyncClientConfig)
++ (realm::SyncClientConfig)
     configurationWithRootDirectory:(nullable NSURL *)rootDirectory
                              appId:(nonnull NSString *)appId;
 
 - (void)resetForTesting;
 - (void)waitForSessionTermination;
-- (void)populateConfig:(wabi_realm::SyncConfig &)config;
+- (void)populateConfig:(realm::SyncConfig &)config;
 @end
 
-std::shared_ptr<wabi_realm::util::Logger>
+std::shared_ptr<realm::util::Logger>
     RLMWrapLogFunction(RLMSyncLogFunction);
 
 RLM_HEADER_AUDIT_END(nullability, sendability)

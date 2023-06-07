@@ -24,7 +24,7 @@
 
 #import <realm/table_ref.hpp>
 
-namespace wabi_realm {
+namespace realm {
 class Results;
 }
 
@@ -47,15 +47,15 @@ class RLMObservationInfo;
 @interface RLMManagedDictionary () <RLMCollectionPrivate>
 
 - (RLMManagedDictionary *)
-    initWithBackingCollection:(wabi_realm::object_store::Dictionary)dictionary
+    initWithBackingCollection:(realm::object_store::Dictionary)dictionary
                    parentInfo:(RLMClassInfo *)parentInfo
                      property:(__unsafe_unretained RLMProperty *const)property;
-- (RLMManagedDictionary *)initWithParent:(wabi_realm::Obj)parent
+- (RLMManagedDictionary *)initWithParent:(realm::Obj)parent
                                 property:(RLMProperty *)property
                               parentInfo:(RLMClassInfo &)info;
 
 - (bool)isBackedByDictionary:
-    (wabi_realm::object_store::Dictionary const &)dictionary;
+    (realm::object_store::Dictionary const &)dictionary;
 
 // deletes all objects in the RLMDictionary from their containing realms
 - (void)deleteObjectsFromRealm;

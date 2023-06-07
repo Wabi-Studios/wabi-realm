@@ -20,11 +20,11 @@
 
 #import <vector>
 
-namespace wabi_realm {
+namespace realm {
 class Group;
 class Query;
 class SortDescriptor;
-} // namespace wabi_realm
+} // namespace realm
 
 @class RLMObjectSchema, RLMProperty, RLMSchema, RLMSortDescriptor;
 class RLMClassInfo;
@@ -32,10 +32,10 @@ class RLMClassInfo;
 extern NSString *const RLMPropertiesComparisonTypeMismatchException;
 extern NSString *const RLMUnsupportedTypesFoundInPropertyComparisonException;
 
-wabi_realm::Query RLMPredicateToQuery(NSPredicate *predicate,
+realm::Query RLMPredicateToQuery(NSPredicate *predicate,
                                       RLMObjectSchema *objectSchema,
                                       RLMSchema *schema,
-                                      wabi_realm::Group &group);
+                                      realm::Group &group);
 
 // return property - throw for invalid column name
 RLMProperty *RLMValidatedProperty(RLMObjectSchema *objectSchema,

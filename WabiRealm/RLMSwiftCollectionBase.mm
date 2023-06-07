@@ -107,8 +107,8 @@
 #pragma clang diagnostic pop
 
 @implementation RLMLinkingObjectsHandle {
-  wabi_realm::TableKey _tableKey;
-  wabi_realm::ObjKey _objKey;
+  realm::TableKey _tableKey;
+  realm::ObjKey _objKey;
   RLMClassInfo *_info;
   RLMRealm *_realm;
   RLMProperty *_property;
@@ -161,7 +161,7 @@
   auto &linkOrigin = _info->objectSchema->computed_properties[_property.index]
                          .link_origin_property_name;
   auto linkingProperty = objectInfo.objectSchema->property_for_name(linkOrigin);
-  wabi_realm::Results results(
+  realm::Results results(
       _realm->_realm,
       obj.get_backlink_view(objectInfo.table(), linkingProperty->column_key));
   _results = [RLMLinkingObjects resultsWithObjectInfo:objectInfo

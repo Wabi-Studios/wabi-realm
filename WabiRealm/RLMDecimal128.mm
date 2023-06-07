@@ -41,7 +41,7 @@
 @end
 
 @implementation RLMDecimal128 {
-  wabi_realm::Decimal128 _value;
+  realm::Decimal128 _value;
 }
 
 - (instancetype)init {
@@ -53,7 +53,7 @@
   return self;
 }
 
-- (instancetype)initWithDecimal128:(wabi_realm::Decimal128)value {
+- (instancetype)initWithDecimal128:(realm::Decimal128)value {
   if ((self = [self init])) {
     _value = value;
   }
@@ -77,7 +77,7 @@
 - (instancetype)initWithString:(NSString *)string
                          error:(__unused NSError **)error {
   if ((self = [self init])) {
-    _value = wabi_realm::Decimal128(string.UTF8String);
+    _value = realm::Decimal128(string.UTF8String);
   }
   return self;
 }
@@ -96,7 +96,7 @@
   return copy;
 }
 
-- (wabi_realm::Decimal128)decimal128Value {
+- (realm::Decimal128)decimal128Value {
   return _value;
 }
 
@@ -165,22 +165,22 @@
 }
 
 - (RLMDecimal128 *)magnitude {
-  auto result = wabi_realm::Decimal128(abs(self.doubleValue));
+  auto result = realm::Decimal128(abs(self.doubleValue));
   return [[RLMDecimal128 alloc] initWithDecimal128:result];
 }
 
 - (void)negate {
-  _value = wabi_realm::Decimal128(-self.doubleValue);
+  _value = realm::Decimal128(-self.doubleValue);
 }
 
 + (RLMDecimal128 *)minimumDecimalNumber {
   return [[RLMDecimal128 alloc]
-      initWithDecimal128:std::numeric_limits<wabi_realm::Decimal128>::lowest()];
+      initWithDecimal128:std::numeric_limits<realm::Decimal128>::lowest()];
 }
 
 + (RLMDecimal128 *)maximumDecimalNumber {
   return [[RLMDecimal128 alloc]
-      initWithDecimal128:std::numeric_limits<wabi_realm::Decimal128>::max()];
+      initWithDecimal128:std::numeric_limits<realm::Decimal128>::max()];
 }
 
 - (RLMDecimal128 *)decimalNumberByAdding:(RLMDecimal128 *)decimalNumber {

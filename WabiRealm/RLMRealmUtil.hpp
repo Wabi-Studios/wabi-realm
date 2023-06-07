@@ -23,7 +23,7 @@
 
 @class RLMRealm, RLMRealmConfiguration, RLMScheduler;
 
-namespace wabi_realm {
+namespace realm {
 class BindingContext;
 }
 
@@ -37,5 +37,5 @@ void RLMClearRealmCache();
 
 RLMRealm *RLMGetFrozenRealmForSourceRealm(RLMRealm *realm) NS_RETURNS_RETAINED;
 
-std::unique_ptr<wabi_realm::BindingContext>
+std::unique_ptr<realm::BindingContext>
 RLMCreateBindingContext(RLMRealm *realm);

@@ -31,22 +31,22 @@
 #import <realm/object-store/shared_realm.hpp>
 #import <realm/table.hpp>
 
-using namespace wabi_realm;
+using namespace realm;
 
 RLMClassInfo::RLMClassInfo(
     __unsafe_unretained RLMRealm *const realm,
     __unsafe_unretained RLMObjectSchema *const rlmObjectSchema,
-    const wabi_realm::ObjectSchema *objectSchema)
+    const realm::ObjectSchema *objectSchema)
     : realm(realm), rlmObjectSchema(rlmObjectSchema),
       objectSchema(objectSchema) {}
 
 RLMClassInfo::RLMClassInfo(RLMRealm *realm, RLMObjectSchema *rlmObjectSchema,
-                           std::unique_ptr<wabi_realm::ObjectSchema> schema)
+                           std::unique_ptr<realm::ObjectSchema> schema)
     : realm(realm), rlmObjectSchema(rlmObjectSchema), objectSchema(&*schema),
       dynamicObjectSchema(std::move(schema)),
       dynamicRLMObjectSchema(rlmObjectSchema) {}
 
-wabi_realm::TableRef RLMClassInfo::table() const {
+realm::TableRef RLMClassInfo::table() const {
   if (auto key = objectSchema->table_key) {
     return realm.group.get_table(objectSchema->table_key);
   }
@@ -67,15 +67,15 @@ RLMProperty *RLMClassInfo::propertyForPrimaryKey() const noexcept {
   return rlmObjectSchema.primaryKeyProperty;
 }
 
-wabi_realm::ColKey RLMClassInfo::tableColumn(NSString *propertyName) const {
+realm::ColKey RLMClassInfo::tableColumn(NSString *propertyName) const {
   return tableColumn(RLMValidatedProperty(rlmObjectSchema, propertyName));
 }
 
-wabi_realm::ColKey RLMClassInfo::tableColumn(RLMProperty *property) const {
+realm::ColKey RLMClassInfo::tableColumn(RLMProperty *property) const {
   return objectSchema->persisted_properties[property.index].column_key;
 }
 
-wabi_realm::ColKey
+realm::ColKey
 RLMClassInfo::computedTableColumn(RLMProperty *property) const {
   // Retrieve the table key and class info for the origin property
   // that corresponds to the target property.
@@ -99,7 +99,7 @@ RLMClassInfo &RLMClassInfo::linkTargetType(size_t propertyIndex) {
 }
 
 RLMClassInfo &
-RLMClassInfo::linkTargetType(wabi_realm::Property const &property) {
+RLMClassInfo::linkTargetType(realm::Property const &property) {
   REALM_ASSERT(property.type == PropertyType::Object);
   return linkTargetType(&property - &objectSchema->persisted_properties[0]);
 }
@@ -147,7 +147,7 @@ static KeyPath keyPathFromString(RLMRealm *realm, RLMSchema *schema,
   return keyPairs;
 }
 
-std::optional<wabi_realm::KeyPathArray>
+std::optional<realm::KeyPathArray>
 RLMClassInfo::keyPathArrayFromStringArray(NSArray<NSString *> *keyPaths) const {
   std::optional<KeyPathArray> keyPathArray;
   if (keyPaths.count) {
@@ -186,7 +186,7 @@ RLMClassInfo &RLMSchemaInfo::operator[](NSString *name) {
   return *&it->second;
 }
 
-RLMClassInfo *RLMSchemaInfo::operator[](wabi_realm::TableKey key) {
+RLMClassInfo *RLMSchemaInfo::operator[](realm::TableKey key) {
   for (auto &[name, info] : m_objects) {
     if (info.objectSchema->table_key == key)
       return &info;
@@ -196,7 +196,7 @@ RLMClassInfo *RLMSchemaInfo::operator[](wabi_realm::TableKey key) {
 
 RLMSchemaInfo::RLMSchemaInfo(RLMRealm *realm) {
   RLMSchema *rlmSchema = realm.schema;
-  wabi_realm::Schema const &schema = realm->_realm->schema();
+  realm::Schema const &schema = realm->_realm->schema();
   // rlmSchema can be larger due to multiple classes backed by one table
   REALM_ASSERT(rlmSchema.objectSchema.count >= schema.size());
 
@@ -213,7 +213,7 @@ RLMSchemaInfo::RLMSchemaInfo(RLMRealm *realm) {
 }
 
 RLMSchemaInfo
-RLMSchemaInfo::clone(wabi_realm::Schema const &source_schema,
+RLMSchemaInfo::clone(realm::Schema const &source_schema,
                      __unsafe_unretained RLMRealm *const target_realm) {
   RLMSchemaInfo info;
   info.m_objects.reserve(m_objects.size());
@@ -234,7 +234,7 @@ RLMSchemaInfo::clone(wabi_realm::Schema const &source_schema,
 }
 
 void RLMSchemaInfo::appendDynamicObjectSchema(
-    std::unique_ptr<wabi_realm::ObjectSchema> schema,
+    std::unique_ptr<realm::ObjectSchema> schema,
     RLMObjectSchema *objectSchema,
     __unsafe_unretained RLMRealm *const target_realm) {
   m_objects.emplace(

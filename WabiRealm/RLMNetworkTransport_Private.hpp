@@ -18,8 +18,8 @@
 
 #import "RLMNetworkTransport.h"
 
-namespace wabi_realm::app {
+namespace realm::app {
 struct Request;
 }
 
-RLMRequest *RLMRequestFromRequest(wabi_realm::app::Request const &request);
+RLMRequest *RLMRequestFromRequest(realm::app::Request const &request);

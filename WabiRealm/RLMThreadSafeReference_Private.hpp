@@ -26,7 +26,7 @@ RLM_HIDDEN
 @protocol RLMThreadConfined_Private <NSObject>
 
 // Constructs a new `ThreadSafeReference`
-- (wabi_realm::ThreadSafeReference)makeThreadSafeReference;
+- (realm::ThreadSafeReference)makeThreadSafeReference;
 
 // The extra information needed to construct an instance of this type from the
 // Object Store type
@@ -34,7 +34,7 @@ RLM_HIDDEN
 
 // Constructs an new instance of this type
 + (nullable instancetype)objectWithThreadSafeReference:
-                             (wabi_realm::ThreadSafeReference)reference
+                             (realm::ThreadSafeReference)reference
                                               metadata:(nullable id)metadata
                                                  realm:(RLMRealm *)realm;
 @end

@@ -48,8 +48,8 @@ static const int RLMEnumerationBufferSize = 16;
 
   // A pointer to either _snapshot or a Results from the source collection,
   // to avoid having to copy the Results when not in a write transaction
-  wabi_realm::Results *_results;
-  wabi_realm::Results _snapshot;
+  realm::Results *_results;
+  realm::Results _snapshot;
 
   // A strong reference to the collection being enumerated to ensure it stays
   // alive when we're holding a pointer to a member in it
@@ -57,7 +57,7 @@ static const int RLMEnumerationBufferSize = 16;
 }
 
 - (instancetype)initWithBackingCollection:
-                    (wabi_realm::object_store::Collection const &)
+                    (realm::object_store::Collection const &)
                         backingCollection
                                collection:(id)collection
                                 classInfo:(RLMClassInfo &)info {
@@ -79,7 +79,7 @@ static const int RLMEnumerationBufferSize = 16;
 }
 
 - (instancetype)initWithBackingDictionary:
-                    (wabi_realm::object_store::Dictionary const &)
+                    (realm::object_store::Dictionary const &)
                         backingDictionary
                                dictionary:(RLMManagedDictionary *)dictionary
                                 classInfo:(RLMClassInfo &)info {
@@ -100,7 +100,7 @@ static const int RLMEnumerationBufferSize = 16;
   return self;
 }
 
-- (instancetype)initWithResults:(wabi_realm::Results &)results
+- (instancetype)initWithResults:(realm::Results &)results
                      collection:(id)collection
                       classInfo:(RLMClassInfo &)info {
   self = [super init];
@@ -246,7 +246,7 @@ NSArray *RLMCollectionValueForKey(Collection &collection, NSString *key,
     return array;
   }
 
-  if (collection.get_type() != wabi_realm::PropertyType::Object) {
+  if (collection.get_type() != realm::PropertyType::Object) {
     RLMAccessorContext context(info);
     for (size_t i = 0; i < count; ++i) {
       [array addObject:[collection.get(context, i) valueForKey:key]
@@ -290,12 +290,12 @@ NSArray *RLMCollectionValueForKey(Collection &collection, NSString *key,
   return array;
 }
 
-wabi_realm::ColKey
+realm::ColKey
 columnForProperty(NSString *propertyName,
-                  wabi_realm::object_store::Collection const &backingCollection,
+                  realm::object_store::Collection const &backingCollection,
                   RLMClassInfo *objectInfo, RLMPropertyType propertyType,
                   RLMCollectionType collectionType) {
-  if (backingCollection.get_type() == wabi_realm::PropertyType::Object) {
+  if (backingCollection.get_type() == realm::PropertyType::Object) {
     return objectInfo->tableColumn(propertyName);
   }
   if (![propertyName isEqualToString:@"self"]) {
@@ -317,16 +317,16 @@ columnForProperty(NSString *propertyName,
   return {};
 }
 
-template NSArray *RLMCollectionValueForKey(wabi_realm::Results &, NSString *,
+template NSArray *RLMCollectionValueForKey(realm::Results &, NSString *,
                                            RLMClassInfo &);
-template NSArray *RLMCollectionValueForKey(wabi_realm::List &, NSString *,
+template NSArray *RLMCollectionValueForKey(realm::List &, NSString *,
                                            RLMClassInfo &);
-template NSArray *RLMCollectionValueForKey(wabi_realm::object_store::Set &,
+template NSArray *RLMCollectionValueForKey(realm::object_store::Set &,
                                            NSString *, RLMClassInfo &);
 
 void RLMCollectionSetValueForKey(id<RLMCollectionPrivate> collection,
                                  NSString *key, id value) {
-  wabi_realm::TableView tv = [collection tableView];
+  realm::TableView tv = [collection tableView];
   if (tv.size() == 0) {
     return;
   }
@@ -404,10 +404,10 @@ RLMSortDescriptorsToKeypathArray(NSArray<RLMSortDescriptor *> *properties) {
 }
 
 @implementation RLMCollectionChange {
-  wabi_realm::CollectionChangeSet _indices;
+  realm::CollectionChangeSet _indices;
 }
 
-- (instancetype)initWithChanges:(wabi_realm::CollectionChangeSet)indices {
+- (instancetype)initWithChanges:(realm::CollectionChangeSet)indices {
   self = [super init];
   if (self) {
     _indices = std::move(indices);
@@ -415,7 +415,7 @@ RLMSortDescriptorsToKeypathArray(NSArray<RLMSortDescriptor *> *properties) {
   return self;
 }
 
-static NSArray *toArray(wabi_realm::IndexSet const &set) {
+static NSArray *toArray(realm::IndexSet const &set) {
   NSMutableArray *ret = [NSMutableArray new];
   for (auto index : set.as_indexes()) {
     [ret addObject:@(index)];
@@ -462,7 +462,7 @@ struct CollectionCallbackWrapper {
   id collection;
   bool ignoreChangesInInitialNotification;
 
-  void operator()(wabi_realm::CollectionChangeSet const &changes) {
+  void operator()(realm::CollectionChangeSet const &changes) {
     if (ignoreChangesInInitialNotification) {
       ignoreChangesInInitialNotification = false;
       block(collection, nil, nil);
@@ -483,7 +483,7 @@ struct CollectionCallbackWrapper {
 RLM_HIDDEN
 @implementation RLMCancellationToken {
   __unsafe_unretained RLMRealm *_realm;
-  wabi_realm::NotificationToken _token;
+  realm::NotificationToken _token;
   RLMUnfairMutex _mutex;
 }
 
@@ -549,14 +549,14 @@ RLMNotificationToken *RLMAddNotificationBlock(id c, id block,
   return token;
 }
 
-wabi_realm::CollectionChangeCallback
+realm::CollectionChangeCallback
 RLMWrapCollectionChangeCallback(void (^block)(id, id, NSError *), id collection,
                                 bool skipFirst) {
   return CollectionCallbackWrapper{block, collection, skipFirst};
 }
 @end
 
-NSArray *RLMToIndexPathArray(wabi_realm::IndexSet const &set,
+NSArray *RLMToIndexPathArray(realm::IndexSet const &set,
                              NSUInteger section) {
   NSMutableArray *ret = [NSMutableArray new];
   NSUInteger path[2] = {section, 0};

@@ -20,23 +20,23 @@
 
 #import <memory>
 
-namespace wabi_realm {
+namespace realm {
 class SyncSession;
 struct SyncConfig;
 struct SyncError;
 using SyncSessionErrorHandler = void(std::shared_ptr<SyncSession>, SyncError);
-} // namespace wabi_realm
+} // namespace realm
 
 RLM_HEADER_AUDIT_BEGIN(nullability, sendability)
 
 @interface RLMSyncConfiguration ()
-- (instancetype)initWithRawConfig:(wabi_realm::SyncConfig)config
+- (instancetype)initWithRawConfig:(realm::SyncConfig)config
                              path:(std::string const &)path;
-- (wabi_realm::SyncConfig &)rawConfiguration;
+- (realm::SyncConfig &)rawConfiguration;
 
 // Pass the RLMRealmConfiguration to it's sync configuration so client reset
 // callbacks can access schema, dynamic, and path properties.
-void RLMSetConfigInfoForClientResetCallbacks(wabi_realm::SyncConfig &syncConfig,
+void RLMSetConfigInfoForClientResetCallbacks(realm::SyncConfig &syncConfig,
                                              RLMRealmConfiguration *config);
 
 @property(nonatomic, direct) std::string path;

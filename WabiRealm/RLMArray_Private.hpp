@@ -24,7 +24,7 @@
 
 #import <realm/table_ref.hpp>
 
-namespace wabi_realm {
+namespace realm {
 class Results;
 }
 
@@ -45,14 +45,14 @@ class RLMObservationInfo;
 @end
 
 @interface RLMManagedArray () <RLMCollectionPrivate>
-- (RLMManagedArray *)initWithBackingCollection:(wabi_realm::List)list
+- (RLMManagedArray *)initWithBackingCollection:(realm::List)list
                                     parentInfo:(RLMClassInfo *)parentInfo
                                       property:(RLMProperty *)property;
-- (RLMManagedArray *)initWithParent:(wabi_realm::Obj)parent
+- (RLMManagedArray *)initWithParent:(realm::Obj)parent
                            property:(RLMProperty *)property
                          parentInfo:(RLMClassInfo &)info;
 
-- (bool)isBackedByList:(wabi_realm::List const &)list;
+- (bool)isBackedByList:(realm::List const &)list;
 
 // deletes all objects in the RLMArray from their containing realms
 - (void)deleteObjectsFromRealm;

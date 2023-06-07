@@ -27,8 +27,8 @@
 
 RLM_HIDDEN
 @implementation RLMMainRunLoopScheduler
-- (std::shared_ptr<wabi_realm::util::Scheduler>)osScheduler {
-  return wabi_realm::util::Scheduler::make_runloop(CFRunLoopGetMain());
+- (std::shared_ptr<realm::util::Scheduler>)osScheduler {
+  return realm::util::Scheduler::make_runloop(CFRunLoopGetMain());
 }
 
 - (void *)cacheKey {
@@ -79,11 +79,11 @@ RLM_HIDDEN
   dispatch_async(_queue, block);
 }
 
-- (std::shared_ptr<wabi_realm::util::Scheduler>)osScheduler {
+- (std::shared_ptr<realm::util::Scheduler>)osScheduler {
   if (_queue == dispatch_get_main_queue()) {
     return RLMScheduler.mainRunLoop.osScheduler;
   }
-  return wabi_realm::util::Scheduler::make_dispatch((__bridge void *)_queue);
+  return realm::util::Scheduler::make_dispatch((__bridge void *)_queue);
 }
 
 - (void *)cacheKey {
@@ -95,15 +95,15 @@ RLM_HIDDEN
 @end
 
 namespace {
-class ActorScheduler final : public wabi_realm::util::Scheduler {
+class ActorScheduler final : public realm::util::Scheduler {
 public:
   ActorScheduler(void (^invoke)(dispatch_block_t), dispatch_block_t verify)
       : _invoke(invoke), _verify(verify) {}
 
-  void invoke(wabi_realm::util::UniqueFunction<void()> &&fn) override {
+  void invoke(realm::util::UniqueFunction<void()> &&fn) override {
     auto ptr = fn.release();
     _invoke(^{
-      wabi_realm::util::UniqueFunction<void()> fn(ptr);
+      realm::util::UniqueFunction<void()> fn(ptr);
       fn();
     });
   }
@@ -156,7 +156,7 @@ RLM_HIDDEN
   _invoke(block);
 }
 
-- (std::shared_ptr<wabi_realm::util::Scheduler>)osScheduler {
+- (std::shared_ptr<realm::util::Scheduler>)osScheduler {
   return std::make_shared<ActorScheduler>(_invoke, _verify);
 }
 
@@ -209,7 +209,7 @@ RLM_HIDDEN
   REALM_UNREACHABLE();
 }
 
-- (std::shared_ptr<wabi_realm::util::Scheduler>)osScheduler {
+- (std::shared_ptr<realm::util::Scheduler>)osScheduler {
   // For normal thread-confined Realms we let object store create the scheduler
   return nullptr;
 }

@@ -178,7 +178,7 @@ static BOOL validateValue(__unsafe_unretained id const value,
     return [value isKindOfClass:[NSNumber class]] ||
            [value isKindOfClass:[RLMDecimal128 class]] ||
            ([value isKindOfClass:[NSString class]] &&
-            wabi_realm::Decimal128::is_valid_str([value UTF8String]));
+            realm::Decimal128::is_valid_str([value UTF8String]));
   case RLMPropertyTypeUUID:
     return [value isKindOfClass:[NSUUID class]] ||
            ([value isKindOfClass:[NSString class]] &&
@@ -372,7 +372,7 @@ NSException *RLMException(std::exception const &exception) {
   return RLMException(@"%s", exception.what());
 }
 
-NSException *RLMException(wabi_realm::Exception const &exception) {
+NSException *RLMException(realm::Exception const &exception) {
   return RLMException(
       @(exception.what()), @{
         @"Error Code" : @(exception.code()),
@@ -408,11 +408,11 @@ BOOL RLMIsRunningInPlayground() {
       hasPrefix:@"com.apple.dt.playground."];
 }
 
-wabi_realm::Mixed RLMObjcToMixed(__unsafe_unretained id const value,
+realm::Mixed RLMObjcToMixed(__unsafe_unretained id const value,
                                  __unsafe_unretained RLMRealm *const realm,
-                                 wabi_realm::CreatePolicy createPolicy) {
+                                 realm::CreatePolicy createPolicy) {
   if (!value || value == NSNull.null) {
-    return wabi_realm::Mixed();
+    return realm::Mixed();
   }
   id v;
   if ([value conformsToProtocol:@protocol(RLMValue)]) {
@@ -420,16 +420,16 @@ wabi_realm::Mixed RLMObjcToMixed(__unsafe_unretained id const value,
   } else {
     v = RLMBridgeSwiftValue(value);
     if (v == NSNull.null) {
-      return wabi_realm::Mixed();
+      return realm::Mixed();
     }
     REALM_ASSERT([v conformsToProtocol:@protocol(RLMValue)]);
   }
 
   RLMPropertyType type = [v rlm_valueType];
   return switch_on_type(
-      static_cast<wabi_realm::PropertyType>(type),
-      wabi_realm::util::overload{
-          [&](wabi_realm::Obj *) {
+      static_cast<realm::PropertyType>(type),
+      realm::util::overload{
+          [&](realm::Obj *) {
             // The RLMObjectBase may be unmanaged and therefor has no
             // RLMClassInfo attached. So we fetch from the WabiRealm instead. If
             // the Object is managed use it's RLMClassInfo instead so we do not
@@ -439,57 +439,57 @@ wabi_realm::Mixed RLMObjcToMixed(__unsafe_unretained id const value,
                 objBase->_info
                     ? *objBase->_info
                     : realm->_info[objBase->_objectSchema.className]};
-            auto obj = c.unbox<wabi_realm::Obj>(v, createPolicy);
-            return obj.is_valid() ? wabi_realm::Mixed(obj)
-                                  : wabi_realm::Mixed();
+            auto obj = c.unbox<realm::Obj>(v, createPolicy);
+            return obj.is_valid() ? realm::Mixed(obj)
+                                  : realm::Mixed();
           },
           [&](auto t) {
             RLMStatelessAccessorContext c;
-            return wabi_realm::Mixed(c.unbox<std::decay_t<decltype(*t)>>(v));
+            return realm::Mixed(c.unbox<std::decay_t<decltype(*t)>>(v));
           },
-          [&](wabi_realm::Mixed *) -> wabi_realm::Mixed {
+          [&](realm::Mixed *) -> realm::Mixed {
             REALM_UNREACHABLE();
           }});
 }
 
-id RLMMixedToObjc(wabi_realm::Mixed const &mixed,
+id RLMMixedToObjc(realm::Mixed const &mixed,
                   __unsafe_unretained RLMRealm *realm,
                   RLMClassInfo *classInfo) {
   if (mixed.is_null()) {
     return NSNull.null;
   }
   switch (mixed.get_type()) {
-  case wabi_realm::type_String:
+  case realm::type_String:
     return RLMStringDataToNSString(mixed.get_string());
-  case wabi_realm::type_Int:
+  case realm::type_Int:
     return @(mixed.get_int());
-  case wabi_realm::type_Float:
+  case realm::type_Float:
     return @(mixed.get_float());
-  case wabi_realm::type_Double:
+  case realm::type_Double:
     return @(mixed.get_double());
-  case wabi_realm::type_Bool:
+  case realm::type_Bool:
     return @(mixed.get_bool());
-  case wabi_realm::type_Timestamp:
+  case realm::type_Timestamp:
     return RLMTimestampToNSDate(mixed.get_timestamp());
-  case wabi_realm::type_Binary:
-    return RLMBinaryDataToNSData(mixed.get<wabi_realm::BinaryData>());
-  case wabi_realm::type_Decimal:
+  case realm::type_Binary:
+    return RLMBinaryDataToNSData(mixed.get<realm::BinaryData>());
+  case realm::type_Decimal:
     return [[RLMDecimal128 alloc]
-        initWithDecimal128:mixed.get<wabi_realm::Decimal128>()];
-  case wabi_realm::type_ObjectId:
+        initWithDecimal128:mixed.get<realm::Decimal128>()];
+  case realm::type_ObjectId:
     return
-        [[RLMObjectId alloc] initWithValue:mixed.get<wabi_realm::ObjectId>()];
-  case wabi_realm::type_TypedLink:
-    return RLMObjectFromObjLink(realm, mixed.get<wabi_realm::ObjLink>(),
+        [[RLMObjectId alloc] initWithValue:mixed.get<realm::ObjectId>()];
+  case realm::type_TypedLink:
+    return RLMObjectFromObjLink(realm, mixed.get<realm::ObjLink>(),
                                 classInfo->isSwiftClass());
-  case wabi_realm::type_Link: {
+  case realm::type_Link: {
     auto obj =
-        classInfo->table()->get_object((mixed).get<wabi_realm::ObjKey>());
+        classInfo->table()->get_object((mixed).get<realm::ObjKey>());
     return RLMCreateObjectAccessor(*classInfo, std::move(obj));
   }
-  case wabi_realm::type_UUID:
+  case realm::type_UUID:
     return [[NSUUID alloc] initWithRealmUUID:mixed.get<realm::UUID>()];
-  case wabi_realm::type_LinkList:
+  case realm::type_LinkList:
     REALM_UNREACHABLE();
   default:
     @throw RLMException(@"Invalid data type for RLMPropertyTypeAny property.");
@@ -512,28 +512,28 @@ realm::UUID RLMObjcToUUID(__unsafe_unretained id const value) {
                      [value class]);
 }
 
-wabi_realm::Decimal128 RLMObjcToDecimal128(__unsafe_unretained id const value) {
+realm::Decimal128 RLMObjcToDecimal128(__unsafe_unretained id const value) {
   try {
     if (!value || value == NSNull.null) {
-      return wabi_realm::Decimal128(wabi_realm::null());
+      return realm::Decimal128(realm::null());
     }
     if (auto decimal = RLMDynamicCast<RLMDecimal128>(value)) {
       return decimal.decimal128Value;
     }
     if (auto string = RLMDynamicCast<NSString>(value)) {
-      return wabi_realm::Decimal128(string.UTF8String);
+      return realm::Decimal128(string.UTF8String);
     }
     if (auto decimal = RLMDynamicCast<NSDecimalNumber>(value)) {
-      return wabi_realm::Decimal128(decimal.stringValue.UTF8String);
+      return realm::Decimal128(decimal.stringValue.UTF8String);
     }
     if (auto number = RLMDynamicCast<NSNumber>(value)) {
       auto type = number.objCType[0];
       if (type == *@encode(double) || type == *@encode(float)) {
-        return wabi_realm::Decimal128(number.doubleValue);
+        return realm::Decimal128(number.doubleValue);
       } else if (std::isupper(type)) {
-        return wabi_realm::Decimal128(number.unsignedLongLongValue);
+        return realm::Decimal128(number.unsignedLongLongValue);
       } else {
-        return wabi_realm::Decimal128(number.longLongValue);
+        return realm::Decimal128(number.longLongValue);
       }
     }
     if (id bridged = RLMBridgeSwiftValue(value); bridged != value) {

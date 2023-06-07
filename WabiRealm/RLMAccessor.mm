@@ -42,23 +42,23 @@
 
 #pragma mark Helper functions
 
-using wabi_realm::ColKey;
+using realm::ColKey;
 
-namespace wabi_realm {
+namespace realm {
 template <> Obj Obj::get<Obj>(ColKey col) const {
   ObjKey key = get<ObjKey>(col);
   return key ? get_target_table(col)->get_object(key) : Obj();
 }
 
-} // namespace wabi_realm
+} // namespace realm
 
 namespace {
-wabi_realm::Property const &
+realm::Property const &
 getProperty(__unsafe_unretained RLMObjectBase *const obj, NSUInteger index) {
   return obj->_info->objectSchema->persisted_properties[index];
 }
 
-wabi_realm::Property const &
+realm::Property const &
 getProperty(__unsafe_unretained RLMObjectBase *const obj,
             __unsafe_unretained RLMProperty *const prop) {
   if (prop.linkOriginPropertyName) {
@@ -68,10 +68,10 @@ getProperty(__unsafe_unretained RLMObjectBase *const obj,
 }
 
 template <typename T> bool isNull(T const &v) { return !v; }
-template <> bool isNull(wabi_realm::Timestamp const &v) { return v.is_null(); }
-template <> bool isNull(wabi_realm::ObjectId const &) { return false; }
-template <> bool isNull(wabi_realm::Decimal128 const &v) { return v.is_null(); }
-template <> bool isNull(wabi_realm::Mixed const &v) { return v.is_null(); }
+template <> bool isNull(realm::Timestamp const &v) { return v.is_null(); }
+template <> bool isNull(realm::ObjectId const &) { return false; }
+template <> bool isNull(realm::Decimal128 const &v) { return v.is_null(); }
+template <> bool isNull(realm::Mixed const &v) { return v.is_null(); }
 template <> bool isNull(realm::UUID const &) { return false; }
 
 template <typename T>
@@ -111,9 +111,9 @@ void setValueOrNull(__unsafe_unretained RLMObjectBase *const obj, ColKey col,
 
   RLMTranslateError([&] {
     if (value) {
-      if constexpr (std::is_same_v<T, wabi_realm::Mixed>) {
+      if constexpr (std::is_same_v<T, realm::Mixed>) {
         obj->_row.set(col, RLMObjcToMixed(value, obj->_realm,
-                                          wabi_realm::CreatePolicy::SetLink));
+                                          realm::CreatePolicy::SetLink));
       } else {
         RLMStatelessAccessorContext ctx;
         obj->_row.set(col, ctx.unbox<T>(value));
@@ -126,23 +126,23 @@ void setValueOrNull(__unsafe_unretained RLMObjectBase *const obj, ColKey col,
 
 void setValue(__unsafe_unretained RLMObjectBase *const obj, ColKey key,
               __unsafe_unretained NSDate *const date) {
-  setValueOrNull<wabi_realm::Timestamp>(obj, key, date);
+  setValueOrNull<realm::Timestamp>(obj, key, date);
 }
 
 void setValue(__unsafe_unretained RLMObjectBase *const obj, ColKey key,
               __unsafe_unretained NSData *const value) {
-  setValueOrNull<wabi_realm::BinaryData>(obj, key, value);
+  setValueOrNull<realm::BinaryData>(obj, key, value);
 }
 
 void setValue(__unsafe_unretained RLMObjectBase *const obj, ColKey key,
               __unsafe_unretained NSString *const value) {
-  setValueOrNull<wabi_realm::StringData>(obj, key, value);
+  setValueOrNull<realm::StringData>(obj, key, value);
 }
 
 void setValue(__unsafe_unretained RLMObjectBase *const obj, ColKey key,
               __unsafe_unretained RLMObjectBase *const val) {
   if (!val) {
-    obj->_row.set(key, wabi_realm::null());
+    obj->_row.set(key, realm::null());
     return;
   }
 
@@ -196,12 +196,12 @@ void assignValue(__unsafe_unretained RLMObjectBase *const obj,
                  __unsafe_unretained id<NSFastEnumeration> const value) {
   auto info = obj->_info;
   Collection collection(obj->_realm->_realm, obj->_row, key);
-  if (collection.get_type() == wabi_realm::PropertyType::Object) {
+  if (collection.get_type() == realm::PropertyType::Object) {
     info = &obj->_info->linkTargetType(prop.index);
   }
   RLMAccessorContext ctx(*info);
   RLMTranslateError([&] {
-    collection.assign(ctx, value, wabi_realm::CreatePolicy::ForceCreate);
+    collection.assign(ctx, value, realm::CreatePolicy::ForceCreate);
   });
 }
 
@@ -211,11 +211,11 @@ void setValue(__unsafe_unretained RLMObjectBase *const obj, ColKey key,
   RLMValidateValueForProperty(value, obj->_info->rlmObjectSchema, prop, true);
 
   if (prop.array) {
-    assignValue<wabi_realm::List>(obj, prop, key, value);
+    assignValue<realm::List>(obj, prop, key, value);
   } else if (prop.set) {
-    assignValue<wabi_realm::object_store::Set>(obj, prop, key, value);
+    assignValue<realm::object_store::Set>(obj, prop, key, value);
   } else if (prop.dictionary) {
-    assignValue<wabi_realm::object_store::Dictionary>(obj, prop, key, value);
+    assignValue<realm::object_store::Dictionary>(obj, prop, key, value);
   }
 }
 
@@ -241,12 +241,12 @@ void setValue(__unsafe_unretained RLMObjectBase *const obj, ColKey key,
 
 void setValue(__unsafe_unretained RLMObjectBase *const obj, ColKey key,
               __unsafe_unretained RLMDecimal128 *const value) {
-  setValueOrNull<wabi_realm::Decimal128>(obj, key, value);
+  setValueOrNull<realm::Decimal128>(obj, key, value);
 }
 
 void setValue(__unsafe_unretained RLMObjectBase *const obj, ColKey key,
               __unsafe_unretained RLMObjectId *const value) {
-  setValueOrNull<wabi_realm::ObjectId>(obj, key, value);
+  setValueOrNull<realm::ObjectId>(obj, key, value);
 }
 
 void setValue(__unsafe_unretained RLMObjectBase *const obj, ColKey key,
@@ -256,7 +256,7 @@ void setValue(__unsafe_unretained RLMObjectBase *const obj, ColKey key,
 
 void setValue(__unsafe_unretained RLMObjectBase *const obj, ColKey key,
               __unsafe_unretained id<RLMValue> const value) {
-  setValueOrNull<wabi_realm::Mixed>(obj, key, value);
+  setValueOrNull<realm::Mixed>(obj, key, value);
 }
 
 RLMLinkingObjects *
@@ -270,7 +270,7 @@ getLinkingObjects(__unsafe_unretained RLMObjectBase *const obj,
   auto linkingProperty = objectInfo.objectSchema->property_for_name(linkOrigin);
   auto backlinkView = obj->_row.get_backlink_view(objectInfo.table(),
                                                   linkingProperty->column_key);
-  wabi_realm::Results results(obj->_realm->_realm, std::move(backlinkView));
+  realm::Results results(obj->_realm->_realm, std::move(backlinkView));
   return [RLMLinkingObjects resultsWithObjectInfo:objectInfo
                                           results:std::move(results)];
 }
@@ -347,22 +347,22 @@ id managedGetter(RLMProperty *prop, const char *type) {
   case RLMPropertyTypeBool:
     return makeNumberGetter<bool>(index, boxed, prop.optional);
   case RLMPropertyTypeString:
-    return makeBoxedGetter<wabi_realm::StringData>(index);
+    return makeBoxedGetter<realm::StringData>(index);
   case RLMPropertyTypeDate:
-    return makeBoxedGetter<wabi_realm::Timestamp>(index);
+    return makeBoxedGetter<realm::Timestamp>(index);
   case RLMPropertyTypeData:
-    return makeBoxedGetter<wabi_realm::BinaryData>(index);
+    return makeBoxedGetter<realm::BinaryData>(index);
   case RLMPropertyTypeObject:
-    return makeBoxedGetter<wabi_realm::Obj>(index);
+    return makeBoxedGetter<realm::Obj>(index);
   case RLMPropertyTypeDecimal128:
-    return makeBoxedGetter<wabi_realm::Decimal128>(index);
+    return makeBoxedGetter<realm::Decimal128>(index);
   case RLMPropertyTypeObjectId:
-    return makeWrapperGetter<wabi_realm::ObjectId>(index, prop.optional);
+    return makeWrapperGetter<realm::ObjectId>(index, prop.optional);
   case RLMPropertyTypeAny:
     // Mixed is represented as optional in Core,
     // but not in Cocoa. We use `makeBoxedGetter` over
     // `makeWrapperGetter` becuase Mixed can box a `null` representation.
-    return makeBoxedGetter<wabi_realm::Mixed>(index);
+    return makeBoxedGetter<realm::Mixed>(index);
   case RLMPropertyTypeLinkingObjects:
     return ^(__unsafe_unretained RLMObjectBase *const obj) {
       return getLinkingObjects(obj, prop);
@@ -372,7 +372,7 @@ id managedGetter(RLMProperty *prop, const char *type) {
   }
 }
 
-static wabi_realm::ColKey
+static realm::ColKey
 willChange(RLMObservationTracker &tracker,
            __unsafe_unretained RLMObjectBase *const obj, NSUInteger index) {
   auto &prop = getProperty(obj, index);
@@ -729,7 +729,7 @@ void RLMDynamicSet(__unsafe_unretained RLMObjectBase *const obj,
                    __unsafe_unretained RLMProperty *const prop,
                    __unsafe_unretained id const val) {
   REALM_ASSERT_DEBUG(!prop.isPrimary);
-  wabi_realm::Object o(obj->_info->realm->_realm, *obj->_info->objectSchema,
+  realm::Object o(obj->_info->realm->_realm, *obj->_info->objectSchema,
                        obj->_row);
   RLMAccessorContext c(obj);
   RLMTranslateError([&] {
@@ -747,7 +747,7 @@ id RLMDynamicGet(__unsafe_unretained RLMObjectBase *const obj,
     return [obj valueForKey:prop.name];
   }
 
-  wabi_realm::Object o(obj->_realm->_realm, *obj->_info->objectSchema,
+  realm::Object o(obj->_realm->_realm, *obj->_info->objectSchema,
                        obj->_row);
   RLMAccessorContext c(obj);
   c.currentProperty = prop;
@@ -800,17 +800,17 @@ REALM_FOR_EACH_SWIFT_OBJECT_TYPE(REALM_SWIFT_PROPERTY_ACCESSOR)
 NSString *
 RLMGetSwiftPropertyString(__unsafe_unretained RLMObjectBase *const obj,
                           uint16_t key) {
-  return getBoxed<wabi_realm::StringData>(obj, key);
+  return getBoxed<realm::StringData>(obj, key);
 }
 
 NSData *RLMGetSwiftPropertyData(__unsafe_unretained RLMObjectBase *const obj,
                                 uint16_t key) {
-  return getBoxed<wabi_realm::BinaryData>(obj, key);
+  return getBoxed<realm::BinaryData>(obj, key);
 }
 
 NSDate *RLMGetSwiftPropertyDate(__unsafe_unretained RLMObjectBase *const obj,
                                 uint16_t key) {
-  return getBoxed<wabi_realm::Timestamp>(obj, key);
+  return getBoxed<realm::Timestamp>(obj, key);
 }
 
 NSUUID *RLMGetSwiftPropertyUUID(__unsafe_unretained RLMObjectBase *const obj,
@@ -821,13 +821,13 @@ NSUUID *RLMGetSwiftPropertyUUID(__unsafe_unretained RLMObjectBase *const obj,
 RLMObjectId *
 RLMGetSwiftPropertyObjectId(__unsafe_unretained RLMObjectBase *const obj,
                             uint16_t key) {
-  return getBoxed<std::optional<wabi_realm::ObjectId>>(obj, key);
+  return getBoxed<std::optional<realm::ObjectId>>(obj, key);
 }
 
 RLMDecimal128 *
 RLMGetSwiftPropertyDecimal128(__unsafe_unretained RLMObjectBase *const obj,
                               uint16_t key) {
-  return getBoxed<wabi_realm::Decimal128>(obj, key);
+  return getBoxed<realm::Decimal128>(obj, key);
 }
 
 RLMArray *RLMGetSwiftPropertyArray(__unsafe_unretained RLMObjectBase *const obj,
@@ -847,7 +847,7 @@ RLMGetSwiftPropertyMap(__unsafe_unretained RLMObjectBase *const obj,
 void RLMSetSwiftPropertyNil(__unsafe_unretained RLMObjectBase *const obj,
                             uint16_t key) {
   RLMVerifyInWriteTransaction(obj);
-  if (getProperty(obj, key).type == wabi_realm::PropertyType::Object) {
+  if (getProperty(obj, key).type == realm::PropertyType::Object) {
     kvoSetValue(obj, key, (RLMObjectBase *)nil);
   } else {
     // The type used here is arbitrary; it simply needs to be any non-object
@@ -865,7 +865,7 @@ void RLMSetSwiftPropertyObject(
 RLMObjectBase *
 RLMGetSwiftPropertyObject(__unsafe_unretained RLMObjectBase *const obj,
                           uint16_t key) {
-  return getBoxed<wabi_realm::Obj>(obj, key);
+  return getBoxed<realm::Obj>(obj, key);
 }
 
 void RLMSetSwiftPropertyAny(__unsafe_unretained RLMObjectBase *const obj,
@@ -877,7 +877,7 @@ void RLMSetSwiftPropertyAny(__unsafe_unretained RLMObjectBase *const obj,
 id<RLMValue>
 RLMGetSwiftPropertyAny(__unsafe_unretained RLMObjectBase *const obj,
                        uint16_t key) {
-  return getBoxed<wabi_realm::Mixed>(obj, key);
+  return getBoxed<realm::Mixed>(obj, key);
 }
 
 #pragma mark - RLMAccessorContext
@@ -885,10 +885,10 @@ RLMGetSwiftPropertyAny(__unsafe_unretained RLMObjectBase *const obj,
 RLMAccessorContext::~RLMAccessorContext() = default;
 
 RLMAccessorContext::RLMAccessorContext(RLMAccessorContext &parent,
-                                       wabi_realm::Obj const &obj,
-                                       wabi_realm::Property const &property)
+                                       realm::Obj const &obj,
+                                       realm::Property const &property)
     : _realm(parent._realm),
-      _info(property.type == wabi_realm::PropertyType::Object
+      _info(property.type == realm::PropertyType::Object
                 ? parent._info.linkTargetType(property)
                 : parent._info),
       _parentObject(obj), _parentObjectInfo(&parent._info),
@@ -899,16 +899,16 @@ RLMAccessorContext::RLMAccessorContext(RLMClassInfo &info)
 
 RLMAccessorContext::RLMAccessorContext(
     __unsafe_unretained RLMObjectBase *const parent,
-    const wabi_realm::Property *prop)
+    const realm::Property *prop)
     : _realm(parent->_realm),
-      _info(prop && prop->type == wabi_realm::PropertyType::Object
+      _info(prop && prop->type == realm::PropertyType::Object
                 ? parent->_info->linkTargetType(*prop)
                 : *parent->_info),
       _parentObject(parent->_row), _parentObjectInfo(parent->_info),
       _colKey(prop ? prop->column_key : ColKey{}) {}
 
 RLMAccessorContext::RLMAccessorContext(
-    __unsafe_unretained RLMObjectBase *const parent, wabi_realm::ColKey col)
+    __unsafe_unretained RLMObjectBase *const parent, realm::ColKey col)
     : _realm(parent->_realm),
       _info(_realm->_info[parent->_info->propertyForTableColumn(col)
                               .objectClassName]),
@@ -950,18 +950,18 @@ id RLMAccessorContext::propertyValue(
   return value ?: NSNull.null;
 }
 
-wabi_realm::Obj RLMAccessorContext::create_embedded_object() {
+realm::Obj RLMAccessorContext::create_embedded_object() {
   if (!_parentObject) {
     @throw RLMException(@"Embedded objects cannot be created directly");
   }
   return _parentObject.create_and_set_linked_object(_colKey);
 }
 
-id RLMAccessorContext::box(wabi_realm::Mixed v) {
+id RLMAccessorContext::box(realm::Mixed v) {
   return RLMMixedToObjc(v, _realm, &_info);
 }
 
-id RLMAccessorContext::box(wabi_realm::List &&l) {
+id RLMAccessorContext::box(realm::List &&l) {
   REALM_ASSERT(_parentObjectInfo);
   REALM_ASSERT(currentProperty);
   return [[RLMManagedArray alloc] initWithBackingCollection:std::move(l)
@@ -969,7 +969,7 @@ id RLMAccessorContext::box(wabi_realm::List &&l) {
                                                    property:currentProperty];
 }
 
-id RLMAccessorContext::box(wabi_realm::object_store::Set &&s) {
+id RLMAccessorContext::box(realm::object_store::Set &&s) {
   REALM_ASSERT(_parentObjectInfo);
   REALM_ASSERT(currentProperty);
   return [[RLMManagedSet alloc] initWithBackingCollection:std::move(s)
@@ -977,7 +977,7 @@ id RLMAccessorContext::box(wabi_realm::object_store::Set &&s) {
                                                  property:currentProperty];
 }
 
-id RLMAccessorContext::box(wabi_realm::object_store::Dictionary &&d) {
+id RLMAccessorContext::box(realm::object_store::Dictionary &&d) {
   REALM_ASSERT(_parentObjectInfo);
   REALM_ASSERT(currentProperty);
   return
@@ -986,40 +986,40 @@ id RLMAccessorContext::box(wabi_realm::object_store::Dictionary &&d) {
                                                      property:currentProperty];
 }
 
-id RLMAccessorContext::box(wabi_realm::Object &&o) {
+id RLMAccessorContext::box(realm::Object &&o) {
   REALM_ASSERT(currentProperty);
   return RLMCreateObjectAccessor(_info.linkTargetType(currentProperty.index),
                                  o.obj());
 }
 
-id RLMAccessorContext::box(wabi_realm::Obj &&r) {
+id RLMAccessorContext::box(realm::Obj &&r) {
   if (!currentProperty) {
     // If currentProperty is set, then we're reading from a Collection and
     // that reported an audit read for us. If not, we need to report the
     // audit read. This happens automatically when creating a
-    // `wabi_realm::Object`, but our object accessors don't wrap that type.
-    wabi_realm::Object(_realm->_realm, *_info.objectSchema, r, _parentObject,
+    // `realm::Object`, but our object accessors don't wrap that type.
+    realm::Object(_realm->_realm, *_info.objectSchema, r, _parentObject,
                        _colKey);
   }
   return RLMCreateObjectAccessor(_info, std::move(r));
 }
 
-id RLMAccessorContext::box(wabi_realm::Results &&r) {
+id RLMAccessorContext::box(realm::Results &&r) {
   REALM_ASSERT(currentProperty);
   return [RLMResults
       resultsWithObjectInfo:_realm->_info[currentProperty.objectClassName]
                     results:std::move(r)];
 }
 
-using wabi_realm::CreatePolicy;
-using wabi_realm::ObjKey;
+using realm::CreatePolicy;
+using realm::ObjKey;
 
 template <typename T> static T *bridged(__unsafe_unretained id const value) {
   return [value isKindOfClass:[T class]] ? value : RLMBridgeSwiftValue(value);
 }
 
 template <>
-wabi_realm::Timestamp
+realm::Timestamp
 RLMStatelessAccessorContext::unbox(__unsafe_unretained id const value) {
   id v = RLMCoerceToNil(value);
   return RLMTimestampForNSDate(bridged<NSDate>(v));
@@ -1041,25 +1041,25 @@ template <>
 long long RLMStatelessAccessorContext::unbox(__unsafe_unretained id const v) {
   return [bridged<NSNumber>(v) longLongValue];
 }
-template <> wabi_realm::BinaryData RLMStatelessAccessorContext::unbox(id v) {
+template <> realm::BinaryData RLMStatelessAccessorContext::unbox(id v) {
   v = RLMCoerceToNil(v);
   return RLMBinaryDataForNSData(bridged<NSData>(v));
 }
-template <> wabi_realm::StringData RLMStatelessAccessorContext::unbox(id v) {
+template <> realm::StringData RLMStatelessAccessorContext::unbox(id v) {
   v = RLMCoerceToNil(v);
   return RLMStringDataWithNSString(bridged<NSString>(v));
 }
-template <> wabi_realm::Decimal128 RLMStatelessAccessorContext::unbox(id v) {
+template <> realm::Decimal128 RLMStatelessAccessorContext::unbox(id v) {
   return RLMObjcToDecimal128(v);
 }
-template <> wabi_realm::ObjectId RLMStatelessAccessorContext::unbox(id v) {
+template <> realm::ObjectId RLMStatelessAccessorContext::unbox(id v) {
   return bridged<RLMObjectId>(v).value;
 }
 template <> realm::UUID RLMStatelessAccessorContext::unbox(id v) {
   return RLMObjcToUUID(bridged<NSUUID>(v));
 }
 template <>
-wabi_realm::Mixed RLMAccessorContext::unbox(__unsafe_unretained id v,
+realm::Mixed RLMAccessorContext::unbox(__unsafe_unretained id v,
                                             CreatePolicy p, ObjKey) {
   return RLMObjcToMixed(v, _realm, p);
 }
@@ -1067,9 +1067,9 @@ wabi_realm::Mixed RLMAccessorContext::unbox(__unsafe_unretained id v,
 template <typename T>
 static auto toOptional(__unsafe_unretained id const value) {
   id v = RLMCoerceToNil(value);
-  return v ? wabi_realm::util::make_optional(
+  return v ? realm::util::make_optional(
                  RLMStatelessAccessorContext::unbox<T>(v))
-           : wabi_realm::util::none;
+           : realm::util::none;
 }
 
 template <>
@@ -1093,9 +1093,9 @@ RLMStatelessAccessorContext::unbox(__unsafe_unretained id const v) {
   return toOptional<int64_t>(v);
 }
 template <>
-std::optional<wabi_realm::ObjectId>
+std::optional<realm::ObjectId>
 RLMStatelessAccessorContext::unbox(__unsafe_unretained id const v) {
-  return toOptional<wabi_realm::ObjectId>(v);
+  return toOptional<realm::ObjectId>(v);
 }
 template <>
 std::optional<realm::UUID>
@@ -1103,8 +1103,8 @@ RLMStatelessAccessorContext::unbox(__unsafe_unretained id const v) {
   return toOptional<realm::UUID>(v);
 }
 
-std::pair<wabi_realm::Obj, bool>
-RLMAccessorContext::createObject(id value, wabi_realm::CreatePolicy policy,
+std::pair<realm::Obj, bool>
+RLMAccessorContext::createObject(id value, realm::CreatePolicy policy,
                                  bool forceCreate, ObjKey existingKey) {
   if (!value || value == NSNull.null) {
     @throw RLMException(@"Must provide a non-nil value.");
@@ -1119,7 +1119,7 @@ RLMAccessorContext::createObject(id value, wabi_realm::CreatePolicy policy,
   }
 
   RLMObjectBase *objBase = RLMDynamicCast<RLMObjectBase>(value);
-  wabi_realm::Obj obj, *outObj = nullptr;
+  realm::Obj obj, *outObj = nullptr;
   bool requiresSwiftUIObservers = false;
   if (objBase) {
     if (objBase.isInvalidated) {
@@ -1149,7 +1149,7 @@ RLMAccessorContext::createObject(id value, wabi_realm::CreatePolicy policy,
         return {objBase->_row, true};
       }
       if (!policy.create) {
-        return {wabi_realm::Obj(), false};
+        return {realm::Obj(), false};
       }
       if (objBase->_realm) {
         @throw RLMException(
@@ -1177,14 +1177,14 @@ RLMAccessorContext::createObject(id value, wabi_realm::CreatePolicy policy,
     }
   }
   if (!policy.create) {
-    return {wabi_realm::Obj(), false};
+    return {realm::Obj(), false};
   }
   if (!outObj) {
     outObj = &obj;
   }
 
   try {
-    wabi_realm::Object::create(*this, _realm->_realm, *_info.objectSchema,
+    realm::Object::create(*this, _realm->_realm, *_info.objectSchema,
                                (id)value, policy, existingKey, outObj)
         .obj();
   } catch (std::exception const &e) {
@@ -1215,23 +1215,23 @@ RLMAccessorContext::createObject(id value, wabi_realm::CreatePolicy policy,
 }
 
 template <>
-wabi_realm::Obj RLMAccessorContext::unbox(__unsafe_unretained id const v,
+realm::Obj RLMAccessorContext::unbox(__unsafe_unretained id const v,
                                           CreatePolicy policy, ObjKey key) {
   return createObject(v, policy, false, key).first;
 }
 
-void RLMAccessorContext::will_change(wabi_realm::Obj const &row,
-                                     wabi_realm::Property const &prop) {
+void RLMAccessorContext::will_change(realm::Obj const &row,
+                                     realm::Property const &prop) {
   auto obsInfo = RLMGetObservationInfo(nullptr, row.get_key(), _info);
   if (!_observationHelper) {
-    if (obsInfo || prop.type == wabi_realm::PropertyType::Object) {
+    if (obsInfo || prop.type == realm::PropertyType::Object) {
       _observationHelper = std::make_unique<RLMObservationTracker>(_info.realm);
     }
   }
   if (_observationHelper) {
     _observationHelper->willChange(
         obsInfo, _info.propertyForTableColumn(prop.column_key).name);
-    if (prop.type == wabi_realm::PropertyType::Object) {
+    if (prop.type == realm::PropertyType::Object) {
       _observationHelper->trackDeletions();
     }
   }
@@ -1245,7 +1245,7 @@ void RLMAccessorContext::did_change() {
 
 RLMOptionalId
 RLMAccessorContext::value_for_property(__unsafe_unretained id const obj,
-                                       wabi_realm::Property const &,
+                                       realm::Property const &,
                                        size_t propIndex) {
   auto prop = _info.rlmObjectSchema.properties[propIndex];
   id value = propertyValue(obj, propIndex, prop);
@@ -1256,25 +1256,25 @@ RLMAccessorContext::value_for_property(__unsafe_unretained id const obj,
 }
 
 RLMOptionalId RLMAccessorContext::default_value_for_property(
-    wabi_realm::ObjectSchema const &, wabi_realm::Property const &prop) {
+    realm::ObjectSchema const &, realm::Property const &prop) {
   return RLMOptionalId { defaultValue(@(prop.name.c_str())) };
 }
 
 bool RLMStatelessAccessorContext::is_same_list(
-    wabi_realm::List const &list, __unsafe_unretained id const v) noexcept {
+    realm::List const &list, __unsafe_unretained id const v) noexcept {
   return [v respondsToSelector:@selector(isBackedByList:)] &&
          [v isBackedByList:list];
 }
 
 bool RLMStatelessAccessorContext::is_same_set(
-    wabi_realm::object_store::Set const &set,
+    realm::object_store::Set const &set,
     __unsafe_unretained id const v) noexcept {
   return
       [v respondsToSelector:@selector(isBackedBySet:)] && [v isBackedBySet:set];
 }
 
 bool RLMStatelessAccessorContext::is_same_dictionary(
-    wabi_realm::object_store::Dictionary const &dict,
+    realm::object_store::Dictionary const &dict,
     __unsafe_unretained id const v) noexcept {
   return [v respondsToSelector:@selector(isBackedByDictionary:)] &&
          [v isBackedByDictionary:dict];

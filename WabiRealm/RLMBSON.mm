@@ -25,7 +25,7 @@
 
 #import <realm/object-store/util/bson/bson.hpp>
 
-using namespace wabi_realm;
+using namespace realm;
 using namespace bson;
 
 #pragma mark NSNull
@@ -247,19 +247,19 @@ using namespace bson;
   if ((self = [self init])) {
     _pattern = @(regularExpression.pattern().data());
     switch (regularExpression.options()) {
-    case wabi_realm::bson::RegularExpression::Option::None:
+    case realm::bson::RegularExpression::Option::None:
       _options = 0;
       break;
-    case wabi_realm::bson::RegularExpression::Option::IgnoreCase:
+    case realm::bson::RegularExpression::Option::IgnoreCase:
       _options = NSRegularExpressionCaseInsensitive;
       break;
-    case wabi_realm::bson::RegularExpression::Option::Multiline:
+    case realm::bson::RegularExpression::Option::Multiline:
       _options = NSRegularExpressionUseUnixLineSeparators;
       break;
-    case wabi_realm::bson::RegularExpression::Option::Dotall:
+    case realm::bson::RegularExpression::Option::Dotall:
       _options = NSRegularExpressionDotMatchesLineSeparators;
       break;
-    case wabi_realm::bson::RegularExpression::Option::Extended:
+    case realm::bson::RegularExpression::Option::Extended:
       _options = NSRegularExpressionUseUnicodeWordBoundaries;
       break;
     }
@@ -375,45 +375,45 @@ BsonDocument RLMConvertRLMBSONArrayToBsonDocument(NSArray<id<RLMBSON>> *array) {
 
 id<RLMBSON> RLMConvertBsonToRLMBSON(const Bson &b) {
   switch (b.type()) {
-  case wabi_realm::bson::Bson::Type::Null:
+  case realm::bson::Bson::Type::Null:
     return [NSNull null];
-  case wabi_realm::bson::Bson::Type::Int32:
+  case realm::bson::Bson::Type::Int32:
     return @(static_cast<int32_t>(b));
-  case wabi_realm::bson::Bson::Type::Int64:
+  case realm::bson::Bson::Type::Int64:
     return @(static_cast<int64_t>(b));
-  case wabi_realm::bson::Bson::Type::Bool:
+  case realm::bson::Bson::Type::Bool:
     return @(static_cast<bool>(b));
-  case wabi_realm::bson::Bson::Type::Double:
+  case realm::bson::Bson::Type::Double:
     return @(static_cast<double>(b));
-  case wabi_realm::bson::Bson::Type::String:
+  case realm::bson::Bson::Type::String:
     return @(static_cast<std::string>(b).c_str());
-  case wabi_realm::bson::Bson::Type::Binary:
+  case realm::bson::Bson::Type::Binary:
     return
         [[NSData alloc] initWithBsonBinary:static_cast<std::vector<char>>(b)];
-  case wabi_realm::bson::Bson::Type::Timestamp:
+  case realm::bson::Bson::Type::Timestamp:
     return [[NSDate alloc]
         initWithTimeIntervalSince1970:static_cast<MongoTimestamp>(b).seconds];
-  case wabi_realm::bson::Bson::Type::Datetime:
+  case realm::bson::Bson::Type::Datetime:
     return [[NSDate alloc]
         initWithTimeIntervalSince1970:static_cast<Timestamp>(b).get_seconds()];
-  case wabi_realm::bson::Bson::Type::ObjectId:
+  case realm::bson::Bson::Type::ObjectId:
     return [[RLMObjectId alloc] initWithValue:static_cast<ObjectId>(b)];
-  case wabi_realm::bson::Bson::Type::Decimal128:
+  case realm::bson::Bson::Type::Decimal128:
     return
         [[RLMDecimal128 alloc] initWithDecimal128:static_cast<Decimal128>(b)];
-  case wabi_realm::bson::Bson::Type::RegularExpression:
+  case realm::bson::Bson::Type::RegularExpression:
     return [[NSRegularExpression alloc]
         initWithRegularExpression:static_cast<RegularExpression>(b)];
-  case wabi_realm::bson::Bson::Type::MaxKey:
+  case realm::bson::Bson::Type::MaxKey:
     return [RLMMaxKey new];
-  case wabi_realm::bson::Bson::Type::MinKey:
+  case realm::bson::Bson::Type::MinKey:
     return [RLMMinKey new];
-  case wabi_realm::bson::Bson::Type::Document:
+  case realm::bson::Bson::Type::Document:
     return [[NSMutableDictionary alloc]
         initWithBsonDocument:static_cast<BsonDocument>(b)];
-  case wabi_realm::bson::Bson::Type::Array:
+  case realm::bson::Bson::Type::Array:
     return [[NSMutableArray alloc] initWithBsonArray:static_cast<BsonArray>(b)];
-  case wabi_realm::bson::Bson::Type::Uuid:
+  case realm::bson::Bson::Type::Uuid:
     return [[NSUUID alloc] initWithRealmUUID:static_cast<realm::UUID>(b)];
   }
   return nil;

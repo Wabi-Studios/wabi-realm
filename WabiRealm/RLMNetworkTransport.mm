@@ -28,7 +28,7 @@
 #import <realm/object-store/sync/generic_network_transport.hpp>
 #import <realm/util/scope_exit.hpp>
 
-using namespace wabi_realm;
+using namespace realm;
 
 static_assert((int)RLMHTTPMethodGET == (int)app::HttpMethod::get);
 static_assert((int)RLMHTTPMethodPOST == (int)app::HttpMethod::post);
@@ -112,7 +112,7 @@ NSString *const RLMHTTPMethodToNSString[] = {[RLMHTTPMethodGET] = @"GET",
   return session;
 }
 
-RLMRequest *RLMRequestFromRequest(wabi_realm::app::Request const &request) {
+RLMRequest *RLMRequestFromRequest(realm::app::Request const &request) {
   RLMRequest *rlmRequest = [RLMRequest new];
   NSMutableDictionary<NSString *, NSString *> *headersDict =
       [NSMutableDictionary new];

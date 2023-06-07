@@ -38,10 +38,10 @@
 #import <realm/sync/config.hpp>
 #import <realm/sync/protocol.hpp>
 
-using namespace wabi_realm;
+using namespace realm;
 
 namespace {
-using ProtocolError = wabi_realm::sync::ProtocolError;
+using ProtocolError = realm::sync::ProtocolError;
 
 struct CallbackSchema {
   bool dynamic;
@@ -95,7 +95,7 @@ struct AfterClientResetWrapper : CallbackSchema {
 } // anonymous namespace
 
 @interface RLMSyncConfiguration () {
-  std::unique_ptr<wabi_realm::SyncConfig> _config;
+  std::unique_ptr<realm::SyncConfig> _config;
   RLMSyncErrorReportingBlock _manualClientResetHandler;
 }
 
@@ -105,10 +105,10 @@ struct AfterClientResetWrapper : CallbackSchema {
 
 @dynamic stopPolicy;
 
-- (instancetype)initWithRawConfig:(wabi_realm::SyncConfig)config
+- (instancetype)initWithRawConfig:(realm::SyncConfig)config
                              path:(std::string const &)path {
   if (self = [super init]) {
-    _config = std::make_unique<wabi_realm::SyncConfig>(std::move(config));
+    _config = std::make_unique<realm::SyncConfig>(std::move(config));
     _path = path;
   }
   return self;
@@ -123,7 +123,7 @@ struct AfterClientResetWrapper : CallbackSchema {
          [self.user isEqual:that.user] && self.stopPolicy == that.stopPolicy;
 }
 
-- (wabi_realm::SyncConfig &)rawConfiguration {
+- (realm::SyncConfig &)rawConfiguration {
   return *_config;
 }
 
@@ -149,7 +149,7 @@ struct AfterClientResetWrapper : CallbackSchema {
 }
 
 - (void)setClientResetMode:(RLMClientResetMode)clientResetMode {
-  _config->client_resync_mode = wabi_realm::ClientResyncMode(clientResetMode);
+  _config->client_resync_mode = realm::ClientResyncMode(clientResetMode);
 }
 
 - (RLMClientResetBeforeBlock)beforeClientReset {
@@ -217,7 +217,7 @@ struct AfterClientResetWrapper : CallbackSchema {
   [self assignConfigErrorHandler:self.user];
 }
 
-void RLMSetConfigInfoForClientResetCallbacks(wabi_realm::SyncConfig &syncConfig,
+void RLMSetConfigInfoForClientResetCallbacks(realm::SyncConfig &syncConfig,
                                              RLMRealmConfiguration *config) {
   if (syncConfig.notify_before_client_reset) {
     auto before = syncConfig.notify_before_client_reset
@@ -238,7 +238,7 @@ void RLMSetConfigInfoForClientResetCallbacks(wabi_realm::SyncConfig &syncConfig,
 - (id<RLMBSON>)partitionValue {
   if (!_config->partition_value.empty()) {
     return RLMConvertBsonToRLMBSON(
-        wabi_realm::bson::parse(_config->partition_value.c_str()));
+        realm::bson::parse(_config->partition_value.c_str()));
   }
   return nil;
 }

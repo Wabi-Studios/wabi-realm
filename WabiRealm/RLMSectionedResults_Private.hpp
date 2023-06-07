@@ -30,7 +30,7 @@ RLM_HIDDEN_BEGIN
 
 RLM_DIRECT_MEMBERS
 @interface RLMSectionedResultsChange ()
-- (instancetype)initWithChanges:(wabi_realm::SectionedResultsChangeSet)indices;
+- (instancetype)initWithChanges:(realm::SectionedResultsChangeSet)indices;
 @end
 
 RLM_DIRECT_MEMBERS
@@ -62,7 +62,7 @@ NSUInteger RLMFastEnumerate(NSFastEnumerationState *state, NSUInteger len,
 @interface RLMSection ()
 
 - (instancetype)initWithResultsSection:
-                    (wabi_realm::ResultsSection &&)resultsSection
+                    (realm::ResultsSection &&)resultsSection
                                 parent:(RLMSectionedResults *)parent;
 
 - (RLMSectionedResultsEnumerator *)fastEnumerator;

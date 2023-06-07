@@ -34,7 +34,7 @@
 #import <realm/object-store/audit.hpp>
 #import <realm/object-store/audit_serializer.hpp>
 
-using namespace wabi_realm;
+using namespace realm;
 
 @interface RLMObjectBase ()
 - (NSString *)customEventRepresentation;
@@ -73,8 +73,8 @@ wrapCompletion(void (^completion)(NSError *)) {
   };
 }
 
-wabi_realm::AuditInterface *auditContext(RLMEventContext *context) {
-  return reinterpret_cast<wabi_realm::AuditInterface *>(context);
+realm::AuditInterface *auditContext(RLMEventContext *context) {
+  return reinterpret_cast<realm::AuditInterface *>(context);
 }
 
 std::vector<std::pair<std::string, std::string>>
@@ -133,7 +133,7 @@ RLMEventContext *RLMEventGetContext(RLMRealm *realm) {
   return reinterpret_cast<RLMEventContext *>(realm->_realm->audit_context());
 }
 
-class RLMEventSerializer : public wabi_realm::AuditObjectSerializer {
+class RLMEventSerializer : public realm::AuditObjectSerializer {
 public:
   RLMEventSerializer(RLMRealmConfiguration *c) : _config(c.copy) {
     auto &config = _config.configRef;
@@ -214,7 +214,7 @@ private:
 @implementation RLMEventConfiguration
 - (std::shared_ptr<AuditConfig>)auditConfigWithRealmConfiguration:
     (RLMRealmConfiguration *)realmConfig {
-  auto config = std::make_shared<wabi_realm::AuditConfig>();
+  auto config = std::make_shared<realm::AuditConfig>();
   config->audit_user = self.syncUser._syncUser;
   config->partition_value_prefix = self.partitionPrefix.UTF8String;
   config->metadata = convertMetadata(self.metadata);
@@ -223,7 +223,7 @@ private:
     config->logger = RLMWrapLogFunction(_logger);
   }
   if (_errorHandler) {
-    config->sync_error_handler = [eh = _errorHandler](wabi_realm::SyncError e) {
+    config->sync_error_handler = [eh = _errorHandler](realm::SyncError e) {
       if (auto error = makeError(std::move(e))) {
         eh(error);
       }
