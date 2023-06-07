@@ -98,9 +98,9 @@ xctest() {
         (
             cd "$DIRECTORY"
             if [ -n "${REALM_BUILD_USING_LATEST_RELEASE:-}" ]; then
-                echo "github \"realm/realm-swift\"" > Cartfile
+                echo "github \"Wabi-Studios/wabi-realm\"" > Cartfile
             else
-                echo "github \"realm/realm-swift\" \"${sha:-master}\"" > Cartfile
+                echo "github \"Wabi-Studios/wabi-realm\" \"${sha:-master}\"" > Cartfile
             fi
             if [[ $PLATFORM == ios ]]; then
                 carthage update --use-xcframeworks --platform iOS

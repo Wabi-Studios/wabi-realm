@@ -3,16 +3,18 @@
 import PackageDescription
 
 let package = Package(
-    name: "SwiftPMExample",
-    dependencies: [
-        .package(path: "../../.."),
-    ],
-    targets: [
-        .target(
-            name: "SwiftPMExample",
-            dependencies: ["RealmSwift"]),
-        .testTarget(
-            name: "SwiftPMExampleTests",
-            dependencies: ["SwiftPMExample"]),
-    ]
+  name: "SwiftPMExample",
+  dependencies: [
+    .package(path: "../../.."),
+  ],
+  targets: [
+    .target(
+      name: "SwiftPMExample",
+      dependencies: ["WabiRealmKit"]
+    ),
+    .testTarget(
+      name: "SwiftPMExampleTests",
+      dependencies: ["SwiftPMExample"]
+    ),
+  ]
 )

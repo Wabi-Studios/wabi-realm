@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright 2014 Realm Inc.
+// Copyright 2014 WabiRealm Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,40 +17,40 @@
 ////////////////////////////////////////////////////////////////////////////
 
 import Foundation
+import WabiRealmKit
 import WatchKit
-import RealmSwift
 
 class Counter: Object {
-    @objc dynamic var count = 0
+  @objc dynamic var count = 0
 }
 
 class InterfaceController: WKInterfaceController {
-    @IBOutlet var button: WKInterfaceButton!
-    let counter: Counter
-    var token: NotificationToken! = nil
+  @IBOutlet var button: WKInterfaceButton!
+  let counter: Counter
+  var token: NotificationToken! = nil
 
-    override init() {
-        counter = Counter()
-        super.init()
-        let realm = try! Realm()
-        try! realm.write {
-            realm.add(counter)
-        }
+  override init() {
+    counter = Counter()
+    super.init()
+    let realm = try! WabiRealm()
+    try! realm.write {
+      realm.add(counter)
     }
+  }
 
-    @IBAction func increment() {
-        try! counter.realm!.write { counter.count += 1 }
-    }
+  @IBAction func increment() {
+    try! counter.realm!.write { counter.count += 1 }
+  }
 
-    override func willActivate() {
-        super.willActivate()
-        token = counter.realm!.observe { [unowned self] _, _ in
-            self.button.setTitle("\(self.counter.count)")
-        }
+  override func willActivate() {
+    super.willActivate()
+    token = counter.realm!.observe { [unowned self] _, _ in
+      self.button.setTitle("\(self.counter.count)")
     }
+  }
 
-    override func didDeactivate() {
-        token.invalidate()
-        super.didDeactivate()
-    }
+  override func didDeactivate() {
+    token.invalidate()
+    super.didDeactivate()
+  }
 }

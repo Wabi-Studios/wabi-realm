@@ -1,18 +1,18 @@
-![Realm](https://github.com/realm/realm-swift/raw/master/logo.png)
+![WabiRealm](https://github.com/Wabi-Studios/wabi-realm/raw/master/logo.png)
 
-Realm is a mobile database that runs directly inside phones, tablets or wearables.
-This repository holds the source code for the iOS, macOS, tvOS & watchOS versions of Realm Swift & Realm Objective-C.
+WabiRealm is a mobile database that runs directly inside phones, tablets or wearables.
+This repository holds the source code for the iOS, macOS, tvOS & watchOS versions of WabiRealm Swift & WabiRealm Objective-C.
 
-## Why Use Realm
+## Why Use WabiRealm
 
 * **Intuitive to Developers:** Realm’s object-oriented data model is simple to learn, doesn’t need an ORM, and lets you write less code.
-* **Built for Mobile:** Realm is fully-featured, lightweight, and efficiently uses memory, disk space, and battery life.
+* **Built for Mobile:** WabiRealm is fully-featured, lightweight, and efficiently uses memory, disk space, and battery life.
 * **Designed for Offline Use:** Realm’s local database persists data on-disk, so apps work as well offline as they do online.
-* **[Device Sync](https://www.mongodb.com/atlas/app-services/device-sync)**: Makes it simple to keep data in sync across users, devices, and your backend in real-time. Get started for free with [a template application](https://github.com/mongodb/template-app-swiftui-todo) and [create the cloud backend](http://mongodb.com/realm/register?utm_medium=github_atlas_CTA&utm_source=realm_swift_github). 
+* **[Device Sync](https://www.mongodb.com/atlas/app-services/device-sync)**: Makes it simple to keep data in sync across users, devices, and your backend in real-time. Get started for free with [a template application](https://github.com/mongodb/template-app-swiftui-todo) and [create the cloud backend](http://mongodb.com/wabi-realm/register?utm_medium=github_atlas_CTA&utm_source=realm_swift_github). 
 
 ## Object-Oriented: Streamline Your Code
 
-Realm was built for mobile developers, with simplicity in mind. The idiomatic, object-oriented data model can save you thousands of lines of code.
+WabiRealm was built for mobile developers, with simplicity in mind. The idiomatic, object-oriented data model can save you thousands of lines of code.
 
 ```swift
 // Define your models like regular Swift classes
@@ -33,8 +33,8 @@ dog.name = "Rex"
 dog.age = 1
 print("name of dog: \(dog.name)")
 
-// Get the default Realm
-let realm = try! Realm()
+// Get the default WabiRealm
+let realm = try! WabiRealm()
 // Persist your data easily with a write transaction 
 try! realm.write {
     realm.add(dog)
@@ -44,7 +44,7 @@ try! realm.write {
 Realm’s live objects mean data updated anywhere is automatically updated everywhere.
 ```swift
 // Open the default realm.
-let realm = try! Realm()
+let realm = try! WabiRealm()
 
 var token: NotificationToken?
 
@@ -76,7 +76,7 @@ try! realm.write {
 }
 ```
 ### SwiftUI
-Realm integrates directly with SwiftUI, updating your views so you don't have to.
+WabiRealm integrates directly with SwiftUI, updating your views so you don't have to.
 ```swift
 struct ContactsView: View {
     @ObservedResults(Person.self) var persons
@@ -107,42 +107,42 @@ _ = key.withUnsafeMutableBytes { bytes in
 }
 
 // Add the encryption key to the config and open the realm
-let config = Realm.Configuration(encryptionKey: key)
-let realm = try Realm(configuration: config)
+let config = WabiRealm.Configuration(encryptionKey: key)
+let realm = try WabiRealm(configuration: config)
 
-// Use the Realm as normal
+// Use the WabiRealm as normal
 let dogs = realm.objects(Dog.self).filter("name contains 'Fido'")
 ```
 
 ## Getting Started
 
-We support installing Realm via Swift Package Manager, CocoaPods, Carthage, or by importing a dynamic XCFramework.
+We support installing WabiRealm via Swift Package Manager, CocoaPods, Carthage, or by importing a dynamic XCFramework.
 
-For more information, see the detailed instructions in our [docs](https://docs.mongodb.com/realm/sdk/ios/install/).
+For more information, see the detailed instructions in our [docs](https://docs.mongodb.com/wabi-realm/sdk/ios/install/).
 
-Interested in getting started for free with [a template application](https://github.com/mongodb/template-app-swiftui-todo) that includes a cloud backend and Sync? [Create a MongoDB Atlas Account](http://mongodb.com/realm/register?utm_medium=github_atlas_CTA&utm_source=realm_swift_github).
+Interested in getting started for free with [a template application](https://github.com/mongodb/template-app-swiftui-todo) that includes a cloud backend and Sync? [Create a MongoDB Atlas Account](http://mongodb.com/wabi-realm/register?utm_medium=github_atlas_CTA&utm_source=realm_swift_github).
 
 ## Documentation
 
-The documentation can be found at [docs.mongodb.com/realm/sdk/ios/](https://docs.mongodb.com/realm/sdk/ios/).  
+The documentation can be found at [docs.mongodb.com/wabi-realm/sdk/ios/](https://docs.mongodb.com/wabi-realm/sdk/ios/).  
 The API reference is located at [docs.mongodb.com/realm-sdks/swift/latest/](https://docs.mongodb.com/realm-sdks/swift/latest/)
 
 ## Getting Help
 
 - **Need help with your code?**: Look for previous questions with the[`realm` tag](https://stackoverflow.com/questions/tagged/realm?sort=newest) on Stack Overflow or [ask a new question](https://stackoverflow.com/questions/ask?tags=realm). For general discussion that might be considered too broad for Stack Overflow, use the [Community Forum](https://developer.mongodb.com/community/forums/tags/c/realm-sdks/58/swift/).
-- **Have a bug to report?** [Open a GitHub issue](https://github.com/realm/realm-swift/issues/new). If possible, include the version of Realm, a full log, the Realm file, and a project that shows the issue.
-- **Have a feature request?** [Open a GitHub issue](https://github.com/realm/realm-swift/issues/new). Tell us what the feature should do and why you want the feature.
+- **Have a bug to report?** [Open a GitHub issue](https://github.com/Wabi-Studios/wabi-realm/issues/new). If possible, include the version of WabiRealm, a full log, the WabiRealm file, and a project that shows the issue.
+- **Have a feature request?** [Open a GitHub issue](https://github.com/Wabi-Studios/wabi-realm/issues/new). Tell us what the feature should do and why you want the feature.
 
-## Building Realm
+## Building WabiRealm
 
-In case you don't want to use the precompiled version, you can build Realm yourself from source.
+In case you don't want to use the precompiled version, you can build WabiRealm yourself from source.
 
 Prerequisites:
 
-* Building Realm requires Xcode 11.x or newer.
-* Building Realm documentation requires [jazzy](https://github.com/realm/jazzy)
+* Building WabiRealm requires Xcode 11.x or newer.
+* Building WabiRealm documentation requires [jazzy](https://github.com/wabi-realm/jazzy)
 
-Once you have all the necessary prerequisites, building Realm.framework just takes a single command: `sh build.sh build`. You'll need an internet connection the first time you build Realm to download the core binary.
+Once you have all the necessary prerequisites, building WabiRealm.framework just takes a single command: `sh build.sh build`. You'll need an internet connection the first time you build WabiRealm to download the core binary.
 
 Run `sh build.sh help` to see all the actions you can perform (build ios/osx, generate docs, test, etc.).
 
@@ -158,14 +158,14 @@ unacceptable behavior to [community-conduct@mongodb.com](mailto:community-conduc
 
 ## License
 
-Realm Objective-C & Realm Swift are published under the Apache 2.0 license.  
-Realm Core is also published under the Apache 2.0 license and is available
+WabiRealm Objective-C & WabiRealm Swift are published under the Apache 2.0 license.  
+WabiRealm Core is also published under the Apache 2.0 license and is available
 [here](https://github.com/realm/realm-core).
 
 ## Feedback
 
-**_If you use Realm and are happy with it, please consider sending out a tweet mentioning [@realm](https://twitter.com/realm) to share your thoughts!_**
+**_If you use WabiRealm and are happy with it, please consider sending out a tweet mentioning [@realm](https://twitter.com/realm) to share your thoughts!_**
 
 **_And if you don't like it, please let us know what you would like improved, so we can fix it!_**
 
-<img style="width: 0px; height: 0px;" src="https://3eaz4mshcd.execute-api.us-east-1.amazonaws.com/prod?s=https://github.com/realm/realm-swift#README.md">
+<img style="width: 0px; height: 0px;" src="https://3eaz4mshcd.execute-api.us-east-1.amazonaws.com/prod?s=https://github.com/Wabi-Studios/wabi-realm#README.md">

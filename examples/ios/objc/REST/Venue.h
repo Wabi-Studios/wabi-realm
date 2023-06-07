@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright 2014 Realm Inc.
+// Copyright 2014 WabiRealm Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,9 +17,9 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #import <Foundation/Foundation.h>
-#import <Realm/Realm.h>
+#import <WabiRealm/WabiRealm.h>
 
 @interface Venue : RLMObject
-@property NSString * foursquareID;
-@property NSString * name;
+@property NSString *foursquareID;
+@property NSString *name;
 @end

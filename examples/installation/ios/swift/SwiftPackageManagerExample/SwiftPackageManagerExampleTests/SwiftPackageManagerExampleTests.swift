@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright 2020 Realm Inc.
+// Copyright 2020 WabiRealm Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,15 +16,15 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-import XCTest
 import SwiftPackageManagerExample
-import RealmSwift
+import WabiRealmKit
+import XCTest
 
 class SwiftPackageManagerExampleTests: XCTestCase {
-    func testExample() {
-        let realm = try! Realm()
-        try! realm.write {
-            _ = realm.create(MyObject.self, value: [1])
-        }
+  func testExample() {
+    let realm = try! WabiRealm()
+    try! realm.write {
+      _ = realm.create(MyObject.self, value: [1])
     }
+  }
 }

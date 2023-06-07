@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright 2014 Realm Inc.
+// Copyright 2014 WabiRealm Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,43 +17,43 @@
 ////////////////////////////////////////////////////////////////////////////
 
 import UIKit
-import RealmSwift
+import WabiRealmKit
 
 class Dog: Object {
-    @Persisted var name: String
-    @Persisted var age: Int
-    // Define "owners" as the inverse relationship to Person.dogs
-    @Persisted(originProperty: "dogs") var owners: LinkingObjects<Person>
+  @Persisted var name: String
+  @Persisted var age: Int
+  // Define "owners" as the inverse relationship to Person.dogs
+  @Persisted(originProperty: "dogs") var owners: LinkingObjects<Person>
 }
 
 class Person: Object {
-    @Persisted var name: String
-    @Persisted var dogs: List<Dog>
+  @Persisted var name: String
+  @Persisted var dogs: List<Dog>
 }
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    var window: UIWindow?
+  var window: UIWindow?
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
-        window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = UIViewController()
-        window?.makeKeyAndVisible()
+  func application(_: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+    window = UIWindow(frame: UIScreen.main.bounds)
+    window?.rootViewController = UIViewController()
+    window?.makeKeyAndVisible()
 
-        _ = try! Realm.deleteFiles(for: Realm.Configuration.defaultConfiguration)
+    _ = try! WabiRealm.deleteFiles(for: WabiRealm.Configuration.defaultConfiguration)
 
-        let realm = try! Realm()
-        try! realm.write {
-            realm.create(Person.self, value: ["John", [["Fido", 1]]])
-            realm.create(Person.self, value: ["Mary", [["Rex", 2]]])
-        }
-
-        // Log all dogs and their owners using the "owners" inverse relationship
-        let allDogs = realm.objects(Dog.self)
-        for dog in allDogs {
-            let ownerNames = Array(dog.owners.map(\.name))
-            print("\(dog.name) has \(ownerNames.count) owners (\(ownerNames))")
-        }
-        return true
+    let realm = try! WabiRealm()
+    try! realm.write {
+      realm.create(Person.self, value: ["John", [["Fido", 1]]])
+      realm.create(Person.self, value: ["Mary", [["Rex", 2]]])
     }
+
+    // Log all dogs and their owners using the "owners" inverse relationship
+    let allDogs = realm.objects(Dog.self)
+    for dog in allDogs {
+      let ownerNames = Array(dog.owners.map(\.name))
+      print("\(dog.name) has \(ownerNames.count) owners (\(ownerNames))")
+    }
+    return true
+  }
 }

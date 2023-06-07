@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright 2016 Realm Inc.
+// Copyright 2016 WabiRealm Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,13 +17,13 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #import <UIKit/UIKit.h>
-#import <Realm/Realm.h>
+#import <WabiRealm/WabiRealm.h>
 
 @class DrawPath;
 
 @interface CanvasView : UIView
 
-@property (nonatomic, strong) RLMResults *paths;
+@property(nonatomic, strong) RLMResults *paths;
 
 - (void)clearCanvas;
 

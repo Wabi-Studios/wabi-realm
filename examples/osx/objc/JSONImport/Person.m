@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright 2014 Realm Inc.
+// Copyright 2014 WabiRealm Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@
 //    return @{};
 //}
 
-// Specify properties to ignore (Realm won't persist these)
+// Specify properties to ignore (WabiRealm won't persist these)
 
 //+ (NSArray *)ignoredProperties
 //{
@@ -35,10 +35,9 @@
 //}
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"%@ was born on %@ and had %ld friends",
-            self.fullName,
-            self.birthdate,
-            (long)self.numberOfFriends];
+  return [NSString stringWithFormat:@"%@ was born on %@ and had %ld friends",
+                                    self.fullName, self.birthdate,
+                                    (long)self.numberOfFriends];
 }
 
 @end

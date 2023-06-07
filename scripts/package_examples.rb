@@ -9,7 +9,7 @@ require 'xcodeproj'
 def remove_reference_to_realm_xcode_project(workspace_path)
   workspace = Xcodeproj::Workspace.new_from_xcworkspace(workspace_path)
   file_references = workspace.file_references.reject do |file_reference|
-    file_reference.path == '../../../Realm.xcodeproj'
+    file_reference.path == '../../../WabiRealm.xcodeproj'
   end
   workspace = Xcodeproj::Workspace.new(nil)
   file_references.each { |ref| workspace << ref }
@@ -26,10 +26,10 @@ end
 def replace_framework(example, path)
   project_path = "#{example}/RealmExamples.xcodeproj"
   replace_in_file("#{project_path}/project.pbxproj",
-                  /lastKnownFileType = wrapper.framework; path = (Realm|RealmSwift).framework; sourceTree = BUILT_PRODUCTS_DIR;/,
+                  /lastKnownFileType = wrapper.framework; path = (WabiRealm|WabiRealmKit).framework; sourceTree = BUILT_PRODUCTS_DIR;/,
                   "lastKnownFileType = wrapper.xcframework; name = \\1.xcframework; path = \"#{path}/\\1.xcframework\"; sourceTree = \"<group>\";")
   replace_in_file("#{project_path}/project.pbxproj",
-                  /(Realm|RealmSwift).framework/, "\\1.xcframework")
+                  /(WabiRealm|WabiRealmKit).framework/, "\\1.xcframework")
 end
 
 ##########################
@@ -46,7 +46,7 @@ base_examples = [
 
 xcode_versions = %w(14.1 14.2 14.3 14.3.1)
 
-# Remove reference to Realm.xcodeproj from all example workspaces.
+# Remove reference to WabiRealm.xcodeproj from all example workspaces.
 base_examples.each do |example|
   remove_reference_to_realm_xcode_project("#{example}/RealmExamples.xcworkspace")
 end
@@ -75,9 +75,9 @@ end
 
 xcode_versions.each do |xcode_version|
   playground_file = "examples/ios/swift-#{xcode_version}/GettingStarted.playground/Contents.swift"
-  replace_in_file(playground_file, 'choose RealmSwift', 'choose PlaygroundFrameworkWrapper')
+  replace_in_file(playground_file, 'choose WabiRealmKit', 'choose PlaygroundFrameworkWrapper')
   replace_in_file(playground_file,
                   "import Foundation\n",
-                  "import Foundation\nimport PlaygroundFrameworkWrapper // only necessary to use a binary release of Realm Swift in this playground.\n")
+                  "import Foundation\nimport PlaygroundFrameworkWrapper // only necessary to use a binary release of WabiRealm Swift in this playground.\n")
 end
 

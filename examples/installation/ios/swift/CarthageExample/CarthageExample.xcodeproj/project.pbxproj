@@ -10,10 +10,10 @@
 		3F4520602915978E008F07AD /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F45205F29159778008F07AD /* libc++.tbd */; };
 		3F4520612915978E008F07AD /* libcompression.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F45205D29159778008F07AD /* libcompression.tbd */; };
 		3F4520622915978E008F07AD /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F45205E29159778008F07AD /* libz.tbd */; };
-		3F636A5D29146AB700DB1CBC /* Realm.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F636A5B29146AB600DB1CBC /* Realm.xcframework */; };
-		3F636A5E29146AB700DB1CBC /* Realm.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3F636A5B29146AB600DB1CBC /* Realm.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		3F636A5F29146AB700DB1CBC /* RealmSwift.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F636A5C29146AB600DB1CBC /* RealmSwift.xcframework */; };
-		3F636A6029146AB700DB1CBC /* RealmSwift.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3F636A5C29146AB600DB1CBC /* RealmSwift.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3F636A5D29146AB700DB1CBC /* WabiRealm.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F636A5B29146AB600DB1CBC /* WabiRealm.xcframework */; };
+		3F636A5E29146AB700DB1CBC /* WabiRealm.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3F636A5B29146AB600DB1CBC /* WabiRealm.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3F636A5F29146AB700DB1CBC /* WabiRealmKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F636A5C29146AB600DB1CBC /* WabiRealmKit.xcframework */; };
+		3F636A6029146AB700DB1CBC /* WabiRealmKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3F636A5C29146AB600DB1CBC /* WabiRealmKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E8FA5D381B3CD3320095EF19 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8FA5D371B3CD3320095EF19 /* AppDelegate.swift */; };
 		E8FA5D3A1B3CD3320095EF19 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8FA5D391B3CD3320095EF19 /* ViewController.swift */; };
 		E8FA5D3D1B3CD3320095EF19 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8FA5D3B1B3CD3320095EF19 /* Main.storyboard */; };
@@ -39,8 +39,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				3F636A5E29146AB700DB1CBC /* Realm.xcframework in Embed Frameworks */,
-				3F636A6029146AB700DB1CBC /* RealmSwift.xcframework in Embed Frameworks */,
+				3F636A5E29146AB700DB1CBC /* WabiRealm.xcframework in Embed Frameworks */,
+				3F636A6029146AB700DB1CBC /* WabiRealmKit.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -51,8 +51,8 @@
 		3F45205D29159778008F07AD /* libcompression.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libcompression.tbd; path = usr/lib/libcompression.tbd; sourceTree = SDKROOT; };
 		3F45205E29159778008F07AD /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		3F45205F29159778008F07AD /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
-		3F636A5B29146AB600DB1CBC /* Realm.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Realm.xcframework; path = Carthage/Build/Realm.xcframework; sourceTree = "<group>"; };
-		3F636A5C29146AB600DB1CBC /* RealmSwift.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = RealmSwift.xcframework; path = Carthage/Build/RealmSwift.xcframework; sourceTree = "<group>"; };
+		3F636A5B29146AB600DB1CBC /* WabiRealm.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = WabiRealm.xcframework; path = Carthage/Build/WabiRealm.xcframework; sourceTree = "<group>"; };
+		3F636A5C29146AB600DB1CBC /* WabiRealmKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = WabiRealmKit.xcframework; path = Carthage/Build/WabiRealmKit.xcframework; sourceTree = "<group>"; };
 		E8FA5D321B3CD3320095EF19 /* CarthageExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarthageExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8FA5D361B3CD3320095EF19 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E8FA5D371B3CD3320095EF19 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -73,8 +73,8 @@
 				3F4520602915978E008F07AD /* libc++.tbd in Frameworks */,
 				3F4520612915978E008F07AD /* libcompression.tbd in Frameworks */,
 				3F4520622915978E008F07AD /* libz.tbd in Frameworks */,
-				3F636A5D29146AB700DB1CBC /* Realm.xcframework in Frameworks */,
-				3F636A5F29146AB700DB1CBC /* RealmSwift.xcframework in Frameworks */,
+				3F636A5D29146AB700DB1CBC /* WabiRealm.xcframework in Frameworks */,
+				3F636A5F29146AB700DB1CBC /* WabiRealmKit.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,8 +94,8 @@
 				3F45205F29159778008F07AD /* libc++.tbd */,
 				3F45205D29159778008F07AD /* libcompression.tbd */,
 				3F45205E29159778008F07AD /* libz.tbd */,
-				3F636A5B29146AB600DB1CBC /* Realm.xcframework */,
-				3F636A5C29146AB600DB1CBC /* RealmSwift.xcframework */,
+				3F636A5B29146AB600DB1CBC /* WabiRealm.xcframework */,
+				3F636A5C29146AB600DB1CBC /* WabiRealmKit.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -204,7 +204,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 1430;
-				ORGANIZATIONNAME = Realm;
+				ORGANIZATIONNAME = WabiRealm;
 				TargetAttributes = {
 					E8FA5D311B3CD3320095EF19 = {
 						CreatedOnToolsVersion = 6.3.2;

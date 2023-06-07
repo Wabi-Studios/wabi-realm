@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3F45206629159937008F07AD /* Realm.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F45206429159936008F07AD /* Realm.xcframework */; };
-		3F45206729159937008F07AD /* Realm.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3F45206429159936008F07AD /* Realm.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		3F45206829159937008F07AD /* RealmSwift.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F45206529159936008F07AD /* RealmSwift.xcframework */; };
-		3F45206929159937008F07AD /* RealmSwift.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3F45206529159936008F07AD /* RealmSwift.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3F45206629159937008F07AD /* WabiRealm.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F45206429159936008F07AD /* WabiRealm.xcframework */; };
+		3F45206729159937008F07AD /* WabiRealm.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3F45206429159936008F07AD /* WabiRealm.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3F45206829159937008F07AD /* WabiRealmKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F45206529159936008F07AD /* WabiRealmKit.xcframework */; };
+		3F45206929159937008F07AD /* WabiRealmKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3F45206529159936008F07AD /* WabiRealmKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E8219DD61B3CD4A2006F2638 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8219DD51B3CD4A2006F2638 /* AppDelegate.swift */; };
 		E8219DD81B3CD4A2006F2638 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8219DD71B3CD4A2006F2638 /* ViewController.swift */; };
 		E8219DDA1B3CD4A2006F2638 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E8219DD91B3CD4A2006F2638 /* Images.xcassets */; };
@@ -35,8 +35,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				3F45206729159937008F07AD /* Realm.xcframework in Embed Frameworks */,
-				3F45206929159937008F07AD /* RealmSwift.xcframework in Embed Frameworks */,
+				3F45206729159937008F07AD /* WabiRealm.xcframework in Embed Frameworks */,
+				3F45206929159937008F07AD /* WabiRealmKit.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -44,8 +44,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		3F45206429159936008F07AD /* Realm.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Realm.xcframework; path = Carthage/Build/Realm.xcframework; sourceTree = "<group>"; };
-		3F45206529159936008F07AD /* RealmSwift.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = RealmSwift.xcframework; path = Carthage/Build/RealmSwift.xcframework; sourceTree = "<group>"; };
+		3F45206429159936008F07AD /* WabiRealm.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = WabiRealm.xcframework; path = Carthage/Build/WabiRealm.xcframework; sourceTree = "<group>"; };
+		3F45206529159936008F07AD /* WabiRealmKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = WabiRealmKit.xcframework; path = Carthage/Build/WabiRealmKit.xcframework; sourceTree = "<group>"; };
 		E8219DD01B3CD4A2006F2638 /* CarthageExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarthageExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8219DD41B3CD4A2006F2638 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E8219DD51B3CD4A2006F2638 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -62,8 +62,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3F45206629159937008F07AD /* Realm.xcframework in Frameworks */,
-				3F45206829159937008F07AD /* RealmSwift.xcframework in Frameworks */,
+				3F45206629159937008F07AD /* WabiRealm.xcframework in Frameworks */,
+				3F45206829159937008F07AD /* WabiRealmKit.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,8 +80,8 @@
 		3F45206329159936008F07AD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3F45206429159936008F07AD /* Realm.xcframework */,
-				3F45206529159936008F07AD /* RealmSwift.xcframework */,
+				3F45206429159936008F07AD /* WabiRealm.xcframework */,
+				3F45206529159936008F07AD /* WabiRealmKit.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -189,7 +189,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0710;
 				LastUpgradeCheck = 1430;
-				ORGANIZATIONNAME = Realm;
+				ORGANIZATIONNAME = WabiRealm;
 				TargetAttributes = {
 					E8219DCF1B3CD4A2006F2638 = {
 						CreatedOnToolsVersion = 6.3.2;

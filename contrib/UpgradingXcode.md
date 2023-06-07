@@ -4,7 +4,7 @@ Follow https://twitter.com/xcodereleases to get notified of new Xcode releases s
 
 We can only fit ~6 Xcode versions in the VM image before the machine which builds the VM images runs out of space (note: make sure we get more disk space when we finally upgrade the machines). This typically means that each version added also requires removing a version. Check Mixpanel to determine which version is the least used of the current set; it's often not the oldest version.
 
-## https://github.com/realm/bootstrap_osx_ci
+## https://github.com/wabi-realm/bootstrap_osx_ci
 
 1. Remove the version to be removed from config.rb
 2. If removing the oldest version, update `pkgs/xcodes_postinstall/files/xcodes_postinstall.rb` to make the Xcode-10.app symlink point at the new oldest version
@@ -13,7 +13,7 @@ We can only fit ~6 Xcode versions in the VM image before the machine which build
 
 Each of these repositories points at a specific major version of Xcode in their Jenkinsfile, which needs to be updated when dropping a major version. Dropping minor versions should not require any changes to them.
 
-## https://github.com/realm/realm-swift
+## https://github.com/Wabi-Studios/wabi-realm
 
 1. Update `Jenkinsfile.releasability`. Remove the version from xcodeVersions. If removing the version objcXcodeVersion is set to, bump that to the new oldest version.
 2. Remove the old Xcode version from XCODE_VERSIONS `scripts/ci-pr-matrix.rb`. Run `scripts/ci-pr-matrix.rb` to regenerate `.jenkins.yml`.
@@ -31,13 +31,13 @@ Download the new Xcode version locally and try to build/run all of the realm-swi
 3. `sh build.sh test-swiftpm`: tests SPM package
 4. `sh build.sh verify-docs`: tests building the docs and that everything is documented
 
-## https://github.com/realm/bootstrap_osx_ci
+## https://github.com/wabi-realm/bootstrap_osx_ci
 
 1. Make sure the new version is available at https://developer.apple.com/download/more/. This typically happens a few hours after it hits the app store.
 2. Add the new Xcode version to config.rb.
 3. Push to a new branch.
 
-## https://github.com/realm/realm-swift
+## https://github.com/Wabi-Studios/wabi-realm
 
 1. Update `Jenkinsfile.releasability`. Add the version to xcodeVersions and update carthageXcodeVersion. Do not bump objcXcodeVersion; that should always be the oldest version we support. docsSwiftVersion should normally be the latest swift (not Xcode!) version we support.
 2. Add the new version to XCODE_VERSIONS in `scripts/ci-pr-matrix.rb`. Run `scripts/ci-pr-matrix.rb` to regenerate `.jenkins.yml`.

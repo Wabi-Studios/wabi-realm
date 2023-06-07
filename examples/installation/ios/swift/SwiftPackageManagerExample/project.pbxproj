@@ -12,8 +12,8 @@
 		3FBA18F324759DC5002B0DCE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3FBA18F224759DC5002B0DCE /* Assets.xcassets */; };
 		3FBA18F624759DC5002B0DCE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3FBA18F424759DC5002B0DCE /* LaunchScreen.storyboard */; };
 		3FBA190124759DC5002B0DCE /* SwiftPackageManagerExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBA190024759DC5002B0DCE /* SwiftPackageManagerExampleTests.swift */; };
-		CFD120D0276CFCE400D831E7 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = CFD120CF276CFCE400D831E7 /* Realm */; };
-		CFD120D2276CFCE400D831E7 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CFD120D1276CFCE400D831E7 /* RealmSwift */; };
+		CFD120D0276CFCE400D831E7 /* WabiRealm in Frameworks */ = {isa = PBXBuildFile; productRef = CFD120CF276CFCE400D831E7 /* WabiRealm */; };
+		CFD120D2276CFCE400D831E7 /* WabiRealmKit in Frameworks */ = {isa = PBXBuildFile; productRef = CFD120D1276CFCE400D831E7 /* WabiRealmKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,8 +43,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CFD120D2276CFCE400D831E7 /* RealmSwift in Frameworks */,
-				CFD120D0276CFCE400D831E7 /* Realm in Frameworks */,
+				CFD120D2276CFCE400D831E7 /* WabiRealmKit in Frameworks */,
+				CFD120D0276CFCE400D831E7 /* WabiRealm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,8 +114,8 @@
 			);
 			name = SwiftPackageManagerExample;
 			packageProductDependencies = (
-				CFD120CF276CFCE400D831E7 /* Realm */,
-				CFD120D1276CFCE400D831E7 /* RealmSwift */,
+				CFD120CF276CFCE400D831E7 /* WabiRealm */,
+				CFD120D1276CFCE400D831E7 /* WabiRealmKit */,
 			);
 			productName = SwiftPackageManagerExample;
 			productReference = 3FBA18E624759DC4002B0DCE /* SwiftPackageManagerExample.app */;
@@ -147,7 +147,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 1130;
 				LastUpgradeCheck = 1430;
-				ORGANIZATIONNAME = Realm;
+				ORGANIZATIONNAME = WabiRealm;
 				TargetAttributes = {
 					3FBA18E524759DC4002B0DCE = {
 						CreatedOnToolsVersion = 11.3.1;
@@ -375,7 +375,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = io.Realm.SwiftPackageManagerExample;
+				PRODUCT_BUNDLE_IDENTIFIER = io.WabiRealm.SwiftPackageManagerExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -394,7 +394,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = io.Realm.SwiftPackageManagerExample;
+				PRODUCT_BUNDLE_IDENTIFIER = io.WabiRealm.SwiftPackageManagerExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -415,7 +415,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = io.Realm.SwiftPackageManagerExampleTests;
+				PRODUCT_BUNDLE_IDENTIFIER = io.WabiRealm.SwiftPackageManagerExampleTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -437,7 +437,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = io.Realm.SwiftPackageManagerExampleTests;
+				PRODUCT_BUNDLE_IDENTIFIER = io.WabiRealm.SwiftPackageManagerExampleTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -480,7 +480,7 @@
 /* Begin XCRemoteSwiftPackageReference section */
 		CFD120CE276CFCE400D831E7 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/realm/realm-swift";
+			repositoryURL = "https://github.com/Wabi-Studios/wabi-realm";
 			requirement = {
 				branch = master;
 				kind = branch;
@@ -489,15 +489,15 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		CFD120CF276CFCE400D831E7 /* Realm */ = {
+		CFD120CF276CFCE400D831E7 /* WabiRealm */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = CFD120CE276CFCE400D831E7 /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = Realm;
+			productName = WabiRealm;
 		};
-		CFD120D1276CFCE400D831E7 /* RealmSwift */ = {
+		CFD120D1276CFCE400D831E7 /* WabiRealmKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = CFD120CE276CFCE400D831E7 /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = RealmSwift;
+			productName = WabiRealmKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

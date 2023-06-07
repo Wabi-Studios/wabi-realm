@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright 2014 Realm Inc.
+// Copyright 2014 WabiRealm Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,105 +17,105 @@
 ////////////////////////////////////////////////////////////////////////////
 
 import UIKit
-import RealmSwift
+import WabiRealmKit
 
 class RepositoriesViewController: UICollectionViewController, UITextFieldDelegate {
-    @IBOutlet weak var sortOrderControl: UISegmentedControl!
-    @IBOutlet weak var searchField: UITextField!
+  @IBOutlet var sortOrderControl: UISegmentedControl!
+  @IBOutlet var searchField: UITextField!
 
-    var results: Results<Repository>?
-    var token: NotificationToken?
+  var results: Results<Repository>?
+  var token: NotificationToken?
 
-    deinit {
-        token?.invalidate()
+  deinit {
+    token?.invalidate()
+  }
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+
+    let realm = try! WabiRealm()
+    token = realm.observe { [weak self] _, _ in
+      self?.reloadData()
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    var components = URLComponents(string: "https://api.github.com/search/repositories")!
+    components.queryItems = [
+      URLQueryItem(name: "q", value: "language:objc"),
+      URLQueryItem(name: "sort", value: "stars"),
+      URLQueryItem(name: "order", value: "desc"),
+    ]
+    URLSession.shared.dataTask(with: URLRequest(url: components.url!)) { data, _, error in
+      if let error = error {
+        print(error)
+        return
+      }
 
-        let realm = try! Realm()
-        token = realm.observe { [weak self] _, _ in
-            self?.reloadData()
+      do {
+        let repositories = try JSONSerialization.jsonObject(with: data!, options: []) as! [String: AnyObject]
+        let items = repositories["items"] as! [[String: AnyObject]]
+
+        let realm = try WabiRealm()
+        try realm.write {
+          for item in items {
+            let repository = Repository()
+            repository.identifier = String(item["id"] as! Int)
+            repository.name = item["name"] as? String
+            repository.avatarURL = item["owner"]!["avatar_url"] as? String
+
+            realm.add(repository, update: .modified)
+          }
         }
+      } catch {
+        print(error.localizedDescription)
+      }
+    }.resume()
+  }
 
-        var components = URLComponents(string: "https://api.github.com/search/repositories")!
-        components.queryItems = [
-            URLQueryItem(name: "q", value: "language:objc"),
-            URLQueryItem(name: "sort", value: "stars"),
-            URLQueryItem(name: "order", value: "desc")
-        ]
-        URLSession.shared.dataTask(with: URLRequest(url: components.url!)) { data, _, error in
-            if let error = error {
-                print(error)
-                return
-            }
+  override func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
+    return results?.count ?? 0
+  }
 
-            do {
-                let repositories = try JSONSerialization.jsonObject(with: data!, options: []) as! [String: AnyObject]
-                let items = repositories["items"] as! [[String: AnyObject]]
+  override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! RepositoryCell
+    let repository = results![indexPath.item]
+    cell.titleLabel.text = repository.name
 
-                let realm = try Realm()
-                try realm.write {
-                    for item in items {
-                        let repository = Repository()
-                        repository.identifier = String(item["id"] as! Int)
-                        repository.name = item["name"] as? String
-                        repository.avatarURL = item["owner"]!["avatar_url"] as? String
+    URLSession.shared.dataTask(with: URLRequest(url: URL(string: repository.avatarURL!)!)) { data, _, error in
+      if let error = error {
+        print(error.localizedDescription)
+        return
+      }
 
-                        realm.add(repository, update: .modified)
-                    }
-                }
-            } catch {
-                print(error.localizedDescription)
-            }
-        }.resume()
+      DispatchQueue.main.async {
+        let image = UIImage(data: data!)!
+        cell.avatarImageView!.image = image
+      }
+    }.resume()
+
+    return cell
+  }
+
+  func reloadData() {
+    let realm = try! WabiRealm()
+    results = realm.objects(Repository.self)
+    if let text = searchField.text, !text.isEmpty {
+      results = results?.filter("name contains[c] %@", text)
     }
+    results = results?.sorted(byKeyPath: "name", ascending: sortOrderControl!.selectedSegmentIndex == 0)
 
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return results?.count ?? 0
-    }
+    collectionView?.reloadData()
+  }
 
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! RepositoryCell
-        let repository = results![indexPath.item]
-        cell.titleLabel.text = repository.name
+  @IBAction func valueChanged(sender _: AnyObject) {
+    reloadData()
+  }
 
-        URLSession.shared.dataTask(with: URLRequest(url: URL(string: repository.avatarURL!)!)) { (data, _, error) -> Void in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
+  @IBAction func clearSearchField(sender _: AnyObject) {
+    searchField.text = nil
+    reloadData()
+  }
 
-            DispatchQueue.main.async {
-                let image = UIImage(data: data!)!
-                cell.avatarImageView!.image = image
-            }
-        }.resume()
-
-        return cell
-    }
-
-    func reloadData() {
-        let realm = try! Realm()
-        results = realm.objects(Repository.self)
-        if let text = searchField.text, !text.isEmpty {
-            results = results?.filter("name contains[c] %@", text)
-        }
-        results = results?.sorted(byKeyPath: "name", ascending: sortOrderControl!.selectedSegmentIndex == 0)
-
-        collectionView?.reloadData()
-    }
-
-    @IBAction func valueChanged(sender: AnyObject) {
-        reloadData()
-    }
-
-    @IBAction func clearSearchField(sender: AnyObject) {
-        searchField.text = nil
-        reloadData()
-    }
-
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        reloadData()
-    }
+  func textFieldDidEndEditing(_: UITextField) {
+    reloadData()
+  }
 }

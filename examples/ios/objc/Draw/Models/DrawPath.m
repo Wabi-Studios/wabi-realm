@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright 2016 Realm Inc.
+// Copyright 2016 WabiRealm Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,18 +23,18 @@
 @dynamic path;
 
 - (UIBezierPath *)path {
-    UIBezierPath *path = [UIBezierPath bezierPath];
-    path.lineWidth = 4.0f;
-    NSUInteger index = 0;
-    for (DrawPoint *point in self.points) {
-        if (index == 0) {
-            [path moveToPoint:point.cgPoint];
-        } else {
-            [path addLineToPoint:point.cgPoint];
-        }
-        index++;
+  UIBezierPath *path = [UIBezierPath bezierPath];
+  path.lineWidth = 4.0f;
+  NSUInteger index = 0;
+  for (DrawPoint *point in self.points) {
+    if (index == 0) {
+      [path moveToPoint:point.cgPoint];
+    } else {
+      [path addLineToPoint:point.cgPoint];
     }
-    return path;
+    index++;
+  }
+  return path;
 }
 
 @end

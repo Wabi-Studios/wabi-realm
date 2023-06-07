@@ -31,7 +31,7 @@ build/
 # sh build.sh docs
 /docs/objc_output
 /docs/swift_output
-/Realm/RLMPlatform.h
+/WabiRealm/RLMPlatform.h
 
 # XCode
 *.bak

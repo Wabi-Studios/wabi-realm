@@ -4,13 +4,13 @@ x.y.z Release notes (yyyy-MM-dd)
 * None.
 
 ### Fixed
-* <How to hit and notice issue? what was the impact?> ([#????](https://github.com/realm/realm-swift/issues/????), since v?.?.?)
+* <How to hit and notice issue? what was the impact?> ([#????](https://github.com/Wabi-Studios/wabi-realm/issues/????), since v?.?.?)
 * None.
 
 <!-- ### Breaking Changes - ONLY INCLUDE FOR NEW MAJOR version -->
 
 ### Compatibility
-* Realm Studio: 14.0.1 or later.
+* WabiRealm Studio: 14.0.1 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 14.3.
 * CocoaPods: 1.10 or later.
@@ -30,7 +30,7 @@ supported version.
 
 * Adjust the error message for private `Object` subclasses and subclasses
   nested inside other types to explain how to make them work rather than state
-  that it's impossible. ([#5662](https://github.com/realm/realm-cocoa/issues/5662)).
+  that it's impossible. ([#5662](https://github.com/wabi-realm/realm-cocoa/issues/5662)).
 * Improve performance of SectionedResults. With a single section it is now ~10%
   faster, and the runtime of sectioning no longer scales significantly with
   section count, giving >100% speedups when there are large numbers of sections
@@ -41,7 +41,7 @@ supported version.
 ### Fixed
 
 * Allow support for implicit boolean queries on Swift's Type Safe Queries API
-  ([#8212](https://github.com/realm/realm-swift/issues/8212)).
+  ([#8212](https://github.com/Wabi-Studios/wabi-realm/issues/8212)).
 * Fixed a fatal error (reported to the sync error handler) during client reset
   or automatic partition-based to flexible sync migration if the reset has been
   triggered during an async open and the schema being applied has added new
@@ -54,7 +54,7 @@ supported version.
   field from the dictionary would sometimes give an invalid object rather than
   nil. In addition, queries on dictionaries would sometimes have incorrect
   results. ([Core #6644](https://github.com/realm/realm-core/pull/6644), since v10.8.0)
-* Older versions of Realm would sometimes fail to properly mark objects as
+* Older versions of WabiRealm would sometimes fail to properly mark objects as
   being the target of an incoming link from another object. When this happened,
   deleting the target object would hit an assertion failure due to the
   inconsistent state. We now reconstruct a valid state rather than crashing.
@@ -74,7 +74,7 @@ supported version.
 
 ### Compatibility
 
-* Realm Studio: 14.0.1 or later.
+* WabiRealm Studio: 14.0.1 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 14.3.
 * CocoaPods: 1.10 or later.
@@ -93,14 +93,14 @@ supported version.
   actually been made in the write transaction. This makes it so that new
   notifications can be registered inside change notifications triggered by
   beginning a write transaction (unless a previous callback performed writes).
-  ([#4818](https://github.com/realm/realm-swift/issues/4818)).
+  ([#4818](https://github.com/Wabi-Studios/wabi-realm/issues/4818)).
 * Reduce the memory footprint of an automatic (discard or recover) client reset
   when there are large incoming changes from the server.
   ([Core #6567](https://github.com/realm/realm-core/issues/6567)).
 
 ### Compatibility
 
-* Realm Studio: 14.0.1 or later.
+* WabiRealm Studio: 14.0.1 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 14.3.
 * CocoaPods: 1.10 or later.
@@ -115,7 +115,7 @@ supported version.
 
 ### Enhancements
 
-* Add support for actor-isolated Realms, opened with `try await Realm(actor: actor)`.
+* Add support for actor-isolated Realms, opened with `try await WabiRealm(actor: actor)`.
 
   Rather than being confined to the current thread or a dispatch queue,
   actor-isolated Realms are isolated to an actor. This means that they can be
@@ -127,9 +127,9 @@ supported version.
   ```swift
   @MainActor function mainThreadFunction() async throws {
       // These are identical: the async init continues to produce a
-      // MainActor-confined Realm if no actor is supplied
-      let realm1 = try await Realm()
-      let realm2 = try await Realm(MainActor.shared)
+      // MainActor-confined WabiRealm if no actor is supplied
+      let realm1 = try await WabiRealm()
+      let realm2 = try await WabiRealm(MainActor.shared)
   }
 
   // A simple example of a custom global actor
@@ -139,7 +139,7 @@ supported version.
 
   @BackgroundActor backgroundThreadFunction() async throws {
       // Explicitly specifying the actor is required for everything but MainActor
-      let realm = try await Realm(actor: BackgroundActor.shared)
+      let realm = try await WabiRealm(actor: BackgroundActor.shared)
       try await realm.write {
           _ = realm.create(MyObject.self)
       }
@@ -150,10 +150,10 @@ supported version.
 
   actor MyActor {
       // An implicitly-unwrapped optional is used here to let us pass `self` to
-      // `Realm(actor:)` within `init`
-      var realm: Realm!
+      // `WabiRealm(actor:)` within `init`
+      var realm: WabiRealm!
       init() async throws {
-          realm = try await Realm(actor: self)
+          realm = try await WabiRealm(actor: self)
       }
 
       var count: Int {
@@ -176,7 +176,7 @@ supported version.
       print("\(await actor.count)")
   }
 
-  // In an isolated function, an actor-isolated Realm can be used synchronously
+  // In an isolated function, an actor-isolated WabiRealm can be used synchronously
   func createObjects(in actor: isolated MyActor) async throws {
       await actor.realm.write {
           actor.realm.create(MyObject.self)
@@ -213,7 +213,7 @@ supported version.
 * Now you can use an array `[["_id": 1], ["breed": 0]]` as sorting option for a
   MongoCollection. This new API fixes the issue where the resulting documents
   when using more than one sort parameter were not consistent between calls.
-  ([#7188](https://github.com/realm/realm-swift/issues/7188), since v10.0.0).
+  ([#7188](https://github.com/Wabi-Studios/wabi-realm/issues/7188), since v10.0.0).
 * Add support for adding a user created default logger, which allows implementing your own logging logic
   and the log threshold level.
   You can define your own logger creating an instance of `Logger` and define the log function which will be
@@ -221,11 +221,11 @@ supported version.
 
   ```swift
   let logger = Logger(level: .all) { level, message in
-     print("Realm Log - \(level): \(message)")
+     print("WabiRealm Log - \(level): \(message)")
   }
   ```
 
-  Set this custom logger as Realm default logger using `Logger.shared`.
+  Set this custom logger as WabiRealm default logger using `Logger.shared`.
    ```swift
   Logger.shared = logger
    ```
@@ -234,15 +234,15 @@ supported version.
   Logger.shared.logLevel = .debug
   ```
   This will override the log level set anytime before by a user created logger.
-* We have set `.info` as the default log threshold level for Realm. You will now see some
+* We have set `.info` as the default log threshold level for WabiRealm. You will now see some
   log message in your console. To disable use `Logger.shared.level = .off`.
 
 ### Fixed
 
 * Several schema initialization functions had incorrect `@MainActor`
-  annotations, resulting in runtime warnings if the first time a Realm was
+  annotations, resulting in runtime warnings if the first time a WabiRealm was
   opened was on a background thread
-  ([#8222](https://github.com/realm/realm-swift/issues/8222), since v10.34.0).
+  ([#8222](https://github.com/Wabi-Studios/wabi-realm/issues/8222), since v10.34.0).
 
 ### Deprecations
 
@@ -251,7 +251,7 @@ supported version.
 
 ### Compatibility
 
-* Realm Studio: 14.0.1 or later.
+* WabiRealm Studio: 14.0.1 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 14.3.
 * CocoaPods: 1.10 or later.
@@ -275,11 +275,11 @@ supported version.
 
 * Performing a large number of queries without ever performing a write resulted
   in steadily increasing memory usage, some of which was never fully freed due
-  to an unbounded cache ([#7978](https://github.com/realm/realm-swift/issues/7978), since v10.27.0).
+  to an unbounded cache ([#7978](https://github.com/Wabi-Studios/wabi-realm/issues/7978), since v10.27.0).
 
 ### Compatibility
 
-* Realm Studio: 14.0.1 or later.
+* WabiRealm Studio: 14.0.1 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 14.3.
 * CocoaPods: 1.10 or later.
@@ -304,7 +304,7 @@ supported version.
 
 ### Compatibility
 
-* Realm Studio: 14.0.1 or later.
+* WabiRealm Studio: 14.0.1 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 14.3.
 * CocoaPods: 1.10 or later.
@@ -323,7 +323,7 @@ supported version.
 
 ### Compatibility
 
-* Realm Studio: 13.0.2 or later.
+* WabiRealm Studio: 13.0.2 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 14.3.
 * CocoaPods: 1.10 or later.
@@ -344,19 +344,19 @@ Switch to building the Carthage release with Xcode 14.3.
 ### Fixed
 
 * Fix a memory leak reported by Instruments on `URL.path` in
-  `Realm.Configuration.fileURL` when using a string partition key in Partition
-  Based Sync ([#8195](https://github.com/realm/realm-swift/pull/8195)), since v10.0.0).
+  `WabiRealm.Configuration.fileURL` when using a string partition key in Partition
+  Based Sync ([#8195](https://github.com/Wabi-Studios/wabi-realm/pull/8195)), since v10.0.0).
 * Fix a data race in version management. If one thread committed a write
   transaction which increased the number of live versions above the previous
   highest seen during the current session at the same time as another thread
   began a read, the reading thread could read from a no-longer-valid memory
   mapping. This could potentially result in strange crashes when opening,
-  refreshing, freezing or thawing a Realm
+  refreshing, freezing or thawing a WabiRealm
   ([Core #6411](https://github.com/realm/realm-core/pull/6411), since v10.35.0).
 
 ### Compatibility
 
-* Realm Studio: 13.0.2 or later.
+* WabiRealm Studio: 13.0.2 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 14.3.
 * CocoaPods: 1.10 or later.
@@ -375,11 +375,11 @@ Switch to building the Carthage release with Xcode 14.3.
   resulted in migrations being passed the incorrect object type in Swift when
   using the default configuration (since v10.34.0) or async open (since
   v10.37.0). This also broke using the Events API in those two scenarios (since
-  v10.26.0 for default configuration and v10.37.0 for async open). ([#8190](https://github.com/realm/realm-swift/issues/8190))
+  v10.26.0 for default configuration and v10.37.0 for async open). ([#8190](https://github.com/Wabi-Studios/wabi-realm/issues/8190))
 
 ### Compatibility
 
-* Realm Studio: 13.0.2 or later.
+* WabiRealm Studio: 13.0.2 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 14.2.
 * CocoaPods: 1.10 or later.
@@ -408,10 +408,10 @@ Switch to building the Carthage release with Xcode 14.3.
 ### Fixed
 
 * Add missing `@Sendable` annotations to several sync and app services related
-  callbacks ([PR #8169](https://github.com/realm/realm-swift/pull/8169), since v10.34.0).
-* Fix some bugs in handling task cancellation for async Realm init. Some very
+  callbacks ([PR #8169](https://github.com/Wabi-Studios/wabi-realm/pull/8169), since v10.34.0).
+* Fix some bugs in handling task cancellation for async WabiRealm init. Some very
   specific timing windows could cause crashes, and the download would not be
-  cancelled if the Realm was already open ([PR #8178](https://github.com/realm/realm-swift/pull/8178), since v10.37.0).
+  cancelled if the WabiRealm was already open ([PR #8178](https://github.com/Wabi-Studios/wabi-realm/pull/8178), since v10.37.0).
 * Fix a crash when querying an AnyRealmValue property with a string operator
   (contains/like/beginswith/endswith) or with case insensitivity.
   ([Core #6376](https://github.com/realm/realm-core/issues/6376), since v10.8.0)
@@ -428,7 +428,7 @@ Switch to building the Carthage release with Xcode 14.3.
 
 ### Compatibility
 
-* Realm Studio: 13.0.2 or later.
+* WabiRealm Studio: 13.0.2 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 14.2.
 * CocoaPods: 1.10 or later.
@@ -444,24 +444,24 @@ Switch to building the Carthage release with Xcode 14.3.
 ### Enhancements
 
 * `MongoCollection.watch().subscribe(on:)` now supports any swift Scheduler
-  rather than only dispatch queues ([PR #8131](https://github.com/realm/realm-swift/pull/8130)).
+  rather than only dispatch queues ([PR #8131](https://github.com/Wabi-Studios/wabi-realm/pull/8130)).
 * Add an async sequence wrapper for `MongoCollection.watch()`, allowing you to
   do `for try await change in collection.changeEvents { ... }`
-  ([PR #8131](https://github.com/realm/realm-swift/pull/8130)).
+  ([PR #8131](https://github.com/Wabi-Studios/wabi-realm/pull/8130)).
 * The internals of error handling and reporting have been significantly
   reworked. The visible effects of this are that some errors which previously
   had unhelpful error messages now include more detail about what went wrong,
   and App errors now expose a much more complete set of error codes
-  ([PR #8002](https://github.com/realm/realm-swift/pull/8002)).
+  ([PR #8002](https://github.com/Wabi-Studios/wabi-realm/pull/8002)).
 * Expose compensating write error information. When the server rejects a
   modification made by the client (such as if the user does not have the
   required permissions), a `SyncError` is delivered to the sync error handler
   with the code `.writeRejected` and a non-nil `compensatingWriteInfo` field
   which contains information about what was rejected and why. This information
   is intended primarily for debugging and logging purposes and may not have a
-  stable format. ([PR #8002](https://github.com/realm/realm-swift/pull/8002))
-* Async `Realm.init()` now handles Task cancellation and will cancel the async
-  open if the Task is cancelled ([PR #8148](https://github.com/realm/realm-swift/pull/8148)).
+  stable format. ([PR #8002](https://github.com/Wabi-Studios/wabi-realm/pull/8002))
+* Async `WabiRealm.init()` now handles Task cancellation and will cancel the async
+  open if the Task is cancelled ([PR #8148](https://github.com/Wabi-Studios/wabi-realm/pull/8148)).
 * Cancelling async opens now has more consistent behavior. The previously
   intended and documented behavior was that cancelling an async open would
   result in the callback associated with the specific task that was cancelled
@@ -469,18 +469,18 @@ Switch to building the Carthage release with Xcode 14.3.
   ECANCELED error. This never actually worked correctly, and the callback which
   was not supposed to be invoked at all sometimes would be. We now
   unconditionally invoke all of the exactly once, passing ECANCELED to all of
-  them ([PR #8148](https://github.com/realm/realm-swift/pull/8148)).
+  them ([PR #8148](https://github.com/Wabi-Studios/wabi-realm/pull/8148)).
 
 ### Fixed
 
 * `UserPublisher` incorrectly bounced all notifications to the main thread instead
   of setting up the Combine publisher to correctly receive on the main thread.
-  ([#8132](https://github.com/realm/realm-swift/issues/8132), since 10.21.0)
+  ([#8132](https://github.com/Wabi-Studios/wabi-realm/issues/8132), since 10.21.0)
 * Fix warnings when building with Xcode 14.3 beta 2.
 * Errors in async open resulting from invalid queries in `initialSubscriptions`
-  would result in the callback being invoked with both a non-nil Realm and a
-  non-nil Error even though the Realm was in an invalid state. Now only the
-  error is passed to the callback ([PR #8148](https://github.com/realm/realm-swift/pull/8148), since v10.28.0).
+  would result in the callback being invoked with both a non-nil WabiRealm and a
+  non-nil Error even though the WabiRealm was in an invalid state. Now only the
+  error is passed to the callback ([PR #8148](https://github.com/Wabi-Studios/wabi-realm/pull/8148), since v10.28.0).
 * Converting a local realm to a synced realm would crash if an embedded object
   was null ([Core #6294](https://github.com/realm/realm-core/issues/6294), since v10.22.0).
 * Subqueries on indexed properties performed extremely poorly. ([Core #6327](https://github.com/realm/realm-core/issues/6327), since v5.0.0)
@@ -497,7 +497,7 @@ Switch to building the Carthage release with Xcode 14.3.
 
 ### Compatibility
 
-* Realm Studio: 13.0.2 or later.
+* WabiRealm Studio: 13.0.2 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 14.2.
 * CocoaPods: 1.10 or later.
@@ -520,16 +520,16 @@ Switch to building the Carthage release with Xcode 14.3.
 ### Fixed
 
 * Fix moving `List` items to a higher index in SwiftUI results in wrong destination index
-  ([#7956](https://github.com/realm/realm-swift/issues/7956), since v10.6.0).
+  ([#7956](https://github.com/Wabi-Studios/wabi-realm/issues/7956), since v10.6.0).
 * Using the `searchable` view modifier with `@ObservedResults` in iOS 16 would
   cause the collection observation subscription to cancel.
-  ([#8096](https://github.com/realm/realm-swift/issues/8096), since 10.21.0)
+  ([#8096](https://github.com/Wabi-Studios/wabi-realm/issues/8096), since 10.21.0)
 * Client reset with recovery would sometimes crash if the recovery resurrected
   a dangling link ([Core #6292](https://github.com/realm/realm-core/issues/6292), since v10.32.0).
 
 ### Compatibility
 
-* Realm Studio: 13.0.2 or later.
+* WabiRealm Studio: 13.0.2 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 14.2.
 * CocoaPods: 1.10 or later.
@@ -545,13 +545,13 @@ Switch to building the Carthage release with Xcode 14.3.
 ### Fixed
 
 * Client reset with recovery would crash if a client reset occurred the very
-  first time the Realm was opened with async open. The client reset callbacks
-  are now not called if the Realm had never been opened before
-  ([PR #8125](https://github.com/realm/realm-swift/pull/8125), since 10.32.0).
+  first time the WabiRealm was opened with async open. The client reset callbacks
+  are now not called if the WabiRealm had never been opened before
+  ([PR #8125](https://github.com/Wabi-Studios/wabi-realm/pull/8125), since 10.32.0).
 
 ### Compatibility
 
-* Realm Studio: 13.0.2 or later.
+* WabiRealm Studio: 13.0.2 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 14.2.
 * CocoaPods: 1.10 or later.
@@ -560,12 +560,12 @@ Switch to building the Carthage release with Xcode 14.3.
 10.35.0 Release notes (2023-02-07)
 =============================================================
 
-This version bumps the Realm file format version to 23. Realm files written by
-this version cannot be read by older versions of Realm.
+This version bumps the WabiRealm file format version to 23. WabiRealm files written by
+this version cannot be read by older versions of WabiRealm.
 
 ### Enhancements
 
-* The Realm file is now automatically shrunk if the file size is larger than
+* The WabiRealm file is now automatically shrunk if the file size is larger than
   needed to store all of the data. ([Core PR #5755](https://github.com/realm/realm-core/pull/5755))
 * Pinning old versions (either with frozen Realms or with Realms on background
   threads that simply don't get refreshed) now only prevents overwriting the
@@ -573,7 +573,7 @@ this version cannot be read by older versions of Realm.
   all later versions. In addition, frozen Realms no longer pin the transaction
   logs used to drive change notifications. This mostly eliminates the file size
   growth caused by pinning versions. ([Core PR #5440](https://github.com/realm/realm-core/pull/5440))
-* Rework how Dictionaries/Maps are stored in the Realm file. The new design uses
+* Rework how Dictionaries/Maps are stored in the WabiRealm file. The new design uses
   less space and is typically significantly faster. This changes the iteration
   order of Maps, so any code relying on that may be broken. We continue
   to make no guarantees about iteration order on Maps ([Core #5764](https://github.com/realm/realm-core/issues/5764)).
@@ -583,9 +583,9 @@ this version cannot be read by older versions of Realm.
 
 * Fix a crash when using client reset with recovery and flexible sync with a
   single subscription ([Core #6070](https://github.com/realm/realm-core/issues/6070), since v10.28.2)
-* Encrypted Realm files could not be opened on devices with a larger page size
+* Encrypted WabiRealm files could not be opened on devices with a larger page size
   than the one which originally wrote the file.
-  ([#8030](https://github.com/realm/realm-swift/issues/8030), since v10.32.1)
+  ([#8030](https://github.com/Wabi-Studios/wabi-realm/issues/8030), since v10.32.1)
 * Creating multiple flexible sync subscriptions at once could hit an assertion
   failure if the server reported an error for any of them other than the last
   one ([Core #6038](https://github.com/realm/realm-core/issues/6038), since v10.21.1).
@@ -599,7 +599,7 @@ this version cannot be read by older versions of Realm.
 * Querying for NaN on Decimal128 properties did not match any objects
   ([Core #6182](https://github.com/realm/realm-core/issues/6182), since v10.8.0).
 * When client reset with recovery is used and the recovery did not need to
-  make any changes to the local Realm, the sync client could incorrectly think
+  make any changes to the local WabiRealm, the sync client could incorrectly think
   the recovery failed and report the error "A fatal error occured during client
   reset: 'A previous 'Recovery' mode reset from <timestamp> did not succeed,
   giving up on 'Recovery' mode to prevent a cycle'".
@@ -612,12 +612,12 @@ this version cannot be read by older versions of Realm.
 * If a client reset with recovery or discard local was interrupted while the
   "fresh" realm was being downloaded, the sync client could crash with a
   MultpleSyncAgents exception ([Core #6217](https://github.com/realm/realm-core/issues/6217), since v10.25.0).
-* Sharing Realm files between a Catalyst app and Realm Studio did not properly
-  synchronize access to the Realm file ([Core #6258](https://github.com/realm/realm-core/pull/6258), since v10.0.0).
+* Sharing WabiRealm files between a Catalyst app and WabiRealm Studio did not properly
+  synchronize access to the WabiRealm file ([Core #6258](https://github.com/realm/realm-core/pull/6258), since v10.0.0).
 
 ### Compatibility
 
-* Realm Studio: 13.0.2 or later.
+* WabiRealm Studio: 13.0.2 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 14.2.
 * CocoaPods: 1.10 or later.
@@ -634,11 +634,11 @@ this version cannot be read by older versions of Realm.
 
 * Add some missing `@preconcurrency` annotations which lead to build failures
   with Xcode 14.0 when importing via SPM or CocoaPods
-  ([#8104](https://github.com/realm/realm-swift/issues/8104), since v10.34.0).
+  ([#8104](https://github.com/Wabi-Studios/wabi-realm/issues/8104), since v10.34.0).
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 - 12.0.0.
+* WabiRealm Studio: 11.0.0 - 12.0.0.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 14.2.
 * CocoaPods: 1.10 or later.
@@ -655,40 +655,40 @@ The prebuilt binary for Carthage is now build with Xcode 14.2.
 ### Enhancements
 
 * Improve performance of creating Projection objects and of change
-  notifications on projections ([PR #8050](https://github.com/realm/realm-swift/pull/8050)).
+  notifications on projections ([PR #8050](https://github.com/Wabi-Studios/wabi-realm/pull/8050)).
 * Allow initialising any sync configuration with `cancelAsyncOpenOnNonFatalErrors`.
 * Improve performance of Combine value publishers which do not use the
   object/collection changesets a little.
 * All public types have been audited for sendability and are now marked as
   Sendable when applicable. A few types which were incidentally not thread-safe
   but make sense to use from multiple threads are now thread-safe.
-* Add support for building Realm with strict concurrency checking enabled.
+* Add support for building WabiRealm with strict concurrency checking enabled.
 
 ### Fixed
 
 * Fix bad memory access exception that can occur when watching change streams.
-  [PR #8039](https://github.com/realm/realm-swift/pull/8039).
+  [PR #8039](https://github.com/Wabi-Studios/wabi-realm/pull/8039).
 * Object change notifications on projections only included the first projected
-  property for each source property ([PR #8050](https://github.com/realm/realm-swift/pull/8050), since v10.21.0).
+  property for each source property ([PR #8050](https://github.com/Wabi-Studios/wabi-realm/pull/8050), since v10.21.0).
 * `@AutoOpen` failed to open flexible sync Realms while offline
-  ([#7986](https://github.com/realm/realm-swift/issues/7986), since v10.27.0).
+  ([#7986](https://github.com/Wabi-Studios/wabi-realm/issues/7986), since v10.27.0).
 * Fix "Publishing changes from within view updates is not allowed" warnings
   when using `@ObservedResults` or `@ObservedSectionedResults`
-  ([#7908](https://github.com/realm/realm-swift/issues/7908)).
+  ([#7908](https://github.com/Wabi-Studios/wabi-realm/issues/7908)).
 * Fix "Publishing changes from within view updates is not allowed" warnings
   when using `@AutoOpen` or `@AsyncOpen`.
-  ([#7908](https://github.com/realm/realm-swift/issues/7908)).
-* Defer `Realm.asyncOpen` execution on `@AsyncOpen` and `@AutoOpen` property
+  ([#7908](https://github.com/Wabi-Studios/wabi-realm/issues/7908)).
+* Defer `WabiRealm.asyncOpen` execution on `@AsyncOpen` and `@AutoOpen` property
   wrappers until all the environment values are set. This will guarantee the
   configuration and partition value are set set before opening the realm.
-  ([#7931](https://github.com/realm/realm-swift/issues/7931), since v10.12.0).
+  ([#7931](https://github.com/Wabi-Studios/wabi-realm/issues/7931), since v10.12.0).
 * `@ObservedResults.remove()` could delete the wrong object if a write on a
   background thread which changed the index of the object being removed
   occurred at a very specific time (since v10.6.0).
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 - 12.0.0. 13.0.0 is currently incompatible.
+* WabiRealm Studio: 11.0.0 - 12.0.0. 13.0.0 is currently incompatible.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 14.2.
 * CocoaPods: 1.10 or later.
@@ -721,7 +721,7 @@ The prebuilt binary for Carthage is now build with Xcode 14.2.
   This is very helpful in cases where you want to name a property differently
   from your `Device Sync` JSON schema.
   This API is only available for old and modern object declaration syntax on the
-  `RealmSwift` SDK.
+  `WabiRealmKit` SDK.
 * Flexible sync bootstraps now apply 1MB of changesets per write transaction
   rather than applying all of them in a single write transaction.
   ([Core PR #5999](https://github.com/realm/realm-core/pull/5999)).
@@ -735,19 +735,19 @@ The prebuilt binary for Carthage is now build with Xcode 14.2.
   terminated at a certain point in the process of comitting a write
   transaciton. ([Core PR #5993](https://github.com/realm/realm-core/pull/5993), since v10.21.1)
 * `@AsyncOpen` and `@AutoOpen` would begin and then cancel a second async open
-  operation ([PR #8038](https://github.com/realm/realm-swift/pull/8038), since v10.12.0).
+  operation ([PR #8038](https://github.com/Wabi-Studios/wabi-realm/pull/8038), since v10.12.0).
 * Changing the search text when using the searchable SwiftUI extension would
   trigger multiple updates on the View for each change
-  ([PR #8038](https://github.com/realm/realm-swift/pull/8038), since v10.19.0).
+  ([PR #8038](https://github.com/Wabi-Studios/wabi-realm/pull/8038), since v10.19.0).
 * Changing the filter or search properties of an `@ObservedResults` or
   `@ObservedSectionedResults` would trigger up to three updates on the View
-  ([PR #8038](https://github.com/realm/realm-swift/pull/8038), since v10.6.0).
+  ([PR #8038](https://github.com/Wabi-Studios/wabi-realm/pull/8038), since v10.6.0).
 * Fetching a user's profile while the user logs out would result in an
   assertion failure. ([Core PR #6017](https://github.com/realm/realm-core/issues/5571), since v10.8.0)
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 14.1.
 * CocoaPods: 1.10 or later.
@@ -762,17 +762,17 @@ The prebuilt binary for Carthage is now build with Xcode 14.2.
 
 ### Fixed
 
-* Fix name lookup errors when importing Realm Swift built in library evolution
-  mode (([#8014](https://github.com/realm/realm-swift/issues/8014)).
+* Fix name lookup errors when importing WabiRealm Swift built in library evolution
+  mode (([#8014](https://github.com/Wabi-Studios/wabi-realm/issues/8014)).
 * The prebuilt watchOS library in the objective-c release package was missing
   an arm64 slice. The Swift release package was uneffected
-  ([PR #8016](https://github.com/realm/realm-swift/pull/8016)).
+  ([PR #8016](https://github.com/Wabi-Studios/wabi-realm/pull/8016)).
 * Fix issue where `RLMUserAPIKey.key`/`UserAPIKey.key` incorrectly returned the name of the API
-  key instead of the key itself. ([#8021](https://github.com/realm/realm-swift/issues/8021), since v10.0.0)
+  key instead of the key itself. ([#8021](https://github.com/Wabi-Studios/wabi-realm/issues/8021), since v10.0.0)
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 14.1.
 * CocoaPods: 1.10 or later.
@@ -786,11 +786,11 @@ Switch to building the Carthage release with Xcode 14.1.
 ### Fixed
 
 * Fix linker errors when building a release build with Xcode 14.1 when
- installing via SPM ([#7995](https://github.com/realm/realm-swift/issues/7995)).
+ installing via SPM ([#7995](https://github.com/Wabi-Studios/wabi-realm/issues/7995)).
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 14.1.
 * CocoaPods: 1.10 or later.
@@ -803,7 +803,7 @@ Switch to building the Carthage release with Xcode 14.1.
 
 * Improve performance of client reset with automatic recovery and converting
   top-level tables into embedded tables ([Core #5897](https://github.com/realm/realm-core/pull/5897)).
-* `Realm.Error` is now a typealias for `RLMError` rather than a
+* `WabiRealm.Error` is now a typealias for `RLMError` rather than a
   manually-defined version of what the automatic bridging produces. This should
   have no effect on existing working code, but the manual definition was
   missing a few things supplied by the automatic bridging.
@@ -816,7 +816,7 @@ Switch to building the Carthage release with Xcode 14.1.
 * Many sync and app errors were reported using undocumented internal error
   codes and/or domains and could not be progammatically handled. Some notable
   things which now have public error codes instead of unstable internal ones:
-  - `Realm.Error.subscriptionFailed`: The server rejected a flexible sync subscription.
+  - `WabiRealm.Error.subscriptionFailed`: The server rejected a flexible sync subscription.
   - `AppError.invalidPassword`: A login attempt failed due to a bad password.
   - `AppError.accountNameInUse`: A registration attempt failed due to the account name being in use.
   - `AppError.httpRequestFailed`: A HTTP request to Atlas App Services
@@ -835,8 +835,8 @@ Switch to building the Carthage release with Xcode 14.1.
   ([Core #5912](https://github.com/realm/realm-core/issues/5912),
   since the introduction of sectioned results in v10.29.0)
 * Fix a use-after-free if the last external reference to an encrypted
-  synchronized Realm was closed between when a client reset error was received
-  and when the download of the new Realm began.
+  synchronized WabiRealm was closed between when a client reset error was received
+  and when the download of the new WabiRealm began.
   ([Core #5949](https://github.com/realm/realm-core/pull/5949), since 10.28.4).
 * Fix an assertion failure during client reset with recovery when recovering
   a list operation on an embedded object that has a link column in the path
@@ -850,14 +850,14 @@ Switch to building the Carthage release with Xcode 14.1.
 * Opening an unencrypted file with an encryption key would sometimes report a
   misleading error message that indicated that the problem was something other
   than a decryption failure ([Core #5915](https://github.com/realm/realm-core/pull/5915), since 0.89.0).
-* Fix a rare deadlock which could occur when closing a synchronized Realm
+* Fix a rare deadlock which could occur when closing a synchronized WabiRealm
   immediately after committing a write transaction when the sync worker thread
   has also just finished processing a changeset from the server
   ([Core #5948](https://github.com/realm/realm-core/pull/5948)).
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 14.0.1.
 * CocoaPods: 1.10 or later.
@@ -885,7 +885,7 @@ Switch to building the Carthage release with Xcode 14.1.
     4. In the case of conflicting updates to the same field, the client update is applied.
   - The client reset process will fallback to `ClientResetMode.discardUnsyncedChanges` if the recovery process fails in `.recoverOrDiscardUnsyncedChanges`.
   - The client reset process will fallback to `ClientResetMode.manual` if the recovery process fails in `.recoverUnsyncedChanges`.
-  - The two new swift recovery modes support client reset callbacks: `.recoverUnsyncedChanges(beforeReset: ((Realm) -> Void)? = nil, afterReset: ((Realm, Realm) -> Void)? = nil)`.
+  - The two new swift recovery modes support client reset callbacks: `.recoverUnsyncedChanges(beforeReset: ((WabiRealm) -> Void)? = nil, afterReset: ((WabiRealm, WabiRealm) -> Void)? = nil)`.
   - The two new Obj-C recovery modes support client reset callbacks in `notifyBeforeReset`
     and `notifyAfterReset`for both `[RLMUser configurationWithPartitionValue]` and `[RLMUser flexibleSyncConfigurationWithClientResetMode]`
     For more detail on client reset callbacks, see `ClientResetMode`, `RLMClientResetBeforeBlock`,
@@ -909,7 +909,7 @@ Switch to building the Carthage release with Xcode 14.1.
   to `.recoverUnsyncedChanges` (`RLMClientResetModeRecoverUnsyncedChanges`).
   - If you are currently using `.manual` and continue to do so, the only change
     you must explicitly make is designating manual mode in
-    your `Realm.Configuration.SyncConfiguration`s, since they will now default to `.recoverUnsyncedChanges`.
+    your `WabiRealm.Configuration.SyncConfiguration`s, since they will now default to `.recoverUnsyncedChanges`.
   - You may choose to define your manual client reset handler in the newly
     introduced `manual(ErrorReportingBlock? = nil)`
     or `RLMSyncConfiguration.manualClientResetHandler`, but this is not required.
@@ -924,7 +924,7 @@ Switch to building the Carthage release with Xcode 14.1.
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 14.0.1.
 * CocoaPods: 1.10 or later.
@@ -952,7 +952,7 @@ The prebuilt binary for Carthage is now build with Xcode 14.0.1.
   do, rather than always applying all changesets received from the server even
   when other threads are trying to write. ([Core #5844](https://github.com/realm/realm-core/pull/5844)).
 * The sync client no longer writes an unused temporary copy of the changesets
-  received from the server to the Realm file ([Core #5844](https://github.com/realm/realm-core/pull/5844)).
+  received from the server to the WabiRealm file ([Core #5844](https://github.com/realm/realm-core/pull/5844)).
 
 ### Fixed
 
@@ -961,7 +961,7 @@ The prebuilt binary for Carthage is now build with Xcode 14.0.1.
 * `RLMProgressNotificationToken` and `ProgressNotificationToken` now hold a
   strong reference to the sync session, keeping it alive until the token is
   deallocated or invalidated, as the other notification tokens do.
-  ([#7831](https://github.com/realm/realm-swift/issues/7831), since v2.3.0).
+  ([#7831](https://github.com/Wabi-Studios/wabi-realm/issues/7831), since v2.3.0).
 * Results permitted some nonsensical aggregate operations on column types which
   do not make sense to aggregate, giving garbage results rather than reporting
   an error ([Core #5876](https://github.com/realm/realm-core/pull/5876), since v5.0.0).
@@ -983,7 +983,7 @@ The prebuilt binary for Carthage is now build with Xcode 14.0.1.
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 14.0.1.
 * CocoaPods: 1.10 or later.
@@ -1002,18 +1002,18 @@ The prebuilt binary for Carthage is now build with Xcode 14.0.1.
   migrating an object type from top-level to embedded. `RealmAny` properties
   currently cannot link to embedded objects.
   ([Core #5796](https://github.com/realm/realm-core/pull/5796), since 10.8.0).
-* `Realm.refresh()` sometimes did not actually advance to the latest version.
+* `WabiRealm.refresh()` sometimes did not actually advance to the latest version.
   It attempted to be semi-non-blocking in a very confusing way which resulted
   in it sometimes advancing to a newer version that is not the latest version,
   and sometimes blocking until notifiers are ready so that it could advance to
   the latest version. This behavior was undocumented and didn't work correctly,
   so it now always blocks if needed to advance to the latest version.
-  ([#7625](https://github.com/realm/realm-swift/issues/7625), since v0.98.0).
+  ([#7625](https://github.com/Wabi-Studios/wabi-realm/issues/7625), since v0.98.0).
 * Fix the most common cause of thread priority inversions when performing
   writes on the main thread. If beginning the write transaction has to wait for
   the background notification calculations to complete, that wait is now done
-  in a QoS-aware way. ([#7902](https://github.com/realm/realm-swift/issues/7902))
-* Subscribing to link properties in a flexible sync Realm did not work due to a
+  in a QoS-aware way. ([#7902](https://github.com/Wabi-Studios/wabi-realm/issues/7902))
+* Subscribing to link properties in a flexible sync WabiRealm did not work due to a
   mismatch between what the client sent and what the server needed.
   ([Core #5409](https://github.com/realm/realm-core/issues/5409))
 * Attempting to use `AsymmetricObject` with partition-based sync now reports a
@@ -1029,11 +1029,11 @@ The prebuilt binary for Carthage is now build with Xcode 14.0.1.
 * `-[RLMASLoginDelegate authenticationDidCompleteWithError:]` has been renamed
   to `-[RLMASLoginDelegate authenticationDidFailWithError:]` to comply with new
   app store requirements. This only effects the obj-c API.
-  ([#7945](https://github.com/realm/realm-swift/issues/7945))
+  ([#7945](https://github.com/Wabi-Studios/wabi-realm/issues/7945))
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 13.4.1.
 * CocoaPods: 1.10 or later.
@@ -1084,7 +1084,7 @@ The prebuilt binary for Carthage is now build with Xcode 14.0.1.
       .sectioned(by: \.firstLetter, ascending: true)
   ```
 * Add `@ObservedSectionedResults` for SwiftUI support. This property wrapper type retrieves sectioned results 
-  from a Realm using a keyPath or callback to determine the section key.
+  from a WabiRealm using a keyPath or callback to determine the section key.
   ```swift
   struct DemoView: View {
       @ObservedSectionedResults(DemoObject.self,
@@ -1111,7 +1111,7 @@ The prebuilt binary for Carthage is now build with Xcode 14.0.1.
   This happens after the migration callback function completes, so there is no
   functional change if you already have migration logic which correctly handles
   this. ([Core #5737](https://github.com/realm/realm-core/pull/5737)).
-* Improve performance when a new Realm file connects to the server for the
+* Improve performance when a new WabiRealm file connects to the server for the
   first time, especially when significant amounts of data has been written
   while offline. ([Core #5772](https://github.com/realm/realm-core/pull/5772))
 * Shift more of the work done on the sync worker thread out of the write
@@ -1126,9 +1126,9 @@ The prebuilt binary for Carthage is now build with Xcode 14.0.1.
   manifested as visible bugs. ([Core #5665](https://github.com/realm/realm-core/pull/5665))
 * Upload completion callbacks were sometimes called before the final step of
   interally marking the upload as complete, which could result in calling
-  `Realm.writeCopy()` from the completion callback failing due to there being
+  `WabiRealm.writeCopy()` from the completion callback failing due to there being
   unuploaded changes. ([Core #4865](https://github.com/realm/realm-core/issues/4865)).
-* Writing to a Realm stored on an exFAT drive threw the exception "fcntl() with
+* Writing to a WabiRealm stored on an exFAT drive threw the exception "fcntl() with
   F_BARRIERFSYNC failed: Inappropriate ioctl for device" when a write
   transaction needed to expand the file.
   ([Core #5789](https://github.com/realm/realm-core/issues/5789), since 10.27.0)
@@ -1137,7 +1137,7 @@ The prebuilt binary for Carthage is now build with Xcode 14.0.1.
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 13.4.1.
 * CocoaPods: 1.10 or later.
@@ -1160,7 +1160,7 @@ The prebuilt binary for Carthage is now build with Xcode 14.0.1.
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 13.4.1.
 * CocoaPods: 1.10 or later.
@@ -1176,7 +1176,7 @@ The prebuilt binary for Carthage is now build with Xcode 14.0.1.
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 13.4.1.
 * CocoaPods: 1.10 or later.
@@ -1192,20 +1192,20 @@ The prebuilt binary for Carthage is now build with Xcode 14.0.1.
 ### Enhancements
 
 * Improve performance of accessing `SubscriptionSet` properties when no writes
-  have been made to the Realm since the last access.
+  have been made to the WabiRealm since the last access.
 
 ### Fixed
 
-* A use-after-free could occur if a Realm with audit events enabled was
-  destroyed while processing an upload completion for the events Realm on a
+* A use-after-free could occur if a WabiRealm with audit events enabled was
+  destroyed while processing an upload completion for the events WabiRealm on a
   different thread. ([Core PR #5714](https://github.com/realm/realm-core/pull/5714))
-* Opening a read-only synchronized Realm for the first time via asyncOpen did
+* Opening a read-only synchronized WabiRealm for the first time via asyncOpen did
   not set the schema version, which could lead to `m_schema_version !=
   ObjectStore::NotVersioned` assertion failures later on.
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 13.4.1.
 * CocoaPods: 1.10 or later.
@@ -1220,7 +1220,7 @@ The prebuilt binary for Carthage is now build with Xcode 14.0.1.
 
 ### Enhancements
 
-* Add support for building arm64 watchOS when installing Realm via CocoaPods.
+* Add support for building arm64 watchOS when installing WabiRealm via CocoaPods.
 * Reduce the amount of virtual address space used
   ([Core #5645](https://github.com/realm/realm-core/pull/5645)).
 
@@ -1229,24 +1229,24 @@ The prebuilt binary for Carthage is now build with Xcode 14.0.1.
 * Fix some warnings when building with Xcode 14
   ([Core #5577](https://github.com/realm/realm-core/pull/5577)).
 * Fix compilation failures on watchOS platforms which do not support thread-local storage.
-  ([#7694](https://github.com/realm/realm-swift/issues/7694), [#7695](https://github.com/realm/realm-swift/issues/7695) since v10.21.1)
+  ([#7694](https://github.com/Wabi-Studios/wabi-realm/issues/7694), [#7695](https://github.com/Wabi-Studios/wabi-realm/issues/7695) since v10.21.1)
 * Fix a data race when committing a transaction while multiple threads are
   waiting to begin write transactions. This appears to not have caused any
   functional problems.
 * Fix a data race when writing audit events which could occur if the sync
-  client thread was busy with other work when the event Realm was opened.
+  client thread was busy with other work when the event WabiRealm was opened.
 * Fix some cases of running out of virtual address space (seen/reported as mmap
   failures) ([Core #5645](https://github.com/realm/realm-core/pull/5645)).
 * Audit event scopes containing only write events and no read events would
   occasionally throw a `BadVersion` exception when a write transaction was
   committed (since v10.26.0).
 * The client reset callbacks for the DiscardLocal mode would be passed invalid
-  Realm instances if the callback was invoked at a point where the Realm was
+  WabiRealm instances if the callback was invoked at a point where the WabiRealm was
   not otherwise open. ([Core #5654](https://github.com/realm/realm-core/pull/5654), since the introduction of DiscardLocal reset mode in v10.25.0)
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 13.4.1.
 * CocoaPods: 1.10 or later.
@@ -1261,7 +1261,7 @@ The prebuilt binary for Carthage is now build with Xcode 14.0.1.
 
 ### Enhancements
 
-* Greatly improve the performance of obtaining cached Realm instances in Swift
+* Greatly improve the performance of obtaining cached WabiRealm instances in Swift
   when using a sync configuration.
 
 ### Fixed
@@ -1276,7 +1276,7 @@ The prebuilt binary for Carthage is now build with Xcode 14.0.1.
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 13.4.1.
 * CocoaPods: 1.10 or later.
@@ -1287,14 +1287,14 @@ The prebuilt binary for Carthage is now build with Xcode 14.0.1.
 
 ### Fixed
 
-* Using `seedFilePath` threw an exception if the Realm file being opened
-  already existed ([#7840](https://github.com/realm/realm-swift/issues/7840),
+* Using `seedFilePath` threw an exception if the WabiRealm file being opened
+  already existed ([#7840](https://github.com/Wabi-Studios/wabi-realm/issues/7840),
   since v10.26.0).
-* The `intialSubscriptions` callback was invoked every time a Realm was opened
-  regardless of the value of `rerunOnOpen` and if the Realm was already open on
+* The `intialSubscriptions` callback was invoked every time a WabiRealm was opened
+  regardless of the value of `rerunOnOpen` and if the WabiRealm was already open on
   another thread (since v10.28.0).
-* Allow using `RLMSupport.Swift` from RealmSwift's Cocoapods
-  ([#6886](https://github.com/realm/realm-swift/pull/6886)).
+* Allow using `RLMSupport.Swift` from WabiRealmKit's Cocoapods
+  ([#6886](https://github.com/Wabi-Studios/wabi-realm/pull/6886)).
 * Fix a UBSan failure when mapping encrypted pages. Fixing this did not change
   the resulting assembly, so there were probably no functional problems
   resulting from this (since v5.0.0).
@@ -1302,7 +1302,7 @@ The prebuilt binary for Carthage is now build with Xcode 14.0.1.
   many small strings (totalling > 1024 bytes per changeset) on iOS 14, and
   devices which have restrictive or fragmented memory.
   ([Core #5614](https://github.com/realm/realm-core/issues/5614))
-* Fix a data race when opening a flexible sync Realm (since v10.28.0).
+* Fix a data race when opening a flexible sync WabiRealm (since v10.28.0).
 * Add a missing backlink removal when assigning null or a non-link value to an
   `AnyRealmValue` property which previously linked to an object.
   This could have resulted in "key not found" exceptions or assertion failures
@@ -1312,7 +1312,7 @@ The prebuilt binary for Carthage is now build with Xcode 14.0.1.
 
 ### Compatibility
 
-* Realm Studio: 12.0.0 or later.
+* WabiRealm Studio: 12.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 13.4.1.
 * CocoaPods: 1.10 or later.
@@ -1332,7 +1332,7 @@ The prebuilt binary for Carthage is now build with Xcode 14.0.1.
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 13.4.1.
 * CocoaPods: 1.10 or later.
@@ -1343,7 +1343,7 @@ The prebuilt binary for Carthage is now build with Xcode 14.0.1.
 
 ### Enhancements
 
-* Replace mentions of 'MongoDB Realm' with 'Atlas App Services' in the documentation and update appropriate links to documentation.
+* Replace mentions of 'MongoDB WabiRealm' with 'Atlas App Services' in the documentation and update appropriate links to documentation.
 * Allow adding a subscription querying for all documents of a type in swift for flexible sync.
 ```
    try await subscriptions.update {
@@ -1353,7 +1353,7 @@ The prebuilt binary for Carthage is now build with Xcode 14.0.1.
 * Add Combine API support for flexible sync beta.
 * Add an `initialSubscriptions` parameter when retrieving the flexible sync configuration from a user,
   which allows to specify a subscription update block, to bootstrap a set of flexible sync subscriptions
-  when the Realm is first opened.
+  when the WabiRealm is first opened.
   There is an additional optional parameter flag `rerunOnOpen`, which allows to run this initial
   subscriptions on every app startup.
 
@@ -1363,24 +1363,24 @@ The prebuilt binary for Carthage is now build with Xcode 14.0.1.
             $0.age > 10
         })
     }, rerunOnOpen: true)
-    let realm = try Realm(configuration: config)
+    let realm = try WabiRealm(configuration: config)
 ```
-* The sync client error handler will report an error, with detailed info about which object caused it, when writing an object to a flexible sync Realm outside of any query subscription. ([#5528](https://github.com/realm/realm-core/pull/5528))
-* Adding an object to a flexible sync Realm for a type that is not within a query subscription will now throw an exception. ([#5488](https://github.com/realm/realm-core/pull/5488)).
+* The sync client error handler will report an error, with detailed info about which object caused it, when writing an object to a flexible sync WabiRealm outside of any query subscription. ([#5528](https://github.com/realm/realm-core/pull/5528))
+* Adding an object to a flexible sync WabiRealm for a type that is not within a query subscription will now throw an exception. ([#5488](https://github.com/realm/realm-core/pull/5488)).
 
 ### Fixed
 
-* Flexible Sync query subscriptions will correctly complete when data is synced to the local Realm. ([#5553](https://github.com/realm/realm-core/pull/5553), since v12.0.0)
+* Flexible Sync query subscriptions will correctly complete when data is synced to the local WabiRealm. ([#5553](https://github.com/realm/realm-core/pull/5553), since v12.0.0)
 
 ### Breaking Changes
 
-* Rename `SyncSubscriptionSet.write` to `SyncSubscriptionSet.update` to avoid confusion with `Realm.write`.
+* Rename `SyncSubscriptionSet.write` to `SyncSubscriptionSet.update` to avoid confusion with `WabiRealm.write`.
 * Rename `SyncSubscription.update` to `SyncSubscription.updateQuery` to avoid confusion with `SyncSubscriptionSet.update`.
 * Rename `RLMSyncSubscriptionSet.write` to `RLMSyncSubscriptionSet.update` to align it with swift API.
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 13.4.
 * CocoaPods: 1.10 or later.
@@ -1407,13 +1407,13 @@ The prebuilt binary for Carthage is now build with Xcode 14.0.1.
 * Partially fix a performance regression in write performance introduced in
   v10.21.1. v10.21.1 fixed a case where a kernel panic or device's battery
   dying at the wrong point in a write transaction could potentially result in a
-  corrected Realm file, but at the cost of a severe performance hit. This
+  corrected WabiRealm file, but at the cost of a severe performance hit. This
   version adjusts how file synchronization is done to provide the same safety
-  at a much smaller performance hit. ([#7740](https://github.com/realm/realm-swift/issues/7740)).
+  at a much smaller performance hit. ([#7740](https://github.com/Wabi-Studios/wabi-realm/issues/7740)).
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later (but see note below).
+* WabiRealm Studio: 11.0.0 or later (but see note below).
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 13.4.
 * CocoaPods: 1.10 or later.
@@ -1424,10 +1424,10 @@ The prebuilt binary for Carthage is now build with Xcode 14.0.1.
 * Upgraded realm-core from 11.17.0 to 12.0.0.
 * Bump the version number for the lockfile used for interprocess
   synchronization. This has no effect on persistent data, but means that
-  versions of Realm which use pre-12.0.0 realm-core cannot open Realm files at
-  the same time as they are opened by this version. Notably this includes Realm
+  versions of WabiRealm which use pre-12.0.0 realm-core cannot open WabiRealm files at
+  the same time as they are opened by this version. Notably this includes WabiRealm
   Studio, and v11.1.2 (the latest at the time of this release) cannot open
-  Realm files which are simultaneously open in the simulator.
+  WabiRealm files which are simultaneously open in the simulator.
 
 10.26.0 Release notes (2022-05-19)
 =============================================================
@@ -1474,31 +1474,31 @@ allows submitting to the app store with Xcode 12.
     }];
     [realm cancelAsyncTransaction:asyncTransactionId];
 ```
-* Improve performance of opening a Realm with `objectClasses`/`objectTypes` set
+* Improve performance of opening a WabiRealm with `objectClasses`/`objectTypes` set
   in the configuration.
-* Implement the Realm event recording API for reporting reads and writes on a
-  Realm file to Atlas.
+* Implement the WabiRealm event recording API for reporting reads and writes on a
+  WabiRealm file to Atlas.
 
 ### Fixed
 
 * Lower minimum OS version for `async` login and FunctionCallables to match the
-  rest of the `async` functions. ([#7791]https://github.com/realm/realm-swift/issues/7791)
-* Consuming a RealmSwift XCFramework with library evolution enabled would give the error
-  `'Failed to build module 'RealmSwift'; this SDK is not supported by the compiler'`
+  rest of the `async` functions. ([#7791]https://github.com/Wabi-Studios/wabi-realm/issues/7791)
+* Consuming a WabiRealmKit XCFramework with library evolution enabled would give the error
+  `'Failed to build module 'WabiRealmKit'; this SDK is not supported by the compiler'`
   when the XCFramework was built with an older XCode version and is
-  then consumed with a later version. ([#7313](https://github.com/realm/realm-swift/issues/7313), since v3.18.0)
-* A data race would occur when opening a synchronized Realm with the client
+  then consumed with a later version. ([#7313](https://github.com/Wabi-Studios/wabi-realm/issues/7313), since v3.18.0)
+* A data race would occur when opening a synchronized WabiRealm with the client
   reset mode set to `discardLocal` on one thread at the same time as a client
   reset was being processed on another thread. This probably did not cause any
   functional problems in practice and the broken timing window was very tight (since 10.25.0).
-* If an async open of a Realm triggered a client reset, the callbacks for
+* If an async open of a WabiRealm triggered a client reset, the callbacks for
   `discardLocal` could theoretically fail to be called due to a race condition.
   The timing for this was probably not possible to hit in practice (since 10.25.0).
-* Calling `[RLMRealm freeze]`/`Realm.freeze` on a Realm which had been created from `writeCopy`
-  would not produce a frozen Realm. ([#7697](https://github.com/realm/realm-swift/issues/7697), since v5.0.0)
+* Calling `[RLMRealm freeze]`/`WabiRealm.freeze` on a WabiRealm which had been created from `writeCopy`
+  would not produce a frozen WabiRealm. ([#7697](https://github.com/Wabi-Studios/wabi-realm/issues/7697), since v5.0.0)
 * Using the dynamic subscript API on unmanaged objects before first opening a
-  Realm or if `objectTypes` was set when opening a Realm would throw an
-  exception ([#7786](https://github.com/realm/realm-swift/issues/7786)).
+  WabiRealm or if `objectTypes` was set when opening a WabiRealm would throw an
+  exception ([#7786](https://github.com/Wabi-Studios/wabi-realm/issues/7786)).
 * The sync client may have sent a corrupted upload cursor leading to a fatal
   error from the server due to an uninitialized variable.
   ([#5460](https://github.com/realm/realm-core/pull/5460), since v10.25.1)
@@ -1507,7 +1507,7 @@ allows submitting to the app store with Xcode 12.
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 13.4.
 * CocoaPods: 1.10 or later.
@@ -1532,13 +1532,13 @@ allows submitting to the app store with Xcode 12.
 * Adding an object to a Set, deleting the parent object of the Set, and then
   deleting the object which was added to the Set would crash
   ([Core #5387](https://github.com/realm/realm-core/issues/5387), since v10.8.0).
-* Synchronized Realm files which were first created using v10.0.0-beta.3 would
+* Synchronized WabiRealm files which were first created using v10.0.0-beta.3 would
   be redownloaded instead of using the existing file, possibly resulting in the
   loss of any unsynchronized data in those files (since v10.20.0).
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 13.3.1.
 * CocoaPods: 1.10 or later.
@@ -1555,7 +1555,7 @@ allows submitting to the app store with Xcode 12.
 
 * Fixed various memory corruption bugs when encryption is used caused by not
   locking a mutex when needed.
-  ([#7640](https://github.com/realm/realm-swift/issues/7640), [#7659](https://github.com/realm/realm-swift/issues/7659), since v10.21.1)
+  ([#7640](https://github.com/Wabi-Studios/wabi-realm/issues/7640), [#7659](https://github.com/Wabi-Studios/wabi-realm/issues/7659), since v10.21.1)
 * Changeset upload batching did not calculate the accumulated size correctly,
   resulting in “error reading body failed to read: read limited at 16777217
   bytes” errors from the server when writing large amounts of data
@@ -1563,7 +1563,7 @@ allows submitting to the app store with Xcode 12.
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 13.3.
 * CocoaPods: 1.10 or later.
@@ -1576,10 +1576,10 @@ allows submitting to the app store with Xcode 12.
 10.25.0 Release notes (2022-03-29)
 =============================================================
 
-Synchronized Realm files written by this version cannot be opened by older
-versions of Realm. Existing files will be automatically upgraded when opened.
+Synchronized WabiRealm files written by this version cannot be opened by older
+versions of WabiRealm. Existing files will be automatically upgraded when opened.
 
-Non-synchronized Realm files remain backwards-compatible.
+Non-synchronized WabiRealm files remain backwards-compatible.
 
 ### Enhancements
 
@@ -1592,19 +1592,19 @@ Non-synchronized Realm files remain backwards-compatible.
   reducing the disk space needed when large write transactions are performed
   while offline or limited in bandwidth.([Core #5260](https://github.com/realm/realm-core/pull/5260)).
 * Added new `SyncConfiguration.clientResetMode` and `RLMSyncConfiguration.clientResetMode` properties.
-  - The values of these properties will dictate client behavior in the event of a [client reset](https://docs.mongodb.com/realm/sync/error-handling/client-resets/).
+  - The values of these properties will dictate client behavior in the event of a [client reset](https://docs.mongodb.com/wabi-realm/sync/error-handling/client-resets/).
   - See below for information on `ClientResetMode` values.
   - `clientResetMode` defaults to `.manual` if not set otherwise.
 * Added new `ClientResetMode` and `RLMClientResetMode` enums.
   - These enums represent possible client reset behavior for `SyncConfiguration.clientResetMode` and `RLMSyncConfiguration.clientResetMode`, respectively.
   - `.manual` and `RLMClientResetModeManual`
-    - The local copy of the Realm is copied into a recovery
+    - The local copy of the WabiRealm is copied into a recovery
       directory for safekeeping, and then deleted from the original location. The next time
-      the Realm for that partition value is opened, the Realm will automatically be re-downloaded from
-      MongoDB Realm, and can be used as normal.
-    - Data written to the Realm after the local copy of the Realm diverged from the backup
-      remote copy will be present in the local recovery copy of the Realm file. The
-      re-downloaded Realm will initially contain only the data present at the time the Realm
+      the WabiRealm for that partition value is opened, the WabiRealm will automatically be re-downloaded from
+      MongoDB WabiRealm, and can be used as normal.
+    - Data written to the WabiRealm after the local copy of the WabiRealm diverged from the backup
+      remote copy will be present in the local recovery copy of the WabiRealm file. The
+      re-downloaded WabiRealm will initially contain only the data present at the time the WabiRealm
       was backed up on the server.
     -  `rlmSync_clientResetBackedUpRealmPath` and `SyncError.clientResetInfo()` are used for accessing the recovery directory.
   - `.discardLocal` and `RLMClientResetDiscardLocal`
@@ -1615,15 +1615,15 @@ Non-synchronized Realm files remain backwards-compatible.
       then the client reset process reverts to manual mode.
     - The realm's underlying object accessors remain bound so the UI may be updated in a non-disruptive way.
 * Added support for client reset notification blocks for `.discardLocal` and `RLMClientResetDiscardLocal`
-  - **RealmSwift implementation**: `discardLocal(((Realm) -> Void)? = nil, ((Realm, Realm) -> Void)? = nil)` 
-    - RealmSwift client reset blocks are set when initializing the user configuration
+  - **WabiRealmKit implementation**: `discardLocal(((WabiRealm) -> Void)? = nil, ((WabiRealm, WabiRealm) -> Void)? = nil)` 
+    - WabiRealmKit client reset blocks are set when initializing the user configuration
     ```swift
     var configuration = user.configuration(partitionValue: "myPartition", clientResetMode: .discardLocal(beforeClientResetBlock, afterClientResetBlock))
     ```
-    - The before client reset block -- `((Realm) -> Void)? = nil` -- is executed prior to a client reset. Possible usage includes:
+    - The before client reset block -- `((WabiRealm) -> Void)? = nil` -- is executed prior to a client reset. Possible usage includes:
     ```swift
-    let beforeClientResetBlock: (Realm) -> Void = { beforeRealm in
-      var recoveryConfig = Realm.Configuration()
+    let beforeClientResetBlock: (WabiRealm) -> Void = { beforeRealm in
+      var recoveryConfig = WabiRealm.Configuration()
         recoveryConfig.fileURL = myRecoveryPath
         do {
           beforeRealm.writeCopy(configuration: recoveryConfig)
@@ -1633,9 +1633,9 @@ Non-synchronized Realm files remain backwards-compatible.
         }
     }
     ```
-    - The after client reset block -- `((Realm, Realm) -> Void)? = nil)` -- is executed after a client reset. Possible usage includes:
+    - The after client reset block -- `((WabiRealm, WabiRealm) -> Void)? = nil)` -- is executed after a client reset. Possible usage includes:
     ```Swift
-    let afterClientResetBlock: (Realm, Realm) -> Void = { before, after in
+    let afterClientResetBlock: (WabiRealm, WabiRealm) -> Void = { before, after in
     /* This block could be used to add custom recovery logic, back-up a realm file, send reporting, etc. */
     for object in before.objects(myClass.self) {
         let res = after.objects(myClass.self)
@@ -1646,7 +1646,7 @@ Non-synchronized Realm files remain backwards-compatible.
         }
     }
     ```
-  - **Realm Obj-c implementation**: Both before and after client reset callbacks exist as properties on `RLMSyncConfiguration` and are set at initialization.
+  - **WabiRealm Obj-c implementation**: Both before and after client reset callbacks exist as properties on `RLMSyncConfiguration` and are set at initialization.
     ```objective-c
       RLMRealmConfiguration *config = [user configurationWithPartitionValue:partitionValue
                                                             clientResetMode:RLMClientResetModeDiscardLocal
@@ -1662,18 +1662,18 @@ Non-synchronized Realm files remain backwards-compatible.
 
 ### Fixed
 
-* Adding a Realm Object to a `ObservedResults` or a collections using
-  `StateRealmObject` that is managed by the same Realm would throw if the
+* Adding a WabiRealm Object to a `ObservedResults` or a collections using
+  `StateRealmObject` that is managed by the same WabiRealm would throw if the
   Object was frozen and not thawed before hand.
-* Setting a Realm Configuration for @ObservedResults using it's initializer
-  would be overrode by the Realm Configuration stored in
+* Setting a WabiRealm Configuration for @ObservedResults using it's initializer
+  would be overrode by the WabiRealm Configuration stored in
   `.environment(\.realmConfiguration, ...)` if they did not match
-  ([Cocoa #7463](https://github.com/realm/realm-swift/issues/7463), since v10.6.0).
+  ([Cocoa #7463](https://github.com/Wabi-Studios/wabi-realm/issues/7463), since v10.6.0).
 * Fix searchable component filter overriding the initial filter on `@ObservedResults`, (since v10.23.0).
-* Comparing `Results`, `LinkingObjects` or `AnyRealmCollection` when using Realm via XCFramework 
-  would result in compile time errors ([Cocoa #7615](https://github.com/realm/realm-swift/issues/7615), since v10.21.0)
-* Opening an encrypted Realm while the keychain is locked on macOS would crash
-  ([#7438](https://github.com/realm/realm-swift/issues/7438)).
+* Comparing `Results`, `LinkingObjects` or `AnyRealmCollection` when using WabiRealm via XCFramework 
+  would result in compile time errors ([Cocoa #7615](https://github.com/Wabi-Studios/wabi-realm/issues/7615), since v10.21.0)
+* Opening an encrypted WabiRealm while the keychain is locked on macOS would crash
+  ([#7438](https://github.com/Wabi-Studios/wabi-realm/issues/7438)).
 * Updating subscriptions while refreshing the access token would crash
   ([Core #5343](https://github.com/realm/realm-core/issues/5343), since v10.22.0)
 * Fix several race conditions in `SyncSession` related to setting
@@ -1681,7 +1681,7 @@ Non-synchronized Realm files remain backwards-compatible.
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 13.3.
 * CocoaPods: 1.10 or later.
@@ -1704,7 +1704,7 @@ Non-synchronized Realm files remain backwards-compatible.
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 13.3.
 * CocoaPods: 1.10 or later.
@@ -1722,7 +1722,7 @@ no functional changes from 10.24.0.
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 13.3.
 * CocoaPods: 1.10 or later.
@@ -1746,28 +1746,28 @@ no functional changes from 10.24.0.
   ([Core #5149](https://github.com/realm/realm-core/pull/5149), since v10.22.0).
 * Converting floats/doubles into Decimal128 would yield imprecise results
   ([Core #5184](https://github.com/realm/realm-core/pull/5184), since v10.0.0)
-* Using accented characters in class and field names in a synchronized Realm
+* Using accented characters in class and field names in a synchronized WabiRealm
   could result in sync errors ([Core #5196](https://github.com/realm/realm-core/pull/5196), since v10.0.0).
-* Calling `Realm.invalidate()` from inside a Realm change notification could
+* Calling `WabiRealm.invalidate()` from inside a WabiRealm change notification could
   result in the write transaction which produced the notification not being
   persisted to disk (since v10.22.0).
-* When a client reset error which results in the current Realm file being
+* When a client reset error which results in the current WabiRealm file being
   backed up and then deleted, deletion errors were ignored as long as the copy
   succeeded. When this happens the deletion of the old file is now scheduled
   for the next launch of the app. ([Core #5180](https://github.com/realm/realm-core/issues/5180), since v2.0.0)
 * Fix an error when compiling a watchOS Simulator target not supporting
-  Thread-local storage ([#7623](https://github.com/realm/realm-swift/issues/7623), since v10.21.0).
-* Add a validation check to report a sensible error if a Realm configuration
-  indicates that an in-memory Realm should be encrypted. ([Core #5195](https://github.com/realm/realm-core/issues/5195))
+  Thread-local storage ([#7623](https://github.com/Wabi-Studios/wabi-realm/issues/7623), since v10.21.0).
+* Add a validation check to report a sensible error if a WabiRealm configuration
+  indicates that an in-memory WabiRealm should be encrypted. ([Core #5195](https://github.com/realm/realm-core/issues/5195))
 * The Swift package set the linker flags on the wrong target, resulting in
   linker errors when SPM decides to build the core library as a dynamic library
-  ([#7266](https://github.com/realm/realm-swift/issues/7266)).
+  ([#7266](https://github.com/Wabi-Studios/wabi-realm/issues/7266)).
 * The download-core task failed if run in an environment without TMPDIR set
-  ([#7688](https://github.com/realm/realm-swift/issues/7688), since v10.23.0).
+  ([#7688](https://github.com/Wabi-Studios/wabi-realm/issues/7688), since v10.23.0).
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 13.2.1.
 * CocoaPods: 1.10 or later.
@@ -1782,31 +1782,31 @@ no functional changes from 10.24.0.
 
 ### Enhancements
 
-* Add `Realm.writeCopy(configuration:)`/`[RLMRealm writeCopyForConfiguration:]` which gives the
+* Add `WabiRealm.writeCopy(configuration:)`/`[RLMRealm writeCopyForConfiguration:]` which gives the
   following functionality:
-    - Export a local non-sync Realm to be used with MongoDB Realm Sync
+    - Export a local non-sync WabiRealm to be used with MongoDB WabiRealm Sync
       when the configuration is derived from a sync `RLMUser`/`User`.
-    - Write a copy of a local Realm to a destination specified in the configuration.
-    - Write a copy of a synced Realm in use with user A, and open it with user B.
+    - Write a copy of a local WabiRealm to a destination specified in the configuration.
+    - Write a copy of a synced WabiRealm in use with user A, and open it with user B.
     - Note that migrations may be required when using a local realm configuration to open a realm file that
       was copied from a synchronized realm.
 
-  An exception will be thrown if a Realm exists at the destination.
+  An exception will be thrown if a WabiRealm exists at the destination.
 * Add a `seedFilePath` option to `RLMRealmConfiguration` and `Configuration`. If this
-  option is set then instead of creating an empty Realm, the realm at the `seedFilePath` will
-  be copied to the `fileURL` of the new Realm. If a Realm file already exists at the
-  desitnation path, the seed file will not be copied and the already existing Realm
-  will be opened instead. Note that to use this parameter with a synced Realm configuration
-  the seed Realm must be appropriately copied to a destination with 
-  `Realm.writeCopy(configuration:)`/`[RLMRealm writeCopyForConfiguration:]` first.
-* Add ability to permanently delete a User from a MongoDB Realm app. This can
+  option is set then instead of creating an empty WabiRealm, the realm at the `seedFilePath` will
+  be copied to the `fileURL` of the new WabiRealm. If a WabiRealm file already exists at the
+  desitnation path, the seed file will not be copied and the already existing WabiRealm
+  will be opened instead. Note that to use this parameter with a synced WabiRealm configuration
+  the seed WabiRealm must be appropriately copied to a destination with 
+  `WabiRealm.writeCopy(configuration:)`/`[RLMRealm writeCopyForConfiguration:]` first.
+* Add ability to permanently delete a User from a MongoDB WabiRealm app. This can
   be invoked with `User.delete()`/`[RLMUser deleteWithCompletion:]`.
 * Add `NSCopying` conformance to `RLMDecimal128` and `RLMObjectId`.
 * Add Xcode 13.3 binaries to the release package (and remove 13.0).
 
 ### Fixed
 
-* Add support of arm64 in Carthage build ([#7154](https://github.com/realm/realm-cocoa/issues/7154)
+* Add support of arm64 in Carthage build ([#7154](https://github.com/wabi-realm/realm-cocoa/issues/7154)
 * Adding missing support for `IN` queries to primitives types on Type Safe Queries.
   ```swift
   let persons = realm.objects(Person.self).where {
@@ -1814,17 +1814,17 @@ no functional changes from 10.24.0.
     $0.name.in([acceptableNames])
   }
   ```
-  ([Cocoa #7633](https://github.com/realm/realm-swift/issues/7633), since v10.19.0)
+  ([Cocoa #7633](https://github.com/Wabi-Studios/wabi-realm/issues/7633), since v10.19.0)
 * Work around a compiler crash when building with Swift 5.6 / Xcode 13.3.
   CustomPersistable's PersistedType must now always be a built-in type rather
   than possibly another CustomPersistable type as Swift 5.6 has removed support
-  for infinitely-recursive associated types ([#7654](https://github.com/realm/realm-swift/issues/7654)).
+  for infinitely-recursive associated types ([#7654](https://github.com/Wabi-Studios/wabi-realm/issues/7654)).
 * Fix redundant call to filter on `@ObservedResults` from `searchable`
   component (since v10.19.0).
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 13.2.1.
 * CocoaPods: 1.10 or later.
@@ -1835,16 +1835,16 @@ no functional changes from 10.24.0.
 
 ### Enhancements
 
-* Add beta support for flexible sync. See the [backend](https://docs.mongodb.com/realm/sync/data-access-patterns/flexible-sync/) and [SDK](https://docs.mongodb.com/realm/sdk/swift/examples/flexible-sync/) documentation for more information. Please report any issues with the beta through Github.
+* Add beta support for flexible sync. See the [backend](https://docs.mongodb.com/wabi-realm/sync/data-access-patterns/flexible-sync/) and [SDK](https://docs.mongodb.com/wabi-realm/sdk/swift/examples/flexible-sync/) documentation for more information. Please report any issues with the beta through Github.
 
 ### Fixed
 
 * UserIdentity metadata table grows indefinitely. ([#5152](https://github.com/realm/realm-core/issues/5152), since v10.20.0)
-* We now report a useful error message when opening a sync Realm in non-sync mode or vice-versa.([#5161](https://github.com/realm/realm-core/pull/5161), since v5.0.0).
+* We now report a useful error message when opening a sync WabiRealm in non-sync mode or vice-versa.([#5161](https://github.com/realm/realm-core/pull/5161), since v5.0.0).
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 13.2.1.
 * CocoaPods: 1.10 or later.
@@ -1863,16 +1863,16 @@ no functional changes from 10.24.0.
   ECONNRESET, ensuring that any error message from the server gets received and
   processed. ([#5078](https://github.com/realm/realm-core/pull/5078))
 * Schema validation was missing for embedded objects in sets, resulting in an
-  unhelpful error being thrown if a Realm object subclass contained one (since v10.0.0).
-* Opening a Realm with a schema that has an orphaned embedded object type
+  unhelpful error being thrown if a WabiRealm object subclass contained one (since v10.0.0).
+* Opening a WabiRealm with a schema that has an orphaned embedded object type
   performed an extra empty write transaction (since v10.0.0).
-* Freezing a Realm with a schema that has orphaned embedded object types threw
+* Freezing a WabiRealm with a schema that has orphaned embedded object types threw
   a "Wrong transactional state" exception (since v10.19.0).
 * `@sum` and `@avg` queries on Dictionaries of floats or doubles used too much
   precision for intermediates, resulting in incorrect rounding (since v10.5.0).
-* Change the exception message for calling refresh on an immutable Realm from
+* Change the exception message for calling refresh on an immutable WabiRealm from
   "Continuous transaction through DB object without history information." to
-  "Can't refresh a read-only Realm."
+  "Can't refresh a read-only WabiRealm."
   ([#5061](https://github.com/realm/realm-core/issues/5061), since v10.8.0).
 * Queries of the form "link.collection.@sum = 0" where `link` is null matched
   when `collection` was a List or Set, but not a Dictionary
@@ -1880,11 +1880,11 @@ no functional changes from 10.24.0.
 * Types which require custom obj-c bridging (such as `PersistableEnum` or
   `CustomPersistable`) would crash with exceptions mentioning `__SwiftValue` in
   a variety of places on iOS versions older than iOS 14
-  ([#7604](https://github.com/realm/realm-swift/issues/7604), since v10.21.0)
+  ([#7604](https://github.com/Wabi-Studios/wabi-realm/issues/7604), since v10.21.0)
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 13.2.1.
 * CocoaPods: 1.10 or later.
@@ -1900,7 +1900,7 @@ no functional changes from 10.24.0.
 ### Enhancements
 
 * Add `metadata` property to `RLMUserProfile`/`UserProfile`.
-* Add class `Projection` to allow creation of light weight view models out of Realm Objects.  
+* Add class `Projection` to allow creation of light weight view models out of WabiRealm Objects.  
 ```swift
 public class Person: Object {
     @Persisted var firstName = ""
@@ -1927,9 +1927,9 @@ class PersonProjection: Projection<Person> {
 let people: Results<PersonProjection> = realm.objects(PersonProjection.self)
 ```
 * Greatly improve performance of reading AnyRealmValue and enum types from
-  Realm collections.
+  WabiRealm collections.
 * Allow using Swift enums which conform to `PersistableEnum` as the value type
-  for all Realm collections.
+  for all WabiRealm collections.
 * `AnyRealmCollection` now conforms to `Encodable`.
 * AnyRealmValue and PersistableEnum values can now be passed directly to an
   NSPredicate used in a filter() call rather than having to pass the rawValue
@@ -1950,12 +1950,12 @@ let people: Results<PersonProjection> = realm.objects(PersonProjection.self)
 * `RealmCollection.sorted(ascending:)` can now be called on all
   non-Object/EmbeddedObject collections rather than only ones where the
   `Element` conforms to `Comparable`.
-* Add support for using user-defined types with `@Persistable` and in Realm
-  collections by defining a mapping to and from a type which Realm knows how to
+* Add support for using user-defined types with `@Persistable` and in WabiRealm
+  collections by defining a mapping to and from a type which WabiRealm knows how to
   store. For example, `URL` can be made persistable with:
   ```swift
   extension URL: FailableCustomPersistable {
-      // Store URL values as a String in Realm
+      // Store URL values as a String in WabiRealm
       public typealias PersistedType = String
       // Convert a String to a URL
       public init?(persistedValue: String) { self.init(string: persistedValue) }
@@ -1964,13 +1964,13 @@ let people: Results<PersonProjection> = realm.objects(PersonProjection.self)
   }
   ```
   After doing this, `@Persisted var url: URL` is a valid property declaration
-  on a Realm object. More advanced mappings can be done by mapping to an
+  on a WabiRealm object. More advanced mappings can be done by mapping to an
   EmbeddedObject which can store multiple values.
 
 ### Fixed
 
 * Accessing a non object collection inside a migration would cause a crash
-* [#5633](https://github.com/realm/realm-cocoa/issues/5633).
+* [#5633](https://github.com/wabi-realm/realm-cocoa/issues/5633).
 * Accessing a `Map` of objects dynamically would not handle nulled values correctly (since v10.8.0).
 * `where()` allowed constructing some nonsensical queries due to boolean
   comparisons returning `Query<T>` rather than `Query<Bool>` (since v10.19.0).
@@ -1985,7 +1985,7 @@ let people: Results<PersonProjection> = realm.objects(PersonProjection.self)
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 13.2.1.
 * CocoaPods: 1.10 or later.
@@ -1999,7 +1999,7 @@ Xcode 12.4 is now the minimum supported version of Xcode.
 ### Fixed
 
 * Add missing `Indexable` support for UUID.
-  ([Cocoa #7545](https://github.com/realm/realm-swift/issues/7545), since v10.10.0)
+  ([Cocoa #7545](https://github.com/Wabi-Studios/wabi-realm/issues/7545), since v10.10.0)
 
 ### Breaking Changes
 
@@ -2009,7 +2009,7 @@ Xcode 12.4 is now the minimum supported version of Xcode.
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 13.2.
 * CocoaPods: 1.10 or later.
@@ -2022,19 +2022,19 @@ Xcode 12.4 is now the minimum supported version of Xcode.
 
 * Conform `@ThreadSafe` and `ThreadSafeReference` to `Sendable`.
 * Allow using Swift enums which conform to `PersistableEnum` as the value type
-  for all Realm collections.
+  for all WabiRealm collections.
 * `AnyRealmCollection` now conforms to `Encodable`.
 * Greatly improve performance of reading AnyRealmValue and enum types from
-  Realm collections.
+  WabiRealm collections.
 * `AnyRealmCollection` now conforms to `Encodable`.
 
 ### Fixed
 
-* `@AutoOpen` will open the existing local Realm file on any connection error
+* `@AutoOpen` will open the existing local WabiRealm file on any connection error
   rather than only when the connection specifically times out.
 * Do not allow `progress` state changes for `@AutoOpen` and `@AsyncOpen` after
   changing state to `open(let realm)` or `error(let error)`.
-* Logging out a sync user failed to remove the local Realm file for partitions
+* Logging out a sync user failed to remove the local WabiRealm file for partitions
   with very long partition values that would have exceeded the maximum path
   length. ([Core #4187](https://github.com/realm/realm-core/issues/4187), since v10.0.0)
 * Don't keep trying to refresh the access token if the client's clock is more
@@ -2045,7 +2045,7 @@ Xcode 12.4 is now the minimum supported version of Xcode.
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 13.1.
 * CocoaPods: 1.10 or later.
@@ -2075,8 +2075,8 @@ Xcode 12.4 is now the minimum supported version of Xcode.
     }
   }
   ```
-* Add an API for a type safe query syntax. This allows you to filter a Realm
-  and collections managed by a Realm with Swift style expressions. Here is a
+* Add an API for a type safe query syntax. This allows you to filter a WabiRealm
+  and collections managed by a WabiRealm with Swift style expressions. Here is a
   brief example:
   ```swift
   class Person: Object {
@@ -2097,29 +2097,29 @@ Xcode 12.4 is now the minimum supported version of Xcode.
     ($0.pets.age >= 2) && $0.pets.name.starts(with: "L")
   }
   ```
-  ([#7419](https://github.com/realm/realm-swift/pull/7419))
+  ([#7419](https://github.com/Wabi-Studios/wabi-realm/pull/7419))
 * Add support for dictionary subscript expressions
   (e.g. `"phoneNumbers['Jane'] == '123-3456-123'"`) when querying with an
   NSPredicate.
-* Add UserProfile to User. This contains metadata from social logins with MongoDB Realm.
+* Add UserProfile to User. This contains metadata from social logins with MongoDB WabiRealm.
 * Slightly reduce the peak memory usage when processing sync changesets.
 
 ### Fixed
 
 * Change default request timeout for `RLMApp` from 6 seconds to 60 seconds.
-* Async `Realm` init would often give a Realm instance which could not actually
+* Async `WabiRealm` init would often give a WabiRealm instance which could not actually
   be used and would throw incorrect thread exceptions. It now is `@MainActor`
-  and gives a Realm instance which always works on the main actor. The
+  and gives a WabiRealm instance which always works on the main actor. The
   non-functional `queue:` parameter has been removed (since v10.15.0).
 * Restore the pre-v10.12.0 behavior of calling `writeCopy()` on a synchronized
-  Realm which produced a local non-synchronized Realm
-  ([#7513](https://github.com/realm/realm-swift/issues/7513)).
+  WabiRealm which produced a local non-synchronized WabiRealm
+  ([#7513](https://github.com/Wabi-Studios/wabi-realm/issues/7513)).
 * Decimal128 did not properly normalize the value before hashing and so could
   have multiple values which are equal but had different hash values (since v10.8.0).
 * Fix a rare assertion failure or deadlock when a sync session is racing to
-  close at the same time that external reference to the Realm is being
+  close at the same time that external reference to the WabiRealm is being
   released. ([Core #4931](https://github.com/realm/realm-core/issues/4931))
-* Fix a assertion failure when opening a sync Realm with a user who had been
+* Fix a assertion failure when opening a sync WabiRealm with a user who had been
   removed. Instead an exception will be thrown. ([Core #4937](https://github.com/realm/realm-core/issues/4937), since v10.0.0)
 * Fixed a rare segfault which could trigger if a user was being logged out
   while the access token refresh response comes in.
@@ -2128,12 +2128,12 @@ Xcode 12.4 is now the minimum supported version of Xcode.
   after the open completed. ([Core #4919](https://github.com/realm/realm-core/issues/4919))
 * SecureTransport was not enabled for macCatalyst builds when installing via
   SPM, resulting in `'SSL/TLS protocol not supported'` exceptions when using
-  Realm Sync. ([#7474](https://github.com/realm/realm-swift/issues/7474))
+  WabiRealm Sync. ([#7474](https://github.com/Wabi-Studios/wabi-realm/issues/7474))
 * Users were left in the logged in state when their refresh token expired.
   ([Core #4882](https://github.com/realm/realm-core/issues/4882), since v10)
 * Calling `.count` on a distinct collection would return the total number of
   objects in the collection rather than the distinct count the first time it is
-  called. ([#7481](https://github.com/realm/realm-swift/issues/7481), since v10.8.0).
+  called. ([#7481](https://github.com/Wabi-Studios/wabi-realm/issues/7481), since v10.8.0).
 * `realm.delete(collection.distinct(...))` would delete all objects in the
   collection rather than just the first object with each distinct value in the
   property being distincted on, unless the distinct Results were read from at
@@ -2150,7 +2150,7 @@ Xcode 12.4 is now the minimum supported version of Xcode.
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 13.1.
 * CocoaPods: 1.10 or later.
@@ -2167,7 +2167,7 @@ Xcode 12.4 is now the minimum supported version of Xcode.
 
 * Add support for using multiple users with `@AsyncOpen` and `@AutoOpen`.
   Setting the current user to a new user will now automatically reopen the
-  Realm with the new user.
+  WabiRealm with the new user.
 * Add prebuilt binary for Xcode 13.1 to the release package.
 
 ### Fixed
@@ -2180,7 +2180,7 @@ Xcode 12.4 is now the minimum supported version of Xcode.
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 13.1.
 * CocoaPods: 1.10 or later.
@@ -2197,7 +2197,7 @@ Xcode 12.4 is now the minimum supported version of Xcode.
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 13.0.
 * CocoaPods: 1.10 or later.
@@ -2215,15 +2215,15 @@ r `User.linkUser` methods.
 
 ### Fixed
 
-* A race condition in Realm.asyncOpen() sometimes resulted in subsequent writes
-  from Realm Sync failing to produce notifications
-  ([#7447](https://github.com/realm/realm-swift/issues/7447),
-  [#7453](https://github.com/realm/realm-swift/issues/7453),
+* A race condition in WabiRealm.asyncOpen() sometimes resulted in subsequent writes
+  from WabiRealm Sync failing to produce notifications
+  ([#7447](https://github.com/Wabi-Studios/wabi-realm/issues/7447),
+  [#7453](https://github.com/Wabi-Studios/wabi-realm/issues/7453),
   [Core #4909](https://github.com/realm/realm-core/issues/4909), since v10.15.0).
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 13.0.
 * CocoaPods: 1.10 or later.
@@ -2244,7 +2244,7 @@ r `User.linkUser` methods.
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 13.0.
 * CocoaPods: 1.10 or later.
@@ -2255,7 +2255,7 @@ r `User.linkUser` methods.
 
 ### Enhancements
 
-* Add `async` versions of the  `Realm.asyncOpen` and `App.login` methods.
+* Add `async` versions of the  `WabiRealm.asyncOpen` and `App.login` methods.
 * ThreadSafeReference no longer pins the source transaction version for
   anything other than a Results created by filtering a collection. This means
   that holding on to thread-safe references to other things (such as Objects)
@@ -2274,23 +2274,23 @@ r `User.linkUser` methods.
 
 ### Fixed
 
-* Adding an unmanaged object to a Realm that was declared with
+* Adding an unmanaged object to a WabiRealm that was declared with
   `@StateRealmObject` would throw the exception `"Cannot add an object with
-  observers to a Realm"`.
+  observers to a WabiRealm"`.
 * The `RealmCollectionChange` docs refered to indicies in modifications as the
   'new' collection. This is incorrect and the docs now state that modifications
-  refer to the previous version of the collection. ([Cocoa #7390](https://github.com/realm/realm-swift/issues/7390))
-* Fix crash in `RLMSyncConfiguration.initWithUser` error mapping when a user is disabled/deleted from MongoDB Realm dashboard.
-  ([Cocoa #7399](https://github.com/realm/realm-swift/issues/7399), since v10.0.0)
+  refer to the previous version of the collection. ([Cocoa #7390](https://github.com/Wabi-Studios/wabi-realm/issues/7390))
+* Fix crash in `RLMSyncConfiguration.initWithUser` error mapping when a user is disabled/deleted from MongoDB WabiRealm dashboard.
+  ([Cocoa #7399](https://github.com/Wabi-Studios/wabi-realm/issues/7399), since v10.0.0)
 * If the application crashed at the wrong point when logging a user in, the
   next run of the application could hit the assertion failure "m_state ==
-  SyncUser::State::LoggedIn" when a synchronized Realm is opened with that
+  SyncUser::State::LoggedIn" when a synchronized WabiRealm is opened with that
   user. ([Core #4875](https://github.com/realm/realm-core/issues/4875), since v10.0.0)
 * The `keyPaths:` parameter to `@ObservedResults` did not work (since v10.12.0).
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 12.5.1.
 * CocoaPods: 1.10 or later.
@@ -2314,14 +2314,14 @@ r `User.linkUser` methods.
 ### Fixed
 
 * `Map<Key, Value>` did not conform to `Codable`.
-  ([Cocoa #7418](https://github.com/realm/realm-swift/pull/7418), since v10.8.0)
+  ([Cocoa #7418](https://github.com/Wabi-Studios/wabi-realm/pull/7418), since v10.8.0)
 * Fixed "Invalid data type" assertion failure in the sync client when the
   client recieved an AddColumn instruction from the server for an AnyRealmValue
   property when that property already exists locally. ([Core #4873](https://github.com/realm/realm-core/issues/4873), since v10.8.0)
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 12.5.1.
 * CocoaPods: 1.10 or later.
@@ -2339,24 +2339,24 @@ r `User.linkUser` methods.
 * Sync logs now contain information about what object/changeset was being applied when the exception was thrown. 
   ([Core #4836](https://github.com/realm/realm-core/issues/4836))
 * Added ServiceErrorCode for wrong username/password when using '`App.login`. 
-  ([Core #7380](https://github.com/realm/realm-swift/issues/7380)
+  ([Core #7380](https://github.com/Wabi-Studios/wabi-realm/issues/7380)
 
 ### Fixed
 
 * Fix crash in `MongoCollection.findOneDocument(filter:)` that occurred when no results were
   found for a given filter. 
-  ([Cocoa #7380](https://github.com/realm/realm-swift/issues/7380), since v10.0.0)
+  ([Cocoa #7380](https://github.com/Wabi-Studios/wabi-realm/issues/7380), since v10.0.0)
 * Some of the SwiftUI property wrappers incorrectly required objects to conform
   to ObjectKeyIdentifiable rather than Identifiable.
-  ([Cocoa #7372](https://github.com/realm/realm-swift/issues/7372), since v10.6.0)
+  ([Cocoa #7372](https://github.com/Wabi-Studios/wabi-realm/issues/7372), since v10.6.0)
 * Work around Xcode 13 beta 3+ shipping a broken swiftinterface file for Combine on 32-bit iOS.
-  ([Cocoa #7368](https://github.com/realm/realm-swift/issues/7368))
+  ([Cocoa #7368](https://github.com/Wabi-Studios/wabi-realm/issues/7368))
 * Fixes history corruption when replacing an embedded object in a list.
   ([Core #4845](https://github.com/realm/realm-core/issues/4845)), since v10.0.0)
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 12.5.1.
 * CocoaPods: 1.10 or later.
@@ -2378,10 +2378,10 @@ r `User.linkUser` methods.
 * `ObservedResults<ResultsType>`  now includes an optional `keyPaths` parameter
   which filters change notifications to those only occurring on the provided
   key path or key paths. ex) `@ObservedResults(MyObject.self, keyPaths: ["myList.property"])`
-* Add two new property wrappers for opening a Realm asynchronously in a
+* Add two new property wrappers for opening a WabiRealm asynchronously in a
   SwiftUI View:
-    - `AsyncOpen` is a property wrapper that initiates Realm.asyncOpen
-       for the current user, notifying the view when there is a change in Realm asyncOpen state.
+    - `AsyncOpen` is a property wrapper that initiates WabiRealm.asyncOpen
+       for the current user, notifying the view when there is a change in WabiRealm asyncOpen state.
     - `AutoOpen` behaves similarly to `AsyncOpen`, but in the case of no internet
        connection this will return an opened realm.
 * Add `EnvironmentValues.partitionValue`. This value can be injected into any view using one of
@@ -2396,9 +2396,9 @@ r `User.linkUser` methods.
   for the user sync configuration.
 * Decoding a `@Persisted` property would incorrectly throw a `DecodingError.keyNotFound`
   for an optional property if the key is missing.
-  ([Cocoa #7358](https://github.com/realm/realm-swift/issues/7358), since v10.10.0)
-* Fixed a symlink which prevented Realm from building on case sensitive file systems.
-  ([#7344](https://github.com/realm/realm-swift/issues/7344), since v10.8.0)
+  ([Cocoa #7358](https://github.com/Wabi-Studios/wabi-realm/issues/7358), since v10.10.0)
+* Fixed a symlink which prevented WabiRealm from building on case sensitive file systems.
+  ([#7344](https://github.com/Wabi-Studios/wabi-realm/issues/7344), since v10.8.0)
 * Removing a change callback from a Results would sometimes block the calling
   thread while the query for that Results was running on the background worker
   thread (since v10.11.0).
@@ -2415,7 +2415,7 @@ r `User.linkUser` methods.
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 12.5.1.
 * CocoaPods: 1.10 or later.
@@ -2462,9 +2462,9 @@ r `User.linkUser` methods.
   persons.distinct(by: [\Person.age])
   ```
 * Add `List.objects(at indexes:)` in Swift and `[RLMCollection objectsAtIndexes:]` in Objective-C.
-  This allows you to select elements in a collection with a given IndexSet ([#7298](https://github.com/realm/realm-swift/issues/7298)).
+  This allows you to select elements in a collection with a given IndexSet ([#7298](https://github.com/Wabi-Studios/wabi-realm/issues/7298)).
 * Add `App.emailPasswordAuth.retryCustomConfirmation(email:completion:)` and `[App.emailPasswordAuth retryCustomConfirmation:completion:]`.
-  These functions support retrying a [custom confirmation](https://docs.mongodb.com/realm/authentication/email-password/#run-a-confirmation-function) function.
+  These functions support retrying a [custom confirmation](https://docs.mongodb.com/wabi-realm/authentication/email-password/#run-a-confirmation-function) function.
 * Improve performance of creating collection notifiers for Realms with a complex schema.
   This means that the first run of a query or first call to observe() on a collection will
   do significantly less work on the calling thread.
@@ -2475,17 +2475,17 @@ r `User.linkUser` methods.
 ### Fixed
 
 * `RealmProperty<T?>` would crash when decoding a `null` json value.
-  ([Cocoa #7323](https://github.com/realm/realm-swift/issues/7323), since v10.8.0)
+  ([Cocoa #7323](https://github.com/Wabi-Studios/wabi-realm/issues/7323), since v10.8.0)
 * `@Persisted<T?>` would crash when decoding a `null` value.
-  ([#7332](https://github.com/realm/realm-swift/issues/7332), since v10.10.0).
-* Fixed an issue where `Realm.Configuration` would be set after views have been laid out
+  ([#7332](https://github.com/Wabi-Studios/wabi-realm/issues/7332), since v10.10.0).
+* Fixed an issue where `WabiRealm.Configuration` would be set after views have been laid out
   when using `.environment(\.realmConfiguration, ...)` in SwiftUI. This would cause issues if you are
   required to bump your schema version and are using `@ObservedResults`.
 * Sync user profiles now correctly persist between runs.
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 12.5.1.
 * CocoaPods: 1.10 or later.
@@ -2502,7 +2502,7 @@ r `User.linkUser` methods.
 
 ### Enhancements
 
-* Add a new property wrapper-based declaration syntax for properties on Realm
+* Add a new property wrapper-based declaration syntax for properties on WabiRealm
   Swift object classes. Rather than using `@objc dynamic` or the
   `RealmProperty` wrapper type, properties can now be declared with `@Persisted
   var property: T`, where `T` is any of the supported property types, including
@@ -2533,19 +2533,19 @@ r `User.linkUser` methods.
       automatically generating primary keys, but allows us to only generate it
       when actually needed.
     - More types of enums are supported. Any `RawRepresentable` enum whose raw
-      type is a type supported by Realm can be stored in an `@Persisted`
+      type is a type supported by WabiRealm can be stored in an `@Persisted`
       project, rather than just `@objc` enums. Enums must be declared as
       conforming to the `PersistableEnum` protocol, and still cannot (yet) be
       used in collections.
     - `willSet` and `didSet` can be used with `@Persistable` properties, while
-      they previously did not work on managed Realm objects.
+      they previously did not work on managed WabiRealm objects.
 
   While we expect the switch to the new syntax to be very simple for most
   users, we plan to support the existing objc-based declaration syntax for the
   foreseeable future. The new style and old style cannot be mixed within a
   single class, but new classes can use the new syntax while existing classes
   continue to use the old syntax. Updating an existing class to the new syntax
-  does not change what data is stored in the Realm file and so does not require
+  does not change what data is stored in the WabiRealm file and so does not require
   a migration (as long as you don't also change the schema in the process, of
   course).
 * Add `Map.merge()`, which adds the key-value pairs from another Map or
@@ -2564,7 +2564,7 @@ r `User.linkUser` methods.
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 12.5.1.
 * CocoaPods: 1.10 or later.
@@ -2577,7 +2577,7 @@ r `User.linkUser` methods.
 
 * Add `App.emailPasswordAuth.retryCustomConfirmation(email:completion:)` and
   `[App.emailPasswordAuth retryCustomConfirmation:completion:]`. These
-  functions support retrying a [custom confirmation](https://docs.mongodb.com/realm/authentication/email-password/#run-a-confirmation-function)
+  functions support retrying a [custom confirmation](https://docs.mongodb.com/wabi-realm/authentication/email-password/#run-a-confirmation-function)
   function.
 * Improve performance of many Dictionary operations, especially when KVO is being used.
 
@@ -2603,7 +2603,7 @@ r `User.linkUser` methods.
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later.
+* WabiRealm Studio: 11.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 12.5.1.
 * CocoaPods: 1.10 or later.
@@ -2623,16 +2623,16 @@ r `User.linkUser` methods.
 
 ### Fixed
 
-* Importing the Realm swift package produced several warnings about excluded
+* Importing the WabiRealm swift package produced several warnings about excluded
   files not existing. Note that one warning will still remain after this change.
-  ([#7295](https://github.com/realm/realm-swift/issues/7295), since v10.8.0).
+  ([#7295](https://github.com/Wabi-Studios/wabi-realm/issues/7295), since v10.8.0).
 * Update the root URL for the API docs so that the links go to the place where
   new versions of the docs are being published.
-  ([#7299](https://github.com/realm/realm-swift/issues/7299), since v10.6.0).
+  ([#7299](https://github.com/Wabi-Studios/wabi-realm/issues/7299), since v10.6.0).
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later. Note that this version of Realm Studio has not
+* WabiRealm Studio: 11.0.0 or later. Note that this version of WabiRealm Studio has not
   yet been released at the time of this release.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 12.5.1.
@@ -2642,11 +2642,11 @@ r `User.linkUser` methods.
 10.8.0 Release notes (2021-06-14)
 =============================================================
 
-NOTE: This version upgrades the Realm file format version to add support for
-the new data types and to adjust how primary keys are handled. Realm files
+NOTE: This version upgrades the WabiRealm file format version to add support for
+the new data types and to adjust how primary keys are handled. WabiRealm files
 opened will be automatically upgraded and cannot be read by versions older than
 v10.8.0. This upgrade should be a fairly fast one. Note that we now
-automatically create a backup of the pre-upgrade Realm.
+automatically create a backup of the pre-upgrade WabiRealm.
 
 ### Enhancements
 
@@ -2656,16 +2656,16 @@ automatically create a backup of the pre-upgrade Realm.
   - `RLMSet<T>` in Objective-C and `MutableSet<T>` in Swift are mutable
     unordered collections of distinct objects, similar to the built-in
     `NSMutableSet` and `Set`. The values in a set may be any non-collection
-    type which can be stored as a Realm property. Sets are guaranteed to never
+    type which can be stored as a WabiRealm property. Sets are guaranteed to never
     contain two objects which compare equal to each other, including when
     conflicting writes are merged by sync.
   - `RLMDictionary<NSString *, T>` in Objective-C and `Map<String, T>` are
     mutable key-value dictionaries, similar to the built-in
     `NSMutableDictionary` and `Dictionary`. The values in a dictionary may be
-    any non-collection type which can be stored as a Realm property. The keys
+    any non-collection type which can be stored as a WabiRealm property. The keys
     must currently always be a string.
 * Add support for dynamically typed properties which can store a value of any
-  of the non-collection types supported by Realm, including Object subclasses
+  of the non-collection types supported by WabiRealm, including Object subclasses
   (but not EmbeddedObject subclasses). These are declared with
   `@property id<RLMValue> propertyName;` in Objective-C and
   `let propertyName = RealmProperty<AnyRealmValue>()` in Swift.
@@ -2706,7 +2706,7 @@ automatically create a backup of the pre-upgrade Realm.
 
 ### Compatibility
 
-* Realm Studio: 11.0.0 or later. Note that this version of Realm Studio has not
+* WabiRealm Studio: 11.0.0 or later. Note that this version of WabiRealm Studio has not
   yet been released at the time of this release.
 * Carthage release for Swift is built with Xcode 12.5.
 * CocoaPods: 1.10 or later.
@@ -2725,7 +2725,7 @@ automatically create a backup of the pre-upgrade Realm.
 
 ### Compatibility
 
-* Realm Studio: 11.0.0-beta.1 or later.
+* WabiRealm Studio: 11.0.0-beta.1 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 12.5.
 * CocoaPods: 1.10 or later.
@@ -2753,7 +2753,7 @@ automatically create a backup of the pre-upgrade Realm.
 
 ### Compatibility
 
-* Realm Studio: 10.0.0 or later.
+* WabiRealm Studio: 10.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 12.4.
 * CocoaPods: 1.10 or later.
@@ -2776,12 +2776,12 @@ Xcode 12.2 is now the minimum supported version.
 * Fix a runtime crash which happens in some Xcode version (Xcode < 12, reported
   in Xcode 12.5), where SwiftUI is not weak linked by default. This fix only
   works for Cocoapods projects.
-  ([#7234](https://github.com/realm/realm-swift/issues/7234)
+  ([#7234](https://github.com/Wabi-Studios/wabi-realm/issues/7234)
 * Fix warnings when building with Xcode 13 beta 1.
 
 ### Compatibility
 
-* Realm Studio: 10.0.0 or later.
+* WabiRealm Studio: 10.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 12.5.
 * CocoaPods: 1.10 or later.
@@ -2797,9 +2797,9 @@ Xcode 12.2 is now the minimum supported version.
 
 ### Fixed
 
-* Fix an availability warning when building Realm. The code path which gave the
+* Fix an availability warning when building WabiRealm. The code path which gave the
   warning can not currently be hit, so this did not cause any runtime problems
-  ([#7219](https://github.com/realm/realm-swift/issues/7219), since 10.7.3).
+  ([#7219](https://github.com/Wabi-Studios/wabi-realm/issues/7219), since 10.7.3).
 * Proactively check the expiry time on the access token and refresh it before
   attempting to initiate a sync session. This prevents some error logs from
   appearing on the client such as: "ERROR: Connection[1]: Websocket: Expected
@@ -2814,23 +2814,23 @@ Xcode 12.2 is now the minimum supported version.
 * Fix errors related to "uncaught exception in notifier thread:
   N5realm11KeyNotFoundE: No such object" which could happen on sycnronized
   Realms if a linked object was deleted by another client.
-  ([JS #3611](https://github.com/realm/realm-js/issues/3611), since v10.0.0).
+  ([JS #3611](https://github.com/wabi-realm/realm-js/issues/3611), since v10.0.0).
 * Reading a link to an object which has been deleted by a different client via
   a string-based interface (such as value(forKey:) or the subscript operator on
   DynamicObject) could return an invalid object rather than nil.
   ([Core #4687](https://github.com/realm/realm-core/pull/4687), since v10.0.0)
-* Recreate the sync metadata Realm if the encryption key for it is missing from
+* Recreate the sync metadata WabiRealm if the encryption key for it is missing from
   the keychain rather than crashing. This can happen if a device is restored
   from an unencrypted backup, which restores app data but not the app's
   keychain entries, and results in all cached logics for sync users being
   discarded but no data being lost.
   [Core #4285](https://github.com/realm/realm-core/pull/4285)
 * Thread-safe references can now be created for read-only Realms.
-  ([#5475](https://github.com/realm/realm-swift/issues/5475)).
+  ([#5475](https://github.com/Wabi-Studios/wabi-realm/issues/5475)).
 
 ### Compatibility
 
-* Realm Studio: 10.0.0 or later.
+* WabiRealm Studio: 10.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 12.5.
 * CocoaPods: 1.10 or later.
@@ -2846,11 +2846,11 @@ Xcode 12.2 is now the minimum supported version.
 
 * Iterating over frozen collections on multiple threads at the same time could
   throw a "count underflow" NSInternalInconsistencyException.
-  ([#7237](https://github.com/realm/realm-swift/issues/7237), since v5.0.0).
+  ([#7237](https://github.com/Wabi-Studios/wabi-realm/issues/7237), since v5.0.0).
 
 ### Compatibility
 
-* Realm Studio: 10.0.0 or later.
+* WabiRealm Studio: 10.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 12.5.
 * CocoaPods: 1.10 or later.
@@ -2865,11 +2865,11 @@ Xcode 12.2 is now the minimum supported version.
 ### Fixed
 
 * Add the Info.plist file to the XCFrameworks in the Carthage xcframwork
-  package ([#7216](https://github.com/realm/realm-swift/issues/7216), since 10.7.3).
+  package ([#7216](https://github.com/Wabi-Studios/wabi-realm/issues/7216), since 10.7.3).
 
 ### Compatibility
 
-* Realm Studio: 10.0.0 or later.
+* WabiRealm Studio: 10.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 12.5.
 * CocoaPods: 1.10 or later.
@@ -2887,7 +2887,7 @@ Xcode 12.2 is now the minimum supported version.
   if a) an attempt is made to open a realm file whith a "future" file format
   and b) a backup file exist that fits the current file format.
   ([Core #4166](https://github.com/realm/realm-core/pull/4166))
-* The error message when the intial steps of opening a Realm file fails is now
+* The error message when the intial steps of opening a WabiRealm file fails is now
   more descriptive.
 * Make conversion of Decimal128 to/from string work for numbers with more than
   19 significant digits. This means that Decimal128's initializer which takes a
@@ -2900,19 +2900,19 @@ Xcode 12.2 is now the minimum supported version.
 
 * Adjust the header paths for the podspec to avoid accidentally finding a file
   which isn't part of the pod that produced warnings when importing the
-  framework. ([#7113](https://github.com/realm/realm-swift/issues/7113), since 10.5.2).
+  framework. ([#7113](https://github.com/Wabi-Studios/wabi-realm/issues/7113), since 10.5.2).
 * Fixed a crash that would occur when observing unmanaged Objects in multiple
   views in SwiftUI. When using `@StateRealmObject` or `@ObservedObject` across
   multiple views with an unmanaged object, each view would subscribe to the
   object. As each view unsubscribed (generally when trailing back through the
   view stack), our propertyWrappers would attempt to remove the KVOs for each
   cancellation, when it should only be done once. We now correctly remove KVOs
-  only once. ([#7131](https://github.com/realm/realm-swift/issues/7131))
+  only once. ([#7131](https://github.com/Wabi-Studios/wabi-realm/issues/7131))
 * Fixed `isInvalidated` not returning correct value after object deletion from
-  Realm when using a custom schema. The object's Object Schema was not updated
+  WabiRealm when using a custom schema. The object's Object Schema was not updated
   when the object was added to the realm. We now correctly update the object
   schema when adding it to the realm.
-  ([#7181](https://github.com/realm/realm-swift/issues/7181))
+  ([#7181](https://github.com/Wabi-Studios/wabi-realm/issues/7181))
 * Syncing large Decimal128 values would cause "Assertion failed: cx.w[1] == 0"
   ([Core #4519](https://github.com/realm/realm-core/issues/4519), since v10.0.0).
 * Potential/unconfirmed fix for crashes associated with failure to memory map
@@ -2920,10 +2920,10 @@ Xcode 12.2 is now the minimum supported version.
   ([#4514](https://github.com/realm/realm-core/issues/4514), since v5.0.0).
 * Fix assertion failures such as "!m_notifier_skip_version.version" or
   "m_notifier_sg->get_version() + 1 == new_version.version" when performing
-  writes inside change notification callbacks. Previously refreshing the Realm
+  writes inside change notification callbacks. Previously refreshing the WabiRealm
   by beginning a write transaction would skip delivering notifications, leaving
   things in an inconsistent state. Notifications are now delivered recursively
-  when needed instead. ([Cocoa #7165](https://github.com/realm/realm-swift/issues/7165)).
+  when needed instead. ([Cocoa #7165](https://github.com/Wabi-Studios/wabi-realm/issues/7165)).
 * Fix collection notification reporting for modifications. This could be
   observed by receiving the wrong indices of modifications on sorted or
   distinct results, or notification blocks sometimes not being called when only
@@ -2932,7 +2932,7 @@ Xcode 12.2 is now the minimum supported version.
 
 ### Compatibility
 
-* Realm Studio: 10.0.0 or later.
+* WabiRealm Studio: 10.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 12.4.
 * CocoaPods: 1.10 or later.
@@ -2954,7 +2954,7 @@ Xcode 12.2 is now the minimum supported version.
 
 ### Compatibility
 
-* Realm Studio: 10.0.0 or later.
+* WabiRealm Studio: 10.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 12.4.
 * CocoaPods: 1.10 or later.
@@ -2971,22 +2971,22 @@ Xcode 12.2 is now the minimum supported version.
 * Queries of the form "a.b.c == nil" would match objects where `b` is `nil` if
   `c` did not have an index and did not if `c` was indexed. Both will now match
   to align with NSPredicate's behavior. ([Core #4460]https://github.com/realm/realm-core/pull/4460), since 4.3.0).
-* Restore support for upgrading files from file format 5 (Realm Cocoa 1.x).
-  ([Core #7089](https://github.com/realm/realm-swift/issues/7089), since v5.0.0)
+* Restore support for upgrading files from file format 5 (WabiRealm Cocoa 1.x).
+  ([Core #7089](https://github.com/Wabi-Studios/wabi-realm/issues/7089), since v5.0.0)
 * On 32bit devices you may get exception with "No such object" when upgrading
-  to v10.* ([Java #7314](https://github.com/realm/realm-java/issues/7314), since v5.0.0)
+  to v10.* ([Java #7314](https://github.com/wabi-realm/realm-java/issues/7314), since v5.0.0)
 * The notification worker thread would rerun queries after every commit rather
   than only commits which modified tables which could effect the query results
   if the table had any outgoing links to tables not used in the query.
   ([Core #4456](https://github.com/realm/realm-core/pull/4456), since v5.0.0).
 * Fix "Invalid ref translation entry [16045690984833335023, 78187493520]"
   assertion failure which could occur when using sync or multiple processes
-  writing to a single Realm file.
-  ([#7086](https://github.com/realm/realm-swift/issues/7086), since v5.0.0).
+  writing to a single WabiRealm file.
+  ([#7086](https://github.com/Wabi-Studios/wabi-realm/issues/7086), since v5.0.0).
 
 ### Compatibility
 
-* Realm Studio: 10.0.0 or later.
+* WabiRealm Studio: 10.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 12.4.
 * CocoaPods: 1.10 or later.
@@ -3015,17 +3015,17 @@ Xcode 12.2 is now the minimum supported version.
   lists (such as "intArray.@sum > 100").
 * Performance of sorting on more than one property has been improved.
   Especially important if many elements match on the first property. Mitigates
-  ([#7092](https://github.com/realm/realm-swift/issues/7092))
+  ([#7092](https://github.com/Wabi-Studios/wabi-realm/issues/7092))
 
 ### Fixed
 
 * Fixed a bug that prevented an object type with incoming links from being
   marked as embedded during migrations. ([Core #4414](https://github.com/realm/realm-core/pull/4414))
-* The Realm notification listener thread could sometimes hit the assertion
+* The WabiRealm notification listener thread could sometimes hit the assertion
   failure "!skip_version.version" if a write transaction was committed at a
   very specific time (since v10.5.0).
 * Added workaround for a case where upgrading an old file with illegal string
-  would crash ([#7111](https://github.com/realm/realm-swift/issues/7111))
+  would crash ([#7111](https://github.com/Wabi-Studios/wabi-realm/issues/7111))
 * Fixed a conflict resolution bug related to the ArrayMove instruction, which
   could sometimes cause an "Invalid prior_size" exception to prevent
   synchronization (since v10.5.0).
@@ -3034,7 +3034,7 @@ Xcode 12.2 is now the minimum supported version.
 
 ### Compatibility
 
-* Realm Studio: 10.0.0 or later.
+* WabiRealm Studio: 10.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 12.4.
 * CocoaPods: 1.10 or later.
@@ -3049,14 +3049,14 @@ Xcode 12.2 is now the minimum supported version.
 ### Enhancements
 
 * Add `@StateRealmObject` for SwiftUI support. This property wrapper type instantiates an observable object on a View. 
-  Use in place of `SwiftUI.StateObject` for Realm `Object`, `List`, and `EmbeddedObject` types.
+  Use in place of `SwiftUI.StateObject` for WabiRealm `Object`, `List`, and `EmbeddedObject` types.
 * Add `@ObservedRealmObject` for SwiftUI support. This property wrapper type subscribes to an observable object
   and invalidates a view whenever the observable object changes. Use in place of `SwiftUI.ObservedObject` for
-  Realm `Object`, `List`, or `EmbeddedObject` types.
-* Add `@ObservedResults` for SwiftUI support. This property wrapper type retrieves results from a Realm.
+  WabiRealm `Object`, `List`, or `EmbeddedObject` types.
+* Add `@ObservedResults` for SwiftUI support. This property wrapper type retrieves results from a WabiRealm.
   The results use the realm configuration provided by the environment value `EnvironmentValues.realmConfiguration`.
-* Add `EnvironmentValues.realm` and `EnvironmentValues.realmConfiguration` for `Realm`
-  and `Realm.Configuration` types respectively. Values can be injected into views using the `View.environment` method, e.g., `MyView().environment(\.realmConfiguration, Realm.Configuration(fileURL: URL(fileURLWithPath: "myRealmPath.realm")))`. 
+* Add `EnvironmentValues.realm` and `EnvironmentValues.realmConfiguration` for `WabiRealm`
+  and `WabiRealm.Configuration` types respectively. Values can be injected into views using the `View.environment` method, e.g., `MyView().environment(\.realmConfiguration, WabiRealm.Configuration(fileURL: URL(fileURLWithPath: "myRealmPath.realm")))`. 
   The value can then be declared on the example `MyView` as `@Environment(\.realm) var realm`.
 * Add `SwiftUI.Binding` extensions where `Value` is of type `Object`, `List`, or `EmbeddedObject`. 
   These extensions expose methods for wrapped write transactions, to avoid boilerplate within 
@@ -3073,7 +3073,7 @@ Xcode 12.2 is now the minimum supported version.
   are now better handled. Previously the server would reject the schema,
   resulting in delayed and confusing error reporting. Explicitly including an
   orphan in `objectTypes` is now immediately reported as an error when opening
-  the Realm, and orphans are automatically excluded from the auto-discovered
+  the WabiRealm, and orphans are automatically excluded from the auto-discovered
   schema when `objectTypes` is not specified.
 
 ### Fixed
@@ -3082,14 +3082,14 @@ Xcode 12.2 is now the minimum supported version.
   `realm.object(ClasSName.self)` with no filter/sort/etc.) would give incorrect
   results if the Results was constructed and accessed before creating a new
   object with a primary key less than the smallest primary key which previously
-  existed. ([#7014](https://github.com/realm/realm-swift/issues/7014), since v5.0.0).
+  existed. ([#7014](https://github.com/Wabi-Studios/wabi-realm/issues/7014), since v5.0.0).
 * During synchronization you might experience crash with
   "Assertion failed: ref + size <= next->first".
   ([Core #4388](https://github.com/realm/realm-core/issues/4388))
 
 ### Compatibility
 
-* Realm Studio: 10.0.0 or later.
+* WabiRealm Studio: 10.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 12.4.
 * CocoaPods: 1.10 or later.
@@ -3103,7 +3103,7 @@ Xcode 12.2 is now the minimum supported version.
 
 ### Enhancements
 
-* Add support for "thawing" objects. `Realm`, `Results`, `List` and `Object`
+* Add support for "thawing" objects. `WabiRealm`, `Results`, `List` and `Object`
   now have `thaw()` methods which return a live copy of the frozen object. This
   enables app behvaior where a frozen object can be made live again in order to
   mutate values. For example, first freezing an object passed into UI view,
@@ -3115,7 +3115,7 @@ Xcode 12.2 is now the minimum supported version.
 * Inserting a date into a synced collection via `AnyBSON.datetime(...)` would
   be of type `Timestamp` and not `Date`. This could break synced objects with a
   `Date` property.
-  ([#6654](https://github.com/realm/realm-swift/issues/6654), since v10.0.0).
+  ([#6654](https://github.com/Wabi-Studios/wabi-realm/issues/6654), since v10.0.0).
 * Fixed an issue where creating an object after file format upgrade may fail
   with assertion "Assertion failed: lo() <= std::numeric_limits<uint32_t>::max()"
   ([#4295](https://github.com/realm/realm-core/issues/4295), since v5.0.0)
@@ -3125,11 +3125,11 @@ Xcode 12.2 is now the minimum supported version.
   occurring with a poor connection. ([#4188](https://github.com/realm/realm-core/issues/4188))
 * Limit availability of ObjectKeyIdentifiable to platforms which support
   Combine to match the change made in the Xcode 12.5 SDK.
-  ([#7083](https://github.com/realm/realm-swift/issues/7083))
+  ([#7083](https://github.com/Wabi-Studios/wabi-realm/issues/7083))
 
 ### Compatibility
 
-* Realm Studio: 10.0.0 or later.
+* WabiRealm Studio: 10.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 12.4.
 * CocoaPods: 1.10 or later.
@@ -3153,7 +3153,7 @@ Xcode 12.2 is now the minimum supported version.
   than report an error.
 * Fix a race condition which would lead to "uncaught exception in notifier
   thread: N5realm15InvalidTableRefE: transaction_ended" and a crash when the
-  source Realm was closed or invalidated at a very specific time during the
+  source WabiRealm was closed or invalidated at a very specific time during the
   first run of a collection notifier
   ([#3761](https://github.com/realm/realm-core/issues/3761), since v5.0.0).
 * Deleting and recreating objects with embedded objects may fail.
@@ -3161,11 +3161,11 @@ Xcode 12.2 is now the minimum supported version.
 * Fast-enumerating a List after deleting the parent object would crash with an
   assertion failure rather than a more appropriate exception.
   ([Core #4114](https://github.com/realm/realm-core/issues/4114), since v5.0.0).
-* Fix an issue where calling a MongoDB Realm Function would never be performed as the reference to the weak `User` was lost.
+* Fix an issue where calling a MongoDB WabiRealm Function would never be performed as the reference to the weak `User` was lost.
 
 ### Compatibility
 
-* Realm Studio: 10.0.0 or later.
+* WabiRealm Studio: 10.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 12.3.
 * CocoaPods: 1.10 or later.
@@ -3179,26 +3179,26 @@ Xcode 12.2 is now the minimum supported version.
 
 ### Enhancements
 
-* MongoDB Realm is now supported when installing Realm via Swift Package Manager.
+* MongoDB WabiRealm is now supported when installing WabiRealm via Swift Package Manager.
 
 ### Fixed
 
 * The user identifier was added to the file path for synchronized Realms twice
   and an extra level of escaping was performed on the partition value. This did
   not cause functional problems, but made file names more confusing than they
-  needed to be. Existing Realm files will continue to be located at the old
+  needed to be. Existing WabiRealm files will continue to be located at the old
   path, while newly created files will be created at a shorter path. (Since v10.0.0).
 * Fix a race condition which could potentially allow queries on frozen Realms
   to access an uninitialized structure for search indexes (since v5.0.0).
 * Fix several data races in App and SyncSession initialization. These could
-  possibly have caused strange errors the first time a synchronized Realm was
+  possibly have caused strange errors the first time a synchronized WabiRealm was
   opened (since v10.0.0).
 * Fix a use of a dangling reference when refreshing a user’s custom data that
   could lead to a crash (since v10.0.0).
 
 ### Compatibility
 
-* Realm Studio: 10.0.0 or later.
+* WabiRealm Studio: 10.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 12.2.
 * CocoaPods: 1.10 or later.
@@ -3214,20 +3214,20 @@ Xcode 12.2 is now the minimum supported version.
 
 * Add Combine support for App and User. These two types now have a
   `objectWillChange` property that emits each time the state of the object has
-  changed (such as due to the user logging in or out). ([PR #6977](https://github.com/realm/realm-swift/pull/6977)).
+  changed (such as due to the user logging in or out). ([PR #6977](https://github.com/Wabi-Studios/wabi-realm/pull/6977)).
 
 ### Fixed
 
 * Integrating changesets from the server would sometimes hit the assertion
-  failure "n != realm::npos" inside Table::create_object_with_primary_key()
+  failure "n != wabi_realm::npos" inside Table::create_object_with_primary_key()
   when creating an object with a primary key which previously had been used and
   had incoming links. ([Core PR #4180](https://github.com/realm/realm-core/pull/4180), since v10.0.0).
 * The arm64 simulator slices were not actually included in the XCFramework
-  release package. ([PR #6982](https://github.com/realm/realm-swift/pull/6982), since v10.2.0).
+  release package. ([PR #6982](https://github.com/Wabi-Studios/wabi-realm/pull/6982), since v10.2.0).
 
 ### Compatibility
 
-* Realm Studio: 10.0.0 or later.
+* WabiRealm Studio: 10.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 12.2.
 * CocoaPods: 1.10 or later.
@@ -3254,7 +3254,7 @@ Xcode 12.2 is now the minimum supported version.
 
 ### Compatibility
 
-* Realm Studio: 10.0.0 or later.
+* WabiRealm Studio: 10.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 12.2.
 * CocoaPods: 1.10 or later.
@@ -3269,12 +3269,12 @@ Xcode 12.2 is now the minimum supported version.
 ### Enhancements
 
 * The prebuilt binaries are now packaged as XCFrameworks. This adds support for
-  Catalyst and arm64 simulators when using them to install Realm, removes the
+  Catalyst and arm64 simulators when using them to install WabiRealm, removes the
   need for the strip-frameworks build step, and should simplify installation.
 * The support functionality for using the Objective C API from Swift is now
-  included in Realm Swift and now includes all of the required wrappers for
-  MongoDB Realm types. In mixed Objective C/Swift projects, we recommend
-  continuing to use the Objective C types, but import both Realm and RealmSwift
+  included in WabiRealm Swift and now includes all of the required wrappers for
+  MongoDB WabiRealm types. In mixed Objective C/Swift projects, we recommend
+  continuing to use the Objective C types, but import both WabiRealm and WabiRealmKit
   in your Swift files.
 
 ### Fixed
@@ -3282,12 +3282,12 @@ Xcode 12.2 is now the minimum supported version.
 * The user identifier was added to the file path for synchronized Realms twice
   and an extra level of escaping was performed on the partition value. This did
   not cause functional problems, but made file names more confusing than they
-  needed to be. Existing Realm files will continue to be located at the old
+  needed to be. Existing WabiRealm files will continue to be located at the old
   path, while newly created files will be created at a shorter path. (Since v10.0.0).
 
 ### Compatibility
 
-* Realm Studio: 10.0.0 or later.
+* WabiRealm Studio: 10.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 12.2.
 * CocoaPods: 1.10 or later.
@@ -3301,7 +3301,7 @@ Xcode 12.2 is now the minimum supported version.
 
 ### Compatibility
 
-* Realm Studio: 10.0.0 or later.
+* WabiRealm Studio: 10.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 12.2.
 * CocoaPods: 1.10 or later.
@@ -3321,13 +3321,13 @@ Xcode 12.2 is now the minimum supported version.
 ### Fixed
 
 * Disallow setting
-  `RLMRealmConfiguration.deleteRealmIfMigrationNeeded`/`Realm.Config.deleteRealmIfMigrationNeeded`
+  `RLMRealmConfiguration.deleteRealmIfMigrationNeeded`/`WabiRealm.Config.deleteRealmIfMigrationNeeded`
   when sync is enabled. This did not actually work as it does not delete the
-  relevant server state and broke in confusing ways ([PR #6931](https://github.com/realm/realm-swift/pull/6931)).
+  relevant server state and broke in confusing ways ([PR #6931](https://github.com/Wabi-Studios/wabi-realm/pull/6931)).
 
 ### Compatibility
 
-* Realm Studio: 10.0.0 or later.
+* WabiRealm Studio: 10.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 12.1.
 * CocoaPods: 1.10 or later.
@@ -3343,11 +3343,11 @@ Xcode 12.2 is now the minimum supported version.
 ### Fixed
 
 * One of the Swift packages did not have the minimum deployment target set,
-  resulting in errors when archiving an app which imported Realm via SPM.
+  resulting in errors when archiving an app which imported WabiRealm via SPM.
 * Reenable filelock emulation on watchOS so that the OS does not kill the app
-  when it is suspended while a Realm is open on watchOS 7 ([#6861](https://github.com/realm/realm-swift/issues/6861), since v5.4.8
+  when it is suspended while a WabiRealm is open on watchOS 7 ([#6861](https://github.com/Wabi-Studios/wabi-realm/issues/6861), since v5.4.8
 * Fix crash in case insensitive query on indexed string columns when nothing
-  matches ([#6836](https://github.com/realm/realm-swift/issues/6836), since v5.0.0).
+  matches ([#6836](https://github.com/Wabi-Studios/wabi-realm/issues/6836), since v5.0.0).
 * Null values in a `List<Float?>` or `List<Double?>` were incorrectly treated
   as non-null in some places. It is unknown if this caused any functional
   problems when using the public API. ([Core PR #3987](https://github.com/realm/realm-core/pull/3987), since v5.0.0).
@@ -3356,7 +3356,7 @@ Xcode 12.2 is now the minimum supported version.
 
 ### Compatibility
 
-* Realm Studio: 10.0.0 or later.
+* WabiRealm Studio: 10.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 12.1.
 * CocoaPods: 1.10 or later.
@@ -3372,16 +3372,16 @@ Xcode 12.2 is now the minimum supported version.
 ### Enhancements
 
 * Set the minimum CocoaPods version in the podspec so that trying to install
-  with older versions gives a more useful error ([PR #6892](https://github.com/realm/realm-swift/pull/6892)).
+  with older versions gives a more useful error ([PR #6892](https://github.com/Wabi-Studios/wabi-realm/pull/6892)).
 
 ### Fixed
 
 * Embedded objects could not be marked as `ObjectKeyIdentifable`
-  ([PR #6890](https://github.com/realm/realm-swift/pull/6890), since v10.0.0).
+  ([PR #6890](https://github.com/Wabi-Studios/wabi-realm/pull/6890), since v10.0.0).
 
 ### Compatibility
 
-* Realm Studio: 10.0.0 or later.
+* WabiRealm Studio: 10.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 12.1.
 * CocoaPods: 1.10 or later.
@@ -3389,25 +3389,25 @@ Xcode 12.2 is now the minimum supported version.
 10.1.0 Release notes (2020-10-22)
 =============================================================
 
-CocoaPods 1.10 or later is now required to install Realm.
+CocoaPods 1.10 or later is now required to install WabiRealm.
 
 ### Enhancements
 
 * Throw an exception for Objects that have none of its properties marked with @objc.
 * Mac Catalyst and arm64 simulators are now supported when integrating via Cocoapods.
 * Add Xcode 12.1 binaries to the release package.
-* Add Combine support for `Realm.asyncOpen()`.
+* Add Combine support for `WabiRealm.asyncOpen()`.
 
 ### Fixed
 
 * Implement precise and unbatched notification of sync completion events. This
   avoids a race condition where an earlier upload completion event will notify
   a later waiter whose changes haven't been uploaded yet.
-  ([#1118](https://github.com/realm/realm-object-store/pull/1118)).
+  ([#1118](https://github.com/wabi-realm/realm-object-store/pull/1118)).
 
 ### Compatibility
 
-* Realm Studio: 10.0.0 or later.
+* WabiRealm Studio: 10.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 12.1.
 
@@ -3416,29 +3416,29 @@ CocoaPods 1.10 or later is now required to install Realm.
 
 This release is functionally identical to v10.0.0-rc.2.
 
-NOTE: This version upgrades the Realm file format version to add support for
-new data types. Realm files opened will be automatically upgraded and cannot be
+NOTE: This version upgrades the WabiRealm file format version to add support for
+new data types. WabiRealm files opened will be automatically upgraded and cannot be
 read by versions older than v10.0.0.
 
 ### Breaking Changes
 
-* Rename Realm.Publishers to RealmPublishers to avoid confusion with Combine.Publishers.
+* Rename WabiRealm.Publishers to RealmPublishers to avoid confusion with Combine.Publishers.
 * Remove `[RLMSyncManager shared]`. This is now instatiated as a property on App/RLMApp.
 * `RLMSyncManager.pinnedCertificatePaths` has been removed.
 * Classes `RLMUserAccountInfo` & `RLMUserInfo` (swift: `UserInfo`, `UserAccountInfo`) have been removed.
 * `RLMSyncUser`/`SyncUser` has been renamed to `RLMUser`/`User`.
-* We no longer support Realm Cloud (legacy), but instead the new "MongoDB
-  Realm" Cloud. MongoDB Realm is a serverless platform that enables developers
+* We no longer support WabiRealm Cloud (legacy), but instead the new "MongoDB
+  WabiRealm" Cloud. MongoDB WabiRealm is a serverless platform that enables developers
   to quickly build applications without having to set up server infrastructure.
-  MongoDB Realm is built on top of MongoDB Atlas, automatically integrating the
+  MongoDB WabiRealm is built on top of MongoDB Atlas, automatically integrating the
   connection to your database.
 * Remove support for Query-based sync, including the configuration parameters
-  and the `RLMSyncSubscription` and `SyncSubscription` types ([#6437](https://github.com/realm/realm-swift/pull/6437)).
+  and the `RLMSyncSubscription` and `SyncSubscription` types ([#6437](https://github.com/Wabi-Studios/wabi-realm/pull/6437)).
 * Remove everything related to sync permissions, including both the path-based
   permission system and the object-level privileges for query-based sync.
   Permissions are now configured via MongoDB Atlas.
-  ([#6445](https://github.com/realm/realm-swift/pulls/6445))
-* Remove support for Realm Object Server.
+  ([#6445](https://github.com/Wabi-Studios/wabi-realm/pulls/6445))
+* Remove support for WabiRealm Object Server.
 * Non-embedded objects in synchronized Realms must always have a primary key
   named "_id".
 * All Swift callbacks for asynchronous operations which can fail are now passed
@@ -3448,23 +3448,23 @@ read by versions older than v10.0.0.
 ### Enhancements
 
 * Add support for next generation sync. Support for syncing to MongoDB instead
-  of Realm Object Server. Applications must be created at realm.mongodb.com
-* The memory mapping scheme for Realm files has changed to better support
+  of WabiRealm Object Server. Applications must be created at realm.mongodb.com
+* The memory mapping scheme for WabiRealm files has changed to better support
   opening very large files.
 * Add support for the ObjectId data type. This is an automatically-generated
   unique identifier similar to a GUID or a UUID.
-  ([PR #6450](https://github.com/realm/realm-swift/pull/6450)).
+  ([PR #6450](https://github.com/Wabi-Studios/wabi-realm/pull/6450)).
 * Add support for the Decimal128 data type. This is a 128-bit IEEE 754 decimal
   floating point number similar to NSDecimalNumber.
-  ([PR #6450](https://github.com/realm/realm-swift/pull/6450)).
+  ([PR #6450](https://github.com/Wabi-Studios/wabi-realm/pull/6450)).
 * Add support for embedded objects. Embedded objects are objects which are
   owned by a single parent object, and are deleted when that parent object is
   deleted. They are defined by subclassing `EmbeddedObject` /
   `RLMEmbeddedObject` rather than `Object` / `RLMObject`.
 * Add `-[RLMUser customData]`/`User.customData`. Custom data is
-  configured in your MongoDB Realm App.
+  configured in your MongoDB WabiRealm App.
 * Add `-[RLMUser callFunctionNamed:arguments:completion:]`/`User.functions`.
-  This is the entry point for calling Remote MongoDB Realm functions. Functions
+  This is the entry point for calling Remote MongoDB WabiRealm functions. Functions
   allow you to define and execute server-side logic for your application.
   Functions are written in modern JavaScript (ES6+) and execute in a serverless
   manner. When you call a function, you can dynamically access components of
@@ -3482,11 +3482,11 @@ read by versions older than v10.0.0.
   deleteOneDocument:completion:]`, and `-[RLMMongoCollection
   deleteManyDocuments:completion:]`. If you are already familiar with MongoDB
   drivers, it is important to understand that the remote MongoCollection only
-  provides access to the operations available in MongoDB Realm.
-* Obtaining a Realm configuration from a user is now done with `[RLMUser
+  provides access to the operations available in MongoDB WabiRealm.
+* Obtaining a WabiRealm configuration from a user is now done with `[RLMUser
   configurationWithPartitionValue:]`/`User.configuration(partitionValue:)`.
   Partition values can currently be of types `String`, `Int`, or `ObjectId`,
-  and fill a similar role to Realm URLs did with Realm Cloud.  The main
+  and fill a similar role to WabiRealm URLs did with WabiRealm Cloud.  The main
   difference is that partitions are meant to be more closely associated with
   your data.  For example, if you are running a `Dog` kennel, and have a field
   `breed` that acts as your partition key, you could open up realms based on
@@ -3507,7 +3507,7 @@ read by versions older than v10.0.0.
 
 ### Compatibility
 
-* Realm Studio: 10.0.0 or later.
+* WabiRealm Studio: 10.0.0 or later.
 * Carthage release for Swift is built with Xcode 12
 
 ### Internal
@@ -3536,7 +3536,7 @@ read by versions older than v10.0.0.
   an internal change to how primary keys are handled that should not have any
   other visible effects.
 * Change paired return types from Swift completion handlers to return `Result<Value, Error>`.
-* Adjust how RealmSwift.Object is defined to add support for Swift Library
+* Adjust how WabiRealmKit.Object is defined to add support for Swift Library
   Evolution mode. This should normally not have any effect, but you may need to
   add `override` to initializers of object subclasses.
 * Add `.null` type to AnyBSON. This creates a distinction between null values
@@ -3545,7 +3545,7 @@ read by versions older than v10.0.0.
 ### Fixed
 
 * Set the precision correctly when serializing doubles in extended json.
-* Reading the `objectTypes` array from a Realm Configuration would not include
+* Reading the `objectTypes` array from a WabiRealm Configuration would not include
   the embedded object types which were set in the array.
 * Reject loops in embedded objects as part of local schema validation rather
   than as a server error.
@@ -3559,30 +3559,30 @@ This release also contains the following changes from 5.4.7 - 5.5.0
 ### Enhancements
 
 * Add the ability to capture a NotificationToken when using a Combine publisher
-  that observes a Realm Object or Collection. The user will call
+  that observes a WabiRealm Object or Collection. The user will call
   `saveToken(on:at:)` directly after invoking the publisher to use the feature.
 
 ### Fixed
 
-* When using `Realm.write(withoutNotifying:)` there was a chance that the
+* When using `WabiRealm.write(withoutNotifying:)` there was a chance that the
   supplied observation blocks would not be skipped when in a write transaction.
-  ([Object Store #1103](https://github.com/realm/realm-object-store/pull/1103))
+  ([Object Store #1103](https://github.com/wabi-realm/realm-object-store/pull/1103))
 * Comparing two identical unmanaged `List<>`/`RLMArray` objects would fail.
-  ([#5665](https://github.com/realm/realm-swift/issues/5665)).
+  ([#5665](https://github.com/Wabi-Studios/wabi-realm/issues/5665)).
 * Case-insensitive equality queries on indexed string properties failed to
   clear some internal state when rerunning the query. This could manifest as
   duplicate results or "key not found" errors.
-  ([#6830](https://github.com/realm/realm-swift/issues/6830), [#6694](https://github.com/realm/realm-swift/issues/6694), since 5.0.0).
+  ([#6830](https://github.com/Wabi-Studios/wabi-realm/issues/6830), [#6694](https://github.com/Wabi-Studios/wabi-realm/issues/6694), since 5.0.0).
 * Equality queries on indexed string properties would sometimes throw "key not
   found" exceptions if the hash of the string happened to have bit 62 set.
-  ([.NET #2025](https://github.com/realm/realm-dotnet/issues/2025), since v5.0.0).
+  ([.NET #2025](https://github.com/wabi-realm/realm-dotnet/issues/2025), since v5.0.0).
 * Queries comparing non-optional int properties to nil would behave as if they
   were comparing against zero instead (since v5.0.0).
 
 ### Compatibility
 
 * File format: Generates Realms with format v12 (Reads and upgrades all previous formats)
-* Realm Studio: 10.0.0 or later.
+* WabiRealm Studio: 10.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 12.
 
@@ -3608,7 +3608,7 @@ This release also contains the following changes from 5.4.7 - 5.5.0
   - `[RLMApp allUsers]` => `RLMApp.allUsers`
   - `[RLMApp currentUser]` => `RLMApp.currentUser`
   - `[RLMApp emailPasswordAuth]` => `RLMApp.emailPasswordAuth`
-* Define `RealmSwift.Credentials` as an enum instead of a `typealias`. Example
+* Define `WabiRealmKit.Credentials` as an enum instead of a `typealias`. Example
   usage has changed from `Credentials(googleAuthCode: "token")` to
   `Credentials.google(serverAuthCode: "serverAuthCode")`, and
   `Credentials(facebookToken: "token")` to `Credentials.facebook(accessToken: "accessToken")`, etc.
@@ -3619,7 +3619,7 @@ This release also contains the following changes from 5.4.7 - 5.5.0
 ### Compatibility
 
 * File format: Generates Realms with format v12 (Reads and upgrades all previous formats)
-* Realm Studio: 10.0.0 or later.
+* WabiRealm Studio: 10.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 12.
 
@@ -3631,7 +3631,7 @@ This release also contains the following changes from 5.4.7 - 5.5.0
 * Change Google Credential parameter names to better reflect the required auth code:
     - `Credentials(googleToken:)` => `Credentials(googleAuthCode:)`
     - `[RLMCredentials credentialsWithGoogleToken:]` => `[RLMCredentials credentialsWithGoogleAuthCode:]`
-* Rename Realm.Publishers to RealmPublishers to avoid confusion with Combine.Publishers
+* Rename WabiRealm.Publishers to RealmPublishers to avoid confusion with Combine.Publishers
 
 ### Fixed
 
@@ -3650,52 +3650,52 @@ This release also contains the following changes from 5.4.0 - 5.4.6:
 * Improve the asymtotic performance of NOT IN queries on indexed properties. It
   is now O(Number of Rows) rather than O(Number of Rows \* Number of values in IN clause.)
 * Slightly (<5%) improve the performance of most operations which involve
-  reading from a Realm file.
+  reading from a WabiRealm file.
 
 ### Fixed
 
 * Upgrading pre-5.x files with string primary keys would result in a file where
   `realm.object(ofType:forPrimaryKey:)` would fail to find the object.
-  ([#6716](https://github.com/realm/realm-swift/issues/6716), since 5.2.0)
+  ([#6716](https://github.com/Wabi-Studios/wabi-realm/issues/6716), since 5.2.0)
 * A write transaction which modifies an object with more than 16 managed
-  properties and causes the Realm file to grow larger than 2 GB could cause an
-  assertion failure mentioning "m_has_refs". ([JS #3194](https://github.com/realm/realm-js/issues/3194), since 5.0.0).
-* Objects with more than 32 properties could corrupt the Realm file and result
-  in a variety of crashes. ([Java #7057](https://github.com/realm/realm-java/issues/7057), since 5.0.0).
-* Fix deadlocks when opening a Realm file in both the iOS simulator and Realm
-  Studio ([#6743](https://github.com/realm/realm-swift/issues/6743), since 5.3.6).
+  properties and causes the WabiRealm file to grow larger than 2 GB could cause an
+  assertion failure mentioning "m_has_refs". ([JS #3194](https://github.com/wabi-realm/realm-js/issues/3194), since 5.0.0).
+* Objects with more than 32 properties could corrupt the WabiRealm file and result
+  in a variety of crashes. ([Java #7057](https://github.com/wabi-realm/realm-java/issues/7057), since 5.0.0).
+* Fix deadlocks when opening a WabiRealm file in both the iOS simulator and WabiRealm
+  Studio ([#6743](https://github.com/Wabi-Studios/wabi-realm/issues/6743), since 5.3.6).
 * Fix Springboard deadlocking when an app is unsuspended while it has an open
-  Realm file which is stored in an app group on iOS 10-12
-  ([#6749](https://github.com/realm/realm-swift/issues/6749), since 5.3.6).
+  WabiRealm file which is stored in an app group on iOS 10-12
+  ([#6749](https://github.com/Wabi-Studios/wabi-realm/issues/6749), since 5.3.6).
 * If you use encryption your application cound crash with a message like
-  "Opening Realm files of format version 0 is not supported by this version of
-  Realm". ([#6889](https://github.com/realm/realm-java/issues/6889) among others, since 5.0.0)
-* Confining a Realm to a serial queue would throw an error claiming that the
+  "Opening WabiRealm files of format version 0 is not supported by this version of
+  WabiRealm". ([#6889](https://github.com/wabi-realm/realm-java/issues/6889) among others, since 5.0.0)
+* Confining a WabiRealm to a serial queue would throw an error claiming that the
   queue was not a serial queue on iOS versions older than 12.
-  ([#6735](https://github.com/realm/realm-swift/issues/6735), since 5.0.0).
+  ([#6735](https://github.com/Wabi-Studios/wabi-realm/issues/6735), since 5.0.0).
 * Results would sometimes give stale results inside a write transaction if a
   write which should have updated the Results was made before the first access
   of a pre-existing Results object.
-  ([#6721](https://github.com/realm/realm-swift/issues/6721), since 5.0.0)
-* Fix Archiving the Realm and RealmSwift frameworks with Xcode 12.
-  ([#6774](https://github.com/realm/realm-swift/issues/6774))
-* Fix compilation via Carthage when using Xcode 12 ([#6717](https://github.com/realm/realm-swift/issues/6717)).
-* Fix a crash inside `realm::Array(Type)::init_from_mem()` which would
+  ([#6721](https://github.com/Wabi-Studios/wabi-realm/issues/6721), since 5.0.0)
+* Fix Archiving the WabiRealm and WabiRealmKit frameworks with Xcode 12.
+  ([#6774](https://github.com/Wabi-Studios/wabi-realm/issues/6774))
+* Fix compilation via Carthage when using Xcode 12 ([#6717](https://github.com/Wabi-Studios/wabi-realm/issues/6717)).
+* Fix a crash inside `wabi_realm::Array(Type)::init_from_mem()` which would
   sometimes occur when running a query over links immediately after creating
   objects of the queried type.
-  ([#6789](https://github.com/realm/realm-swift/issues/6789) and possibly others, since 5.0.0).
+  ([#6789](https://github.com/Wabi-Studios/wabi-realm/issues/6789) and possibly others, since 5.0.0).
 * Possibly fix problems when changing the type of the primary key of an object
   from optional to non-optional.
 * Rerunning a equality query on an indexed string property would give incorrect
   results if a previous run of the query matched multiple objects and it now
   matches one object. This could manifest as either finding a non-matching
   object or a "key not found" exception being thrown.
-  ([#6536](https://github.com/realm/realm-swift/issues/6536), since 5.0.0).
+  ([#6536](https://github.com/Wabi-Studios/wabi-realm/issues/6536), since 5.0.0).
 
 ### Compatibility
 
 * File format: Generates Realms with format v12 (Reads and upgrades all previous formats)
-* Realm Studio: 10.0.0 or later.
+* WabiRealm Studio: 10.0.0 or later.
 * Carthage release for Swift is built with Xcode 12.
 
 ### Internal
@@ -3709,7 +3709,7 @@ This release also contains the following changes from 5.4.0 - 5.4.6:
 ### Enhancements
 
 * Add `User.loggedIn`.
-* Add support for multiple Realm Apps.
+* Add support for multiple WabiRealm Apps.
 * Remove `[RLMSyncManager shared]`. This is now instatiated as a property on
   the app itself.
 * Add Combine support for:
@@ -3733,7 +3733,7 @@ This release also contains the following changes from 5.4.0 - 5.4.6:
 * Classes `RLMUserAccountInfo` & `RLMUserInfo` (swift: `UserInfo`,
   `UserAccountInfo`) have been removed.
 * The following functionality has been renamed to align Cocoa with the other
-  Realm SDKs:
+  WabiRealm SDKs:
 
 | Old API                                                      | New API                                                        |
 |:-------------------------------------------------------------|:---------------------------------------------------------------|
@@ -3749,7 +3749,7 @@ This release also contains the following changes from 5.4.0 - 5.4.6:
 ### Compatibility
 
 * File format: Generates Realms with format v12 (Reads and upgrades all previous formats)
-* Realm Studio: 10.0.0 or later.
+* WabiRealm Studio: 10.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 5.x.y series.
 * Carthage release for Swift is built with Xcode 11.6.
 
@@ -3772,17 +3772,17 @@ This release also contains the following changes from 5.4.0 - 5.4.6:
   (`ChangeStream.close()`) when needed.
 * Add `MongoCollection.watch`, which is a Combine publisher that will stream
   change events each time the remote MongoDB collection is updated.
-* Add ability to open a synced Realm with a `nil` partition value.
+* Add ability to open a synced WabiRealm with a `nil` partition value.
 
 ### Fixed
 
-* Realm.Configuration.objectTypes now accepts embedded objects
+* WabiRealm.Configuration.objectTypes now accepts embedded objects
 * Ports fixes from 5.3.5
 
 ### Compatibility
 
 * File format: Generates Realms with format v10 (Reads and upgrades all previous formats)
-* Realm Studio: 3.11 or later.
+* WabiRealm Studio: 3.11 or later.
 * APIs are backwards compatible with all previous releases in the v10.0.0-beta.x series.
 * Carthage release for Swift is built with Xcode 11.5.
 
@@ -3797,7 +3797,7 @@ This release also contains the following changes from 5.4.0 - 5.4.6:
 This release also contains all changes from 5.3.2.
 
 ### Breaking Changes
-* The following classes & aliases have been renamed to align Cocoa with the other Realm SDKs:
+* The following classes & aliases have been renamed to align Cocoa with the other WabiRealm SDKs:
 
 | Old API                                                     | New API                                                        |
 |:------------------------------------------------------------|:---------------------------------------------------------------|
@@ -3831,10 +3831,10 @@ This release also contains all changes from 5.3.2.
 *  `refreshCustomData()` on User now returns void and passes the custom data to the callback on success.
 
 ### Compatibility
-* This release introduces breaking changes w.r.t some sync classes and MongoDB Realm Cloud functionality.
+* This release introduces breaking changes w.r.t some sync classes and MongoDB WabiRealm Cloud functionality.
 (See the breaking changes section for the full list)
 * File format: Generates Realms with format v11 (Reads and upgrades all previous formats)
-* Realm Studio: 10.0.0 or later.
+* WabiRealm Studio: 10.0.0 or later.
 * Carthage release for Swift is built with Xcode 11.5.
 
 ### Internal
@@ -3853,18 +3853,18 @@ Xcode 11.3 and iOS 9 are now the minimum supported versions.
 ### Fixed
 * Opening a SyncSession with LOCAL app deployments would not use the correct endpoints.
 * Linking from embedded objects to top-level objects was incorrectly disallowed.
-* Opening a Realm file in file format v6 (created by Realm Cocoa versions
+* Opening a WabiRealm file in file format v6 (created by WabiRealm Cocoa versions
   between 2.4 and 2.10) would crash. (Since 5.0.0, [Core #3764](https://github.com/realm/realm-core/issues/3764)).
-* Upgrading v9 (pre-5.0) Realm files would create a redundant search index for
+* Upgrading v9 (pre-5.0) WabiRealm files would create a redundant search index for
   primary key properties. This index would then be removed the next time the
-  Realm was opened, resulting in some extra i/o in the upgrade process.
+  WabiRealm was opened, resulting in some extra i/o in the upgrade process.
   (Since 5.0.0, [Core #3787](https://github.com/realm/realm-core/issues/3787)).
 * Fixed a performance issue with upgrading v9 files with search indexes on
   non-primary-key properties. (Since 5.0.0, [Core #3767](https://github.com/realm/realm-core/issues/3767)).
 
 ### Compatibility
 * File format: Generates Realms with format v11 (Reads and upgrades all previous formats)
-* MongoDB Realm: 84893c5 or later.
+* MongoDB WabiRealm: 84893c5 or later.
 * APIs are backwards compatible with all previous releases in the 10.0.0-alpha series.
 * Carthage release for Swift is built with Xcode 11.5.
 
@@ -3875,32 +3875,32 @@ Xcode 11.3 and iOS 9 are now the minimum supported versions.
 10.0.0-beta.1 Release notes (2020-06-08)
 =============================================================
 
-NOTE: This version bumps the Realm file format to version 11. It is not
+NOTE: This version bumps the WabiRealm file format to version 11. It is not
 possible to downgrade to earlier versions. Older files will automatically be
-upgraded to the new file format. Only [Realm Studio
-10.0.0](https://github.com/realm/realm-studio/releases/tag/v10.0.0-beta.1) or
+upgraded to the new file format. Only [WabiRealm Studio
+10.0.0](https://github.com/wabi-realm/realm-studio/releases/tag/v10.0.0-beta.1) or
 later will be able to open the new file format.
 
 ### Enhancements
 
 * Add support for next generation sync. Support for syncing to MongoDB instead
-  of Realm Object Server. Applications must be created at realm.mongodb.com
-* The memory mapping scheme for Realm files has changed to better support
+  of WabiRealm Object Server. Applications must be created at realm.mongodb.com
+* The memory mapping scheme for WabiRealm files has changed to better support
   opening very large files.
 * Add support for the ObjectId data type. This is an automatically-generated
   unique identifier similar to a GUID or a UUID.
-  ([PR #6450](https://github.com/realm/realm-swift/pull/6450)).
+  ([PR #6450](https://github.com/Wabi-Studios/wabi-realm/pull/6450)).
 * Add support for the Decimal128 data type. This is a 128-bit IEEE 754 decimal
   floating point number similar to NSDecimalNumber.
-  ([PR #6450](https://github.com/realm/realm-swift/pull/6450)).
+  ([PR #6450](https://github.com/Wabi-Studios/wabi-realm/pull/6450)).
 * Add support for embedded objects. Embedded objects are objects which are
   owned by a single parent object, and are deleted when that parent object is
   deleted. They are defined by subclassing `EmbeddedObject` /
   `RLMEmbeddedObject` rather than `Object` / `RLMObject`.
 * Add `-[RLMSyncUser customData]`/`SyncUser.customData`.  Custom data is 
-  configured in your MongoDB Realm App.
+  configured in your MongoDB WabiRealm App.
 * Add `-[RLMApp callFunctionNamed:arguments]`/`RealmApp.functions`. This is the
-  entry point for calling Remote MongoDB Realm functions. Functions allow you
+  entry point for calling Remote MongoDB WabiRealm functions. Functions allow you
   to define and execute server-side logic for your application. Functions are
   written in modern JavaScript (ES6+) and execute in a serverless manner. When
   you call a function, you can dynamically access components of the current
@@ -3918,7 +3918,7 @@ later will be able to open the new file format.
   deleteOneDocument:completion:]`, and `-[RLMMongoCollection
   deleteManyDocuments:completion:]`. If you are already familiar with MongoDB
   drivers, it is important to understand that the remote MongoCollection only
-  provides access to the operations available in MongoDB Realm.
+  provides access to the operations available in MongoDB WabiRealm.
 * Change `[RLMSyncUser
   configurationWithPartitionValue:]`/`SyncUser.configuration(with:)` to accept
   all BSON types. Partition values can currently be of types `String`, `Int`,
@@ -3930,29 +3930,29 @@ later will be able to open the new file format.
 
 ### Breaking Changes
 
-* We no longer support Realm Cloud (legacy), but instead the new "MongoDB
-  Realm" Cloud. MongoDB Realm is a serverless platform that enables developers
+* We no longer support WabiRealm Cloud (legacy), but instead the new "MongoDB
+  WabiRealm" Cloud. MongoDB WabiRealm is a serverless platform that enables developers
   to quickly build applications without having to set up server infrastructure.
-  MongoDB Realm is built on top of MongoDB Atlas, automatically integrating the
+  MongoDB WabiRealm is built on top of MongoDB Atlas, automatically integrating the
   connection to your database.
 * Remove support for Query-based sync, including the configuration parameters
-  and the `RLMSyncSubscription` and `SyncSubscription` types ([#6437](https://github.com/realm/realm-swift/pull/6437)).
+  and the `RLMSyncSubscription` and `SyncSubscription` types ([#6437](https://github.com/Wabi-Studios/wabi-realm/pull/6437)).
 * Primary key properties are no longer marked as being indexed. This reflects
   an internal change to how primary keys are handled that should not have any
-  other visible effects. ([#6440](https://github.com/realm/realm-swift/pull/6440)).
+  other visible effects. ([#6440](https://github.com/Wabi-Studios/wabi-realm/pull/6440)).
 * Remove everything related to sync permissions, including both the path-based
-  permission system and the object-level privileges for query-based sync. ([#6445](https://github.com/realm/realm-swift/pulls/6445))
+  permission system and the object-level privileges for query-based sync. ([#6445](https://github.com/Wabi-Studios/wabi-realm/pulls/6445))
 * Primary key uniqueness is now enforced when creating new objects during
   migrations, rather than only at the end of migrations. Previously new objects
   could be created with duplicate primary keys during a migration as long as
   the property was changed to a unique value before the end of the migration,
   but now a unique value must be supplied when creating the object.
-* Remove support for Realm Object Server.
+* Remove support for WabiRealm Object Server.
 
 ### Compatibility
 
 * File format: Generates Realms with format v11 (Reads and upgrades all previous formats)
-* MongoDB Realm: 84893c5 or later.
+* MongoDB WabiRealm: 84893c5 or later.
 * APIs are backwards compatible with all previous releases in the 10.0.0-alpha series.
 * Carthage release for Swift is built with Xcode 11.5.
 
@@ -3967,22 +3967,22 @@ later will be able to open the new file format.
 ### Enhancements
 
 * Add the ability to capture a NotificationToken when using a Combine publisher
-  that observes a Realm Object or Collection. The user will call
+  that observes a WabiRealm Object or Collection. The user will call
   `saveToken(on:at:)` directly after invoking the publisher to use the feature.
 
 ### Fixed
 
-* When using `Realm.write(withoutNotifying:)` there was a chance that the
+* When using `WabiRealm.write(withoutNotifying:)` there was a chance that the
   supplied observation blocks would not be skipped when in a write transaction.
-  ([Object Store #1103](https://github.com/realm/realm-object-store/pull/1103))
+  ([Object Store #1103](https://github.com/wabi-realm/realm-object-store/pull/1103))
 * Comparing two identical unmanaged `List<>`/`RLMArray` objects would fail.
-  ([#5665](https://github.com/realm/realm-swift/issues/5665)).
+  ([#5665](https://github.com/Wabi-Studios/wabi-realm/issues/5665)).
 
 ### Compatibility
 
 * File format: Generates Realms with format v11 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
-* Realm Studio: 5.0.0 or later.
+* WabiRealm Object Server: 3.21.0 or later.
+* WabiRealm Studio: 5.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 5.x.y series.
 * Carthage release for Swift is built with Xcode 12.
 
@@ -3994,13 +3994,13 @@ later will be able to open the new file format.
 * Case-insensitive equality queries on indexed string properties failed to
   clear some internal state when rerunning the query. This could manifest as
   duplicate results or "key not found" errors.
-  ([#6830](https://github.com/realm/realm-swift/issues/6830), [#6694](https://github.com/realm/realm-swift/issues/6694), since 5.0.0).
+  ([#6830](https://github.com/Wabi-Studios/wabi-realm/issues/6830), [#6694](https://github.com/Wabi-Studios/wabi-realm/issues/6694), since 5.0.0).
 
 ### Compatibility
 
 * File format: Generates Realms with format v11 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
-* Realm Studio: 5.0.0 or later.
+* WabiRealm Object Server: 3.21.0 or later.
+* WabiRealm Studio: 5.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 5.x.y series.
 * Carthage release for Swift is built with Xcode 12.
 
@@ -4016,15 +4016,15 @@ later will be able to open the new file format.
 
 * Equality queries on indexed string properties would sometimes throw "key not
   found" exceptions if the hash of the string happened to have bit 62 set.
-  ([.NET #2025](https://github.com/realm/realm-dotnet/issues/2025), since v5.0.0).
+  ([.NET #2025](https://github.com/wabi-realm/realm-dotnet/issues/2025), since v5.0.0).
 * Queries comparing non-optional int properties to nil would behave as if they
   were comparing against zero instead (since v5.0.0).
 
 ### Compatibility
 
 * File format: Generates Realms with format v11 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
-* Realm Studio: 5.0.0 or later.
+* WabiRealm Object Server: 3.21.0 or later.
+* WabiRealm Studio: 5.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 5.x.y series.
 * Carthage release for Swift is built with Xcode 12.
 
@@ -4043,8 +4043,8 @@ non-SPM installation methods.
 ### Compatibility
 
 * File format: Generates Realms with format v11 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
-* Realm Studio: 5.0.0 or later.
+* WabiRealm Object Server: 3.21.0 or later.
+* WabiRealm Studio: 5.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 5.x.y series.
 * Carthage release for Swift is built with Xcode 12.
 
@@ -4058,7 +4058,7 @@ non-SPM installation methods.
 ### Enhancements
 
 * Slightly (<5%) improve the performance of most operations which involve
-  reading from a Realm file.
+  reading from a WabiRealm file.
 
 ### Fixed
 
@@ -4066,13 +4066,13 @@ non-SPM installation methods.
   results if a previous run of the query matched multiple objects and it now
   matches one object. This could manifest as either finding a non-matching
   object or a "key not found" exception being thrown.
-  ([#6536](https://github.com/realm/realm-swift/issues/6536), since 5.0.0).
+  ([#6536](https://github.com/Wabi-Studios/wabi-realm/issues/6536), since 5.0.0).
 
 ### Compatibility
 
 * File format: Generates Realms with format v11 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
-* Realm Studio: 5.0.0 or later.
+* WabiRealm Object Server: 3.21.0 or later.
+* WabiRealm Studio: 5.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 5.x.y series.
 * Carthage release for Swift is built with Xcode 12.
 
@@ -4090,18 +4090,18 @@ non-SPM installation methods.
 
 ### Fixed
 
-* Fix a crash inside `realm::Array(Type)::init_from_mem()` which would
+* Fix a crash inside `wabi_realm::Array(Type)::init_from_mem()` which would
   sometimes occur when running a query over links immediately after creating
   objects of the queried type.
-  ([#6789](https://github.com/realm/realm-swift/issues/6789) and possibly others, since 5.0.0).
+  ([#6789](https://github.com/Wabi-Studios/wabi-realm/issues/6789) and possibly others, since 5.0.0).
 * Possibly fix problems when changing the type of the primary key of an object
   from optional to non-optional.
 
 ### Compatibility
 
 * File format: Generates Realms with format v11 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
-* Realm Studio: 5.0.0 or later.
+* WabiRealm Object Server: 3.21.0 or later.
+* WabiRealm Studio: 5.0.0 or later.
 * APIs are backwards compatible with all previous releases in the 5.x.y series.
 * Carthage release for Swift is built with Xcode 12.
 
@@ -4115,13 +4115,13 @@ non-SPM installation methods.
 
 ### Fixed
 
-* Fix compilation via Carthage when using Xcode 12 ([#6717](https://github.com/realm/realm-swift/issues/6717)).
+* Fix compilation via Carthage when using Xcode 12 ([#6717](https://github.com/Wabi-Studios/wabi-realm/issues/6717)).
 
 ### Compatibility
 
 * File format: Generates Realms with format v11 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
-* Realm Studio: 3.12 or later.
+* WabiRealm Object Server: 3.21.0 or later.
+* WabiRealm Studio: 3.12 or later.
 * APIs are backwards compatible with all previous releases in the 5.x.y series.
 * Carthage release for Swift is built with Xcode 12.
 
@@ -4134,14 +4134,14 @@ non-SPM installation methods.
 
 ### Fixed
 
-* Fix Archiving the Realm and RealmSwift frameworks with Xcode 12.
-  ([#6774](https://github.com/realm/realm-swift/issues/6774))
+* Fix Archiving the WabiRealm and WabiRealmKit frameworks with Xcode 12.
+  ([#6774](https://github.com/Wabi-Studios/wabi-realm/issues/6774))
 
 ### Compatibility
 
 * File format: Generates Realms with format v11 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
-* Realm Studio: 3.12 or later.
+* WabiRealm Object Server: 3.21.0 or later.
+* WabiRealm Studio: 3.12 or later.
 * APIs are backwards compatible with all previous releases in the 5.x.y series.
 * Carthage release for Swift is built with Xcode 12.
 
@@ -4154,27 +4154,27 @@ non-SPM installation methods.
 
 ### Fixed
 
-* Fix deadlocks when opening a Realm file in both the iOS simulator and Realm
-  Studio ([#6743](https://github.com/realm/realm-swift/issues/6743), since 5.3.6).
+* Fix deadlocks when opening a WabiRealm file in both the iOS simulator and WabiRealm
+  Studio ([#6743](https://github.com/Wabi-Studios/wabi-realm/issues/6743), since 5.3.6).
 * Fix Springboard deadlocking when an app is unsuspended while it has an open
-  Realm file which is stored in an app group on iOS 10-12
-  ([#6749](https://github.com/realm/realm-swift/issues/6749), since 5.3.6).
+  WabiRealm file which is stored in an app group on iOS 10-12
+  ([#6749](https://github.com/Wabi-Studios/wabi-realm/issues/6749), since 5.3.6).
 * If you use encryption your application cound crash with a message like
-  "Opening Realm files of format version 0 is not supported by this version of
-  Realm". ([#6889](https://github.com/realm/realm-java/issues/6889) among others, since 5.0.0)
-* Confining a Realm to a serial queue would throw an error claiming that the
+  "Opening WabiRealm files of format version 0 is not supported by this version of
+  WabiRealm". ([#6889](https://github.com/wabi-realm/realm-java/issues/6889) among others, since 5.0.0)
+* Confining a WabiRealm to a serial queue would throw an error claiming that the
   queue was not a serial queue on iOS versions older than 12.
-  ([#6735](https://github.com/realm/realm-swift/issues/6735), since 5.0.0).
+  ([#6735](https://github.com/Wabi-Studios/wabi-realm/issues/6735), since 5.0.0).
 * Results would sometimes give stale results inside a write transaction if a
   write which should have updated the Results was made before the first access
   of a pre-existing Results object.
-  ([#6721](https://github.com/realm/realm-swift/issues/6721), since 5.0.0)
+  ([#6721](https://github.com/Wabi-Studios/wabi-realm/issues/6721), since 5.0.0)
 
 ### Compatibility
 
 * File format: Generates Realms with format v11 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
-* Realm Studio: 3.12 or later.
+* WabiRealm Object Server: 3.21.0 or later.
+* WabiRealm Studio: 3.12 or later.
 * APIs are backwards compatible with all previous releases in the 5.x.y series.
 * Carthage release for Swift is built with Xcode 11.7.
 
@@ -4186,9 +4186,9 @@ non-SPM installation methods.
 5.4.0 Release notes (2020-09-09)
 =============================================================
 
-This version bumps the Realm file format version. This means that older
-versions of Realm will be unable to open Realm files written by this version,
-and a new version of Realm Studio will be required. There are no actual format
+This version bumps the WabiRealm file format version. This means that older
+versions of WabiRealm will be unable to open WabiRealm files written by this version,
+and a new version of WabiRealm Studio will be required. There are no actual format
 changes and the version bump is just to force a re-migration of incorrectly
 upgraded Realms.
 
@@ -4196,18 +4196,18 @@ upgraded Realms.
 
 * Upgrading pre-5.x files with string primary keys would result in a file where
   `realm.object(ofType:forPrimaryKey:)` would fail to find the object.
-  ([#6716](https://github.com/realm/realm-swift/issues/6716), since 5.2.0)
+  ([#6716](https://github.com/Wabi-Studios/wabi-realm/issues/6716), since 5.2.0)
 * A write transaction which modifies an object with more than 16 managed
-  properties and causes the Realm file to grow larger than 2 GB could cause an
-  assertion failure mentioning "m_has_refs". ([JS #3194](https://github.com/realm/realm-js/issues/3194), since 5.0.0).
-* Objects with more than 32 properties could corrupt the Realm file and result
-  in a variety of crashes. ([Java #7057](https://github.com/realm/realm-java/issues/7057), since 5.0.0).
+  properties and causes the WabiRealm file to grow larger than 2 GB could cause an
+  assertion failure mentioning "m_has_refs". ([JS #3194](https://github.com/wabi-realm/realm-js/issues/3194), since 5.0.0).
+* Objects with more than 32 properties could corrupt the WabiRealm file and result
+  in a variety of crashes. ([Java #7057](https://github.com/wabi-realm/realm-java/issues/7057), since 5.0.0).
 
 ### Compatibility
 
 * File format: Generates Realms with format v11 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
-* Realm Studio: 3.12 or later.
+* WabiRealm Object Server: 3.21.0 or later.
+* WabiRealm Studio: 3.12 or later.
 * APIs are backwards compatible with all previous releases in the 5.x.y series.
 * Carthage release for Swift is built with Xcode 11.6.
 
@@ -4223,19 +4223,19 @@ upgraded Realms.
 
 * Work around iOS 14 no longer allowing the use of file locks in shared
   containers, which resulted in the OS killing an app which entered the
-  background while a Realm was open ([#6671](https://github.com/realm/realm-swift/issues/6671)).
+  background while a WabiRealm was open ([#6671](https://github.com/Wabi-Studios/wabi-realm/issues/6671)).
 * If an attempt to upgrade a realm has ended with a crash with "migrate_links()"
   in the call stack, the realm was left in an invalid state. The migration
   logic now handles this state and can complete upgrading files which were
   incompletely upgraded by pre-5.3.4 versions.
-* Fix deadlocks when writing to a Realm file on an exFAT partition from macOS.
-  ([#6691](https://github.com/realm/realm-swift/issues/6691)).
+* Fix deadlocks when writing to a WabiRealm file on an exFAT partition from macOS.
+  ([#6691](https://github.com/Wabi-Studios/wabi-realm/issues/6691)).
 
 ### Compatibility
 
 * File format: Generates Realms with format v10 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
-* Realm Studio: 3.11 or later.
+* WabiRealm Object Server: 3.21.0 or later.
+* WabiRealm Studio: 3.11 or later.
 * APIs are backwards compatible with all previous releases in the 5.x.y series.
 * Carthage release for Swift is built with Xcode 11.6.
 
@@ -4250,23 +4250,23 @@ upgraded Realms.
 ### Fixed
 
 * Opening Realms on background threads could produce spurious Incorrect Thread
-  exceptions when a cached Realm existed for a previously existing thread with
+  exceptions when a cached WabiRealm existed for a previously existing thread with
   the same thread ID as the current thread.
-  ([#6659](https://github.com/realm/realm-swift/issues/6659),
-  [#6689](https://github.com/realm/realm-swift/issues/6689),
-  [#6712](https://github.com/realm/realm-swift/issues/6712), since 5.0.0).
+  ([#6659](https://github.com/Wabi-Studios/wabi-realm/issues/6659),
+  [#6689](https://github.com/Wabi-Studios/wabi-realm/issues/6689),
+  [#6712](https://github.com/Wabi-Studios/wabi-realm/issues/6712), since 5.0.0).
 * Upgrading a table with incoming links but no properties would crash. This was
   probably not possible to hit in practice as we reject object types with no
   properties.
 * Upgrading a non-nullable List which nonetheless contained null values would
   crash. This was possible due to missing error-checking in some older versions
-  of Realm.
+  of WabiRealm.
 
 ### Compatibility
 
 * File format: Generates Realms with format v10 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
-* Realm Studio: 3.11 or later.
+* WabiRealm Object Server: 3.21.0 or later.
+* WabiRealm Studio: 3.11 or later.
 * APIs are backwards compatible with all previous releases in the 5.x.y series.
 * Carthage release for Swift is built with Xcode 11.6.
 
@@ -4280,10 +4280,10 @@ upgraded Realms.
 
 ### Fixed
 
-* Accessing a Realm after calling `deleteAll()` would sometimes throw an
-  exception with the reason 'ConstIterator copy failed'. ([#6597](https://github.com/realm/realm-swift/issues/6597), since 5.0.0).
+* Accessing a WabiRealm after calling `deleteAll()` would sometimes throw an
+  exception with the reason 'ConstIterator copy failed'. ([#6597](https://github.com/Wabi-Studios/wabi-realm/issues/6597), since 5.0.0).
 * Fix an assertion failure inside the `migrate_links()` function when upgrading
-  a pre-5.0 Realm file.
+  a pre-5.0 WabiRealm file.
 * Fix a bug in memory mapping management. This bug could result in multiple
   different asserts as well as segfaults. In many cases stack backtraces would
   include members of the EncyptedFileMapping near the top - even if encryption
@@ -4294,8 +4294,8 @@ upgraded Realms.
 ### Compatibility
 
 * File format: Generates Realms with format v10 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
-* Realm Studio: 3.11 or later.
+* WabiRealm Object Server: 3.21.0 or later.
+* WabiRealm Studio: 3.11 or later.
 * APIs are backwards compatible with all previous releases in the 5.x.y series.
 * Carthage release for Swift is built with Xcode 11.6.
 
@@ -4314,17 +4314,17 @@ upgraded Realms.
 ### Fixed
 
 * (RLM)Results objects would incorrectly pin old read transaction versions
-  until they were accessed after a Realm was refreshed, resulting in the Realm
+  until they were accessed after a WabiRealm was refreshed, resulting in the WabiRealm
   file growing to large sizes if a Results was retained but not accessed after
-  every write. ([#6677](https://github.com/realm/realm-swift/issues/6677), since 5.0.0).
-* Fix linker errors when using SwiftUI previews with Xcode 12 when Realm was
-  installed via Swift Package Manager. ([#6625](https://github.com/realm/realm-swift/issues/6625))
+  every write. ([#6677](https://github.com/Wabi-Studios/wabi-realm/issues/6677), since 5.0.0).
+* Fix linker errors when using SwiftUI previews with Xcode 12 when WabiRealm was
+  installed via Swift Package Manager. ([#6625](https://github.com/Wabi-Studios/wabi-realm/issues/6625))
 
 ### Compatibility
 
 * File format: Generates Realms with format v10 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
-* Realm Studio: 3.11 or later.
+* WabiRealm Object Server: 3.21.0 or later.
+* WabiRealm Studio: 3.11 or later.
 * APIs are backwards compatible with all previous releases in the 5.x.y series.
 * Carthage release for Swift is built with Xcode 11.6.
 
@@ -4338,24 +4338,24 @@ upgraded Realms.
 
 ### Fixed
 
-* Fix a file format upgrade bug when opening older Realm files. Could cause
-  assertions like "Assertion failed: ref != 0" during opning of a Realm.
-  ([Core #6644](https://github.com/realm/realm-swift/issues/6644), since 5.2.0)
-* A use-after-free would occur if a Realm was compacted, opened on multiple
+* Fix a file format upgrade bug when opening older WabiRealm files. Could cause
+  assertions like "Assertion failed: ref != 0" during opning of a WabiRealm.
+  ([Core #6644](https://github.com/Wabi-Studios/wabi-realm/issues/6644), since 5.2.0)
+* A use-after-free would occur if a WabiRealm was compacted, opened on multiple
   threads prior to the first write, then written to while reads were happening
   on other threads. This could result in a variety of crashes, often inside
-  realm::util::EncryptedFileMapping::read_barrier.
-  (Since v5.0.0, [#6626](https://github.com/realm/realm-swift/issues/6626),
-  [#6628](https://github.com/realm/realm-swift/issues/6628),
-  [#6652](https://github.com/realm/realm-swift/issues/6652),
-  [#6655](https://github.com/realm/realm-swift/issues/6555),
-  [#6656](https://github.com/realm/realm-swift/issues/6656)).
+  wabi_realm::util::EncryptedFileMapping::read_barrier.
+  (Since v5.0.0, [#6626](https://github.com/Wabi-Studios/wabi-realm/issues/6626),
+  [#6628](https://github.com/Wabi-Studios/wabi-realm/issues/6628),
+  [#6652](https://github.com/Wabi-Studios/wabi-realm/issues/6652),
+  [#6655](https://github.com/Wabi-Studios/wabi-realm/issues/6555),
+  [#6656](https://github.com/Wabi-Studios/wabi-realm/issues/6656)).
 
 ### Compatibility
 
 * File format: Generates Realms with format v10 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
-* Realm Studio: 3.11 or later.
+* WabiRealm Object Server: 3.21.0 or later.
+* WabiRealm Studio: 3.11 or later.
 * APIs are backwards compatible with all previous releases in the 5.x.y series.
 * Carthage release for Swift is built with Xcode 11.6.
 
@@ -4375,18 +4375,18 @@ upgraded Realms.
 
 * Creating an object inside migration which changed that object type's primary
   key would hit an assertion failure mentioning primary_key_col
-  ([#6613](https://github.com/realm/realm-swift/issues/6613), since 5.0.0).
+  ([#6613](https://github.com/Wabi-Studios/wabi-realm/issues/6613), since 5.0.0).
 * Modifying the value of a string primary key property inside a migration with
-  a Realm file which was upgraded from pre-5.0 would corrupt the property's
+  a WabiRealm file which was upgraded from pre-5.0 would corrupt the property's
   index, typically resulting in crashes. ([Core #3765](https://github.com/realm/realm-core/issues/3765), since 5.0.0).
-* Some Realm files which hit assertion failures when upgrading from the pre-5.0
+* Some WabiRealm files which hit assertion failures when upgrading from the pre-5.0
   file format should now upgrade correctly (Since 5.0.0).
 
 ### Compatibility
 
 * File format: Generates Realms with format v10 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
-* Realm Studio: 3.11 or later.
+* WabiRealm Object Server: 3.21.0 or later.
+* WabiRealm Studio: 3.11 or later.
 * APIs are backwards compatible with all previous releases in the 5.x.y series.
 * Carthage release for Swift is built with Xcode 11.6.
 
@@ -4400,8 +4400,8 @@ upgraded Realms.
 
 ### Enhancements
 
-* Add `Realm.objectWillChange`, which is a Combine publisher that will emit a
-  notification each time the Realm is refreshed or a write transaction is
+* Add `WabiRealm.objectWillChange`, which is a Combine publisher that will emit a
+  notification each time the WabiRealm is refreshed or a write transaction is
   commited.
 
 ### Fixed
@@ -4411,18 +4411,18 @@ upgraded Realms.
 * Rename `RealmCollection.publisher` to `RealmCollection.collectionPublisher`.
   The old name interacted with the `publisher` defined by `Sequence` in very
   confusing ways, so we need to use a different name. The `publisher` name is
-  still available for compatibility. ([#6516](https://github.com/realm/realm-swift/issues/6516))
+  still available for compatibility. ([#6516](https://github.com/Wabi-Studios/wabi-realm/issues/6516))
 * Work around "xcodebuild timed out while trying to read
-  SwiftPackageManagerExample.xcodeproj" errors when installing Realm via
-  Carthage. ([#6549](https://github.com/realm/realm-swift/issues/6549)).
+  SwiftPackageManagerExample.xcodeproj" errors when installing WabiRealm via
+  Carthage. ([#6549](https://github.com/Wabi-Studios/wabi-realm/issues/6549)).
 * Fix a performance regression when using change notifications. (Since 5.0.0,
-  [#6629](https://github.com/realm/realm-swift/issues/6629)).
+  [#6629](https://github.com/Wabi-Studios/wabi-realm/issues/6629)).
 
 ### Compatibility
 
 * File format: Generates Realms with format v10 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
-* Realm Studio: 3.11 or later.
+* WabiRealm Object Server: 3.21.0 or later.
+* WabiRealm Studio: 3.11 or later.
 * APIs are backwards compatible with all previous releases in the 5.x.y series.
 * Carthage release for Swift is built with Xcode 11.5.
 
@@ -4439,7 +4439,7 @@ upgraded Realms.
 This release also contains all changes from 5.0.3 and 5.1.0.
 
 ### Breaking Changes
-* The following classes & aliases have been renamed to align Cocoa with the other Realm SDKs:
+* The following classes & aliases have been renamed to align Cocoa with the other WabiRealm SDKs:
 
 | Old API                                                     | New API                                                        |
 |:------------------------------------------------------------|:---------------------------------------------------------------|
@@ -4481,12 +4481,12 @@ This release also contains all changes from 5.0.3 and 5.1.0.
 * `refreshCustomData()` on User now returns void and passes the custom data to the callback on success.
 
 ### Compatibility
-* This release introduces breaking changes w.r.t some sync classes and MongoDB Realm Cloud functionality.
+* This release introduces breaking changes w.r.t some sync classes and MongoDB WabiRealm Cloud functionality.
   (See the breaking changes section for the full list)
 * File format: Generates Realms with format v11 (Reads and upgrades all previous formats)
-* MongoDB Realm: 84893c5 or later.
+* MongoDB WabiRealm: 84893c5 or later.
 * APIs are backwards compatible with all previous releases in the 10.0.0-alpha series.
-* Realm Studio: 10.0.0 or later.
+* WabiRealm Studio: 10.0.0 or later.
 * Carthage release for Swift is built with Xcode 11.5.
 
 ### Internal
@@ -4507,18 +4507,18 @@ Xcode 11.3 and iOS 9 are now the minimum supported versions.
 * Opening a SyncSession with LOCAL app deployments would not use the correct endpoints.
 * Linking from embedded objects to top-level objects was incorrectly disallowed.
 
-* Opening a Realm file in file format v6 (created by Realm Cocoa versions
+* Opening a WabiRealm file in file format v6 (created by WabiRealm Cocoa versions
   between 2.4 and 2.10) would crash. (Since 5.0.0, [Core #3764](https://github.com/realm/realm-core/issues/3764)).
-* Upgrading v9 (pre-5.0) Realm files would create a redundant search index for
+* Upgrading v9 (pre-5.0) WabiRealm files would create a redundant search index for
   primary key properties. This index would then be removed the next time the
-  Realm was opened, resulting in some extra i/o in the upgrade process.
+  WabiRealm was opened, resulting in some extra i/o in the upgrade process.
   (Since 5.0.0, [Core #3787](https://github.com/realm/realm-core/issues/3787)).
 * Fixed a performance issue with upgrading v9 files with search indexes on
   non-primary-key properties. (Since 5.0.0, [Core #3767](https://github.com/realm/realm-core/issues/3767)).
 
 ### Compatibility
 * File format: Generates Realms with format v11 (Reads and upgrades all previous formats)
-* MongoDB Realm: 84893c5 or later.
+* MongoDB WabiRealm: 84893c5 or later.
 * APIs are backwards compatible with all previous releases in the 10.0.0-alpha series.
 * Carthage release for Swift is built with Xcode 11.5.
 
@@ -4529,32 +4529,32 @@ Xcode 11.3 and iOS 9 are now the minimum supported versions.
 10.0.0-beta.1 Release notes (2020-06-08)
 =============================================================
 
-NOTE: This version bumps the Realm file format to version 11. It is not
+NOTE: This version bumps the WabiRealm file format to version 11. It is not
 possible to downgrade to earlier versions. Older files will automatically be
-upgraded to the new file format. Only [Realm Studio
-10.0.0](https://github.com/realm/realm-studio/releases/tag/v10.0.0-beta.1) or
+upgraded to the new file format. Only [WabiRealm Studio
+10.0.0](https://github.com/wabi-realm/realm-studio/releases/tag/v10.0.0-beta.1) or
 later will be able to open the new file format.
 
 ### Enhancements
 
 * Add support for next generation sync. Support for syncing to MongoDB instead
-  of Realm Object Server. Applications must be created at realm.mongodb.com
-* The memory mapping scheme for Realm files has changed to better support
+  of WabiRealm Object Server. Applications must be created at realm.mongodb.com
+* The memory mapping scheme for WabiRealm files has changed to better support
   opening very large files.
 * Add support for the ObjectId data type. This is an automatically-generated
   unique identifier similar to a GUID or a UUID.
-  ([PR #6450](https://github.com/realm/realm-swift/pull/6450)).
+  ([PR #6450](https://github.com/Wabi-Studios/wabi-realm/pull/6450)).
 * Add support for the Decimal128 data type. This is a 128-bit IEEE 754 decimal
   floating point number similar to NSDecimalNumber.
-  ([PR #6450](https://github.com/realm/realm-swift/pull/6450)).
+  ([PR #6450](https://github.com/Wabi-Studios/wabi-realm/pull/6450)).
 * Add support for embedded objects. Embedded objects are objects which are
   owned by a single parent object, and are deleted when that parent object is
   deleted. They are defined by subclassing `EmbeddedObject` /
   `RLMEmbeddedObject` rather than `Object` / `RLMObject`.
 * Add `-[RLMSyncUser customData]`/`SyncUser.customData`.  Custom data is 
-  configured in your MongoDB Realm App.
+  configured in your MongoDB WabiRealm App.
 * Add `-[RLMApp callFunctionNamed:arguments]`/`RealmApp.functions`. This is the
-  entry point for calling Remote MongoDB Realm functions. Functions allow you
+  entry point for calling Remote MongoDB WabiRealm functions. Functions allow you
   to define and execute server-side logic for your application. Functions are
   written in modern JavaScript (ES6+) and execute in a serverless manner. When
   you call a function, you can dynamically access components of the current
@@ -4572,7 +4572,7 @@ later will be able to open the new file format.
   deleteOneDocument:completion:]`, and `-[RLMMongoCollection
   deleteManyDocuments:completion:]`. If you are already familiar with MongoDB
   drivers, it is important to understand that the remote MongoCollection only
-  provides access to the operations available in MongoDB Realm.
+  provides access to the operations available in MongoDB WabiRealm.
 * Change `[RLMSyncUser
   configurationWithPartitionValue:]`/`SyncUser.configuration(with:)` to accept
   all BSON types. Partition values can currently be of types `String`, `Int`,
@@ -4584,42 +4584,42 @@ later will be able to open the new file format.
 
 ### Breaking Changes
 
-* We no longer support Realm Cloud (legacy), but instead the new "MongoDB
-  Realm" Cloud. MongoDB Realm is a serverless platform that enables developers
+* We no longer support WabiRealm Cloud (legacy), but instead the new "MongoDB
+  WabiRealm" Cloud. MongoDB WabiRealm is a serverless platform that enables developers
   to quickly build applications without having to set up server infrastructure.
-  MongoDB Realm is built on top of MongoDB Atlas, automatically integrating the
+  MongoDB WabiRealm is built on top of MongoDB Atlas, automatically integrating the
   connection to your database.
 * Remove support for Query-based sync, including the configuration parameters
-  and the `RLMSyncSubscription` and `SyncSubscription` types ([#6437](https://github.com/realm/realm-swift/pull/6437)).
+  and the `RLMSyncSubscription` and `SyncSubscription` types ([#6437](https://github.com/Wabi-Studios/wabi-realm/pull/6437)).
 * Primary key properties are no longer marked as being indexed. This reflects
   an internal change to how primary keys are handled that should not have any
-  other visible effects. ([#6440](https://github.com/realm/realm-swift/pull/6440)).
+  other visible effects. ([#6440](https://github.com/Wabi-Studios/wabi-realm/pull/6440)).
 * Remove everything related to sync permissions, including both the path-based
-  permission system and the object-level privileges for query-based sync. ([#6445](https://github.com/realm/realm-swift/pulls/6445))
+  permission system and the object-level privileges for query-based sync. ([#6445](https://github.com/Wabi-Studios/wabi-realm/pulls/6445))
 * Primary key uniqueness is now enforced when creating new objects during
   migrations, rather than only at the end of migrations. Previously new objects
   could be created with duplicate primary keys during a migration as long as
   the property was changed to a unique value before the end of the migration,
   but now a unique value must be supplied when creating the object.
-* Remove support for Realm Object Server.
+* Remove support for WabiRealm Object Server.
 
 ### Compatibility
 
 * File format: Generates Realms with format v11 (Reads and upgrades all previous formats)
-* MongoDB Realm: 84893c5 or later.
+* MongoDB WabiRealm: 84893c5 or later.
 * APIs are backwards compatible with all previous releases in the 10.0.0-alpha series.
 * `List.index(of:)` would give incorrect results if it was the very first thing
-  called on that List after a Realm was refreshed following a write which
-  modified the List. (Since 5.0.0, [#6606](https://github.com/realm/realm-swift/issues/6606)).
-* If a ThreadSafeReference was the only remaining reference to a Realm,
+  called on that List after a WabiRealm was refreshed following a write which
+  modified the List. (Since 5.0.0, [#6606](https://github.com/Wabi-Studios/wabi-realm/issues/6606)).
+* If a ThreadSafeReference was the only remaining reference to a WabiRealm,
   multiple copies of the file could end up mapped into memory at once. This
   probably did not have any symptoms other than increased memory usage. (Since 5.0.0).
 
 ### Compatibility
 
 * File format: Generates Realms with format v10 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
-* Realm Studio: 3.11 or later.
+* WabiRealm Object Server: 3.21.0 or later.
+* WabiRealm Studio: 3.11 or later.
 * APIs are backwards compatible with all previous releases in the 5.x.y series.
 * Carthage release for Swift is built with Xcode 11.5.
 
@@ -4638,25 +4638,25 @@ later will be able to open the new file format.
 ### Enhancements
 
 * Allow opening full-sync Realms in read-only mode. This disables local schema
-  initialization, which makes it possible to open a Realm which the user does
+  initialization, which makes it possible to open a WabiRealm which the user does
   not have write access to without using asyncOpen. In addition, it will report
-  errors immediately when an operation would require writing to the Realm
+  errors immediately when an operation would require writing to the WabiRealm
   rather than reporting it via the sync error handler only after the server
   rejects the write.
 
 ### Fixed
 
-* Opening a Realm using a configuration object read from an existing Realm
-  would incorrectly bind the new Realm to the original Realm's thread/queue,
-  resulting in "Realm accessed from incorrect thread." exceptions.
-  ([#6574](https://github.com/realm/realm-swift/issues/6574),
-  [#6559](https://github.com/realm/realm-swift/issues/6559), since 5.0.0).
+* Opening a WabiRealm using a configuration object read from an existing WabiRealm
+  would incorrectly bind the new WabiRealm to the original WabiRealm's thread/queue,
+  resulting in "WabiRealm accessed from incorrect thread." exceptions.
+  ([#6574](https://github.com/Wabi-Studios/wabi-realm/issues/6574),
+  [#6559](https://github.com/Wabi-Studios/wabi-realm/issues/6559), since 5.0.0).
 
 ### Compatibility
 
 * File format: Generates Realms with format v10 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
-* Realm Studio: 3.11 or later.
+* WabiRealm Object Server: 3.21.0 or later.
+* WabiRealm Studio: 3.11 or later.
 * APIs are backwards compatible with all previous releases in the 5.x.y series.
 * Carthage release for Swift is built with Xcode 11.5.
 
@@ -4665,22 +4665,22 @@ later will be able to open the new file format.
 
 ### Fixed
 
-* `-[RLMObject isFrozen]` always returned false. ([#6568](https://github.com/realm/realm-swift/issues/6568), since 5.0.0).
+* `-[RLMObject isFrozen]` always returned false. ([#6568](https://github.com/Wabi-Studios/wabi-realm/issues/6568), since 5.0.0).
 * Freezing an object within the write transaction that the object was created
   in now throws an exception rather than crashing when the object is first
   used.
 * The schema for frozen Realms was not properly initialized, leading to crashes
   when accessing a RLMLinkingObjects property.
-  ([#6568](https://github.com/realm/realm-swift/issues/6568), since 5.0.0).
+  ([#6568](https://github.com/Wabi-Studios/wabi-realm/issues/6568), since 5.0.0).
 * Observing `Object.isInvalidated` via a keypath literal would produce a
   warning in Swift 5.2 due to the property not being marked as @objc.
-  ([#6554](https://github.com/realm/realm-swift/issues/6554))
+  ([#6554](https://github.com/Wabi-Studios/wabi-realm/issues/6554))
 
 ### Compatibility
 
 * File format: Generates Realms with format v10 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
-* Realm Studio: 3.11 or later.
+* WabiRealm Object Server: 3.21.0 or later.
+* WabiRealm Studio: 3.11 or later.
 * APIs are backwards compatible with all previous releases in the 5.x.y series.
 * Carthage release for Swift is built with Xcode 11.5.
 
@@ -4689,12 +4689,12 @@ later will be able to open the new file format.
 
 ### Fixed
 
-* Fix errSecDuplicateItem (-25299) errors when opening a synchronized Realm
-  when upgrading from pre-5.0 versions of Realm.
-  ([#6538](https://github.com/realm/realm-swift/issues/6538), [#6494](https://github.com/realm/realm-swift/issues/6494), since 5.0.0).
+* Fix errSecDuplicateItem (-25299) errors when opening a synchronized WabiRealm
+  when upgrading from pre-5.0 versions of WabiRealm.
+  ([#6538](https://github.com/Wabi-Studios/wabi-realm/issues/6538), [#6494](https://github.com/Wabi-Studios/wabi-realm/issues/6494), since 5.0.0).
 * Opening Realms stored on filesystems which do not support preallocation (such
   as ExFAT) would give "Operation not supported" exceptions.
-  ([#6508](https://github.com/realm/realm-swift/issues/6508), since 3.2.0).
+  ([#6508](https://github.com/Wabi-Studios/wabi-realm/issues/6508), since 3.2.0).
 * 'NoSuchTable' exceptions would sometimes be thrown after upgrading a Relam
   file to the v10 format. ([Core #3701](https://github.com/realm/realm-core/issues/3701), since 5.0.0)
 * If the upgrade process was interrupted/killed for various reasons, the
@@ -4702,7 +4702,7 @@ later will be able to open the new file format.
   happening were reported to us. (Since 5.0.0).
 * Queries filtering a `List` where the query was on an indexed property over a
   link would sometimes give incomplete results.
-  ([#6540](https://github.com/realm/realm-swift/issues/6540), since 4.1.0 but
+  ([#6540](https://github.com/Wabi-Studios/wabi-realm/issues/6540), since 4.1.0 but
   more common since 5.0.0)
 * Opening a file in read-only mode would attempt to make a spurious write to
   the file, causing errors if the file was in read-only storage (since 5.0.0).
@@ -4710,8 +4710,8 @@ later will be able to open the new file format.
 ### Compatibility
 
 * File format: Generates Realms with format v10 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
-* Realm Studio: 3.11 or later.
+* WabiRealm Object Server: 3.21.0 or later.
+* WabiRealm Studio: 3.11 or later.
 * APIs are backwards compatible with all previous releases in the 5.x.y series.
 * Carthage release for Swift is built with Xcode 11.5.
 
@@ -4730,51 +4730,51 @@ later will be able to open the new file format.
 ### Fixed
 
 * Fix linker error when building a xcframework for Catalyst.
-  ([#6511](https://github.com/realm/realm-swift/issues/6511), since 4.3.1).
+  ([#6511](https://github.com/Wabi-Studios/wabi-realm/issues/6511), since 4.3.1).
 * Fix building for iOS devices when using Swift Package Manager
-  ([#6522](https://github.com/realm/realm-swift/issues/6522), since 5.0.0).
+  ([#6522](https://github.com/Wabi-Studios/wabi-realm/issues/6522), since 5.0.0).
 * `List` and `RealmOptional` properties on frozen objects were not initialized
   correctly and would always report `nil` or an empty list.
-  ([#6527](https://github.com/realm/realm-swift/issues/6527), since 5.0.0).
+  ([#6527](https://github.com/Wabi-Studios/wabi-realm/issues/6527), since 5.0.0).
 
 ### Compatibility
 
 * File format: Generates Realms with format v10 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
-* Realm Studio: 3.11 or later.
+* WabiRealm Object Server: 3.21.0 or later.
+* WabiRealm Studio: 3.11 or later.
 * APIs are backwards compatible with all previous releases in the 5.x.y series.
 * Carthage release for Swift is built with Xcode 11.5.
 
 5.0.0 Release notes (2020-05-15)
 =============================================================
 
-NOTE: This version bumps the Realm file format to version 10. It is not
+NOTE: This version bumps the WabiRealm file format to version 10. It is not
 possible to downgrade version 9 or earlier. Files created with older versions
-of Realm will be automatically upgraded. Only 
-[Studio 3.11](https://github.com/realm/realm-studio/releases/tag/v3.11.0) or later will be able
+of WabiRealm will be automatically upgraded. Only 
+[Studio 3.11](https://github.com/wabi-realm/realm-studio/releases/tag/v3.11.0) or later will be able
 to open the new file format.
 
 ### Enhancements
 
-* Storing large binary blobs in Realm files no longer forces the file to be at
+* Storing large binary blobs in WabiRealm files no longer forces the file to be at
   least 8x the size of the largest blob.
-* Reduce the size of transaction logs stored inside the Realm file, reducing
+* Reduce the size of transaction logs stored inside the WabiRealm file, reducing
   file size growth from large transactions.
-* Add support for frozen objects. `Realm`, `Results`, `List` and `Object` now
+* Add support for frozen objects. `WabiRealm`, `Results`, `List` and `Object` now
   have `freeze()` methods which return a frozen copy of the object. These
   objects behave similarly to creating unmanaged deep copies of the source
   objects. They can be read from any thread and do not update when writes are
-  made to the Realm, but creating frozen objects does not actually copy data
-  out of the Realm and so can be much faster and use less memory. Frozen
+  made to the WabiRealm, but creating frozen objects does not actually copy data
+  out of the WabiRealm and so can be much faster and use less memory. Frozen
   objects cannot be mutated or observed for changes (as they never change).
-  ([PR #6427](https://github.com/realm/realm-swift/pull/6427)).
-* Add the `isFrozen` property to `Realm`, `Results`, `List` and `Object`.
-* Add `Realm.Configuration.maxNumberOfActiveVersions`. Each time a write
-  transaction is performed, a new version is created inside the Realm, and then
+  ([PR #6427](https://github.com/Wabi-Studios/wabi-realm/pull/6427)).
+* Add the `isFrozen` property to `WabiRealm`, `Results`, `List` and `Object`.
+* Add `WabiRealm.Configuration.maxNumberOfActiveVersions`. Each time a write
+  transaction is performed, a new version is created inside the WabiRealm, and then
   any versions which are no longer in use are cleaned up. If too many versions
   are kept alive while performing writes (either due to a background thread
-  performing a long operation that doesn't let the Realm on that thread
-  refresh, or due to holding onto frozen versions for a long time) the Realm
+  performing a long operation that doesn't let the WabiRealm on that thread
+  refresh, or due to holding onto frozen versions for a long time) the WabiRealm
   file will grow in size, potentially to the point where it is too large to be
   opened. Setting this configuration option will make write transactions which
   would cause the live version count to exceed the limit to instead fail.
@@ -4782,15 +4782,15 @@ to open the new file format.
   thread, queue-confined Realms are bound to a serial dispatch queue and can be
   used within blocks dispatched to that queue regardless of what thread they
   happen to run on. In addition, change notifications will be delivered to that
-  queue rather than the thread's run loop. ([PR #6478](https://github.com/realm/realm-swift/pull/6478)).
+  queue rather than the thread's run loop. ([PR #6478](https://github.com/Wabi-Studios/wabi-realm/pull/6478)).
 * Add an option to deliver object and collection notifications to a specific
-  serial queue rather than the current thread. ([PR #6478](https://github.com/realm/realm-swift/pull/6478)).
-* Add Combine publishers for Realm types. Realm collections have a `.publisher`
+  serial queue rather than the current thread. ([PR #6478](https://github.com/Wabi-Studios/wabi-realm/pull/6478)).
+* Add Combine publishers for WabiRealm types. WabiRealm collections have a `.publisher`
   property which publishes the collection each time it changes, and a
   `.changesetPublisher` which publishes a `RealmCollectionChange` each time the
-  collection changes. Corresponding publishers for Realm Objects can be
+  collection changes. Corresponding publishers for WabiRealm Objects can be
   obtained with the `publisher()` and `changesetPublisher()` global functions.
-* Extend Combine publishers which output Realm types with a `.freeze()`
+* Extend Combine publishers which output WabiRealm types with a `.freeze()`
   function which will make the publisher instead output frozen objects.
 * String primary keys no longer require a separate index, improving insertion
   and deletion performance without hurting lookup performance.
@@ -4802,27 +4802,27 @@ to open the new file format.
 * The uploaded bytes in sync progress notifications was sometimes incorrect and
   wouldn't exactly equal the uploadable bytes when the uploaded completed.
 * macOS binaries were built with the incorrect deployment target (10.14 rather
-  than 10.9), resulting in linker warnings. ([#6299](https://github.com/realm/realm-swift/issues/6299), since 3.18.0).
+  than 10.9), resulting in linker warnings. ([#6299](https://github.com/Wabi-Studios/wabi-realm/issues/6299), since 3.18.0).
 * An internal datastructure for List properties could be double-deleted if the
   last reference was released from a thread other than the one which the List
   was created on at the wrong time. This would typically manifest as
   "pthread_mutex_destroy() failed", but could also result in other kinds of
-  crashes. ([#6333](https://github.com/realm/realm-swift/issues/6333)).
+  crashes. ([#6333](https://github.com/Wabi-Studios/wabi-realm/issues/6333)).
 * Sorting on float or double properties containing NaN values had inconsistent
   results and would sometimes crash due to out-of-bounds memory accesses.
-  ([#6357](https://github.com/realm/realm-swift/issues/6357)).
+  ([#6357](https://github.com/Wabi-Studios/wabi-realm/issues/6357)).
 
 ### Breaking Changes
 
 * The ObjectChange type in Swift is now generic and includes a reference to the
   object which changed. When using `observe(on:)` to receive notifications on a
   dispatch queue, the object will be confined to that queue.
-* The Realm instance passed in the callback to asyncOpen() is now confined to
+* The WabiRealm instance passed in the callback to asyncOpen() is now confined to
   the callback queue passed to asyncOpen() rather than the thread which the
-  callback happens to be called on. This means that the Realm instance may be
+  callback happens to be called on. This means that the WabiRealm instance may be
   stored and reused in further blocks dispatched to that queue, but the queue
   must now be a serial queue.
-* Files containing Date properties written by version of Realm prior to 1.0 can
+* Files containing Date properties written by version of WabiRealm prior to 1.0 can
   no longer be opened.
 * Files containing Any properties can no longer be opened. This property type
   was never documented and was deprecated in 1.0.
@@ -4831,13 +4831,13 @@ to open the new file format.
   it is still not safe to assume that the order of objects in an unsorted
   Results is the order that the objects were created in.
 * The minimum supported deployment target for iOS when using Swift Package
-  Manager to install Realm is now iOS 11.
+  Manager to install WabiRealm is now iOS 11.
 
 ### Compatibility
 
 * File format: Generates Realms with format v10 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
-* Realm Studio: 3.11 or later.
+* WabiRealm Object Server: 3.21.0 or later.
+* WabiRealm Studio: 3.11 or later.
 * APIs are backwards compatible with all previous releases in the 5.x.y series.
 * Carthage release for Swift is built with Xcode 11.4.1.
 
@@ -4855,9 +4855,9 @@ to open the new file format.
   thread, queue-confined Realms are bound to a serial dispatch queue and can be
   used within blocks dispatched to that queue regardless of what thread they
   happen to run on. In addition, change notifications will be delivered to that
-  queue rather than the thread's run loop. ([PR #6478](https://github.com/realm/realm-swift/pull/6478)).
+  queue rather than the thread's run loop. ([PR #6478](https://github.com/Wabi-Studios/wabi-realm/pull/6478)).
 * Add an option to deliver object and collection notifications to a specific
-  serial queue rather than the current thread. ([PR #6478](https://github.com/realm/realm-swift/pull/6478)).
+  serial queue rather than the current thread. ([PR #6478](https://github.com/Wabi-Studios/wabi-realm/pull/6478)).
 
 ### Fixed
 
@@ -4866,16 +4866,16 @@ to open the new file format.
 
 ### Breaking Changes
 
-* The Realm instance passed in the callback to asyncOpen() is now confined to
+* The WabiRealm instance passed in the callback to asyncOpen() is now confined to
   the callback queue passed to asyncOpen() rather than the thread which the
-  callback happens to be called on. This means that the Realm instance may be
+  callback happens to be called on. This means that the WabiRealm instance may be
   stored and reused in further blocks dispatched to that queue, but the queue
   must now be a serial queue.
 
 ### Compatibility
 
 * File format: Generates Realms with format v10 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
+* WabiRealm Object Server: 3.21.0 or later.
 * Carthage release for Swift is built with Xcode 11.4.1.
 
 ### Internal
@@ -4898,7 +4898,7 @@ to open the new file format.
 ### Compatibility
 
 * File format: Generates Realms with format v9 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
+* WabiRealm Object Server: 3.21.0 or later.
 * Carthage release for Swift is built with Xcode 11.4.1.
 
 5.0.0-beta.3 Release notes (2020-02-26)
@@ -4908,21 +4908,21 @@ Based on 4.3.2 and also includes all changes since 4.3.0.
 
 ### Enhancements
 
-* Add support for frozen objects. `Realm`, `Results`, `List` and `Object` now
+* Add support for frozen objects. `WabiRealm`, `Results`, `List` and `Object` now
   have `freeze()` methods which return a frozen copy of the object. These
   objects behave similarly to creating unmanaged deep copies of the source
   objects. They can be read from any thread and do not update when writes are
-  made to the Realm, but creating frozen objects does not actually copy data
-  out of the Realm and so can be much faster and use less memory. Frozen
+  made to the WabiRealm, but creating frozen objects does not actually copy data
+  out of the WabiRealm and so can be much faster and use less memory. Frozen
   objects cannot be mutated or observed for changes (as they never change).
-  ([PR #6427](https://github.com/realm/realm-swift/pull/6427)).
-* Add the `isFrozen` property to `Realm`, `Results`, `List` and `Object`.
-* Add `Realm.Configuration.maxNumberOfActiveVersions`. Each time a write
-  transaction is performed, a new version is created inside the Realm, and then
+  ([PR #6427](https://github.com/Wabi-Studios/wabi-realm/pull/6427)).
+* Add the `isFrozen` property to `WabiRealm`, `Results`, `List` and `Object`.
+* Add `WabiRealm.Configuration.maxNumberOfActiveVersions`. Each time a write
+  transaction is performed, a new version is created inside the WabiRealm, and then
   any versions which are no longer in use are cleaned up. If too many versions
   are kept alive while performing writes (either due to a background thread
-  performing a long operation that doesn't let the Realm on that thread
-  refresh, or due to holding onto frozen versions for a long time) the Realm
+  performing a long operation that doesn't let the WabiRealm on that thread
+  refresh, or due to holding onto frozen versions for a long time) the WabiRealm
   file will grow in size, potentially to the point where it is too large to be
   opened. Setting this configuration option will make write transactions which
   would cause the live version count to exceed the limit to instead fail.
@@ -4931,7 +4931,7 @@ Based on 4.3.2 and also includes all changes since 4.3.0.
 ### Compatibility
 
 * File format: Generates Realms with format v10 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
+* WabiRealm Object Server: 3.21.0 or later.
 * APIs are backwards compatible with all previous releases in the 5.x.y series.
 * Carthage release for Swift is built with Xcode 11.3.
 
@@ -4952,7 +4952,7 @@ Based on 4.3.0 and also includes all changes since 4.1.1.
 ### Compatibility
 
 * File format: Generates Realms with format v10 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
+* WabiRealm Object Server: 3.21.0 or later.
 * APIs are backwards compatible with all previous releases in the 5.x.y series.
 * Carthage release for Swift is built with Xcode 11.3.
 
@@ -4966,7 +4966,7 @@ Based on 4.3.0 and also includes all changes since 4.1.1.
 
 Based on 4.1.1 and also includes all changes since 4.1.0.
 
-NOTE: This version bumps the Realm file format to version 10. It is not possible to downgrade version 9 or earlier. Files created with older versions of Realm will be automatically upgraded.
+NOTE: This version bumps the WabiRealm file format to version 10. It is not possible to downgrade version 9 or earlier. Files created with older versions of WabiRealm will be automatically upgraded.
 
 ### Enhancements
 
@@ -4981,15 +4981,15 @@ NOTE: This version bumps the Realm file format to version 10. It is not possible
   deleting the object previously at the index being accessed (since
   5.0.0-alpha.1).
 * macOS binaries were built with the incorrect deployment target (10.14 rather
-  than 10.9), resulting in linker warnings. ([#6299](https://github.com/realm/realm-swift/issues/6299), since 3.18.0).
+  than 10.9), resulting in linker warnings. ([#6299](https://github.com/Wabi-Studios/wabi-realm/issues/6299), since 3.18.0).
 * An internal datastructure for List properties could be double-deleted if the
   last reference was released from a thread other than the one which the List
   was created on at the wrong time. This would typically manifest as
   "pthread_mutex_destroy() failed", but could also result in other kinds of
-  crashes. ([#6333](https://github.com/realm/realm-swift/issues/6333)).
+  crashes. ([#6333](https://github.com/Wabi-Studios/wabi-realm/issues/6333)).
 * Sorting on float or double properties containing NaN values had inconsistent
   results and would sometimes crash due to out-of-bounds memory accesses.
-  ([#6357](https://github.com/realm/realm-swift/issues/6357)).
+  ([#6357](https://github.com/Wabi-Studios/wabi-realm/issues/6357)).
 
 ### Known Issues
 
@@ -5001,7 +5001,7 @@ NOTE: This version bumps the Realm file format to version 10. It is not possible
 ### Compatibility
 
 * File format: Generates Realms with format v10 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
+* WabiRealm Object Server: 3.21.0 or later.
 * APIs are backwards compatible with all previous releases in the 5.x.y series.
 * Carthage release for Swift is built with Xcode 11.3.
 
@@ -5017,24 +5017,24 @@ Based on 4.1.0.
 
 ### Enhancements
 
-* Add `-[RLMRealm fileExistsForConfiguration:]`/`Realm.fileExists(for:)`,
-  which checks if a local Realm file exists for the given configuration.
-* Add `-[RLMRealm deleteFilesForConfiguration:]`/`Realm.deleteFiles(for:)`
-  to delete the Realm file and all auxiliary files for the given configuration.
-* Storing large binary blobs in Realm files no longer forces the file to be at
+* Add `-[RLMRealm fileExistsForConfiguration:]`/`WabiRealm.fileExists(for:)`,
+  which checks if a local WabiRealm file exists for the given configuration.
+* Add `-[RLMRealm deleteFilesForConfiguration:]`/`WabiRealm.deleteFiles(for:)`
+  to delete the WabiRealm file and all auxiliary files for the given configuration.
+* Storing large binary blobs in WabiRealm files no longer forces the file to be at
   least 8x the size of the largest blob.
-* Reduce the size of transaction logs stored inside the Realm file, reducing
+* Reduce the size of transaction logs stored inside the WabiRealm file, reducing
   file size growth from large transactions.
 
-NOTE: This version bumps the Realm file format to version 10. It is not
+NOTE: This version bumps the WabiRealm file format to version 10. It is not
 possible to downgrade version 9 or earlier. Files created with older versions
-of Realm will be automatically upgraded. This automatic upgrade process is not
-yet well tested. Do not open Realm files with data you care about with this
+of WabiRealm will be automatically upgraded. This automatic upgrade process is not
+yet well tested. Do not open WabiRealm files with data you care about with this
 alpha version.
 
 ### Breaking Changes
 
-* Files containing Date properties written by version of Realm prior to 1.0 can
+* Files containing Date properties written by version of WabiRealm prior to 1.0 can
   no longer be opened.
 * Files containing Any properties can no longer be opened. This property type
   was never documented and was deprecated in 1.0.
@@ -5042,7 +5042,7 @@ alpha version.
 ### Compatibility
 
 * File format: Generates Realms with format v10 (Reads and upgrades v9)
-* Realm Object Server: 3.21.0 or later.
+* WabiRealm Object Server: 3.21.0 or later.
 * APIs are backwards compatible with all previous releases in the 4.x.y series.
 * Carthage release for Swift is built with Xcode 11.3.
 * Carthage release for Swift is built with Xcode 11.2.1.
@@ -5061,7 +5061,7 @@ Swift 4.0 and Xcode 10.3 are now the minimum supported versions.
 
 * Allow setting the `fileUrl` for synchronized Realms. An appropriate local
   path based on the sync URL will still be used if it is not overridden.
-  ([PR #6454](https://github.com/realm/realm-swift/pull/6454)).
+  ([PR #6454](https://github.com/Wabi-Studios/wabi-realm/pull/6454)).
 * Add Xcode 11.4 binaries to the release package.
 
 ### Fixed
@@ -5071,7 +5071,7 @@ Swift 4.0 and Xcode 10.3 are now the minimum supported versions.
 ### Compatibility
 
 * File format: Generates Realms with format v9 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
+* WabiRealm Object Server: 3.21.0 or later.
 * Carthage release for Swift is built with Xcode 11.4.
 
 4.3.2 Release notes (2020-02-06)
@@ -5085,14 +5085,14 @@ Swift 4.0 and Xcode 10.3 are now the minimum supported versions.
 ### Fixed
 
 * Fix a memory leak attributed to `property_copyAttributeList` the first time a
-  Realm is opened when using Realm Swift. ([#6409](https://github.com/realm/realm-swift/issues/6409), since 4.0.0).
+  WabiRealm is opened when using WabiRealm Swift. ([#6409](https://github.com/Wabi-Studios/wabi-realm/issues/6409), since 4.0.0).
 * Connecting to a `realms:` sync URL would crash at runtime on iOS 11 (and no
   other iOS versions) inside the SSL validation code. (Since 4.3.1).
 
 ### Compatibility
 
 * File format: Generates Realms with format v9 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
+* WabiRealm Object Server: 3.21.0 or later.
 * Carthage release for Swift is built with Xcode 11.3.
 
 ### Internal
@@ -5110,23 +5110,23 @@ Swift 4.0 and Xcode 10.3 are now the minimum supported versions.
 ### Fixed
 
 * macOS binaries were built with the incorrect deployment target (10.14 rather
-  than 10.9), resulting in linker warnings. ([#6299](https://github.com/realm/realm-swift/issues/6299), since 3.18.0).
+  than 10.9), resulting in linker warnings. ([#6299](https://github.com/Wabi-Studios/wabi-realm/issues/6299), since 3.18.0).
 * An internal datastructure for List properties could be double-deleted if the
   last reference was released from a thread other than the one which the List
   was created on at the wrong time. This would typically manifest as
   "pthread_mutex_destroy() failed", but could also result in other kinds of
-  crashes. ([#6333](https://github.com/realm/realm-swift/issues/6333)).
+  crashes. ([#6333](https://github.com/Wabi-Studios/wabi-realm/issues/6333)).
 * Sorting on float or double properties containing NaN values had inconsistent
   results and would sometimes crash due to out-of-bounds memory accesses.
-  ([#6357](https://github.com/realm/realm-swift/issues/6357)).
+  ([#6357](https://github.com/Wabi-Studios/wabi-realm/issues/6357)).
 * A NOT query on a `List<Object>` which happened to have the objects in a
   different order than the underlying table would sometimes include the object
-  immediately before an object which matches the query. ([#6289](https://github.com/realm/realm-swift/issues/6289), since 0.90.0).
+  immediately before an object which matches the query. ([#6289](https://github.com/Wabi-Studios/wabi-realm/issues/6289), since 0.90.0).
 
 ### Compatibility
 
 * File format: Generates Realms with format v9 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
+* WabiRealm Object Server: 3.21.0 or later.
 * Carthage release for Swift is built with Xcode 11.3.
 
 ### Internal
@@ -5143,7 +5143,7 @@ Swift 4.0 and Xcode 10.3 are now the minimum supported versions.
   called instead of the default NSLog-based logger.
 * Expose configuration options for the various types of sync connection
   timeouts and heartbeat intervals on `RLMSyncManager`.
-* Add an option to have `Realm.asyncOpen()` report an error if the connection
+* Add an option to have `WabiRealm.asyncOpen()` report an error if the connection
   times out rather than swallowing the error and attempting to reconnect until
   it succeeds.
 
@@ -5151,14 +5151,14 @@ Swift 4.0 and Xcode 10.3 are now the minimum supported versions.
 
 * Fix a crash when using value(forKey:) on a LinkingObjects property (including
   when doing so indirectly, such as by querying on that property).
-  ([#6366](https://github.com/realm/realm-swift/issues/6366), since 4.0.0).
+  ([#6366](https://github.com/Wabi-Studios/wabi-realm/issues/6366), since 4.0.0).
 * Fix a rare crash in `ClientHistoryImpl::integrate_server_changesets()` which
   would only happen in Debug builds (since v3.0.0).
 
 ### Compatibility
 
 * File format: Generates Realms with format v9 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
+* WabiRealm Object Server: 3.21.0 or later.
 * Carthage release for Swift is built with Xcode 11.3.
 
 ### Internal
@@ -5170,10 +5170,10 @@ Swift 4.0 and Xcode 10.3 are now the minimum supported versions.
 
 ### Enhancements
 
-* Add `-[RLMRealm fileExistsForConfiguration:]`/`Realm.fileExists(for:)`,
-  which checks if a local Realm file exists for the given configuration.
-* Add `-[RLMRealm deleteFilesForConfiguration:]`/`Realm.deleteFiles(for:)`
-  to delete the Realm file and all auxiliary files for the given configuration.
+* Add `-[RLMRealm fileExistsForConfiguration:]`/`WabiRealm.fileExists(for:)`,
+  which checks if a local WabiRealm file exists for the given configuration.
+* Add `-[RLMRealm deleteFilesForConfiguration:]`/`WabiRealm.deleteFiles(for:)`
+  to delete the WabiRealm file and all auxiliary files for the given configuration.
 
 ### Fixed
 
@@ -5182,7 +5182,7 @@ Swift 4.0 and Xcode 10.3 are now the minimum supported versions.
 ### Compatibility
 
 * File format: Generates Realms with format v9 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
+* WabiRealm Object Server: 3.21.0 or later.
 * Carthage release for Swift is built with Xcode 11.3.
 
 4.1.1 Release notes (2019-11-18)
@@ -5193,15 +5193,15 @@ Swift 4.0 and Xcode 10.3 are now the minimum supported versions.
 * The UpdatePolicy passed to `realm.add()` or `realm.create()` was not properly
   propagated when adding objects within a `List`, which could result in
   spurious change notifications when using `.modified`.
-  ([#6321](https://github.com/realm/realm-swift/issues/6321), since v3.16.0)
-* Fix a rare deadlock when a Realm collection or object was observed, then
+  ([#6321](https://github.com/Wabi-Studios/wabi-realm/issues/6321), since v3.16.0)
+* Fix a rare deadlock when a WabiRealm collection or object was observed, then
   `refresh()` was explicitly called, and then the NotificationToken from the
   observation was destroyed on a different thread (since 0.98.0).
 
 ### Compatibility
 
 * File format: Generates Realms with format v9 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
+* WabiRealm Object Server: 3.21.0 or later.
 * Carthage release for Swift is built with Xcode 11.2.
 
 4.1.0 Release notes (2019-11-13)
@@ -5211,20 +5211,20 @@ Swift 4.0 and Xcode 10.3 are now the minimum supported versions.
 
 * Improve performance of queries over a link where the final target property
   has an index.
-* Restore support for storing `@objc enum` properties on RealmSwift.Object
+* Restore support for storing `@objc enum` properties on WabiRealmKit.Object
   subclasses (broken in 4.0.0), and add support for storing them in
   RealmOptional properties.
 
 ### Fixed
 
 * The sync client would fail to reconnect after failing to integrate a
-  changeset. The bug would lead to further corruption of the client’s Realm
+  changeset. The bug would lead to further corruption of the client’s WabiRealm
   file. ([RSYNC-48](https://jira.mongodb.org/browse/RSYNC-48), since v3.2.0).
 
 ### Compatibility
 
 * File format: Generates Realms with format v9 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
+* WabiRealm Object Server: 3.21.0 or later.
 * Carthage release for Swift is built with Xcode 11.2.
 
 ### Internal
@@ -5238,7 +5238,7 @@ Swift 4.0 and Xcode 10.3 are now the minimum supported versions.
 ### Breaking Changes
 
 * All previously deprecated functionality has now been removed entirely.
-* The schema discovery logic for RealmSwift.Object subclasses has been
+* The schema discovery logic for WabiRealmKit.Object subclasses has been
   rewritten in Swift. This should not have any effect on valid class
   definitions, but there may be types of invalid definitions which previously
   worked by coincidence and no longer do.
@@ -5248,7 +5248,7 @@ Swift 4.0 and Xcode 10.3 are now the minimum supported versions.
     - AnyRealmCollection
     - LinkingObjects
     - ObjectiveCSupport
-    - Realm
+    - WabiRealm
     - Results
     - SyncSubscription
     - ThreadSafeReference
@@ -5259,7 +5259,7 @@ Swift 4.0 and Xcode 10.3 are now the minimum supported versions.
 * The implementation of the path-based permissions API has been redesigned to
   accomodate changes to the server. This should be mostly a transparent change,
   with two main exceptions:
-  1. SyncPermission objects are no longer live Realm objects, and retrieving
+  1. SyncPermission objects are no longer live WabiRealm objects, and retrieving
   permissions gives an Array<SyncPermission> rather than Results<SyncPermission>.
   Getting up-to-date permissions now requires calling retrievePermissions() again
   rather than observing the permissions.
@@ -5269,7 +5269,7 @@ Swift 4.0 and Xcode 10.3 are now the minimum supported versions.
 
 ### Enhancements
 
-* Improve performance of initializing Realm objects with List properties.
+* Improve performance of initializing WabiRealm objects with List properties.
 
 ### Fixed
 
@@ -5278,7 +5278,7 @@ Swift 4.0 and Xcode 10.3 are now the minimum supported versions.
 ### Compatibility
 
 * File format: Generates Realms with format v9 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
+* WabiRealm Object Server: 3.21.0 or later.
 * Carthage release for Swift is built with Xcode 11.2.
 
 3.21.0 Release notes (2019-11-04)
@@ -5291,7 +5291,7 @@ Swift 4.0 and Xcode 10.3 are now the minimum supported versions.
 ### Compatibility
 
 * File format: Generates Realms with format v9 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
+* WabiRealm Object Server: 3.21.0 or later.
 * Carthage release for Swift is built with Xcode 11.2.
 
 3.20.0 Release notes (2019-10-21)
@@ -5302,12 +5302,12 @@ Swift 4.0 and Xcode 10.3 are now the minimum supported versions.
 * Add support for custom refresh token authentication. This allows a user to be
   authorized with an externally-issued refresh token when ROS is configured to
   recognize the external issuer as a refresh token validator.
-  ([PR #6311](https://github.com/realm/realm-swift/pull/6311)).
+  ([PR #6311](https://github.com/Wabi-Studios/wabi-realm/pull/6311)).
 
 ### Compatibility
 
 * File format: Generates Realms with format v9 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
+* WabiRealm Object Server: 3.21.0 or later.
 * Carthage release for Swift is built with Xcode 11.
 
 3.19.1 Release notes (2019-10-17)
@@ -5324,15 +5324,15 @@ Swift 4.0 and Xcode 10.3 are now the minimum supported versions.
 * Fix a crash when a RLMArray/List of primitives was observed and then the
   containing object was deleted before the first time that the background
   notifier could run.
-  ([Issue #6234](https://github.com/realm/realm-swift/issues/6234, since 3.0.0)).
+  ([Issue #6234](https://github.com/Wabi-Studios/wabi-realm/issues/6234, since 3.0.0)).
 * Remove an incorrect assertion that would cause crashes inside
   `TableInfoCache::get_table_info()`, with messages like "Assertion failed: info.object_id_index == 0 [3, 0]".
-  (Since 3.18.0, [#6268](https://github.com/realm/realm-swift/issues/6268) and [#6257](https://github.com/realm/realm-swift/issues/6257)).
+  (Since 3.18.0, [#6268](https://github.com/Wabi-Studios/wabi-realm/issues/6268) and [#6257](https://github.com/Wabi-Studios/wabi-realm/issues/6257)).
 
 ### Compatibility
 
 * File format: Generates Realms with format v9 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
+* WabiRealm Object Server: 3.21.0 or later.
 * Carthage release for Swift is built with Xcode 11.0.
 
 ### Internal
@@ -5346,9 +5346,9 @@ Swift 4.0 and Xcode 10.3 are now the minimum supported versions.
 
 * Expose ObjectSchema.objectClass in Swift as looking up the class via
   NSClassFromString() can be complicated for Swift types.
-  ([PR #6244](https://github.com/realm/realm-swift/pull/6244)).
+  ([PR #6244](https://github.com/Wabi-Studios/wabi-realm/pull/6244)).
 * Add support for suppressing notifications using closure-based write/transaction methods.
-  ([PR #6252](https://github.com/realm/realm-swift/pull/6252)).
+  ([PR #6252](https://github.com/Wabi-Studios/wabi-realm/pull/6252)).
 
 ### Fixed
 
@@ -5362,7 +5362,7 @@ Swift 4.0 and Xcode 10.3 are now the minimum supported versions.
 ### Compatibility
 
 * File format: Generates Realms with format v9 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
+* WabiRealm Object Server: 3.21.0 or later.
 * Carthage release for Swift is built with Xcode 11.0.
 
 ### Internal
@@ -5375,7 +5375,7 @@ Swift 4.0 and Xcode 10.3 are now the minimum supported versions.
 
 The file format for synchronized Realms has changed. Old Realms will be
 automatically upgraded when they are opened. Once upgraded, the files will not
-be openable by older versions of Realm. The upgrade should not take a
+be openable by older versions of WabiRealm. The upgrade should not take a
 significant amount of time to run or run any risk of errors.
 
 This does not effect non-synchronized Realms.
@@ -5386,28 +5386,28 @@ This does not effect non-synchronized Realms.
   ([Core #3344](https://github.com/realm/realm-core/pull/3344), [Core #3351](https://github.com/realm/realm-core/pull/3351)).
 * Syncronized Realms are now more aggressive about trimming local history that
   is no longer needed. This should reduce file size growth in write-heavy
-  workloads. ([Sync #3007](https://github.com/realm/realm-sync/issues/3007)).
-* Add support for building Realm as an xcframework.
-  ([PR #6238](https://github.com/realm/realm-swift/pull/6238)).
+  workloads. ([Sync #3007](https://github.com/wabi-realm/realm-sync/issues/3007)).
+* Add support for building WabiRealm as an xcframework.
+  ([PR #6238](https://github.com/Wabi-Studios/wabi-realm/pull/6238)).
 * Add prebuilt libraries for Xcode 11 to the release package.
-  ([PR #6248](https://github.com/realm/realm-swift/pull/6248)).
+  ([PR #6248](https://github.com/Wabi-Studios/wabi-realm/pull/6248)).
 * Add a prebuilt library for Catalyst/UIKit For Mac to the release package
-  ([PR #6248](https://github.com/realm/realm-swift/pull/6248)).
+  ([PR #6248](https://github.com/Wabi-Studios/wabi-realm/pull/6248)).
 
 ### Fixed
 
-* If a signal interrupted a msync() call, Realm would throw an exception and
+* If a signal interrupted a msync() call, WabiRealm would throw an exception and
   the write transaction would fail. This behavior has new been changed to retry
   the system call instead. ([Core #3352](https://github.com/realm/realm-core/issues/3352))
 * Queries on the sum or average of an integer property would sometimes give
   incorrect results. ([Core #3356](https://github.com/realm/realm-core/pull/3356)).
 * Opening query-based synchronized Realms with a small number of subscriptions
-  performed an unneccesary write transaction. ([ObjectStore #815](https://github.com/realm/realm-object-store/pull/815)).
+  performed an unneccesary write transaction. ([ObjectStore #815](https://github.com/wabi-realm/realm-object-store/pull/815)).
 
 ### Compatibility
 
 * File format: Generates Realms with format v9 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
+* WabiRealm Object Server: 3.21.0 or later.
 * Carthage release for Swift is built with Xcode 11.0
 
 ### Deprecations
@@ -5426,7 +5426,7 @@ This does not effect non-synchronized Realms.
 ### Compatibility
 
 * File format: Generates Realms with format v9 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
+* WabiRealm Object Server: 3.21.0 or later.
 * Carthage release for Swift is built with Xcode 10.3.
 
 3.17.1 Release notes (2019-07-10)
@@ -5435,17 +5435,17 @@ This does not effect non-synchronized Realms.
 ### Enhancements
 
 * Add support for canceling asynchronous opens using a new AsyncOpenTask
-  returned from the asyncOpen() call. ([PR #6193](https://github.com/realm/realm-swift/pull/6193)).
-* Importing the Realm SPM package can now be done by pinning to a version
+  returned from the asyncOpen() call. ([PR #6193](https://github.com/Wabi-Studios/wabi-realm/pull/6193)).
+* Importing the WabiRealm SPM package can now be done by pinning to a version
   rather than a branch.
 
 ### Fixed
 
 * Queries on a List/RLMArray which checked an indexed int property would
   sometimes give incorrect results.
-  ([#6154](https://github.com/realm/realm-swift/issues/6154)), since v3.15.0)
+  ([#6154](https://github.com/Wabi-Studios/wabi-realm/issues/6154)), since v3.15.0)
 * Queries involving an indexed int property had a memory leak if run multiple
-  times. ([#6186](https://github.com/realm/realm-swift/issues/6186)), since v3.15.0)
+  times. ([#6186](https://github.com/Wabi-Studios/wabi-realm/issues/6186)), since v3.15.0)
 * Creating a subscription with `includeLinkingObjects:` performed unneccesary
   comparisons, making it extremely slow when large numbers of objects were
   involved. ([Core #3311](https://github.com/realm/realm-core/issues/3311), since v3.15.0)
@@ -5453,7 +5453,7 @@ This does not effect non-synchronized Realms.
 ### Compatibility
 
 * File format: Generates Realms with format v9 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
+* WabiRealm Object Server: 3.21.0 or later.
 * Carthage release for Swift is built with Xcode 10.2.1.
 
 3.17.0 Release notes (2019-06-28)
@@ -5461,28 +5461,28 @@ This does not effect non-synchronized Realms.
 
 ### Enhancements
 
-* Add support for including Realm via Swift Package Manager. This currently
+* Add support for including WabiRealm via Swift Package Manager. This currently
   requires depending on the branch "master" rather than pinning to a version
-  (i.e. `.package(url: "https://github.com/realm/realm-swift", .branch("master"))`).
-  ([#6187](https://github.com/realm/realm-swift/pull/6187)).
+  (i.e. `.package(url: "https://github.com/Wabi-Studios/wabi-realm", .branch("master"))`).
+  ([#6187](https://github.com/Wabi-Studios/wabi-realm/pull/6187)).
 * Add Codable conformance to RealmOptional and List, and Encodable conformance to Results.
-  ([PR #6172](https://github.com/realm/realm-swift/pull/6172)).
+  ([PR #6172](https://github.com/Wabi-Studios/wabi-realm/pull/6172)).
 
 ### Fixed
 
 * Attempting to observe an unmanaged LinkingObjects object crashed rather than
   throwing an approriate exception (since v0.100.0).
-* Opening an encrypted Realm could potentially report that a valid file was
+* Opening an encrypted WabiRealm could potentially report that a valid file was
   corrupted if the system was low on free memory.
   (since 3.14.0, [Core #3267](https://github.com/realm/realm-core/issues/3267))
-* Calling `Realm.asyncOpen()` on multiple Realms at once would sometimes crash
+* Calling `WabiRealm.asyncOpen()` on multiple Realms at once would sometimes crash
   due to a `FileNotFound` exception being thrown on a background worker thread.
-  (since 3.16.0, [ObjectStore #806](https://github.com/realm/realm-object-store/pull/806)).
+  (since 3.16.0, [ObjectStore #806](https://github.com/wabi-realm/realm-object-store/pull/806)).
 
 ### Compatibility
 
 * File format: Generates Realms with format v9 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
+* WabiRealm Object Server: 3.21.0 or later.
 * Carthage release for Swift is built with Xcode 10.2.1.
 
 3.16.2 Release notes (2019-06-14)
@@ -5492,25 +5492,25 @@ This does not effect non-synchronized Realms.
 
 * Add support for Xcode 11 Beta 1. Xcode betas are only supported when building
   from source, and not when using a prebuilt framework.
-  ([PR #6164](https://github.com/realm/realm-swift/pull/6164)).
+  ([PR #6164](https://github.com/Wabi-Studios/wabi-realm/pull/6164)).
 
 ### Fixed
 
 * Using asyncOpen on query-based Realms which didn't already exist on the local
   device would fail with error 214.
-  ([#6178](https://github.com/realm/realm-swift/issues/6178), since 3.16.0).
+  ([#6178](https://github.com/Wabi-Studios/wabi-realm/issues/6178), since 3.16.0).
 * asyncOpen on query-based Realms did not wait for the server-created
   permission objects to be downloaded, resulting in crashes if modifications to
   the permissions were made before creating a subscription for the first time (since 3.0.0).
 * EINTR was not handled correctly in the notification worker, which may have
   resulted in inconsistent and rare assertion failures in
   `ExternalCommitHelper::listen()` when building with assertions enabled.
-  (PR: [#804](https://github.com/realm/realm-object-store/pull/804), since 0.91.0).
+  (PR: [#804](https://github.com/wabi-realm/realm-object-store/pull/804), since 0.91.0).
 
 ### Compatibility
 
 * File format: Generates Realms with format v9 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
+* WabiRealm Object Server: 3.21.0 or later.
 * Carthage release for Swift is built with Xcode 10.2.1.
 
 3.16.1 Release notes (2019-05-31)
@@ -5520,14 +5520,14 @@ This does not effect non-synchronized Realms.
 
 * The static type passed at compile time to `realm.create()` was checked for a
   primary key rather than the actual type passed at runtime, resulting in
-  exceptions like "''RealmSwiftObject' does not have a primary key and can not
+  exceptions like "''WabiRealmKitObject' does not have a primary key and can not
   be updated'" being thrown even if the object type being created has a primary
-  key. (since 3.16.0, [#6159](https://github.com/realm/realm-swift/issues/6159)).
+  key. (since 3.16.0, [#6159](https://github.com/Wabi-Studios/wabi-realm/issues/6159)).
 
 ### Compatibility
 
 * File format: Generates Realms with format v9 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
+* WabiRealm Object Server: 3.21.0 or later.
 * Carthage release for Swift is built with Xcode 10.2.1.
 
 3.16.0 Release notes (2019-05-29)
@@ -5537,37 +5537,37 @@ This does not effect non-synchronized Realms.
 
 * Add an option to only set the properties which have values different from the
   existing ones when updating an existing object with
-  `Realm.create()`/`-[RLMObject createOrUpdateInRealm:withValue:]`. This makes
+  `WabiRealm.create()`/`-[RLMObject createOrUpdateInRealm:withValue:]`. This makes
   notifications report only the properties which have actually changed, and
   improves Object Server performance by reducing the number of operations to
-  merge. (Issue: [#5970](https://github.com/realm/realm-swift/issues/5970),
-  PR: [#6149](https://github.com/realm/realm-swift/pull/6149)).
-* Using `-[RLMRealm asyncOpenWithConfiguration:callbackQueue:]`/`Realm.asyncOpen()` to open a
-  synchronized Realm which does not exist on the local device now uses an
-  optimized transfer method to download the initial data for the Realm, greatly
+  merge. (Issue: [#5970](https://github.com/Wabi-Studios/wabi-realm/issues/5970),
+  PR: [#6149](https://github.com/Wabi-Studios/wabi-realm/pull/6149)).
+* Using `-[RLMRealm asyncOpenWithConfiguration:callbackQueue:]`/`WabiRealm.asyncOpen()` to open a
+  synchronized WabiRealm which does not exist on the local device now uses an
+  optimized transfer method to download the initial data for the WabiRealm, greatly
   speeding up the first start time for applications which use full
   synchronization. This is currently not applicable to query-based
-  synchronization. (PR: [#6106](https://github.com/realm/realm-swift/pull/6106)).
+  synchronization. (PR: [#6106](https://github.com/Wabi-Studios/wabi-realm/pull/6106)).
 
 ### Compatibility
 
 * File format: Generates Realms with format v9 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
+* WabiRealm Object Server: 3.21.0 or later.
 * Carthage release for Swift is built with Xcode 10.2.1.
 
 3.15.0 Release notes (2019-05-06)
 =============================================================
 
-The minimum version of Realm Object Server has been increased to 3.21.0 and
+The minimum version of WabiRealm Object Server has been increased to 3.21.0 and
 attempting to connect to older versions will produce protocol mismatch errors.
-Realm Cloud has already been upgraded to this version, and users using that do
+WabiRealm Cloud has already been upgraded to this version, and users using that do
 not need to worry about this.
 
 ### Enhancements
 
 * Add `createdAt`, `updatedAt`, `expiresAt` and `timeToLive` properties to
   `RLMSyncSubscription`/`SyncSubscription`. These properties will be `nil` for
-  subscriptions created with older versions of Realm, but will be automatically
+  subscriptions created with older versions of WabiRealm, but will be automatically
   populated for newly-created subscriptions.
 * Add support for transient subscriptions by setting the `timeToLive` when
   creating the subscription. The next time a subscription is created or updated
@@ -5604,7 +5604,7 @@ not need to worry about this.
 ### Compatibility
 
 * File format: Generates Realms with format v9 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.21.0 or later.
+* WabiRealm Object Server: 3.21.0 or later.
 * Carthage release for Swift is built with Xcode 10.2.1.
 
 3.14.2 Release notes (2019-04-25)
@@ -5614,12 +5614,12 @@ not need to worry about this.
 
 * Updating `RLMSyncManager.customRequestHeaders` will immediately update all
   currently active sync session with the new headers rather than requiring
-  manually closing the Realm and reopening it.
+  manually closing the WabiRealm and reopening it.
 
 ### Compatibility
 
 * File format: Generates Realms with format v9 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.11.0 or later.
+* WabiRealm Object Server: 3.11.0 or later.
 * Carthage release for Swift is built with Xcode 10.2.1.
 
 3.14.1 Release notes (2019-04-04)
@@ -5627,14 +5627,14 @@ not need to worry about this.
 
 ### Fixed
 
-* Fix "Cannot find interface declaration for 'RealmSwiftObject', superclass of
+* Fix "Cannot find interface declaration for 'WabiRealmKitObject', superclass of
   'MyRealmObjectClass'" errors when building for a simulator with Xcode 10.2
   with "Install Objective-C Compatibility Header" enabled.
 
 ### Compatibility
 
 * File format: Generates Realms with format v9 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.11.0 or later.
+* WabiRealm Object Server: 3.11.0 or later.
 * Carthage release for Swift is built with Xcode 10.2.
 
 3.14.0 Release notes (2019-03-27)
@@ -5643,32 +5643,32 @@ not need to worry about this.
 ### Enhancements
 
 * Reduce memory usage when committing write transactions.
-* Improve performance of compacting encrypted Realm files.
+* Improve performance of compacting encrypted WabiRealm files.
   ([PR #3221](https://github.com/realm/realm-core/pull/3221)).
 * Add a Xcode 10.2 build to the release package.
 
 ### Fixed
 
-* Fix a memory leak whenever Realm makes a HTTP(s) request to the Realm Object
-  Server (Issue [#6058](https://github.com/realm/realm-swift/issues/6058), since 3.8.0).
-* Fix an assertion failure when creating an object in a synchronized Realm
+* Fix a memory leak whenever WabiRealm makes a HTTP(s) request to the WabiRealm Object
+  Server (Issue [#6058](https://github.com/Wabi-Studios/wabi-realm/issues/6058), since 3.8.0).
+* Fix an assertion failure when creating an object in a synchronized WabiRealm
   after creating an object with a null int primary key in the same write
   transaction.
   ([PR #3227](https://github.com/realm/realm-core/pull/3227)).
 * Fix some new warnings when building with Xcode 10.2 beta.
-* Properly clean up sync sessions when the last Realm object using the session
+* Properly clean up sync sessions when the last WabiRealm object using the session
   is deallocated while the session is explicitly suspended (since 3.9.0).
 
 ### Compatibility
 
 * File format: Generates Realms with format v9 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.11.0 or later.
+* WabiRealm Object Server: 3.11.0 or later.
 * Carthage release for Swift is built with Xcode 10.2.
 
 ### Internal
 
 * Throw an exception rather than crashing with an assertion failure in more
-  cases when opening invalid Realm files.
+  cases when opening invalid WabiRealm files.
 * Upgrade to REALM_CORE_VERSION=5.14.0
 * Upgrade to REALM_SYNC_VERSION=3.15.1
 
@@ -5677,40 +5677,40 @@ not need to worry about this.
 
 ### Fixed
 
-* Fix a crash when iterating over `Realm.subscriptions()` using for-in.
-  (Since 3.13.0, PR [#6050](https://github.com/realm/realm-swift/pull/6050)).
+* Fix a crash when iterating over `WabiRealm.subscriptions()` using for-in.
+  (Since 3.13.0, PR [#6050](https://github.com/Wabi-Studios/wabi-realm/pull/6050)).
 
 ### Compatibility
 
 * File format: Generates Realms with format v9 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.11.0 or later.
+* WabiRealm Object Server: 3.11.0 or later.
 
 3.13.0 Release notes (2018-12-14)
 =============================================================
 
 ### Enhancements
 
-* Add `Realm.subscriptions()`/`-[RLMRealm subscriptions]` and
-  `Realm.subscription(named:)`/`-[RLMRealm subscriptionWithName:]` to enable
+* Add `WabiRealm.subscriptions()`/`-[RLMRealm subscriptions]` and
+  `WabiRealm.subscription(named:)`/`-[RLMRealm subscriptionWithName:]` to enable
   looking up existing query-based sync subscriptions.
-  (PR: https://github.com/realm/realm-swift/pull/6029).
+  (PR: https://github.com/Wabi-Studios/wabi-realm/pull/6029).
 
 ### Compatibility
 
 * File format: Generates Realms with format v9 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.11.0 or later.
+* WabiRealm Object Server: 3.11.0 or later.
 
 3.12.0 Release notes (2018-11-26)
 =============================================================
 
 ### Enhancements
 
-* Add a User-Agent header to HTTP requests made to the Realm Object Server. By
-  default, this contains information about the Realm library version and your
+* Add a User-Agent header to HTTP requests made to the WabiRealm Object Server. By
+  default, this contains information about the WabiRealm library version and your
   app's bundle ID. The application identifier can be customized by setting
   `RLMSyncManager.sharedManager.userAgent`/`SyncManager.shared.userAgent` prior
-  to opening a synchronized Realm.
-  (PR: https://github.com/realm/realm-swift/pull/6007).
+  to opening a synchronized WabiRealm.
+  (PR: https://github.com/Wabi-Studios/wabi-realm/pull/6007).
 * Add Xcode 10.1 binary to the prebuilt package.
 
 ### Fixed
@@ -5720,7 +5720,7 @@ not need to worry about this.
 ### Compatibility
 
 * File format: Generates Realms with format v9 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.11.0 or later.
+* WabiRealm Object Server: 3.11.0 or later.
 
 ### Internal
 
@@ -5739,7 +5739,7 @@ not need to worry about this.
 ### Fixed
 
 * Fix a memory leak when removing notification blocks from collections.
-  PR: [#702](https://github.com/realm/realm-object-store/pull/702), since 1.1.0.
+  PR: [#702](https://github.com/wabi-realm/realm-object-store/pull/702), since 1.1.0.
 * Fix re-sorting or distincting an already-sorted Results using values from
   linked objects. Previously the unsorted order was used to read the values
   from the linked objects.
@@ -5751,7 +5751,7 @@ not need to worry about this.
 ### Compatibility
 
 * File format: Generates Realms with format v9 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.11.0 or later.
+* WabiRealm Object Server: 3.11.0 or later.
 
 ### Internal
 
@@ -5768,17 +5768,17 @@ not need to worry about this.
 ### Fixed
 
 * Fix `SyncUser.requestEmailConfirmation` not triggering the email confirmation
-  flow on ROS. (PR [#5953](https://github.com/realm/realm-swift/pull/5953), since 3.5.0)
+  flow on ROS. (PR [#5953](https://github.com/Wabi-Studios/wabi-realm/pull/5953), since 3.5.0)
 * Add some missing validation in the getters and setters of properties on
-  managed Realm objects, which would sometimes result in an application
+  managed WabiRealm objects, which would sometimes result in an application
   crashing with a segfault rather than the appropriate exception being thrown
   when trying to write to an object which has been deleted.
-  (PR [#5952](https://github.com/realm/realm-swift/pull/5952), since 2.8.0)
+  (PR [#5952](https://github.com/Wabi-Studios/wabi-realm/pull/5952), since 2.8.0)
 
 ### Compatibility
 
 * File format: Generates Realms with format v9 (Reads and upgrades all previous formats)
-* Realm Object Server: 3.11.0 or later.
+* WabiRealm Object Server: 3.11.0 or later.
 
 ### Internal
 
@@ -5796,17 +5796,17 @@ not need to worry about this.
 
 ### Fixed
 * Fix a crash when adding an object with a non-`@objc` `String?` property which
-  has not been explicitly ignored to a Realm on watchOS 5 (and possibly other
+  has not been explicitly ignored to a WabiRealm on watchOS 5 (and possibly other
   platforms when building with Xcode 10).
-  (Issue: [5929](https://github.com/realm/realm-swift/issues/5929)).
+  (Issue: [5929](https://github.com/Wabi-Studios/wabi-realm/issues/5929)).
 * Fix some merge algorithm bugs which could result in `BadChangesetError`
   being thrown when integrating changes sent by the server.
 
 ### Compatibility
 * File format: Generates Realms with format v9 (Reads and upgrades all previous formats)
 * **NOTE!!!
-  You will need to upgrade your Realm Object Server to at least version 3.11.0
-  or use [Realm Cloud](https://cloud.realm.io).
+  You will need to upgrade your WabiRealm Object Server to at least version 3.11.0
+  or use [WabiRealm Cloud](https://cloud.realm.io).
   If you try to connect to a ROS v3.10.x or previous, you will see an error
   like `Wrong protocol version in Sync HTTP request, client protocol version = 25,
   server protocol version = 24`.**
@@ -5833,9 +5833,9 @@ should be migrating to at least Xcode 9.2 as soon as possible.
 ### Enhancements
 
 * Expose RLMSyncUser.refreshToken publicly so that it can be used for custom
-  HTTP requests to Realm Object Server.
+  HTTP requests to WabiRealm Object Server.
 * Add RLMSyncSession.connectionState, which reports whether the session is
-  currently connected to the Realm Object Server or if it is offline.
+  currently connected to the WabiRealm Object Server or if it is offline.
 * Add `-suspend` and `-resume` methods to `RLMSyncSession` to enable manually
   pausing data synchronization.
 * Add support for limiting the number of objects matched by a query-based sync
@@ -5861,7 +5861,7 @@ should be migrating to at least Xcode 9.2 as soon as possible.
 
 ### Bugfixes
 
-* Fix warnings when building Realm as a static framework with CocoaPods.
+* Fix warnings when building WabiRealm as a static framework with CocoaPods.
 
 3.7.6 Release notes (2018-08-08)
 =============================================================
@@ -5883,7 +5883,7 @@ should be migrating to at least Xcode 9.2 as soon as possible.
 * Improve performance of creating objects with string primary keys.
 * Improve performance of large write transactions.
 * Adjust file space allocation strategy to reduce fragmentation, producing
-  smaller Realm files and typically better performance.
+  smaller WabiRealm files and typically better performance.
 * Close network connections immediately when a sync session is destroyed.
 * Report more information in `InvalidDatabase` exceptions.
 
@@ -5902,7 +5902,7 @@ should be migrating to at least Xcode 9.2 as soon as possible.
 
 ### Bugfixes
 
-* Fix a bug which could potentially flood Realm Object Server with PING
+* Fix a bug which could potentially flood WabiRealm Object Server with PING
   messages after a client device comes back online.
 
 3.7.3 Release notes (2018-06-18)
@@ -5915,7 +5915,7 @@ should be migrating to at least Xcode 9.2 as soon as possible.
 
 ### Bugfixes
 
-* Fix crashes which could result from extremely fragmented Realm files.
+* Fix crashes which could result from extremely fragmented WabiRealm files.
 * Fix a bug that could result in a crash with the message "bad changeset error"
   when merging changesets from the server.
 
@@ -5933,12 +5933,12 @@ should be migrating to at least Xcode 9.2 as soon as possible.
   cause "bad permission object" and "bad changeset" errors.
 * Fix a large number of linking warnings about symbol visibility by aligning
   compiler flags used.
-* Fix large increase in size of files produced by `Realm.writeCopy()` introduced in 3.6.0.
+* Fix large increase in size of files produced by `WabiRealm.writeCopy()` introduced in 3.6.0.
 
 3.7.1 Release notes (2018-06-07)
 =============================================================
 
-* Add support for compiling Realm Swift with Xcode 10 beta 1.
+* Add support for compiling WabiRealm Swift with Xcode 10 beta 1.
 
 3.7.0 Release notes (2018-06-06)
 =============================================================
@@ -5956,7 +5956,7 @@ details.
 
 ### Enhancements
 
-* Add `-[RLMRealm syncSession]` and  `Realm.syncSession` to obtain the session used for a synchronized Realm.
+* Add `-[RLMRealm syncSession]` and  `WabiRealm.syncSession` to obtain the session used for a synchronized WabiRealm.
 * Add `-[RLMSyncUser configuration]`. Query-based sync is the default sync mode for this configuration.
 * Add `-[RLMSyncUser configurationWithURL:url]`. Query-based sync is the default sync mode for this configuration.
 
@@ -6006,11 +6006,11 @@ The prebuilt binary for Carthage is now built for Swift 4.1.
 ### Enhancements
 
 * Expose `RLMSyncManager.authorizationHeaderName`/`SyncManager.authorizationHeaderName`
-  as a way to override the transport header for Realm Object Server authorization.
+  as a way to override the transport header for WabiRealm Object Server authorization.
 * Expose `RLMSyncManager.customRequestHeaders`/`SyncManager.customRequestHeaders`
-  which allows custom HTTP headers to be appended on requests to the Realm Object Server.
+  which allows custom HTTP headers to be appended on requests to the WabiRealm Object Server.
 * Expose `RLMSSyncConfiguration.urlPrefix`/`SyncConfiguration.urlPrefix` as a mechanism
-  to replace the default path prefix in Realm Sync WebSocket requests.
+  to replace the default path prefix in WabiRealm Sync WebSocket requests.
 
 3.3.2 Release notes (2018-04-03)
 =============================================================
@@ -6020,7 +6020,7 @@ Add a prebuilt binary for Xcode 9.3.
 3.3.1 Release notes (2018-03-28)
 =============================================================
 
-Realm Object Server v3.0.0 or newer is required when using synchronized Realms.
+WabiRealm Object Server v3.0.0 or newer is required when using synchronized Realms.
 
 ### Enhancements
 
@@ -6030,21 +6030,21 @@ Realm Object Server v3.0.0 or newer is required when using synchronized Realms.
 ### Bugfixes
 
 * Exclude the RLMObject-derived Permissions classes from the types repored by
-  `Realm.Configuration.defaultConfiguration.objectTypes` to avoid a failed
+  `WabiRealm.Configuration.defaultConfiguration.objectTypes` to avoid a failed
   cast.
-* Cancel pending `Realm.asyncOpen()` calls when authentication fails with a
-  non-transient error such as missing the Realm path in the URL.
+* Cancel pending `WabiRealm.asyncOpen()` calls when authentication fails with a
+  non-transient error such as missing the WabiRealm path in the URL.
 * Fix "fcntl() inside prealloc()" errors on APFS.
 
 3.3.0 Release notes (2018-03-19)
 =============================================================
 
-Realm Object Server v3.0.0 or newer is required when using synchronized Realms.
+WabiRealm Object Server v3.0.0 or newer is required when using synchronized Realms.
 
 ### Enhancements
 
-* Add `Realm.permissions`, `Realm.permissions(forType:)`, and `Realm.permissions(forClassNamed:)` as convenience
-  methods for accessing the permissions of the Realm or a type.
+* Add `WabiRealm.permissions`, `WabiRealm.permissions(forType:)`, and `WabiRealm.permissions(forClassNamed:)` as convenience
+  methods for accessing the permissions of the WabiRealm or a type.
 
 ### Bugfixes
 
@@ -6056,7 +6056,7 @@ Realm Object Server v3.0.0 or newer is required when using synchronized Realms.
 3.2.0 Release notes (2018-03-15)
 =============================================================
 
-Realm Object Server v3.0.0 or newer is required when using synchronized Realms.
+WabiRealm Object Server v3.0.0 or newer is required when using synchronized Realms.
 
 ### Enhancements
 
@@ -6068,8 +6068,8 @@ Realm Object Server v3.0.0 or newer is required when using synchronized Realms.
   defined at the level of individual objects or classes. See the documentation for more information
   (<https://docs.realm.io/platform/v/3.x/using-synced-realms/access-control>).
 * Added `SyncConfiguration.automatic()` and `SyncConfiguration.automatic(user:)`.
-  These methods return a `Realm.Configuration` appropriate for syncing with the default
-  synced Realm for the current (or specified) user. These should be considered the preferred methods
+  These methods return a `WabiRealm.Configuration` appropriate for syncing with the default
+  synced WabiRealm for the current (or specified) user. These should be considered the preferred methods
   for accessing synced Realms going forwards.
 * Added `+[RLMSyncSession sessionForRealm:]` to retrieve the sync session corresponding to a `RLMRealm`.
 
@@ -6083,13 +6083,13 @@ Realm Object Server v3.0.0 or newer is required when using synchronized Realms.
 3.2.0-rc.1 Release notes (2018-03-14)
 =============================================================
 
-Realm Object Server v3.0.0-rc.1 or newer is required when using synchronized Realms.
+WabiRealm Object Server v3.0.0-rc.1 or newer is required when using synchronized Realms.
 
 ### Enhancements
 
 * Added `SyncConfiguration.automatic()` and `SyncConfiguration.automatic(user:)`.
-  These methods return a `Realm.Configuration` appropriate for syncing with the default
-  synced Realm for the current (or specified). These should be considered the preferred methods
+  These methods return a `WabiRealm.Configuration` appropriate for syncing with the default
+  synced WabiRealm for the current (or specified). These should be considered the preferred methods
   for accessing synced Realms going forwards.
 * A role is now automatically created for each user with that user as its only member.
   This simplifies the common use case of restricting access to specific objects to a single user.
@@ -6105,16 +6105,16 @@ Realm Object Server v3.0.0-rc.1 or newer is required when using synchronized Rea
 3.2.0-beta.3 Release notes (2018-03-01)
 =============================================================
 
-Realm Object Server v3.0.0-alpha.9 or newer is required when using synchronized Realms.
+WabiRealm Object Server v3.0.0-alpha.9 or newer is required when using synchronized Realms.
 
 ### Bugfixes
 
-* Fix a crash that would occur when using partial sync with Realm Object Server v3.0.0-alpha.9.
+* Fix a crash that would occur when using partial sync with WabiRealm Object Server v3.0.0-alpha.9.
 
 3.2.0-beta.2 Release notes (2018-02-28)
 =============================================================
 
-Realm Object Server v3.0.0-alpha.8 or newer is required when using synchronized Realms.
+WabiRealm Object Server v3.0.0-alpha.8 or newer is required when using synchronized Realms.
 
 ### Enhancements
 
@@ -6168,7 +6168,7 @@ Prebuilt Swift frameworks for Carthage are now built with Xcode 9.2.
 * Add `Results.distinct(by:)` / `-[RLMResults distinctResultsUsingKeyPaths:]`, which return a `Results`
   containing only objects with unique values at the given key paths.
 * Improve performance of change checking for notifications in certain cases.
-* Realm Object Server errors not explicitly recognized by the client are now reported to the application
+* WabiRealm Object Server errors not explicitly recognized by the client are now reported to the application
   regardless.
 * Add support for JSON Web Token as a sync credential source.
 * Add support for Nickname and Anonymous Auth as a sync credential source.
@@ -6201,7 +6201,7 @@ Prebuilt frameworks are now included for Swift 3.2.2 and 4.0.2.
 ### Bugfixes
 
 * Explicitly exclude KVO-generated object subclasses from the schema.
-* Fix regression where the type of a Realm model class is not properly determined, causing crashes
+* Fix regression where the type of a WabiRealm model class is not properly determined, causing crashes
   when a type value derived at runtime by `type(of:)` is passed into certain APIs.
 * Fix a crash when an `Object` subclass has implicitly ignored `let`
   properties.
@@ -6213,8 +6213,8 @@ Prebuilt frameworks are now included for Swift 3.2.2 and 4.0.2.
 
 ### Breaking Changes
 * iOS 7 is no longer supported.
-* Synchronized Realms require a server running Realm Object Server v2.0 or higher.
-* Computed properties on Realm object types are detected and no
+* Synchronized Realms require a server running WabiRealm Object Server v2.0 or higher.
+* Computed properties on WabiRealm object types are detected and no
   longer added to the automatically generated schema.
 * The Objective-C and Swift `create(_:, value: update:)` APIs now
   correctly nil out nullable properties when updating an existing
@@ -6225,7 +6225,7 @@ Prebuilt frameworks are now included for Swift 3.2.2 and 4.0.2.
   APIs that also take collections.
 * The way interactive sync errors (client reset and permission denied)
   are delivered to the user has been changed. Instead of a block which can
-  be invoked to immediately delete the offending Realm file, an opaque
+  be invoked to immediately delete the offending WabiRealm file, an opaque
   token object of type `RLMSyncErrorActionToken` will be returned in the
   error object's `userInfo` dictionary. This error object can be passed
   into the new `+[RLMSyncSession immediatelyHandleError:]` API to delete
@@ -6247,7 +6247,7 @@ Prebuilt frameworks are now included for Swift 3.2.2 and 4.0.2.
 * Fix the way the hash property works on `Object` when the object model has
   no primary key.
 * Fix an issue where if a Swift model class defined non-generic managed
-  properties after generic Realm properties (like `List<T>`), the schema
+  properties after generic WabiRealm properties (like `List<T>`), the schema
   would be constructed incorrectly. Fixes an issue where creating such
   models from an array could fail.
 * Loosen `RLMArray` and `RLMResults`'s generic constraint from `RLMObject` to
@@ -6258,7 +6258,7 @@ Prebuilt frameworks are now included for Swift 3.2.2 and 4.0.2.
   operations except for setting values using key-value coding (since
   `RLMSyncPermission`s are immutable) and the property aggregation operations.
 * `RLMSyncUserInfo` has been significantly enhanced. It now contains metadata
-  about a user stored on the Realm Object Server, as well as a list of all user account
+  about a user stored on the WabiRealm Object Server, as well as a list of all user account
   data associated with that user.
 * Starting with Swift 4, `List` now conforms to `MutableCollection` instead of
   `RangeReplaceableCollection`. For Swift 4, the empty collection initializer has been
@@ -6329,32 +6329,32 @@ Prebuilt frameworks are now included for Swift 3.2.2 and 4.0.2.
   `RLMObject` subclasses is not yet implemented.
 * Add a new error code to denote 'permission denied' errors when working
   with synchronized Realms, as well as an accompanying block that can be
-  called to inform the binding that the offending Realm's files should be
+  called to inform the binding that the offending WabiRealm's files should be
   deleted immediately. This allows recovering from 'permission denied'
   errors in a more robust manner. See the documentation for
   `RLMSyncErrorPermissionDeniedError` for more information.
 * Add Swift `Object.isSameObject(as:_)` API to perform the same function as
   the existing Objective-C API `-[RLMObject isEqualToObject:]`.
-* Opening a synced Realm whose local copy was created with an older version of
-  Realm Mobile Platfrom when a migration is not possible to the current version
+* Opening a synced WabiRealm whose local copy was created with an older version of
+  WabiRealm Mobile Platfrom when a migration is not possible to the current version
   will result in an `RLMErrorIncompatibleSyncedFile` / `incompatibleSyncedFile`
   error. When such an error occurs, the original file is moved to a backup
-  location, and future attempts to open the synchronized Realm will result in a new
-  file being created. If you wish to migrate any data from the backup Realm you can
-  open it using the backup Realm configuration available on the error object.
+  location, and future attempts to open the synchronized WabiRealm will result in a new
+  file being created. If you wish to migrate any data from the backup WabiRealm you can
+  open it using the backup WabiRealm configuration available on the error object.
 * Add a preview of partial synchronization. Partial synchronization allows a
-  synchronized Realm to be opened in such a way that only objects requested by
+  synchronized WabiRealm to be opened in such a way that only objects requested by
   the user are synchronized to the device. You can use it by setting the
-  `isPartial` property on a `SyncConfiguration`, opening the Realm, and then
-  calling `Realm.subscribe(to:where:callback:)` with the type of object you're
+  `isPartial` property on a `SyncConfiguration`, opening the WabiRealm, and then
+  calling `WabiRealm.subscribe(to:where:callback:)` with the type of object you're
   interested in, a string containing a query determining which objects you want
   to subscribe to, and a callback which will report the results. You may add as
-  many subscriptions to a synced Realm as necessary.
+  many subscriptions to a synced WabiRealm as necessary.
 
 ### Bugfixes
-* Realm no longer throws an "unsupported instruction" exception in some cases
-  when opening a synced Realm asynchronously.
-* Realm Swift APIs that filter or look up the index of an object based on a
+* WabiRealm no longer throws an "unsupported instruction" exception in some cases
+  when opening a synced WabiRealm asynchronously.
+* WabiRealm Swift APIs that filter or look up the index of an object based on a
   format string now properly handle optional arguments in their variadic argument
   list.
 * `-[RLMResults<RLMSyncPermission *> indexOfObject:]` now properly accounts for access
@@ -6362,7 +6362,7 @@ Prebuilt frameworks are now included for Swift 3.2.2 and 4.0.2.
 * Fix a race condition that could lead to a crash accessing to the freed configuration object
   if a default configuration was set from a different thread.
 * Fixed an issue that crash when enumerating after clearing data during migration.
-* Fix a bug where a synced Realm couldn't be reopened even after a successful client reset
+* Fix a bug where a synced WabiRealm couldn't be reopened even after a successful client reset
   in some cases.
 * Fix a bug where the sync subsystem waited too long in certain cases to reconnect to the server.
 * Fix a bug where encrypted sync-related metadata was incorrectly deleted from upgrading users,
@@ -6385,7 +6385,7 @@ Prebuilt frameworks are now included for Swift 3.2.2 and 4.0.2.
 * Fix a race condition that could lead to a crash accessing to the freed configuration object
   if a default configuration was set from a different thread.
 * Fixed an issue that crash when enumerating after clearing data during migration.
-* Fix a bug where a synced Realm couldn't be reopened even after a successful client reset
+* Fix a bug where a synced WabiRealm couldn't be reopened even after a successful client reset
   in some cases.
 * Fix a bug where the sync subsystem waited too long in certain cases to reconnect to the server.
 * Fix a bug where encrypted sync-related metadata was incorrectly deleted from upgrading users,
@@ -6400,7 +6400,7 @@ Prebuilt frameworks are now included for Swift 3.2.2 and 4.0.2.
 
 ### Breaking Changes
 * Remove `RLMSyncPermissionSortPropertyUserID` to reflect changes in how the
-  Realm Object Server reports permissions for a user.
+  WabiRealm Object Server reports permissions for a user.
 * Remove `RLMSyncPermissionOffer` and `RLMSyncPermissionOfferResponse` classes
   and associated helper methods and functions. Use the
   `-[RLMSyncUser createOfferForRealmAtURL:accessLevel:expiration:callback:]`
@@ -6408,12 +6408,12 @@ Prebuilt frameworks are now included for Swift 3.2.2 and 4.0.2.
 
 ### Bugfixes
 
-* The keychain item name used by Realm to manage the encryption keys for
+* The keychain item name used by WabiRealm to manage the encryption keys for
   sync-related metadata is now set to a per-app name based on the bundle
-  identifier. Keys that were previously stored within the single, shared Realm
+  identifier. Keys that were previously stored within the single, shared WabiRealm
   keychain item will be transparently migrated to the per-application keychain
   item.
-* Fix downloading of the Realm core binaries when Xcode's command-line tools are
+* Fix downloading of the WabiRealm core binaries when Xcode's command-line tools are
   set as the active developer directory for command-line interactions.
 * Fix a crash that could occur when resolving a ThreadSafeReference to a `List`
   whose parent object had since been deleted.
@@ -6436,12 +6436,12 @@ Prebuilt frameworks are now included for Swift 3.2.2 and 4.0.2.
   operations except for setting values using KVO (since `RLMSyncPermission`s are
   immutable) and the property aggregation operations.
 * `RealmCollection`'s associated type `Element` has been renamed `ElementType`.
-* Realm Swift collection types (`List`, `Results`, `AnyRealmCollection`, and
+* WabiRealm Swift collection types (`List`, `Results`, `AnyRealmCollection`, and
   `LinkingObjects` have had their generic type parameter changed from `T` to
   `Element`).
 * `RealmOptional`'s generic type parameter has been changed from `T` to `Value`.
 * `RLMSyncUserInfo` has been significantly enhanced. It now contains metadata
-  about a user stored on the Realm Object Server, as well as a list of all user account
+  about a user stored on the WabiRealm Object Server, as well as a list of all user account
   data associated with that user.
 * Starting with Swift 4, `List` now conforms to `MutableCollection` instead of
   `RangeReplaceableCollection`. For Swift 4, the empty collection initializer has been
@@ -6464,25 +6464,25 @@ Prebuilt frameworks are now included for Swift 3.2.2 and 4.0.2.
   required (by overriding `+requiredProperties:`) will instead make the values
   within the array required. Querying `RLMArray`s containing values other than
   `RLMObject` subclasses is not yet implemented.
-* Opening a synced Realm whose local copy was created with an older version of
-  Realm Mobile Platfrom when a migration is not possible to the current version
+* Opening a synced WabiRealm whose local copy was created with an older version of
+  WabiRealm Mobile Platfrom when a migration is not possible to the current version
   will result in an `RLMErrorIncompatibleSyncedFile` / `incompatibleSyncedFile`
   error. When such an error occurs, the original file is moved to a backup
-  location, and future attempts to open the synchronized Realm will result in a new
-  file being created. If you wish to migrate any data from the backup Realm you can
-  open it using the backup Realm configuration available on the error object.
+  location, and future attempts to open the synchronized WabiRealm will result in a new
+  file being created. If you wish to migrate any data from the backup WabiRealm you can
+  open it using the backup WabiRealm configuration available on the error object.
 * Add preview support for partial synchronization. Partial synchronization is
-  allows a synchronized Realm to be opened in such a way that only objects
+  allows a synchronized WabiRealm to be opened in such a way that only objects
   requested by the user are synchronized to the device. You can use it by setting
-  the `isPartial` property on a `SyncConfiguration`, opening the Realm, and then
-  calling `Realm.subscribe(to:where:callback:)` with the type of object you're
+  the `isPartial` property on a `SyncConfiguration`, opening the WabiRealm, and then
+  calling `WabiRealm.subscribe(to:where:callback:)` with the type of object you're
   interested in, a string containing a query determining which objects you want
   to subscribe to, and a callback which will report the results. You may add as
-  many subscriptions to a synced Realm as necessary.
+  many subscriptions to a synced WabiRealm as necessary.
 
 ### Bugfixes
 
-* Realm Swift APIs that filter or look up the index of an object based on a
+* WabiRealm Swift APIs that filter or look up the index of an object based on a
   format string now properly handle optional arguments in their variadic argument
   list.
 
@@ -6492,7 +6492,7 @@ Prebuilt frameworks are now included for Swift 3.2.2 and 4.0.2.
 ### Breaking Changes
 
 * iOS 7 is no longer supported.
-* Computed properties on Realm object types are detected and no
+* Computed properties on WabiRealm object types are detected and no
   longer added to the automatically generated schema.
 * `-[RLMRealm addOrUpdateObjectsInArray:]` has been renamed to
   `-[RLMRealm addOrUpdateObjects:]` for consistency with similar methods
@@ -6512,7 +6512,7 @@ Prebuilt frameworks are now included for Swift 3.2.2 and 4.0.2.
   `RLMSyncAuthErrorBadResponse` instead.
 * The way interactive sync errors (client reset and permission denied)
   are delivered to the user has been changed. Instead of a block which can
-  be invoked to immediately delete the offending Realm file, an opaque
+  be invoked to immediately delete the offending WabiRealm file, an opaque
   token object of type `RLMSyncErrorActionToken` will be returned in the
   error object's `userInfo` dictionary. This error object can be passed
   into the new `+[RLMSyncSession immediatelyHandleError:]` API to delete
@@ -6534,7 +6534,7 @@ Prebuilt frameworks are now included for Swift 3.2.2 and 4.0.2.
   `observe(_:)` to mirror Foundation's new KVO APIs.
 * The `RLMSyncProgress` enum has been renamed `RLMSyncProgressMode`.
 * Remove deprecated `{RLM}SyncManager.disableSSLValidation` property. Disable
-  SSL validation on a per-Realm basis by setting the `enableSSLValidation`
+  SSL validation on a per-WabiRealm basis by setting the `enableSSLValidation`
   property on `{RLM}SyncConfiguration` instead.
 * Fix empty strings, binary data, and null on the right side of `BEGINSWITH`,
   `ENDSWITH` and `CONTAINS` operators in predicates to match Foundation's
@@ -6545,7 +6545,7 @@ Prebuilt frameworks are now included for Swift 3.2.2 and 4.0.2.
 * Fix the way the hash property works on `Object` when the object model has
   no primary key.
 * Fix an issue where if a Swift model class defined non-generic managed
-  properties after generic Realm properties (like `List<T>`), the schema
+  properties after generic WabiRealm properties (like `List<T>`), the schema
   would be constructed incorrectly. Fixes an issue where creating such
   models from an array could fail.
 
@@ -6554,7 +6554,7 @@ Prebuilt frameworks are now included for Swift 3.2.2 and 4.0.2.
 * Add Swift `Object.isSameObject(as:_)` API to perform the same function as
   the existing Objective-C API `-[RLMObject isEqualToObject:]`.
 * Expose additional authentication-related errors that might be reported by
-  a Realm Object Server.
+  a WabiRealm Object Server.
 * An error handler can now be registered on `{RLM}SyncUser`s in order to
   report authentication-related errors that affect the user.
 
@@ -6563,7 +6563,7 @@ Prebuilt frameworks are now included for Swift 3.2.2 and 4.0.2.
 * Sync users are now automatically logged out upon receiving certain types
   of errors that indicate they are no longer logged into the server. For
   example, users who are authenticated using third-party credentials will find
-  themselves logged out of the Realm Object Server if the third-party identity
+  themselves logged out of the WabiRealm Object Server if the third-party identity
   service indicates that their credential is no longer valid.
 * Address high CPU usage and hangs in certain cases when processing collection
   notifications in highly-connected object graphs.
@@ -6600,42 +6600,42 @@ Prebuilt frameworks are now included for Swift 3.2.2 and 4.0.2.
 
 ### Enhancements
 
-* It is now possible to create and log in multiple Realm Object Server users
+* It is now possible to create and log in multiple WabiRealm Object Server users
   with the same identity if they originate from different servers. Note that
   if the URLs are different aliases for the same authentication server each
   user will still be treated as separate (e.g. they will have their own copy
-  of each synchronized Realm opened using them). It is highly encouraged that
+  of each synchronized WabiRealm opened using them). It is highly encouraged that
   users defined using the access token credential type be logged in with an
   authentication server URL specified; this parameter will become mandatory
   in a future version of the SDK.
 * Add `-[RLMSyncUser retrieveInfoForUser:identityProvider:completion:]`
   API allowing administrator users to retrieve information about a user based
   on their provider identity (for example, a username). Requires any edition
-  of the Realm Object Server 1.8.2 or later.
+  of the WabiRealm Object Server 1.8.2 or later.
 
 ### Bugfixes
 
-* Realm no longer throws an "unsupported instruction" exception in some cases
-  when opening a synced Realm asynchronously.
+* WabiRealm no longer throws an "unsupported instruction" exception in some cases
+  when opening a synced WabiRealm asynchronously.
 
 3.0.0-beta Release notes (2017-07-14)
 =============================================================
 
 ### Breaking Changes
 
-* Synchronized Realms require a server running Realm Object Server v2.0 or higher.
+* Synchronized Realms require a server running WabiRealm Object Server v2.0 or higher.
 
 ### Enhancements
 
 * Add a new error code to denote 'permission denied' errors when working
   with synchronized Realms, as well as an accompanying block that can be
-  called to inform the binding that the offending Realm's files should be
+  called to inform the binding that the offending WabiRealm's files should be
   deleted immediately. This allows recovering from 'permission denied'
   errors in a more robust manner. See the documentation for
   `RLMSyncErrorPermissionDeniedError` for more information.
 * Add `-[RLMSyncPermissionValue initWithRealmPath:username:accessLevel:]`
   API allowing permissions to be applied to a user based on their username
-  (usually, an email address). Requires any edition of the Realm Object
+  (usually, an email address). Requires any edition of the WabiRealm Object
   Server 1.6.0 or later.
 * Improve performance of creating Swift objects which contain at least one List
   property.
@@ -6652,12 +6652,12 @@ Prebuilt frameworks are now included for Swift 3.2.2 and 4.0.2.
 
 ### Bugfixes
 
-* The keychain item name used by Realm to manage the encryption keys for
+* The keychain item name used by WabiRealm to manage the encryption keys for
   sync-related metadata is now set to a per-app name based on the bundle
-  identifier. Keys that were previously stored within the single, shared Realm
+  identifier. Keys that were previously stored within the single, shared WabiRealm
   keychain item will be transparently migrated to the per-application keychain
   item.
-* Fix downloading of the Realm core binaries when Xcode's command-line tools are
+* Fix downloading of the WabiRealm core binaries when Xcode's command-line tools are
   set as the active developer directory for command-line interactions.
 * Fix a crash that could occur when resolving a ThreadSafeReference to a `List`
   whose parent object had since been deleted.
@@ -6686,17 +6686,17 @@ Swift binaries are now produced for Swift 3.0, 3.0.1, 3.0.2, 3.1, 3.2 and 4.0.
 ### Enhancements
 
 * Expose additional authentication-related errors that might be reported by
-  a Realm Object Server.
+  a WabiRealm Object Server.
 * An error handler can now be registered on `{RLM}SyncUser`s in order to
   report authentication-related errors that affect the user.
 
 ### Bugfixes
 
-* Sorting Realm collection types no longer throws an exception on iOS 7.
+* Sorting WabiRealm collection types no longer throws an exception on iOS 7.
 * Sync users are now automatically logged out upon receiving certain types
   of errors that indicate they are no longer logged into the server. For
   example, users who are authenticated using third-party credentials will find
-  themselves logged out of the Realm Object Server if the third-party identity
+  themselves logged out of the WabiRealm Object Server if the third-party identity
   service indicates that their credential is no longer valid.
 * Address high CPU usage and hangs in certain cases when processing collection
   notifications in highly-connected object graphs.
@@ -6714,7 +6714,7 @@ Swift binaries are now produced for Swift 3.0, 3.0.1, 3.0.2, 3.1, 3.2 and 4.0.
 
 ### Bugfixes
 
-* The `shouldCompactOnLaunch` block is no longer invoked if the Realm at that
+* The `shouldCompactOnLaunch` block is no longer invoked if the WabiRealm at that
   path is already open on other threads.
 * Fix an assertion failure in collection notifications when changes are made to
   the schema via sync while the notification block is active.
@@ -6730,28 +6730,28 @@ Swift binaries are now produced for Swift 3.0, 3.0.1, 3.0.2, 3.1, 3.2 and 4.0.
 
 * Add a new error code to denote 'permission denied' errors when working
   with synchronized Realms, as well as an accompanying block that can be
-  called to inform the binding that the offending Realm's files should be
+  called to inform the binding that the offending WabiRealm's files should be
   deleted immediately. This allows recovering from 'permission denied'
   errors in a more robust manner. See the documentation for
   `RLMSyncErrorPermissionDeniedError` for more information.
 * Add `-[RLMSyncPermissionValue initWithRealmPath:username:accessLevel:]`
   API allowing permissions to be applied to a user based on their username
-  (usually, an email address). Requires any edition of the Realm Object
+  (usually, an email address). Requires any edition of the WabiRealm Object
   Server 1.6.0 or later.
 * Improve performance of creating Swift objects which contain at least one List
   property.
-* It is now possible to create and log in multiple Realm Object Server users
+* It is now possible to create and log in multiple WabiRealm Object Server users
   with the same identity if they originate from different servers. Note that
   if the URLs are different aliases for the same authentication server each
   user will still be treated as separate (e.g. they will have their own copy
-  of each synchronized Realm opened using them). It is highly encouraged that
+  of each synchronized WabiRealm opened using them). It is highly encouraged that
   users defined using the access token credential type be logged in with an
   authentication server URL specified; this parameter will become mandatory
   in a future version of the SDK.
 * Add `-[RLMSyncUser retrieveInfoForUser:identityProvider:completion:]`
   API allowing administrator users to retrieve information about a user based
   on their provider identity (for example, a username). Requires any edition
-  of the Realm Object Server 1.8.2 or later.
+  of the WabiRealm Object Server 1.8.2 or later.
 
 ### Bugfixes
 
@@ -6778,7 +6778,7 @@ Swift binaries are now produced for Swift 3.0, 3.0.1, 3.0.2, 3.1, 3.2 and 4.0.
   remote server if the user object used to define their sync configuration
   was destroyed.
 * Restore support for changing primary keys in migrations (broken in 2.8.0).
-* Revert handling of adding objects with nil properties to a Realm to the
+* Revert handling of adding objects with nil properties to a WabiRealm to the
   pre-2.8.0 behavior.
 
 2.8.1 Release notes (2017-06-12)
@@ -6804,16 +6804,16 @@ Add support for building with Xcode 9 Beta 1.
 * Enable encryption on watchOS.
 * Add `-[RLMSyncUser changePassword:forUserID:completion:]` API to change an
   arbitrary user's password if the current user has administrative privileges
-  and using Realm's 'password' authentication provider.
-  Requires any edition of the Realm Object Server 1.6.0 or later.
+  and using WabiRealm's 'password' authentication provider.
+  Requires any edition of the WabiRealm Object Server 1.6.0 or later.
 
 ### Bugfixes
 
-* Suppress `-Wdocumentation` warnings in Realm C++ headers when using CocoaPods
+* Suppress `-Wdocumentation` warnings in WabiRealm C++ headers when using CocoaPods
   with Xcode 8.3.2.
 * Throw an appropriate error rather than crashing when an RLMArray is assigned
   to an RLMArray property of a different type.
-* Fix crash in large (>4GB) encrypted Realm files.
+* Fix crash in large (>4GB) encrypted WabiRealm files.
 * Improve accuracy of sync progress notifications.
 * Fix an issue where synchronized Realms did not connect to the remote server
   in certain situations, such as when an application was offline when the Realms
@@ -6831,25 +6831,25 @@ Add support for building with Xcode 9 Beta 1.
 * Use reachability API to minimize the reconnection delay if the network
   connection was lost.
 * Add `-[RLMSyncUser changePassword:completion:]` API to change the current
-  user's password if using Realm's 'password' authentication provider.
-  Requires any edition of the Realm Object Server 1.4.0 or later.
+  user's password if using WabiRealm's 'password' authentication provider.
+  Requires any edition of the WabiRealm Object Server 1.4.0 or later.
 * `{RLM}SyncConfiguration` now has an `enableSSLValidation` property
   (and default parameter in the Swift initializer) to allow SSL validation
   to be specified on a per-server basis.
-* Transactions between a synced Realm and a Realm Object Server can now
+* Transactions between a synced WabiRealm and a WabiRealm Object Server can now
   exceed 16 MB in size.
 * Add new APIs for changing and retrieving permissions for synchronized Realms.
-  These APIs are intended to replace the existing Realm Object-based permissions
-  system. Requires any edition of the Realm Object Server 1.1.0 or later.
+  These APIs are intended to replace the existing WabiRealm Object-based permissions
+  system. Requires any edition of the WabiRealm Object Server 1.1.0 or later.
 
 ### Bugfixes
 
-* Support Realm model classes defined in Swift with overridden Objective-C
+* Support WabiRealm model classes defined in Swift with overridden Objective-C
   names (e.g. `@objc(Foo) class SwiftFoo: Object {}`).
 * Fix `-[RLMMigration enumerateObjects:block:]` returning incorrect `oldObject`
   objects when enumerating a class name after previously deleting a `newObject`.
-* Fix an issue where `Realm.asyncOpen(...)` would fail to work when opening a
-  synchronized Realm for which the user only had read permissions.
+* Fix an issue where `WabiRealm.asyncOpen(...)` would fail to work when opening a
+  synchronized WabiRealm for which the user only had read permissions.
 * Using KVC to set a `List` property to `nil` now clears it to match the
   behavior of `RLMArray` properties.
 * Fix crash from `!m_awaiting_pong` assertion failure when using synced Realms.
@@ -6870,7 +6870,7 @@ Add support for building with Xcode 9 Beta 1.
 
 ### Bugfixes
 
-* Fix an issue where calling `Realm.asyncOpen(...)` with a synchronized Realm
+* Fix an issue where calling `WabiRealm.asyncOpen(...)` with a synchronized WabiRealm
   configuration would fail with an "Operation canceled" error.
 * Fix initial collection notification sometimes not being delivered for synced
   Realms.
@@ -6890,10 +6890,10 @@ Add support for building with Xcode 9 Beta 1.
 
 ### Bugfixes
 
-* Fix an issue where calling `Realm.asyncOpen(...)` with a synchronized Realm
+* Fix an issue where calling `WabiRealm.asyncOpen(...)` with a synchronized WabiRealm
   configuration would crash in error cases rather than report the error.
   This is a small source breaking change if you were relying on the error
-  being reported to be a `Realm.Error`.
+  being reported to be a `WabiRealm.Error`.
 
 2.6.0 Release notes (2017-04-18)
 =============================================================
@@ -6904,15 +6904,15 @@ Add support for building with Xcode 9 Beta 1.
 
 ### Enhancements
 
-* Add a `{RLM}SyncUser.isAdmin` property indicating whether a user is a Realm
+* Add a `{RLM}SyncUser.isAdmin` property indicating whether a user is a WabiRealm
   Object Server administrator.
-* Add an API to asynchronously open a Realm and deliver it to a block on a
-  given queue. This performs all work needed to get the Realm to
+* Add an API to asynchronously open a WabiRealm and deliver it to a block on a
+  given queue. This performs all work needed to get the WabiRealm to
   a usable state (such as running potentially time-consuming migrations) on a
   background thread before dispatching to the given queue. In addition,
   synchronized Realms wait for all remote content available at the time the
   operation began to be downloaded and available locally.
-* Add `shouldCompactOnLaunch` block property when configuring a Realm to
+* Add `shouldCompactOnLaunch` block property when configuring a WabiRealm to
   determine if it should be compacted before being returned.
 * Speed up case-insensitive queries on indexed string properties.
 * Add RLMResults's collection aggregate methods to RLMArray.
@@ -6920,7 +6920,7 @@ Add support for building with Xcode 9 Beta 1.
 
 ### Bugfixes
 
-* Fix a deadlock when multiple processes open a Realm at the same time.
+* Fix a deadlock when multiple processes open a WabiRealm at the same time.
 * Fix `value(forKey:)`/`value(forKeyPath:)` returning incorrect values for `List` properties.
 
 2.5.1 Release notes (2017-04-05)
@@ -6943,11 +6943,11 @@ Add support for building with Xcode 9 Beta 1.
 2.5.0 Release notes (2017-03-28)
 =============================================================
 
-Files written by Realm this version cannot be read by earlier versions of Realm.
+Files written by WabiRealm this version cannot be read by earlier versions of WabiRealm.
 Old files can still be opened and files open in read-only mode will not be
 modified.
 
-If using synchronized Realms, the Realm Object Server must be running version
+If using synchronized Realms, the WabiRealm Object Server must be running version
 1.3.0 or later.
 
 Swift binaries are now produced for Swift 3.0, 3.0.1, 3.0.2 and 3.1.
@@ -6969,12 +6969,12 @@ Swift binaries are now produced for Swift 3.0, 3.0.1, 3.0.2 and 3.1.
 
 * Fix incorrect column type assertions which could occur after schemas were
   merged by sync.
-* Eliminate an empty write transaction when opening a synced Realm.
+* Eliminate an empty write transaction when opening a synced WabiRealm.
 * Support encrypting synchronized Realms by respecting the `encryptionKey` value
-  of the Realm's configuration.
+  of the WabiRealm's configuration.
 * Fix crash when setting an `{NS}Data` property close to 16MB.
 * Fix for reading `{NS}Data` properties incorrectly returning `nil`.
-* Reduce file size growth in cases where Realm versions were pinned while
+* Reduce file size growth in cases where WabiRealm versions were pinned while
   starting write transactions.
 * Fix an assertion failure when writing to large `RLMArray`/`List` properties.
 * Fix uncaught `BadTransactLog` exceptions when pulling invalid changesets from
@@ -6992,13 +6992,13 @@ Swift binaries are now produced for Swift 3.0, 3.0.1, 3.0.2 and 3.1.
 ### Enhancements
 
 * Add `(RLM)SyncPermission` class to allow reviewing access permissions for
-  Realms. Requires any edition of the Realm Object Server 1.1.0 or later.
-* Further reduce the number of files opened per thread-specific Realm on macOS,
+  Realms. Requires any edition of the WabiRealm Object Server 1.1.0 or later.
+* Further reduce the number of files opened per thread-specific WabiRealm on macOS,
   iOS and watchOS.
 
 ### Bugfixes
 
-* Fix a crash that could occur if new Realm instances were created while the
+* Fix a crash that could occur if new WabiRealm instances were created while the
   application was exiting.
 * Fix a bug that could lead to bad version number errors when delivering
   change notifications.
@@ -7015,8 +7015,8 @@ Swift binaries are now produced for Swift 3.0, 3.0.1, 3.0.2 and 3.1.
   corrupted data or crashes.
 * Fix an issue where certain `LIKE` queries could hang.
 * Fix an issue where `-[RLMRealm writeCopyToURL:encryptionKey:error]` could create
-  a corrupt Realm file.
-* Fix an issue where incrementing a synced Realm's schema version without actually
+  a corrupt WabiRealm file.
+* Fix an issue where incrementing a synced WabiRealm's schema version without actually
   changing the schema could cause a crash.
 
 2.4.3 Release notes (2017-02-20)
@@ -7031,7 +7031,7 @@ Swift binaries are now produced for Swift 3.0, 3.0.1, 3.0.2 and 3.1.
 * Avoid copying copy-on-write data structures, which can grow the file, when the
   write does not actually change existing values.
 * Improve performance of deleting all objects in an RLMResults.
-* Reduce the number of files opened per thread-specific Realm on macOS.
+* Reduce the number of files opened per thread-specific WabiRealm on macOS.
 * Improve startup performance with large numbers of `RLMObject`/`Object`
   subclasses.
 
@@ -7039,8 +7039,8 @@ Swift binaries are now produced for Swift 3.0, 3.0.1, 3.0.2 and 3.1.
 
 * Fix synchronized Realms not downloading remote changes when an access token
   expires and there are no local changes to upload.
-* Fix an issue where values set on a Realm object using `setValue(value:, forKey:)`
-  that were not themselves Realm objects were not properly converted into Realm
+* Fix an issue where values set on a WabiRealm object using `setValue(value:, forKey:)`
+  that were not themselves WabiRealm objects were not properly converted into WabiRealm
   objects or checked for validity.
 * Fix an issue where `-[RLMSyncUser sessionForURL:]` could erroneously return a
   non-nil value when passed in an invalid URL.
@@ -7050,12 +7050,12 @@ Swift binaries are now produced for Swift 3.0, 3.0.1, 3.0.2 and 3.1.
   dispatching on a dedicated background queue.
 * Fix compilation issues with Xcode 8.3 beta 2.
 * Fix incorrect sync progress notification values for Realms originally created
-  using a version of Realm prior to 2.3.0.
+  using a version of WabiRealm prior to 2.3.0.
 * Fix LLDB integration to be able to display summaries of `RLMResults` once more.
 * Reject Swift properties with names which cause them to fall in to ARC method
   families rather than crashing when they are accessed.
 * Fix sorting by key path when the declared property order doesn't match the order
-  of properties in the Realm file, which can happen when properties are added in
+  of properties in the WabiRealm file, which can happen when properties are added in
   different schema versions.
 
 2.4.2 Release notes (2017-01-30)
@@ -7091,11 +7091,11 @@ Swift 3.0.0 is now the minimum Swift version supported.
 
 ### Bugfixes
 
-* Fix Realm Objective-C compilation errors with Xcode 8.3 beta 1.
+* Fix WabiRealm Objective-C compilation errors with Xcode 8.3 beta 1.
 * Fix several error handling issues when renewing expired authentication
   tokens for synchronized Realms.
 * Fix a race condition leading to bad_version exceptions being thrown in
-  Realm's background worker thread.
+  WabiRealm's background worker thread.
 
 2.3.0 Release notes (2017-01-19)
 =============================================================
@@ -7165,16 +7165,16 @@ Swift 3.0.0 is now the minimum Swift version supported.
   thread-safe reference to a thread-confined object by passing it to the
   `+[RLMThreadSafeReference referenceWithThreadConfined:]`/`ThreadSafeReference(to:)`
   constructor, which you can then safely pass to another thread to resolve in
-  the new Realm with `-[RLMRealm resolveThreadSafeReference:]`/`Realm.resolve(_:)`.
-* Realm collections can now be sorted by properties over to-one relationships.
+  the new WabiRealm with `-[RLMRealm resolveThreadSafeReference:]`/`WabiRealm.resolve(_:)`.
+* WabiRealm collections can now be sorted by properties over to-one relationships.
 * Optimized `CONTAINS` queries to use Boyer-Moore algorithm
   (around 10x speedup on large datasets).
 
 ### Bugfixes
 
-* Setting `deleteRealmIfMigrationNeeded` now also deletes the Realm if a file
+* Setting `deleteRealmIfMigrationNeeded` now also deletes the WabiRealm if a file
   format migration is required, such as when moving from a file last accessed
-  with Realm 0.x to 1.x, or 1.x to 2.x.
+  with WabiRealm 0.x to 1.x, or 1.x to 2.x.
 * Fix queries containing nested `SUBQUERY` expressions.
 * Fix spurious incorrect thread exceptions when a thread id happens to be
   reused while an RLMRealm instance from the old thread still exists.
@@ -7188,7 +7188,7 @@ This release adds binary versions of Swift 3.0.2 frameworks built with Xcode 8.2
 ### Sync Breaking Changes (In Beta)
 
 * Rename occurences of "iCloud" with "CloudKit" in APIs and comments to match
-  naming in the Realm Object Server.
+  naming in the WabiRealm Object Server.
 
 ### API Breaking Changes
 
@@ -7208,19 +7208,19 @@ This release adds binary versions of Swift 3.0.2 frameworks built with Xcode 8.2
 
 ### Enhancements
 
-* Add `RealmSwift.ObjectiveCSupport.convert(object:)` methods to help write
-  code that interoperates between Realm Objective-C and Realm Swift APIs.
-* Throw exceptions when opening a Realm with an incorrect configuration, like:
+* Add `WabiRealmKit.ObjectiveCSupport.convert(object:)` methods to help write
+  code that interoperates between WabiRealm Objective-C and WabiRealm Swift APIs.
+* Throw exceptions when opening a WabiRealm with an incorrect configuration, like:
     * `readOnly` set with a sync configuration.
     * `readOnly` set with a migration block.
     * migration block set with a sync configuration.
 * Greatly improve performance of write transactions which make a large number of
   changes to indexed properties, including the automatic migration when opening
-  files written by Realm 1.x.
+  files written by WabiRealm 1.x.
 
 ### Bugfixes
 
-* Reset sync metadata Realm in case of decryption error.
+* Reset sync metadata WabiRealm in case of decryption error.
 * Fix issue preventing using synchronized Realms in Xcode Playgrounds.
 * Fix assertion failure when migrating a model property from object type to
   `RLMLinkingObjects` type.
@@ -7256,12 +7256,12 @@ This release adds binary versions of Swift 3.0.2 frameworks built with Xcode 8.2
 ### Bugfixes
 
 * Deliver collection notifications when beginning a write transaction which
-  advances the read version of a Realm (previously only Realm-level
+  advances the read version of a WabiRealm (previously only WabiRealm-level
   notifications were sent).
 * Fix some scenarios which would lead to inconsistent states when using
   collection notifications.
 * Fix several race conditions in the notification functionality.
-* Don't send Realm change notifications when canceling a write transaction.
+* Don't send WabiRealm change notifications when canceling a write transaction.
 
 2.0.4 Release notes (2016-11-14)
 =============================================================
@@ -7282,7 +7282,7 @@ This release adds binary versions of Swift 3.0.2 frameworks built with Xcode 8.2
   * `SyncUser.allUsers()` in Swift 2.
   * `SyncUser.all` in Swift 3.
 * Rename `SyncManager.sharedManager()` to `SyncManager.shared` in Swift 3.
-* Change `Realm.Configuration.syncConfiguration` to take a `SyncConfiguration`
+* Change `WabiRealm.Configuration.syncConfiguration` to take a `SyncConfiguration`
   struct rather than a named tuple.
 * `+[RLMSyncUser logInWithCredentials:]` now invokes its callback block on a
   background queue.
@@ -7295,7 +7295,7 @@ This release adds binary versions of Swift 3.0.2 frameworks built with Xcode 8.2
 
 * Add `+[RLMSyncUser currentUser]`.
 * Add the ability to change read, write and management permissions for
-  synchronized Realms using the management Realm obtained via the
+  synchronized Realms using the management WabiRealm obtained via the
   `-[RLMSyncUser managementRealmWithError:]` API and the
   `RLMSyncPermissionChange` class.
 
@@ -7324,7 +7324,7 @@ GM seed.
 * Fix an assertion failure when additional model classes are added and
   `deleteRealmIfMigrationNeeded` is enabled.
 * Fix a `BadTransactLog` exception when deleting an `RLMResults` in a synced
-  Realm.
+  WabiRealm.
 * Fix an assertion failure when a write transaction is in progress at the point
   of process termination.
 * Fix a crash that could occur when working with a `RLMLinkingObject` property
@@ -7333,17 +7333,17 @@ GM seed.
 2.0.2 Release notes (2016-10-05)
 =============================================================
 
-This release is not protocol-compatible with previous version of the Realm
+This release is not protocol-compatible with previous version of the WabiRealm
 Mobile Platform.
 
 ### API breaking changes
 
-* Rename Realm Swift's `User` to `SyncUser` to make clear that it relates to the
-  Realm Mobile Platform, and to avoid potential conflicts with other `User` types.
+* Rename WabiRealm Swift's `User` to `SyncUser` to make clear that it relates to the
+  WabiRealm Mobile Platform, and to avoid potential conflicts with other `User` types.
 
 ### Bugfixes
 
-* Fix Realm headers to be compatible with pre-C++11 dialects of Objective-C++.
+* Fix WabiRealm headers to be compatible with pre-C++11 dialects of Objective-C++.
 * Fix incorrect merging of RLMArray/List changes when objects with the same
   primary key are created on multiple devices.
 * Fix bad transaction log errors after deleting objects on a different device.
@@ -7355,29 +7355,29 @@ Mobile Platform.
 
 ### Bugfixes
 
-* Fix an assertion failure when opening a Realm file written by a 1.x version
-  of Realm which has an indexed nullable int or bool property.
+* Fix an assertion failure when opening a WabiRealm file written by a 1.x version
+  of WabiRealm which has an indexed nullable int or bool property.
 
 2.0.0 Release notes (2016-09-27)
 =============================================================
 
-This release introduces support for the Realm Mobile Platform!
+This release introduces support for the WabiRealm Mobile Platform!
 See <https://realm.io/news/introducing-realm-mobile-platform/> for an overview
 of these great new features.
 
 ### API breaking changes
 
-* By popular demand, `RealmSwift.Error` has been moved from the top-level
-  namespace into a `Realm` extension and is now `Realm.Error`, so that it no
+* By popular demand, `WabiRealmKit.Error` has been moved from the top-level
+  namespace into a `WabiRealm` extension and is now `WabiRealm.Error`, so that it no
   longer conflicts with `Swift.Error`.
-* Files written by Realm 2.0 cannot be read by 1.x or earlier versions. Old
+* Files written by WabiRealm 2.0 cannot be read by 1.x or earlier versions. Old
   files can still be opened.
 
 ### Enhancements
 
 * The .log, .log_a and .log_b files no longer exist and the state tracked in
-  them has been moved to the main Realm file. This reduces the number of open
-  files needed by Realm, improves performance of both opening and writing to
+  them has been moved to the main WabiRealm file. This reduces the number of open
+  files needed by WabiRealm, improves performance of both opening and writing to
   Realms, and eliminates a small window where committing write transactions
   would prevent other processes from opening the file.
 
@@ -7385,7 +7385,7 @@ of these great new features.
 
 * Fix an assertion failure when sorting by zero properties.
 * Fix a mid-commit crash in one process also crashing all other processes with
-  the same Realm open.
+  the same WabiRealm open.
 * Properly initialize new nullable float and double properties added to
   existing objects to null rather than 0.
 * Fix a stack overflow when objects with indexed string properties had very
@@ -7393,7 +7393,7 @@ of these great new features.
 * Fix a race condition which could lead to crashes when using async queries or
   collection notifications.
 * Fix a bug which could lead to incorrect state when an object which links to
-  itself is deleted from the Realm.
+  itself is deleted from the WabiRealm.
 
 1.1.0 Release notes (2016-09-16)
 =============================================================
@@ -7414,7 +7414,7 @@ Prebuilt frameworks are now built with Xcode 7.3.1 and Xcode 8.0.
 * Further reduce the download size of the prebuilt static libraries.
 * Improve sort performance, especially on non-nullable columns.
 * Allow partial initialization of object by `initWithValue:`, deferring
-  required property checks until object is added to Realm.
+  required property checks until object is added to WabiRealm.
 
 ### Bugfixes
 
@@ -7434,7 +7434,7 @@ Prebuilt frameworks are now built with Xcode 7.3.1 and Xcode 8.0.
 
 ### API breaking changes
 
-* Attempting to add an object with no properties to a Realm now throws rather than silently
+* Attempting to add an object with no properties to a WabiRealm now throws rather than silently
   doing nothing.
 
 ### Enhancements
@@ -7443,7 +7443,7 @@ Prebuilt frameworks are now built with Xcode 7.3.1 and Xcode 8.0.
   the transaction.
 * Reduce address space used when committing write transactions.
 * Significantly reduce the download size of prebuilt binaries and slightly
-  reduce the final size contribution of Realm to applications.
+  reduce the final size contribution of WabiRealm to applications.
 * Improve performance of accessing RLMArray properties and creating objects
   with List properties.
 
@@ -7455,8 +7455,8 @@ Prebuilt frameworks are now built with Xcode 7.3.1 and Xcode 8.0.
 * Ensure that the initial call of a Results notification block is always passed
   .Initial even if there is a write transaction between when the notification
   is added and when the first notification is delivered.
-* Fix a crash when deleting all objects in a Realm while fast-enumerating query
-  results from that Realm.
+* Fix a crash when deleting all objects in a WabiRealm while fast-enumerating query
+  results from that WabiRealm.
 * Handle EINTR from flock() rather than crashing.
 * Fix incorrect behavior following a call to `[RLMRealm compact]`.
 * Fix live updating and notifications for Results created from a predicate involving
@@ -7472,7 +7472,7 @@ Prebuilt frameworks are now built with Xcode 7.3.1 and Xcode 8.0.
 
 ### Enhancements
 
-* Significantly improve performance of opening Realm files, and slightly
+* Significantly improve performance of opening WabiRealm files, and slightly
   improve performance of committing write transactions.
 
 ### Bugfixes
@@ -7480,19 +7480,19 @@ Prebuilt frameworks are now built with Xcode 7.3.1 and Xcode 8.0.
 * Swift: Fix an error thrown when trying to create or update `Object` instances via
   `add(:_update:)` with a primary key property of type `RealmOptional`.
 * Xcode playground in Swift release zip now runs successfully.
-* The `key` parameter of `Realm.objectForPrimaryKey(_:key:)`/ `Realm.dynamicObjectForPrimaryKey(_:key:)`
+* The `key` parameter of `WabiRealm.objectForPrimaryKey(_:key:)`/ `WabiRealm.dynamicObjectForPrimaryKey(_:key:)`
  is now marked as optional.
-* Fix a potential memory leak when closing Realms after a Realm file has been
+* Fix a potential memory leak when closing Realms after a WabiRealm file has been
   opened on multiple threads which are running in active run loops.
 * Fix notifications breaking on tvOS after a very large number of write
   transactions have been committed.
 * Fix a "Destruction of mutex in use" assertion failure after an error while
   opening a file.
-* Realm now throws an exception if an `Object` subclass is defined with a managed Swift `lazy` property.
+* WabiRealm now throws an exception if an `Object` subclass is defined with a managed Swift `lazy` property.
   Objects with ignored `lazy` properties should now work correctly.
 * Update the LLDB script to work with recent changes to the implementation of `RLMResults`.
-* Fix an assertion failure when a Realm file is deleted while it is still open,
-  and then a new Realm is opened at the same path. Note that this is still not
+* Fix an assertion failure when a WabiRealm file is deleted while it is still open,
+  and then a new WabiRealm is opened at the same path. Note that this is still not
   a supported scenario, and may break in other ways.
 
 1.0.0 Release notes (2016-05-25)
@@ -7513,8 +7513,8 @@ No changes since 0.103.2.
 
 ### Bugfixes
 
-* Fix an assertion failure which could occur when opening a Realm after opening
-  that Realm failed previously in some specific ways in the same run of the
+* Fix an assertion failure which could occur when opening a WabiRealm after opening
+  that WabiRealm failed previously in some specific ways in the same run of the
   application.
 * Reading optional integers, floats, and doubles from within a migration block
   now correctly returns `nil` rather than 0 when the stored value is `nil`.
@@ -7551,9 +7551,9 @@ No changes since 0.103.2.
 ### Enhancements
 
 * Added `invalidated` properties to `RLMResults`/`Results`, `RLMLinkingObjects`/`LinkingObjects`,
-  `RealmCollectionType` and `AnyRealmCollection`. These properties report whether the Realm
+  `RealmCollectionType` and `AnyRealmCollection`. These properties report whether the WabiRealm
   the object is associated with has been invalidated.
-* Some `NSError`s created by Realm now have more descriptive user info payloads.
+* Some `NSError`s created by WabiRealm now have more descriptive user info payloads.
 
 ### Bugfixes
 
@@ -7599,8 +7599,8 @@ No changes since 0.103.2.
   * Swift: `Migration.renamePropertyForClass(_:oldName:newName:)`
   * Objective-C: `-[RLMMigration renamePropertyForClass:oldName:newName:]`
 * Add `deleteRealmIfMigrationNeeded` to
-  `RLMRealmConfiguration`/`Realm.Configuration`. When this is set to `true`,
-  the Realm file will be automatically deleted and recreated when there is a
+  `RLMRealmConfiguration`/`WabiRealm.Configuration`. When this is set to `true`,
+  the WabiRealm file will be automatically deleted and recreated when there is a
   schema mismatch rather than migrated to the new schema.
 
 ### Bugfixes
@@ -7608,7 +7608,7 @@ No changes since 0.103.2.
 * Fix `BETWEEN` queries that traverse `RLMArray`/`List` properties to ensure that
   a single related object satisfies the `BETWEEN` criteria, rather than allowing
   different objects in the array to satisfy the lower and upper bounds.
-* Fix a race condition when a Realm is opened on one thread while it is in the
+* Fix a race condition when a WabiRealm is opened on one thread while it is in the
   middle of being closed on another thread which could result in crashes.
 * Fix a bug which could result in changes made on one thread being applied
   incorrectly on other threads when those threads are refreshed.
@@ -7620,21 +7620,21 @@ No changes since 0.103.2.
 
 ### API breaking changes
 
-* Files written by this version of Realm cannot be read by older versions of
-  Realm. Existing files will automatically be upgraded when they are opened.
+* Files written by this version of WabiRealm cannot be read by older versions of
+  WabiRealm. Existing files will automatically be upgraded when they are opened.
 
 ### Enhancements
 
 * Greatly improve performance of collection change calculation for complex
   object graphs, especially for ones with cycles.
 * NSDate properties now support nanoseconds precision.
-* Opening a single Realm file on multiple threads now shares a single memory
+* Opening a single WabiRealm file on multiple threads now shares a single memory
   mapping of the file for all threads, significantly reducing the memory
   required to work with large files.
 * Crashing while in the middle of a write transaction no longer blocks other
   processes from performing write transactions on the same file.
-* Improve the performance of refreshing a Realm (including via autorefresh)
-  when there are live Results/RLMResults objects for that Realm.
+* Improve the performance of refreshing a WabiRealm (including via autorefresh)
+  when there are live Results/RLMResults objects for that WabiRealm.
 
 ### Bugfixes
 
@@ -7656,7 +7656,7 @@ No changes since 0.103.2.
 * The automatically-maintained inverse direction of relationships can now be exposed as
   properties of type `RLMLinkingObjects` / `LinkingObjects`. These properties automatically
   update to reflect the objects that link to the target object, can be used in queries, and
-  can be filtered like other Realm collection types.
+  can be filtered like other WabiRealm collection types.
 * Queries that compare objects for equality now support multi-level key paths.
 
 ### Bugfixes
@@ -7689,7 +7689,7 @@ No changes since 0.103.2.
 ### API breaking changes
 
 * Deprecate properties of type `id`/`AnyObject`. This type was rarely used,
-  rarely useful and unsupported in every other Realm binding.
+  rarely useful and unsupported in every other WabiRealm binding.
 * The block for `-[RLMArray addNotificationBlock:]` and
   `-[RLMResults addNotificationBlock:]` now takes another parameter.
 * The following Objective-C APIs have been deprecated in favor of newer or preferred versions:
@@ -7710,17 +7710,17 @@ No changes since 0.103.2.
 
 | Deprecated API                                | New API                                  |
 |:----------------------------------------------|:-----------------------------------------|
-| `Realm.removeNotification(_:)`                | `NotificationToken.stop()`               |
-| `Realm.Configuration.path`                    | `Realm.Configuration.fileURL`            |
-| `Realm.path`                                  | `Realm.Configuration.fileURL`            |
-| `Realm.readOnly`                              | `Realm.Configuration.readOnly`           |
-| `Realm.writeCopyToPath(_:encryptionKey:)`     | `Realm.writeCopyToURL(_:encryptionKey:)` |
+| `WabiRealm.removeNotification(_:)`                | `NotificationToken.stop()`               |
+| `WabiRealm.Configuration.path`                    | `WabiRealm.Configuration.fileURL`            |
+| `WabiRealm.path`                                  | `WabiRealm.Configuration.fileURL`            |
+| `WabiRealm.readOnly`                              | `WabiRealm.Configuration.readOnly`           |
+| `WabiRealm.writeCopyToPath(_:encryptionKey:)`     | `WabiRealm.writeCopyToURL(_:encryptionKey:)` |
 | `schemaVersionAtPath(_:encryptionKey:error:)` | `schemaVersionAtURL(_:encryptionKey:)`   |
 
 ### Enhancements
 
 * Add information about what rows were added, removed, or modified to the
-  notifications sent to the Realm collections.
+  notifications sent to the WabiRealm collections.
 * Improve error when illegally appending to an `RLMArray` / `List` property from a default value
   or the standalone initializer (`init()`) before the schema is ready.
 
@@ -7728,9 +7728,9 @@ No changes since 0.103.2.
 
 * Fix a use-after-free when an associated object's dealloc method is used to
   remove observers from an RLMObject.
-* Fix a small memory leak each time a Realm file is opened.
+* Fix a small memory leak each time a WabiRealm file is opened.
 * Return a recoverable `RLMErrorAddressSpaceExhausted` error rather than
-  crash when there is insufficient available address space on Realm
+  crash when there is insufficient available address space on WabiRealm
   initialization or write commit.
 
 0.98.8 Release notes (2016-04-15)
@@ -7803,7 +7803,7 @@ Prebuilt frameworks are now built with Xcode 7.3.
 
 ### Bugfixes
 
-* Fix a crash when opening a Realm on 32-bit iOS devices.
+* Fix a crash when opening a WabiRealm on 32-bit iOS devices.
 
 0.98.4 Release notes (2016-03-10)
 =============================================================
@@ -7818,7 +7818,7 @@ Prebuilt frameworks are now built with Xcode 7.3.
 
 ### Bugfixes
 
-* Properly report changes made by adding an object to a Realm with
+* Properly report changes made by adding an object to a WabiRealm with
   addOrUpdate:/createOrUpdate: to KVO observers for existing objects with that
   primary key.
 * Fix crashes and assorted issues when a migration which added object link
@@ -7837,7 +7837,7 @@ Prebuilt frameworks are now built with Xcode 7.3.
 
 ### Bugfixes
 
-* Using Realm Objective-C from Swift while having Realm Swift linked no longer causes that the
+* Using WabiRealm Objective-C from Swift while having WabiRealm Swift linked no longer causes that the
   declared `ignoredProperties` are not taken into account.
 * Fix assertion failures when rolling back a migration which added Object link
   properties to a class.
@@ -7868,14 +7868,14 @@ Prebuilt frameworks are now built with Xcode 7.3.
 * Fix reporting of inWriteTransaction in notifications triggered by
   `beginWriteTransaction`.
 * The contents of `List` and `Optional` properties are now correctly preserved when copying
-  a Swift object from one Realm to another, and performing other operations that result in a
+  a Swift object from one WabiRealm to another, and performing other operations that result in a
   Swift object graph being recursively traversed from Objective-C.
-* Fix a deadlock when queries are performed within a Realm notification block.
+* Fix a deadlock when queries are performed within a WabiRealm notification block.
 * The `ANY` / `SOME` / `NONE` qualifiers are now required in comparisons involving a key path that
   traverse a `RLMArray`/`List` property. Previously they were only required if the first key in the
   key path was an `RLMArray`/`List` property.
 * Fix several scenarios where the default schema would be initialized
-  incorrectly if the first Realm opened used a restricted class subset (via
+  incorrectly if the first WabiRealm opened used a restricted class subset (via
   `objectClasses`/`objectTypes`).
 
 0.98.1 Release notes (2016-02-10)
@@ -7896,7 +7896,7 @@ Prebuilt frameworks are now built with Xcode 7.3.
 
 ### API breaking changes
 
-* `+[RLMRealm realmWithPath:]`/`Realm.init(path:)` now inherits from the default
+* `+[RLMRealm realmWithPath:]`/`WabiRealm.init(path:)` now inherits from the default
   configuration.
 * Swift 1.2 is no longer supported.
 
@@ -7926,7 +7926,7 @@ Prebuilt frameworks are now built with Xcode 7.3.
 ### Enhancements
 
 * Swift: Added `Error` enum allowing to catch errors e.g. thrown on initializing
-  `RLMRealm`/`Realm` instances.
+  `RLMRealm`/`WabiRealm` instances.
 * Fail with `RLMErrorFileNotFound` instead of the more generic `RLMErrorFileAccess`,
   if no file was found when a realm was opened as read-only or if the directory part
   of the specified path was not found when a copy should be written.
@@ -7943,8 +7943,8 @@ Prebuilt frameworks are now built with Xcode 7.3.
 * Fix incorrect results from aggregate methods on `Results`/`RLMResults` after
   objects which were previously in the results are deleted.
 * Fix a crash when adding a new property to an existing class with over a
-  million objects in the Realm.
-* Fix errors when opening encrypted Realm files created with writeCopyToPath.
+  million objects in the WabiRealm.
+* Fix errors when opening encrypted WabiRealm files created with writeCopyToPath.
 * Fix crashes or incorrect results for queries that use relationship equality
   in cases where the `RLMResults` is kept alive and instances of the target class
   of the relationship are deleted.
@@ -7956,21 +7956,21 @@ Prebuilt frameworks are now built with Xcode 7.3.
 
 * All functionality deprecated in previous releases has been removed entirely.
 * Add generic type annotations to NSArrays and NSDictionaries in public APIs.
-* Adding a Realm notification block on a thread not currently running from
+* Adding a WabiRealm notification block on a thread not currently running from
   within a run loop throws an exception rather than silently never calling the
   notification block.
 
 ### Enhancements
 
 * Support for tvOS.
-* Support for building Realm Swift from source when using Carthage.
-* The block parameter of `-[RLMRealm transactionWithBlock:]`/`Realm.write(_:)` is
+* Support for building WabiRealm Swift from source when using Carthage.
+* The block parameter of `-[RLMRealm transactionWithBlock:]`/`WabiRealm.write(_:)` is
   now marked as `__attribute__((noescape))`/`@noescape`.
 * Many forms of queries with key paths on both sides of the comparison operator
   are now supported.
 * Add support for KVC collection operators in `RLMResults` and `RLMArray`.
 * Fail instead of deadlocking in `+[RLMRealm sharedSchema]`, if a Swift property is initialized
-  to a computed value, which attempts to open a Realm on its own.
+  to a computed value, which attempts to open a WabiRealm on its own.
 
 ### Bugfixes
 
@@ -7992,7 +7992,7 @@ Prebuilt frameworks are now built with Xcode 7.3.
 ### Bugfixes
 
 * Fix crash when trying to retrieve object instances via `dynamicObjects`.
-* Throw an exception when querying on a link providing objects, which are from a different Realm.
+* Throw an exception when querying on a link providing objects, which are from a different WabiRealm.
 * Return empty results when querying on a link providing an unattached object.
 * Fix crashes or incorrect results when calling `-[RLMRealm refresh]` during
   fast enumeration.
@@ -8008,11 +8008,11 @@ Prebuilt frameworks are now built with Xcode 7.3.
 * Fix incorrect search results for some queries on integer properties.
 * Add error-checking for nil realm parameters in many methods such as
   `+[RLMObject allObjectsInRealm:]`.
-* Fix a race condition between commits and opening Realm files on new threads
+* Fix a race condition between commits and opening WabiRealm files on new threads
   that could lead to a crash.
-* Fix several crashes when opening Realm files.
+* Fix several crashes when opening WabiRealm files.
 * `-[RLMObject createInRealm:withValue:]`, `-[RLMObject createOrUpdateInRealm:withValue:]`, and
-  their variants for the default Realm now always match the contents of an `NSArray` against properties
+  their variants for the default WabiRealm now always match the contents of an `NSArray` against properties
   in the same order as they are defined in the model.
 
 0.96.2 Release notes (2015-10-26)
@@ -8051,22 +8051,22 @@ Prebuilt frameworks are now built with Xcode 7.1.
 
 ### API breaking changes
 
-* CocoaPods v0.38 or greater is now required to install Realm and RealmSwift
+* CocoaPods v0.38 or greater is now required to install WabiRealm and WabiRealmKit
   as pods.
 
 ### Enhancements
 
 * Functionality common to both `List` and `Results` is now declared in a
   `RealmCollectionType` protocol that both types conform to.
-* `Results.realm` now returns an `Optional<Realm>` in order to conform to
+* `Results.realm` now returns an `Optional<WabiRealm>` in order to conform to
   `RealmCollectionType`, but will always return `.Some()` since a `Results`
-  cannot exist independently from a `Realm`.
+  cannot exist independently from a `WabiRealm`.
 * Aggregate operations are now available on `List`: `min`, `max`, `sum`,
   `average`.
 * Committing write transactions (via `commitWrite` / `commitWriteTransaction` and
   `write` / `transactionWithBlock`) now optionally allow for handling errors when
   the disk is out of space.
-* Added `isEmpty` property on `RLMRealm`/`Realm` to indicate if it contains any
+* Added `isEmpty` property on `RLMRealm`/`WabiRealm` to indicate if it contains any
   objects.
 * The `@count`, `@min`, `@max`, `@sum` and `@avg` collection operators are now
   supported in queries.
@@ -8077,7 +8077,7 @@ Prebuilt frameworks are now built with Xcode 7.1.
 * Fix assertion failure when rolling back a migration which removed an object
   link or `RLMArray`/`List` property.
 * Add the path of the file being opened to file open errors.
-* Fix a crash that could be triggered by rapidly opening and closing a Realm
+* Fix a crash that could be triggered by rapidly opening and closing a WabiRealm
   many times on multiple threads at once.
 * Fix several places where exception messages included the name of the wrong
   function which failed.
@@ -8088,7 +8088,7 @@ Prebuilt frameworks are now built with Xcode 7.1.
 ### Bugfixes
 
 * Compile iOS Simulator framework architectures with `-fembed-bitcode-marker`.
-* Fix crashes when the first Realm opened uses a class subset and later Realms
+* Fix crashes when the first WabiRealm opened uses a class subset and later Realms
   opened do not.
 * Fix inconsistent errors when `Object(value: ...)` is used to initialize the
   default value of a property of an `Object` subclass.
@@ -8124,7 +8124,7 @@ Prebuilt frameworks are now built with Xcode 7.1.
 
 ### API breaking changes
 
-* The following APIs have been deprecated in favor of the new `RLMRealmConfiguration` class in Realm Objective-C:
+* The following APIs have been deprecated in favor of the new `RLMRealmConfiguration` class in WabiRealm Objective-C:
 
 | Deprecated API                                                    | New API                                                                          |
 |:------------------------------------------------------------------|:---------------------------------------------------------------------------------|
@@ -8139,50 +8139,50 @@ Prebuilt frameworks are now built with Xcode 7.1.
 | `+[RLMRealm migrateRealmAtPath:]`                                 | `+[RLMRealm migrateRealm:]`                                                      |
 | `+[RLMRealm migrateRealmAtPath:encryptionKey:]`                   | `+[RLMRealm migrateRealm:]`                                                      |
 
-* The following APIs have been deprecated in favor of the new `Realm.Configuration` struct in Realm Swift for Swift 1.2:
+* The following APIs have been deprecated in favor of the new `WabiRealm.Configuration` struct in WabiRealm Swift for Swift 1.2:
 
 | Deprecated API                                                | New API                                                                      |
 |:--------------------------------------------------------------|:-----------------------------------------------------------------------------|
-| `Realm.defaultPath`                                           | `Realm.Configuration.defaultConfiguration`                                   |
-| `Realm(path:readOnly:encryptionKey:error:)`                   | `Realm(configuration:error:)`                                                |
-| `Realm(inMemoryIdentifier:)`                                  | `Realm(configuration:error:)`                                                |
-| `Realm.setEncryptionKey(:forPath:)`                           | `Realm(configuration:error:)`                                                |
-| `setDefaultRealmSchemaVersion(schemaVersion:migrationBlock:)` | `Realm.Configuration.schemaVersion` and `Realm.Configuration.migrationBlock` |
-| `setSchemaVersion(schemaVersion:realmPath:migrationBlock:)`   | `Realm.Configuration.schemaVersion` and `Realm.Configuration.migrationBlock` |
+| `WabiRealm.defaultPath`                                           | `WabiRealm.Configuration.defaultConfiguration`                                   |
+| `WabiRealm(path:readOnly:encryptionKey:error:)`                   | `WabiRealm(configuration:error:)`                                                |
+| `WabiRealm(inMemoryIdentifier:)`                                  | `WabiRealm(configuration:error:)`                                                |
+| `WabiRealm.setEncryptionKey(:forPath:)`                           | `WabiRealm(configuration:error:)`                                                |
+| `setDefaultRealmSchemaVersion(schemaVersion:migrationBlock:)` | `WabiRealm.Configuration.schemaVersion` and `WabiRealm.Configuration.migrationBlock` |
+| `setSchemaVersion(schemaVersion:realmPath:migrationBlock:)`   | `WabiRealm.Configuration.schemaVersion` and `WabiRealm.Configuration.migrationBlock` |
 | `migrateRealm(path:encryptionKey:)`                           | `migrateRealm(configuration:)`                                               |
 
-* The following APIs have been deprecated in favor of the new `Realm.Configuration` struct in Realm Swift for Swift 2.0:
+* The following APIs have been deprecated in favor of the new `WabiRealm.Configuration` struct in WabiRealm Swift for Swift 2.0:
 
 | Deprecated API                                                | New API                                                                      |
 |:--------------------------------------------------------------|:-----------------------------------------------------------------------------|
-| `Realm.defaultPath`                                           | `Realm.Configuration.defaultConfiguration`                                   |
-| `Realm(path:readOnly:encryptionKey:) throws`                  | `Realm(configuration:) throws`                                               |
-| `Realm(inMemoryIdentifier:)`                                  | `Realm(configuration:) throws`                                               |
-| `Realm.setEncryptionKey(:forPath:)`                           | `Realm(configuration:) throws`                                               |
-| `setDefaultRealmSchemaVersion(schemaVersion:migrationBlock:)` | `Realm.Configuration.schemaVersion` and `Realm.Configuration.migrationBlock` |
-| `setSchemaVersion(schemaVersion:realmPath:migrationBlock:)`   | `Realm.Configuration.schemaVersion` and `Realm.Configuration.migrationBlock` |
+| `WabiRealm.defaultPath`                                           | `WabiRealm.Configuration.defaultConfiguration`                                   |
+| `WabiRealm(path:readOnly:encryptionKey:) throws`                  | `WabiRealm(configuration:) throws`                                               |
+| `WabiRealm(inMemoryIdentifier:)`                                  | `WabiRealm(configuration:) throws`                                               |
+| `WabiRealm.setEncryptionKey(:forPath:)`                           | `WabiRealm(configuration:) throws`                                               |
+| `setDefaultRealmSchemaVersion(schemaVersion:migrationBlock:)` | `WabiRealm.Configuration.schemaVersion` and `WabiRealm.Configuration.migrationBlock` |
+| `setSchemaVersion(schemaVersion:realmPath:migrationBlock:)`   | `WabiRealm.Configuration.schemaVersion` and `WabiRealm.Configuration.migrationBlock` |
 | `migrateRealm(path:encryptionKey:)`                           | `migrateRealm(configuration:)`                                               |
 
-* `List.extend` in Realm Swift for Swift 2.0 has been replaced with `List.appendContentsOf`,
+* `List.extend` in WabiRealm Swift for Swift 2.0 has been replaced with `List.appendContentsOf`,
   mirroring changes to `RangeReplaceableCollectionType`.
 
-* Object properties on `Object` subclasses in Realm Swift must be marked as optional,
+* Object properties on `Object` subclasses in WabiRealm Swift must be marked as optional,
   otherwise a runtime exception will be thrown.
 
 ### Enhancements
 
 * Persisted properties of `RLMObject`/`Object` subclasses are now Key-Value
   Observing compliant.
-* The different options used to create Realm instances have been consolidated
-  into a single `RLMRealmConfiguration`/`Realm.Configuration` object.
-* Enumerating Realm collections (`RLMArray`, `RLMResults`, `List<>`,
+* The different options used to create WabiRealm instances have been consolidated
+  into a single `RLMRealmConfiguration`/`WabiRealm.Configuration` object.
+* Enumerating WabiRealm collections (`RLMArray`, `RLMResults`, `List<>`,
   `Results<>`) now enumerates over a copy of the collection, making it no
   longer an error to modify a collection during enumeration (either directly,
   or indirectly by modifying objects to make them no longer match a query).
 * Improve performance of object insertion in Swift to bring it roughly in line
   with Objective-C.
 * Allow specifying a specific list of `RLMObject` / `Object` subclasses to include
-  in a given Realm via `RLMRealmConfiguration.objectClasses` / `Realm.Configuration.objectTypes`.
+  in a given WabiRealm via `RLMRealmConfiguration.objectClasses` / `WabiRealm.Configuration.objectTypes`.
 
 ### Bugfixes
 
@@ -8231,11 +8231,11 @@ Prebuilt frameworks are now built with Xcode 7.1.
 ### Bugfixes
 
 * Processes crashing due to an uncaught exception inside a write transaction will
-  no longer cause other processes using the same Realm to hang indefinitely.
+  no longer cause other processes using the same WabiRealm to hang indefinitely.
 * Fix incorrect results when querying for < or <= on ints that
   require 64 bits to represent with a CPU that supports SSE 4.2.
 * An exception will no longer be thrown when attempting to reset the schema
-  version or encryption key on an open Realm to the current value.
+  version or encryption key on an open WabiRealm to the current value.
 * Date properties on 32 bit devices will retain 64 bit second precision.
 * Wrap calls to the block passed to `enumerate` in an autoreleasepool to reduce
   memory growth when migrating a large amount of objects.
@@ -8247,7 +8247,7 @@ Prebuilt frameworks are now built with Xcode 7.1.
 
 ### Bugfixes
 
-* Fixed an issue where the packaged OS X Realm.framework was built with
+* Fixed an issue where the packaged OS X WabiRealm.framework was built with
   `GCC_GENERATE_TEST_COVERAGE_FILES` and `GCC_INSTRUMENT_PROGRAM_FLOW_ARCS`
   enabled.
 * Fix a memory leak when constructing standalone Swift objects with NSDate
@@ -8255,7 +8255,7 @@ Prebuilt frameworks are now built with Xcode 7.1.
 * Throw an exception rather than asserting when an invalidated object is added
   to an RLMArray.
 * Fix a case where data loss would occur if a device was hard-powered-off
-  shortly after a write transaction was committed which had to expand the Realm
+  shortly after a write transaction was committed which had to expand the WabiRealm
   file.
 
 0.93.1 Release notes (2015-05-29)
@@ -8290,7 +8290,7 @@ Prebuilt frameworks are now built with Xcode 7.1.
 
 ### Bugfixes
 
-* Swift: `RealmSwift.framework` no longer embeds `Realm.framework`,
+* Swift: `WabiRealmKit.framework` no longer embeds `WabiRealm.framework`,
   which now allows apps using it to pass iTunes Connect validation.
 
 0.92.4 Release notes (2015-05-22)
@@ -8333,12 +8333,12 @@ Prebuilt frameworks are now built with Xcode 7.1.
 
 * Swift: Enumerating through a standalone `List` whose objects themselves
   have list properties won't crash.
-* Swift: Using a subclass of `RealmSwift.Object` in an aggregate operator of a predicate
+* Swift: Using a subclass of `WabiRealmKit.Object` in an aggregate operator of a predicate
   no longer throws a spurious type error.
 * Fix incorrect results for when using OR in a query on a `RLMArray`/`List<>`.
 * Fix incorrect values from `[RLMResults count]`/`Results.count` when using
   `!=` on an int property with no other query conditions.
-* Lower the maximum doubling threshold for Realm file sizes from 128MB to 16MB
+* Lower the maximum doubling threshold for WabiRealm file sizes from 128MB to 16MB
   to reduce the amount of wasted space.
 
 0.92.2 Release notes (2015-05-08)
@@ -8356,11 +8356,11 @@ Prebuilt frameworks are now built with Xcode 7.1.
 
 ### Bugfixes
 
-* Prevent debugging of an application using an encrypted Realm to work around
+* Prevent debugging of an application using an encrypted WabiRealm to work around
   frequent LLDB hangs. Until the underlying issue is addressed you may set
   REALM_DISABLE_ENCRYPTION=YES in your application's environment variables to
-  have requests to open an encrypted Realm treated as a request for an
-  unencrypted Realm.
+  have requests to open an encrypted WabiRealm treated as a request for an
+  unencrypted WabiRealm.
 * Linked objects are properly updated in `createOrUpdateInRealm:withValue:`.
 * List properties on Objects are now properly initialized during fast enumeration.
 
@@ -8374,7 +8374,7 @@ Prebuilt frameworks are now built with Xcode 7.1.
 ### Enhancements
 
 * `-[RLMRealm inWriteTransaction]` is now public.
-* Realm Swift is now available on CoocaPods.
+* WabiRealm Swift is now available on CoocaPods.
 
 ### Bugfixes
 
@@ -8385,7 +8385,7 @@ Prebuilt frameworks are now built with Xcode 7.1.
 
 ### API breaking changes
 
-* Migration blocks are no longer called when a Realm file is first created.
+* Migration blocks are no longer called when a WabiRealm file is first created.
 * The following APIs have been deprecated in favor of newer method names:
 
 | Deprecated API                                         | New API                                               |
@@ -8432,7 +8432,7 @@ Prebuilt frameworks are now built with Xcode 7.1.
 0.91.2 Release notes (2015-04-16)
 =============================================================
 
-* Migration blocks are no longer called when a Realm file is first created.
+* Migration blocks are no longer called when a WabiRealm file is first created.
 
 ### Enhancements
 
@@ -8440,7 +8440,7 @@ Prebuilt frameworks are now built with Xcode 7.1.
 * Sorting `RLMResults` is 2-5x faster (typically closer to 2x).
 * Refreshing `RLMRealm` after a write transaction which inserts or modifies
   strings or `NSData` is committed on another thread is significantly faster.
-* Indexes are now added and removed from existing properties when a Realm file
+* Indexes are now added and removed from existing properties when a WabiRealm file
   is opened, rather than only when properties are first added.
 
 ### Bugfixes
@@ -8453,9 +8453,9 @@ Prebuilt frameworks are now built with Xcode 7.1.
 
 ### Enhancements
 
-* The browser will automatically refresh when the Realm has been modified
+* The browser will automatically refresh when the WabiRealm has been modified
   from another process.
-* Allow using Realm in an embedded framework by setting
+* Allow using WabiRealm in an embedded framework by setting
   `APPLICATION_EXTENSION_API_ONLY` to YES.
 
 ### Bugfixes
@@ -8471,15 +8471,15 @@ Prebuilt frameworks are now built with Xcode 7.1.
   properties by implementing the `indexedProperties` method.
 * An exception will be thrown when calling `setEncryptionKey:forRealmsAtPath:`,
   `setSchemaVersion:forRealmAtPath:withMigrationBlock:`, and `migrateRealmAtPath:`
-  when a Realm at the given path is already open.
+  when a WabiRealm at the given path is already open.
 * Object and array properties of type `RLMObject` will no longer be allowed.
 
 ### Enhancements
 
-* Add support for sharing Realm files between processes.
+* Add support for sharing WabiRealm files between processes.
 * The browser will no longer show objects that have no persisted properties.
 * `RLMSchema`, `RLMObjectSchema`, and `RLMProperty` now have more useful descriptions.
-* Opening an encrypted Realm while a debugger is attached to the process no
+* Opening an encrypted WabiRealm while a debugger is attached to the process no
   longer throws an exception.
 * `RLMArray` now exposes an `isInvalidated` property to indicate if it can no
   longer be accessed.
@@ -8488,7 +8488,7 @@ Prebuilt frameworks are now built with Xcode 7.1.
 
 * An exception will now be thrown when calling `-beginWriteTransaction` from within a notification
   triggered by calling `-beginWriteTransaction` elsewhere.
-* When calling `delete:` we now verify that the object being deleted is persisted in the target Realm.
+* When calling `delete:` we now verify that the object being deleted is persisted in the target WabiRealm.
 * Fix crash when calling `createOrUpdate:inRealm` with nested linked objects.
 * Use the key from `+[RLMRealm setEncryptionKey:forRealmsAtPath:]` in
   `-writeCopyToPath:error:` and `+migrateRealmAtPath:`.
@@ -8538,7 +8538,7 @@ Prebuilt frameworks are now built with Xcode 7.1.
 
 ### Bugfixes
 
-* Fix incorrect column type assertions when the first Realm file opened is a
+* Fix incorrect column type assertions when the first WabiRealm file opened is a
   read-only file that is missing tables.
 * Throw an exception when adding an invalidated or deleted object as a link.
 * Throw an exception when calling `createOrUpdateInRealm:withObject:` when the
@@ -8561,8 +8561,8 @@ Prebuilt frameworks are now built with Xcode 7.1.
 * Rename `-[RLMRealm encryptedRealmWithPath:key:readOnly:error:]` to
   `-[RLMRealm realmWithPath:encryptionKey:readOnly:error:]`.
 * `-[RLMRealm setSchemaVersion:withMigrationBlock]` is no longer global and must be called
-  for each individual Realm path used. You can now call `-[RLMRealm setDefaultRealmSchemaVersion:withMigrationBlock]`
-  for the default Realm and `-[RLMRealm setSchemaVersion:forRealmAtPath:withMigrationBlock:]` for all others;
+  for each individual WabiRealm path used. You can now call `-[RLMRealm setDefaultRealmSchemaVersion:withMigrationBlock]`
+  for the default WabiRealm and `-[RLMRealm setSchemaVersion:forRealmAtPath:withMigrationBlock:]` for all others;
 
 ### Enhancements
 
@@ -8574,9 +8574,9 @@ Prebuilt frameworks are now built with Xcode 7.1.
 * Roll back changes made when an exception is thrown during a migration.
 * Throw an exception if the number of items in a RLMResults or RLMArray changes
   while it's being fast-enumerated.
-* Also encrypt the temporary files used when encryption is enabled for a Realm.
+* Also encrypt the temporary files used when encryption is enabled for a WabiRealm.
 * Fixed crash in JSONImport example on OS X with non-en_US locale.
-* Fixed infinite loop when opening a Realm file in the Browser at the same time
+* Fixed infinite loop when opening a WabiRealm file in the Browser at the same time
   as it is open in a 32-bit simulator.
 * Fixed a crash when adding primary keys to older realm files with no primary
   keys on any objects.
@@ -8585,7 +8585,7 @@ Prebuilt frameworks are now built with Xcode 7.1.
   write transaction with changes were committed without the main thread
   RLMRealm getting a chance to refresh.
 * Fixed incomplete results when querying for non-null relationships.
-* Improve the error message when a Realm file is opened in multiple processes
+* Improve the error message when a WabiRealm file is opened in multiple processes
   at once.
 
 0.89.2 Release notes (2015-01-02)
@@ -8601,7 +8601,7 @@ Prebuilt frameworks are now built with Xcode 7.1.
 
 ### Bugfixes
 
-* Fix an assertion failure when invalidating a Realm which is in a write
+* Fix an assertion failure when invalidating a WabiRealm which is in a write
   transaction, has already been invalidated, or has never been used.
 * Fix an assertion failure when sorting an empty RLMArray property.
 * Fix a bug resulting in the browser never becoming visible on 10.9.
@@ -8616,13 +8616,13 @@ Prebuilt frameworks are now built with Xcode 7.1.
 
 ### Enhancements
 
-* Improve the error message when a Realm can't be opened due to lacking write
+* Improve the error message when a WabiRealm can't be opened due to lacking write
   permissions.
 
 ### Bugfixes
 
 * Fix an assertion failure when inserting rows after calling `deleteAllObjects`
-  on a Realm.
+  on a WabiRealm.
 * Separate dynamic frameworks are now built for the simulator and devices to
   work around App Store submission errors due to the simulator version not
   being automatically stripped from dynamic libraries.
@@ -8636,7 +8636,7 @@ Prebuilt frameworks are now built with Xcode 7.1.
 
 ### Enhancements
 
-* Add support for encrypting Realm files on disk.
+* Add support for encrypting WabiRealm files on disk.
 * Support using KVC-compliant objects without getters or with custom getter
   names to initialize RLMObjects with `createObjectInRealm` and friends.
 
@@ -8648,7 +8648,7 @@ Prebuilt frameworks are now built with Xcode 7.1.
 * Fixed issue where objects with custom getter names couldn't be used to
   initialize other objects.
 * Fix a major performance regression on queries on string properties.
-* Fix a memory leak when circularly linked objects are added to a Realm.
+* Fix a memory leak when circularly linked objects are added to a WabiRealm.
 
 0.88.0 Release notes (2014-12-02)
 =============================================================
@@ -8661,7 +8661,7 @@ Prebuilt frameworks are now built with Xcode 7.1.
 
 ### Enhancements
 
-* Add `-[RLMRealm writeCopyToPath:]` to write a compacted copy of the Realm
+* Add `-[RLMRealm writeCopyToPath:]` to write a compacted copy of the WabiRealm
   another file.
 * Add support for case insensitive, BEGINSWITH, ENDSWITH and CONTAINS string
   queries on array properties.
@@ -8669,7 +8669,7 @@ Prebuilt frameworks are now built with Xcode 7.1.
   `objectAtIndex:` ~55% faster.
 * Added a lldb visualizer script for displaying the contents of persisted
   RLMObjects when debugging.
-* Added method `-setDefaultRealmPath:` to change the default Realm path.
+* Added method `-setDefaultRealmPath:` to change the default WabiRealm path.
 * Add `-[RLMRealm invalidate]` to release data locked by the current thread.
 
 ### Bugfixes
@@ -8679,7 +8679,7 @@ Prebuilt frameworks are now built with Xcode 7.1.
   properties re-ordered during migration.
 * Don't run the query twice when `firstObject` or `lastObject` are called on an
   `RLMResults` which has not had its results accessed already.
-* Fix for bug where schema version is 0 for new Realm created at the latest version.
+* Fix for bug where schema version is 0 for new WabiRealm created at the latest version.
 * Fix for error message where no migration block is specified when required.
 
 0.87.4 Release notes (2014-11-07)
@@ -8739,7 +8739,7 @@ Prebuilt frameworks are now built with Xcode 7.1.
 ### Enhancements
 
 * Add support for sorting `RLMArray`s by multiple columns with `sortedResultsUsingDescriptors:`
-* Added method `deleteAllObjects` on `RLMRealm` to clear a Realm.
+* Added method `deleteAllObjects` on `RLMRealm` to clear a WabiRealm.
 * Added method `createObject:withObject:` on `RLMMigration` which allows object creation during migrations.
 * Added method `deleteObject:` on `RLMMigration` which allows object deletion during migrations.
 * Updating to core library version 0.85.0.
@@ -8758,8 +8758,8 @@ Prebuilt frameworks are now built with Xcode 7.1.
 * Fix crash when querying indexed `NSString` properties.
 * Fixed an issue which prevented in-memory Realms from being used accross multiple threads.
 * Preserve the sort order when querying a sorted `RLMResults`.
-* Fixed an issue with migrations where if a Realm file is deleted after a Realm is initialized,
-  the newly created Realm can be initialized with an incorrect schema version.
+* Fixed an issue with migrations where if a WabiRealm file is deleted after a WabiRealm is initialized,
+  the newly created WabiRealm can be initialized with an incorrect schema version.
 * Fix crash in `RLMSuperSet` when assigning to a `RLMArray` property on a standalone object.
 * Add an error message when the protocol for an `RLMArray` property is not a
   valid object type.
@@ -8775,7 +8775,7 @@ Prebuilt frameworks are now built with Xcode 7.1.
 
 ### Bugfixes
 
-* Re-adding an object to its Realm no longer throws an exception and is now a no-op
+* Re-adding an object to its WabiRealm no longer throws an exception and is now a no-op
   (as it was previously).
 * Fix another bug which would sometimes result in subclassing RLMObject
   subclasses not working.
@@ -8785,7 +8785,7 @@ Prebuilt frameworks are now built with Xcode 7.1.
 
 ### Bugfixes
 
-* Fixed issues with packaging "Realm Browser.app" for release.
+* Fixed issues with packaging "WabiRealm Browser.app" for release.
 
 0.86.1 Release notes (2014-10-03)
 =============================================================
@@ -8800,7 +8800,7 @@ Prebuilt frameworks are now built with Xcode 7.1.
 
 ### API breaking changes
 
-* Xcode 6 is now supported from the main Xcode project `Realm.xcodeproj`.
+* Xcode 6 is now supported from the main Xcode project `WabiRealm.xcodeproj`.
   Xcode 5 is no longer supported.
 
 ### Enhancements
@@ -8824,11 +8824,11 @@ Prebuilt frameworks are now built with Xcode 7.1.
 
 * Fix error about not being able to persist property 'hash' with incompatible
   type when building for devices with Xcode 6.
-* Fix spurious notifications of new versions of Realm.
+* Fix spurious notifications of new versions of WabiRealm.
 * Fix for updating nested objects where some types do not have primary keys.
 * Fix for inserting objects from JSON with NSNull values when default values
   should be used.
-* Trying to add a persisted RLMObject to a different Realm now throws an
+* Trying to add a persisted RLMObject to a different WabiRealm now throws an
   exception rather than creating an uninitialized object.
 * Fix validation errors when using IN on array properties.
 * Fix errors when an IN clause has zero items.
@@ -8862,14 +8862,14 @@ Prebuilt frameworks are now built with Xcode 7.1.
 * Add the class name to the error message when an RLMObject is missing a value
   for a property without a default.
 * Add support for opening Realms in read-only mode.
-* Add an automatic check for updates when using Realm in a simulator (the
+* Add an automatic check for updates when using WabiRealm in a simulator (the
   checker code is not compiled into device builds). This can be disabled by
   setting the REALM_DISABLE_UPDATE_CHECKER environment variable to any value.
 * Add support for Int16 and Int64 properties in Swift classes.
 
 ### Bugfixes
 
-* Realm change notifications when beginning a write transaction are now sent
+* WabiRealm change notifications when beginning a write transaction are now sent
   after updating rather than before, to match refresh.
 * `-isEqual:` now uses the default `NSObject` implementation unless a primary key
   is specified for an RLMObject. When a primary key is specified, `-isEqual:` calls
@@ -8893,12 +8893,12 @@ Prebuilt frameworks are now built with Xcode 7.1.
 * Add support for the BETWEEN operator in link queries.
 * Add support for multi-level link queries in predicates (e.g. `foo.bar.baz = 5`).
 * Switch to building the SDK from source when using CocoaPods and add a
-  Realm.Headers subspec for use in targets that should not link a copy of Realm
+  WabiRealm.Headers subspec for use in targets that should not link a copy of WabiRealm
   (such as test targets).
 * Allow unregistering from change notifications in the change notification
   handler block.
 * Significant performance improvements when holding onto large numbers of RLMObjects.
-* Realm-Xcode6.xcodeproj now only builds using Xcode6-Beta6.
+* WabiRealm-Xcode6.xcodeproj now only builds using Xcode6-Beta6.
 * Improved performance during RLMArray iteration, especially when mutating
   contained objects.
 
@@ -8913,17 +8913,17 @@ Prebuilt frameworks are now built with Xcode 7.1.
   iOS 7.0, as they didn't actually require 8.0.
 * Support setting model properties starting with the letter 'z'
 * Fixed crashes that could result from switching between Debug and Relase
-  builds of Realm.
+  builds of WabiRealm.
 
 0.83.0 Release notes (2014-08-13)
 =============================================================
 
 ### API breaking changes
 
-* Realm-Xcode6.xcodeproj now only builds using Xcode6-Beta5.
+* WabiRealm-Xcode6.xcodeproj now only builds using Xcode6-Beta5.
 * Properties to be persisted in Swift classes must be explicitly declared as `dynamic`.
 * Subclasses of RLMObject subclasses now throw an exception on startup, rather
-  than when added to a Realm.
+  than when added to a WabiRealm.
 
 ### Enhancements
 
@@ -8947,17 +8947,17 @@ Prebuilt frameworks are now built with Xcode 7.1.
 
 ### API breaking changes
 
-* Realm-Xcode6.xcodeproj now only builds using Xcode6-Beta4.
+* WabiRealm-Xcode6.xcodeproj now only builds using Xcode6-Beta4.
 
 ### Enhancements
 
 * Updating to core library version 0.80.5.
 * Now support disabling the `autorefresh` property on RLMRealm instances.
-* Building Realm-Xcode6 for iOS now builds a universal framework for Simulator & Device.
+* Building WabiRealm-Xcode6 for iOS now builds a universal framework for Simulator & Device.
 * Using NSNumber properties (unsupported) now throws a more informative exception.
 * Added `[RLMRealm defaultRealmPath]`
 * Proper implementation for [RLMArray indexOfObjectWhere:]
-* The default Realm path on OS X is now ~/Library/Application Support/[bundle
+* The default WabiRealm path on OS X is now ~/Library/Application Support/[bundle
   identifier]/default.realm rather than ~/Documents
 * We now check that the correct framework (ios or osx) is used at compile time.
 
@@ -8968,7 +8968,7 @@ Prebuilt frameworks are now built with Xcode 7.1.
 * Fixed bug related to querying on float properties: `floatProperty = 1.7` now works.
 * Fixed potential bug related to the handling of array properties (RLMArray).
 * Fixed bug where array properties accessed the wrong property.
-* Fixed bug that prevented objects with custom getters to be added to a Realm.
+* Fixed bug that prevented objects with custom getters to be added to a WabiRealm.
 * Fixed a bug where initializing a standalone object with an array literal would
   trigger an exception.
 * Clarified exception messages when using unsupported NSPredicate operators.
@@ -9003,7 +9003,7 @@ Prebuilt frameworks are now built with Xcode 7.1.
 * Fixed Unicode support in property names and string contents (Chinese, Russian, etc.). Closing #612 and #604.
 * Fixed bugs related to migration when properties are removed.
 * Fixed keyed subscripting for standalone RLMObjects.
-* Fixed bug related to double clicking on a .realm file to launch the Realm Browser (thanks to Dean Moore).
+* Fixed bug related to double clicking on a .realm file to launch the WabiRealm Browser (thanks to Dean Moore).
 
 
 0.80.0 Release notes (2014-07-15)
@@ -9012,13 +9012,13 @@ Prebuilt frameworks are now built with Xcode 7.1.
 ### API breaking changes
 
 * Rename migration methods to -migrateDefaultRealmWithBlock: and -migrateRealmAtPath:withBlock:
-* Moved Realm specific query methods from RLMRealm to class methods on RLMObject (-allObjects: to +allObjectsInRealm: ect.)
+* Moved WabiRealm specific query methods from RLMRealm to class methods on RLMObject (-allObjects: to +allObjectsInRealm: ect.)
 
 ### Enhancements
 
 * Added +createInDefaultRealmWithObject: method to RLMObject.
 * Added support for array and object literals when calling -createWithObject: and -initWithObject: variants.
-* Added method -deleteObjects: to batch delete objects from a Realm
+* Added method -deleteObjects: to batch delete objects from a WabiRealm
 * Support for defining RLMObject models entirely in Swift (experimental, see known issues).
 * RLMArrays in Swift support Sequence-style enumeration (for obj in array).
 * Implemented -indexOfObject: for RLMArray
@@ -9028,7 +9028,7 @@ Prebuilt frameworks are now built with Xcode 7.1.
 * Properties other than String, NSData and NSDate require a default value in the model. This can be an empty (but typed) array for array properties.
 * The previous caveat also implies that not all models defined in Objective-C can be used for object properties. Only Objective-C models with only implicit (i.e. primitives) or explicit default values can be used. However, any Objective-C model object can be used in a Swift array property.
 * Array property accessors don't work until its parent object has been added to a realm.
-* Realm-Bridging-Header.h is temporarily exposed as a public header. This is temporary and will be private again once rdar://17633863 is fixed.
+* WabiRealm-Bridging-Header.h is temporarily exposed as a public header. This is temporary and will be private again once rdar://17633863 is fixed.
 * Does not leverage Swift generics and still uses RLM-prefix everywhere. This is coming in #549.
 
 
@@ -9045,10 +9045,10 @@ Prebuilt frameworks are now built with Xcode 7.1.
 ### Enhancements
 
 * New Xcode 6 project for experimental swift support.
-* New Realm Editor app for reading and editing Realm db files.
+* New WabiRealm Editor app for reading and editing WabiRealm db files.
 * Added support for migrations.
 * Added support for RLMArray properties on objects.
-* Added support for creating in-memory default Realm.
+* Added support for creating in-memory default WabiRealm.
 * Added -objectsWithClassName:predicateFormat: and -objectsWithClassName:predicate: to RLMRealm
 * Added -indexOfObjectWithPredicateFormat:, -indexOfObjectWithPredicate:, -objectsWithPredicateFormat:, -objectsWithPredi
 * Added +objectsWithPredicateFormat: and +objectsWithPredicate: to RLMObject
@@ -9111,12 +9111,12 @@ The Objective-C API has been updated and your code will break!
 0.10.0 Release notes (2014-04-23)
 =============================================================
 
-TightDB is now Realm! The Objective-C API has been updated
+TightDB is now WabiRealm! The Objective-C API has been updated
 and your code will break!
 
 ### API breaking changes
 
-* All references to TightDB have been changed to Realm.
+* All references to TightDB have been changed to WabiRealm.
 * All prefixes changed from `TDB` to `RLM`.
 * `TDBTransaction` and `TDBSmartContext` have merged into `RLMRealm`.
 * Write transactions now take an optional rollback parameter (rather than needing to return a boolean).

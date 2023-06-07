@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright 2016 Realm Inc.
+// Copyright 2016 WabiRealm Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,16 +16,17 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-#import <UIKit/UIKit.h>
-#import <Realm/Realm.h>
 #import "DrawPoint.h"
+#import <UIKit/UIKit.h>
+#import <WabiRealm/WabiRealm.h>
 
 @interface DrawPath : RLMObject
 
-@property BOOL completed;   // Set to YES once the user stops drawing this particular line
-@property NSString *color;  // The name of the color that this path is drawn in
-@property RLMArray<DrawPoint *><DrawPoint> *points; 
+@property BOOL
+    completed; // Set to YES once the user stops drawing this particular line
+@property NSString *color; // The name of the color that this path is drawn in
+@property RLMArray<DrawPoint *><DrawPoint> *points;
 
-@property (readonly) UIBezierPath *path;
+@property(readonly) UIBezierPath *path;
 
 @end

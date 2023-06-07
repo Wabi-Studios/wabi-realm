@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright 2014 Realm Inc.
+// Copyright 2014 WabiRealm Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,14 +17,14 @@
 ////////////////////////////////////////////////////////////////////////////
 
 import UIKit
-import RealmSwift
+import WabiRealmKit
 
 class Place: Object {
-    @objc dynamic var postalCode: String?
-    @objc dynamic var placeName: String?
-    @objc dynamic var state: String?
-    @objc dynamic var stateAbbreviation: String?
-    @objc dynamic var county: String?
-    @objc dynamic var latitude = 0.0
-    @objc dynamic var longitude = 0.0
+  @objc dynamic var postalCode: String?
+  @objc dynamic var placeName: String?
+  @objc dynamic var state: String?
+  @objc dynamic var stateAbbreviation: String?
+  @objc dynamic var county: String?
+  @objc dynamic var latitude = 0.0
+  @objc dynamic var longitude = 0.0
 }

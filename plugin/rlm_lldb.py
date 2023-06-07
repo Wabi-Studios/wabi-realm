@@ -1,7 +1,7 @@
 #!/usr/bin/python
 ##############################################################################
 #
-# Copyright 2014 Realm Inc.
+# Copyright 2014 WabiRealm Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
 ##############################################################################
 
 # In the lldb shell, load with:
-# command script import [Realm path]/plugin/rlm_lldb.py --allow-reload
+# command script import [WabiRealm path]/plugin/rlm_lldb.py --allow-reload
 # To load automatically, add that line to your ~/.lldbinit file (which you will
 # have to create if you have not set up any previous lldb scripts), or run this
 # file as a Python script outside of Xcode to install it automatically
@@ -30,7 +30,7 @@ if __name__ == '__main__':
     import os
 
     source = os.path.realpath(__file__)
-    destination = os.path.expanduser("~/Library/Application Support/Realm")
+    destination = os.path.expanduser("~/Library/Application Support/WabiRealm")
 
     # Copy the file into place
     try:
@@ -43,7 +43,7 @@ if __name__ == '__main__':
     shutil.copy2(source, destination + '/rlm_lldb.py')
 
     # Add it to ~/.lldbinit
-    load_line = 'command script import "~/Library/Application Support/Realm/rlm_lldb.py" --allow-reload\n'
+    load_line = 'command script import "~/Library/Application Support/WabiRealm/rlm_lldb.py" --allow-reload\n'
     is_installed = False
     try:
         with open(os.path.expanduser('~/.lldbinit')) as f:
@@ -100,8 +100,8 @@ def is_object_deleted(obj):
     global object_table_ptr_offset
     if not object_table_ptr_offset:
         row, _, _ = get_ivar_info(obj, 'RLMObject._row')
-        table, _, _ = get_ivar_info(obj, 'realm::Row.m_table')
-        ptr, _, _ = get_ivar_info(obj, 'realm::TableRef.m_ptr')
+        table, _, _ = get_ivar_info(obj, 'wabi_realm::Row.m_table')
+        ptr, _, _ = get_ivar_info(obj, 'wabi_realm::TableRef.m_ptr')
         object_table_ptr_offset = row + table + ptr
 
     ptr = obj.GetProcess().ReadUnsignedFromMemory(addr + object_table_ptr_offset,

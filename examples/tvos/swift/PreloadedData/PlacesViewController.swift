@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright 2014 Realm Inc.
+// Copyright 2014 WabiRealm Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,52 +17,52 @@
 ////////////////////////////////////////////////////////////////////////////
 
 import UIKit
-import RealmSwift
+import WabiRealmKit
 
 class PlacesViewController: UITableViewController, UITextFieldDelegate {
-    @IBOutlet weak var searchField: UITextField!
+  @IBOutlet var searchField: UITextField!
 
-    var results: Results<Place>?
+  var results: Results<Place>?
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+  override func viewDidLoad() {
+    super.viewDidLoad()
 
-        let seedFileURL = Bundle.main.url(forResource: "Places", withExtension: "realm")
-        let config = Realm.Configuration(fileURL: seedFileURL, readOnly: true)
-        Realm.Configuration.defaultConfiguration = config
+    let seedFileURL = Bundle.main.url(forResource: "Places", withExtension: "realm")
+    let config = WabiRealm.Configuration(fileURL: seedFileURL, readOnly: true)
+    WabiRealm.Configuration.defaultConfiguration = config
 
-        reloadData()
+    reloadData()
+  }
+
+  override func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
+    return results?.count ?? 0
+  }
+
+  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+
+    let place = results![indexPath.row]
+
+    cell.textLabel!.text = place.postalCode
+    cell.detailTextLabel!.text = "\(place.placeName!), \(place.state!)"
+    if let county = place.county {
+      cell.detailTextLabel!.text = cell.detailTextLabel!.text! + ", \(county)"
     }
+    return cell
+  }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return results?.count ?? 0
+  func reloadData() {
+    let realm = try! WabiRealm()
+    results = realm.objects(Place.self)
+    if let text = searchField.text, !text.isEmpty {
+      results = results?.filter("postalCode beginswith %@", text)
     }
+    results = results?.sorted(byKeyPath: "postalCode")
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+    tableView?.reloadData()
+  }
 
-        let place = results![indexPath.row]
-
-        cell.textLabel!.text = place.postalCode
-        cell.detailTextLabel!.text = "\(place.placeName!), \(place.state!)"
-        if let county = place.county {
-            cell.detailTextLabel!.text = cell.detailTextLabel!.text! + ", \(county)"
-        }
-        return cell
-    }
-
-    func reloadData() {
-        let realm = try! Realm()
-        results = realm.objects(Place.self)
-        if let text = searchField.text, !text.isEmpty {
-            results = results?.filter("postalCode beginswith %@", text)
-        }
-        results = results?.sorted(byKeyPath: "postalCode")
-
-        tableView?.reloadData()
-    }
-
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        reloadData()
-    }
+  func textFieldDidEndEditing(_: UITextField) {
+    reloadData()
+  }
 }

@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3FDA0A352319A8330099B474 /* Realm.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FDA0A342319A8330099B474 /* Realm.xcframework */; };
-		3FDA0A362319A8330099B474 /* Realm.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FDA0A342319A8330099B474 /* Realm.xcframework */; };
+		3FDA0A352319A8330099B474 /* WabiRealm.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FDA0A342319A8330099B474 /* WabiRealm.xcframework */; };
+		3FDA0A362319A8330099B474 /* WabiRealm.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FDA0A342319A8330099B474 /* WabiRealm.xcframework */; };
 		E8645B891C7913D600C241AA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E8645B881C7913D600C241AA /* main.m */; };
 		E8645B9C1C7913D600C241AA /* XCFrameworkExample WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = E8645B9B1C7913D600C241AA /* XCFrameworkExample WatchKit App.app */; };
 		E8645BA21C7913D600C241AA /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8645BA01C7913D600C241AA /* Interface.storyboard */; };
@@ -69,7 +69,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		3FDA0A342319A8330099B474 /* Realm.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Realm.xcframework; path = "../../../realm-objc-latest/Realm.xcframework"; sourceTree = "<group>"; };
+		3FDA0A342319A8330099B474 /* WabiRealm.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = WabiRealm.xcframework; path = "../../../realm-objc-latest/WabiRealm.xcframework"; sourceTree = "<group>"; };
 		E8645B841C7913D600C241AA /* XCFrameworkExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XCFrameworkExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8645B881C7913D600C241AA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E8645B981C7913D600C241AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -87,7 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3FDA0A352319A8330099B474 /* Realm.xcframework in Frameworks */,
+				3FDA0A352319A8330099B474 /* WabiRealm.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,7 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3FDA0A362319A8330099B474 /* Realm.xcframework in Frameworks */,
+				3FDA0A362319A8330099B474 /* WabiRealm.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,7 +109,7 @@
 				E8645B861C7913D600C241AA /* XCFrameworkExample */,
 				E8645B9F1C7913D600C241AA /* XCFrameworkExample WatchKit App */,
 				E8645BAE1C7913D600C241AA /* XCFrameworkExample WatchKit Extension */,
-				3FDA0A342319A8330099B474 /* Realm.xcframework */,
+				3FDA0A342319A8330099B474 /* WabiRealm.xcframework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -215,7 +215,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1430;
-				ORGANIZATIONNAME = Realm;
+				ORGANIZATIONNAME = WabiRealm;
 				TargetAttributes = {
 					E8645B831C7913D600C241AA = {
 						CreatedOnToolsVersion = 7.2.1;

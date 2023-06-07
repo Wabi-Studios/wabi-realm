@@ -1,7 +1,7 @@
 included:
-  - Realm/ObjectServerTests
-  - RealmSwift
-  - Realm/Swift
+  - WabiRealm/ObjectServerTests
+  - WabiRealmKit
+  - WabiRealm/Swift
   - examples/installation/watchos/swift
   - examples/installation/osx/swift
   - examples/installation/ios/swift
@@ -23,7 +23,7 @@ identifier_name:
 disabled_rules:
   - blanket_disable_command
   - block_based_kvo
-  # SwiftLint considers 'Realm' and 'Realm.Private' to be duplicate imports
+  # SwiftLint considers 'WabiRealm' and 'WabiRealm.Private' to be duplicate imports
   # because we're using submodules in an unsual way, and normally the parent
   # module re-exports all of its children.
   - duplicate_imports

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3FDA0A2F231997980099B474 /* Realm.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FDA0A2E231997980099B474 /* Realm.xcframework */; };
+		3FDA0A2F231997980099B474 /* WabiRealm.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FDA0A2E231997980099B474 /* WabiRealm.xcframework */; };
 		E8358B641AFB172C00DE7F8C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E8358B631AFB172C00DE7F8C /* AppDelegate.m */; };
 		E8358B661AFB172C00DE7F8C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E8358B651AFB172C00DE7F8C /* main.m */; };
 		E8358B691AFB172C00DE7F8C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8358B681AFB172C00DE7F8C /* ViewController.m */; };
@@ -40,7 +40,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		3FDA0A2E231997980099B474 /* Realm.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Realm.xcframework; path = "../../../realm-objc-latest/Realm.xcframework"; sourceTree = "<group>"; };
+		3FDA0A2E231997980099B474 /* WabiRealm.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = WabiRealm.xcframework; path = "../../../realm-objc-latest/WabiRealm.xcframework"; sourceTree = "<group>"; };
 		E8358B5D1AFB172C00DE7F8C /* XCFrameworkExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XCFrameworkExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8358B611AFB172C00DE7F8C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E8358B621AFB172C00DE7F8C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -60,7 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3FDA0A2F231997980099B474 /* Realm.xcframework in Frameworks */,
+				3FDA0A2F231997980099B474 /* WabiRealm.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,7 +80,7 @@
 				E8358B5E1AFB172C00DE7F8C /* Products */,
 				E8358B5F1AFB172C00DE7F8C /* XCFrameworkExample */,
 				E8358B761AFB172C00DE7F8C /* XCFrameworkExampleTests */,
-				3FDA0A2E231997980099B474 /* Realm.xcframework */,
+				3FDA0A2E231997980099B474 /* WabiRealm.xcframework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -179,7 +179,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1430;
-				ORGANIZATIONNAME = Realm;
+				ORGANIZATIONNAME = WabiRealm;
 				TargetAttributes = {
 					E8358B5C1AFB172C00DE7F8C = {
 						CreatedOnToolsVersion = 6.3.1;

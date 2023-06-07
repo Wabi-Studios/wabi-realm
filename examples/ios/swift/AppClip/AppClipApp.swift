@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright 2020 Realm Inc.
+// Copyright 2020 WabiRealm Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,25 +17,25 @@
 ////////////////////////////////////////////////////////////////////////////
 
 import SwiftUI
-import RealmSwift
+import WabiRealmKit
 
 @main
 struct AppClipApp: SwiftUI.App {
-    var body: some Scene {
-        WindowGroup {
-            // This is ContentView.swift shared from AppClipParent
-            ContentView(objects: demoObjects().list)
-        }
+  var body: some Scene {
+    WindowGroup {
+      // This is ContentView.swift shared from AppClipParent
+      ContentView(objects: demoObjects().list)
     }
+  }
 
-    private func demoObjects() -> DemoObjects {
-        let config = Realm.Configuration(fileURL: FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Constants.groupId)!.appendingPathComponent("default.realm"))
-        let realm = try! Realm(configuration: config)
+  private func demoObjects() -> DemoObjects {
+    let config = WabiRealm.Configuration(fileURL: FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Constants.groupId)!.appendingPathComponent("default.realm"))
+    let realm = try! WabiRealm(configuration: config)
 
-        if let demoObjects = realm.object(ofType: DemoObjects.self, forPrimaryKey: 0) {
-            return demoObjects
-        } else {
-            return try! realm.write { realm.create(DemoObjects.self, value: []) }
-        }
+    if let demoObjects = realm.object(ofType: DemoObjects.self, forPrimaryKey: 0) {
+      return demoObjects
+    } else {
+      return try! realm.write { realm.create(DemoObjects.self, value: []) }
     }
+  }
 }

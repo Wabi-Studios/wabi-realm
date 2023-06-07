@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright 2016 Realm Inc.
+// Copyright 2016 WabiRealm Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,12 +16,12 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
+#import "UIColor+WabiRealm.h"
 #import <UIKit/UIKit.h>
-#import "UIColor+Realm.h"
 
 @interface SwatchesView : UIScrollView
 
-@property (nonatomic, strong) NSString *selectedColor;
-@property (nonatomic, copy) void (^swatchColorChangedHandler)(void);
+@property(nonatomic, strong) NSString *selectedColor;
+@property(nonatomic, copy) void (^swatchColorChangedHandler)(void);
 
 @end

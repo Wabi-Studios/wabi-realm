@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright 2020 Realm Inc.
+// Copyright 2020 WabiRealm Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,41 +17,41 @@
 ////////////////////////////////////////////////////////////////////////////
 
 import SwiftUI
-import RealmSwift
+import WabiRealmKit
 
 struct ContentView: View {
-    @ObservedObject var objects: RealmSwift.List<DemoObject>
+  @ObservedObject var objects: WabiRealmKit.List<DemoObject>
 
-    var body: some View {
-        Section(header: Button("Add Object", action: addObject)) {
-            List {
-                ForEach(objects, id: \.uuid) { object in
-                    ContentViewRow(object: object)
-                }
-            }
+  var body: some View {
+    Section(header: Button("Add Object", action: addObject)) {
+      List {
+        ForEach(objects, id: \.uuid) { object in
+          ContentViewRow(object: object)
         }
+      }
     }
+  }
 
-    private func addObject() {
-        /*
-         The app clip and parent application share data by accessing a common realm file path within an App Group.
-         */
-        let config = Realm.Configuration(fileURL: FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Constants.groupId)!.appendingPathComponent("default.realm"))
+  private func addObject() {
+    /*
+     The app clip and parent application share data by accessing a common realm file path within an App Group.
+     */
+    let config = WabiRealm.Configuration(fileURL: FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Constants.groupId)!.appendingPathComponent("default.realm"))
 
-        let realm = try! Realm(configuration: config)
-        try! realm.write {
-            objects.append(DemoObject())
-        }
+    let realm = try! WabiRealm(configuration: config)
+    try! realm.write {
+      objects.append(DemoObject())
     }
+  }
 }
 
 struct ContentViewRow: View {
-    var object: DemoObject
+  var object: DemoObject
 
-    var body: some View {
-        VStack {
-            Text(verbatim: object.uuid.uuidString).fixedSize()
-            Text(object.date.description).font(.footnote).frame(alignment: .leading)
-        }
+  var body: some View {
+    VStack {
+      Text(verbatim: object.uuid.uuidString).fixedSize()
+      Text(object.date.description).font(.footnote).frame(alignment: .leading)
     }
+  }
 }

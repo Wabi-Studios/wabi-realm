@@ -1,3 +1,3 @@
 // The PlaygroundFrameworkWrapper framework enables
-// a binary release of RealmSwift.framework to be used
+// a binary release of WabiRealmKit.framework to be used
 // in Xcode Playgrounds.

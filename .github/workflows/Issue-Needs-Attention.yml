@@ -1,4 +1,4 @@
-# NOTE: This is a common file that is overwritten by realm/ci-actions sync service
+# NOTE: This is a common file that is overwritten by wabi-realm/ci-actions sync service
 # and should only be modified in that repository.
 
 name: Issue Needs Attention
@@ -9,4 +9,4 @@ on:
 
 jobs:
   applyNeedsAttentionLabel:
-    uses: realm/ci-actions/.github/workflows/issue-needs-attention.yml@main
+    uses: wabi-realm/ci-actions/.github/workflows/issue-needs-attention.yml@main

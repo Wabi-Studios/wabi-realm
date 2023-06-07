@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright 2014 Realm Inc.
+// Copyright 2014 WabiRealm Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,19 +17,19 @@
 ////////////////////////////////////////////////////////////////////////////
 
 import Cocoa
-import RealmSwift
+import WabiRealmKit
 
 open class MyModel: Object {
-    @objc dynamic var requiredProperty: String?
+  @objc dynamic var requiredProperty: String?
 }
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
-    }
+  func applicationDidFinishLaunching(_: Notification) {
+    // Insert code here to initialize your application
+  }
 
-    func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
-    }
+  func applicationWillTerminate(_: Notification) {
+    // Insert code here to tear down your application
+  }
 }

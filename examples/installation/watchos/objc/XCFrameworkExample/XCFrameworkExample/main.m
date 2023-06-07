@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright 2014 Realm Inc.
+// Copyright 2014 WabiRealm Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,14 +16,12 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-#include <Realm/Realm.h>
+#include <WabiRealm/WabiRealm.h>
 
 @interface Model : RLMObject
-@property (nonatomic) int value;
+@property(nonatomic) int value;
 @end
 @implementation Model
 @end
 
-int main(int argc, char * argv[]) {
-    return 0;
-}
+int main(int argc, char *argv[]) { return 0; }

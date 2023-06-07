@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright 2016 Realm Inc.
+// Copyright 2016 WabiRealm Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,35 +18,35 @@
 
 #import "CanvasView.h"
 #import "DrawPath.h"
-#import "UIColor+Realm.h"
+#import "UIColor+WabiRealm.h"
 
 @implementation CanvasView
 
 - (void)didMoveToSuperview {
-    [super didMoveToSuperview];
-    self.backgroundColor = [UIColor whiteColor];
+  [super didMoveToSuperview];
+  self.backgroundColor = [UIColor whiteColor];
 }
 
 - (void)drawPath:(DrawPath *)path withContext:(CGContextRef)context {
-    UIColor *swatchColor = [UIColor realmColors][path.color];
-    CGContextSetStrokeColorWithColor(context, [swatchColor CGColor]);
-    CGContextSetLineWidth(context, path.path.lineWidth);
-    CGContextAddPath(context, [path.path CGPath]);
-    CGContextStrokePath(context);
+  UIColor *swatchColor = [UIColor realmColors][path.color];
+  CGContextSetStrokeColorWithColor(context, [swatchColor CGColor]);
+  CGContextSetLineWidth(context, path.path.lineWidth);
+  CGContextAddPath(context, [path.path CGPath]);
+  CGContextStrokePath(context);
 }
 
 - (void)drawRect:(CGRect)rect {
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    for (DrawPath *path in self.paths) {
-        [self drawPath:path withContext:context];
-    }
+  CGContextRef context = UIGraphicsGetCurrentContext();
+  for (DrawPath *path in self.paths) {
+    [self drawPath:path withContext:context];
+  }
 }
 
 - (void)clearCanvas {
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetFillColorWithColor(context, [UIColor whiteColor].CGColor);
-    CGContextFillRect(context, self.bounds);
-    [self setNeedsDisplay];
+  CGContextRef context = UIGraphicsGetCurrentContext();
+  CGContextSetFillColorWithColor(context, [UIColor whiteColor].CGColor);
+  CGContextFillRect(context, self.bounds);
+  [self setNeedsDisplay];
 }
 
 @end

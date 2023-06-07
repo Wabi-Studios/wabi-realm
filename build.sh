@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ##################################################################################
-# Custom build tool for Realm Objective-C binding.
+# Custom build tool for WabiRealm Objective-C binding.
 #
 # (C) Copyright 2011-2022 by realm.io.
 ##################################################################################
@@ -40,35 +40,35 @@ command:
   build:                builds all iOS and macOS frameworks
   ios-static:           builds fat iOS static framework
   ios-dynamic:          builds iOS dynamic frameworks
-  ios-swift:            builds RealmSwift frameworks for iOS
+  ios-swift:            builds WabiRealmKit frameworks for iOS
   watchos:              builds watchOS framwork
-  watchos-swift:        builds RealmSwift framework for watchOS
+  watchos-swift:        builds WabiRealmKit framework for watchOS
   tvos:                 builds tvOS framework
-  tvos-swift:           builds RealmSwift framework for tvOS
+  tvos-swift:           builds WabiRealmKit framework for tvOS
   osx:                  builds macOS framework
-  osx-swift:            builds RealmSwift framework for macOS
-  xcframework [plats]:  builds xcframeworks for Realm and RealmSwift for given platforms
+  osx-swift:            builds WabiRealmKit framework for macOS
+  xcframework [plats]:  builds xcframeworks for WabiRealm and WabiRealmKit for given platforms
   analyze-osx:          analyzes macOS framework
   test:                 tests all iOS and macOS frameworks
   test-all:             tests all iOS and macOS frameworks in both Debug and Release configurations
   test-ios-static:      tests static iOS framework on 32-bit and 64-bit simulators
   test-ios-dynamic:     tests dynamic iOS framework on 32-bit and 64-bit simulators
-  test-ios-swift:       tests RealmSwift iOS framework on 32-bit and 64-bit simulators
+  test-ios-swift:       tests WabiRealmKit iOS framework on 32-bit and 64-bit simulators
   test-ios-devices:     tests ObjC & Swift iOS frameworks on all attached iOS devices
   test-ios-devices-objc:  tests ObjC iOS framework on all attached iOS devices
   test-ios-devices-swift: tests Swift iOS framework on all attached iOS devices
   test-tvos:            tests tvOS framework
-  test-tvos-swift:      tests RealmSwift tvOS framework
+  test-tvos-swift:      tests WabiRealmKit tvOS framework
   test-tvos-devices:    tests ObjC & Swift tvOS frameworks on all attached tvOS devices
   test-osx:             tests macOS framework
-  test-osx-swift:       tests RealmSwift macOS framework
+  test-osx-swift:       tests WabiRealmKit macOS framework
   test-catalyst:        tests Mac Catalyst framework
-  test-catalyst-swift:  tests RealmSwift Mac Catalyst framework
+  test-catalyst-swift:  tests WabiRealmKit Mac Catalyst framework
   test-swiftpm:         tests ObjC and Swift macOS frameworks via SwiftPM
   test-swiftui-ios:         tests SwiftUI framework UI tests
   test-swiftui-server-osx:  tests Server Sync in SwiftUI
   verify:               verifies docs, osx, osx-swift, ios-static, ios-dynamic, ios-swift, ios-device, swiftui-ios in both Debug and Release configurations, swiftlint
-  verify-osx-object-server:  downloads the Realm Object Server and runs the Objective-C and Swift integration tests
+  verify-osx-object-server:  downloads the WabiRealm Object Server and runs the Objective-C and Swift integration tests
   docs:                 builds docs in docs/output
   examples:             builds all examples
   examples-ios:         builds all static iOS examples
@@ -151,7 +151,7 @@ build_combined() {
     fi
 
     # Derive build paths
-    local build_products_path="build/DerivedData/Realm/Build/Products"
+    local build_products_path="build/DerivedData/WabiRealm/Build/Products"
     local product_name="$module_name.framework"
     local os_path="$build_products_path/$config-$os$scope_suffix/$product_name"
     local simulator_path="$build_products_path/$config-$simulator$scope_suffix/$product_name"
@@ -170,8 +170,8 @@ build_combined() {
 
 copy_realm_framework() {
     local platform="$1"
-    rm -rf "build/$platform/swift-$REALM_XCODE_VERSION/Realm.xcframework"
-    cp -R "build/$platform/Realm.xcframework" "build/$platform/swift-$REALM_XCODE_VERSION"
+    rm -rf "build/$platform/swift-$REALM_XCODE_VERSION/WabiRealm.xcframework"
+    cp -R "build/$platform/WabiRealm.xcframework" "build/$platform/swift-$REALM_XCODE_VERSION"
 }
 
 clean_retrieve() {
@@ -187,7 +187,7 @@ move_to_clean_dir() {
 }
 
 test_ios_static() {
-    xctest 'Realm iOS static' -configuration "$CONFIGURATION" -sdk iphonesimulator -destination "$1"
+    xctest 'WabiRealm iOS static' -configuration "$CONFIGURATION" -sdk iphonesimulator -destination "$1"
 }
 
 plist_get() {
@@ -242,33 +242,33 @@ build_docs() {
     local language="$1"
     local version=$(sh build.sh get-version)
 
-    local xcodebuild_arguments="--objc,Realm/Realm.h,--,-x,objective-c,-isysroot,$(xcrun --show-sdk-path),-I,$(pwd)"
-    local module="Realm"
+    local xcodebuild_arguments="--objc,WabiRealm/WabiRealm.h,--,-x,objective-c,-isysroot,$(xcrun --show-sdk-path),-I,$(pwd)"
+    local module="WabiRealm"
     local objc="--objc"
 
     if [[ "$language" == "swift" ]]; then
-        xcodebuild_arguments="-scheme,RealmSwift"
-        module="RealmSwift"
+        xcodebuild_arguments="-scheme,WabiRealmKit"
+        module="WabiRealmKit"
         objc=""
     fi
 
-    touch Realm/RLMPlatform.h # jazzy will fail if it can't find all public header files
+    touch WabiRealm/RLMPlatform.h # jazzy will fail if it can't find all public header files
     jazzy \
       "${objc}" \
       --clean \
-      --author Realm \
+      --author WabiRealm \
       --author_url https://docs.mongodb.com/realm-sdks \
-      --github_url https://github.com/realm/realm-swift \
-      --github-file-prefix "https://github.com/realm/realm-swift/tree/v${version}" \
+      --github_url https://github.com/Wabi-Studios/wabi-realm \
+      --github-file-prefix "https://github.com/Wabi-Studios/wabi-realm/tree/v${version}" \
       --module-version "${version}" \
       --xcodebuild-arguments "${xcodebuild_arguments}" \
       --module "${module}" \
       --root-url "https://docs.mongodb.com/realm-sdks/${language}/${version}/" \
       --output "docs/${language}_output" \
       --head "$(cat docs/custom_head.html)" \
-      --exclude 'RealmSwift/Impl/*'
+      --exclude 'WabiRealmKit/Impl/*'
 
-    rm Realm/RLMPlatform.h
+    rm WabiRealm/RLMPlatform.h
 }
 
 ######################################
@@ -324,7 +324,7 @@ case "$COMMAND" in
         ;;
 
     "setup-baas")
-        ruby Realm/ObjectServerTests/setup_baas.rb
+        ruby WabiRealm/ObjectServerTests/setup_baas.rb
         exit 0
         ;;
 
@@ -351,58 +351,58 @@ case "$COMMAND" in
         ;;
 
     "ios-static")
-        build_combined 'Realm iOS static' Realm iphoneos iphonesimulator "-static"
+        build_combined 'WabiRealm iOS static' WabiRealm iphoneos iphonesimulator "-static"
         exit 0
         ;;
 
     "ios-dynamic")
-        build_combined Realm Realm iphoneos iphonesimulator
+        build_combined WabiRealm WabiRealm iphoneos iphonesimulator
         exit 0
         ;;
 
     "ios-swift")
         sh build.sh ios-dynamic
-        build_combined RealmSwift RealmSwift iphoneos iphonesimulator '' "/swift-$REALM_XCODE_VERSION"
+        build_combined WabiRealmKit WabiRealmKit iphoneos iphonesimulator '' "/swift-$REALM_XCODE_VERSION"
         copy_realm_framework ios
         exit 0
         ;;
 
     "watchos")
-        build_combined Realm Realm watchos watchsimulator
+        build_combined WabiRealm WabiRealm watchos watchsimulator
         exit 0
         ;;
 
     "watchos-swift")
         sh build.sh watchos
-        build_combined RealmSwift RealmSwift watchos watchsimulator '' "/swift-$REALM_XCODE_VERSION"
+        build_combined WabiRealmKit WabiRealmKit watchos watchsimulator '' "/swift-$REALM_XCODE_VERSION"
         copy_realm_framework watchos
         exit 0
         ;;
 
     "tvos")
-        build_combined Realm Realm appletvos appletvsimulator
+        build_combined WabiRealm WabiRealm appletvos appletvsimulator
         exit 0
         ;;
 
     "tvos-swift")
         sh build.sh tvos
-        build_combined RealmSwift RealmSwift appletvos appletvsimulator '' "/swift-$REALM_XCODE_VERSION"
+        build_combined WabiRealmKit WabiRealmKit appletvos appletvsimulator '' "/swift-$REALM_XCODE_VERSION"
         copy_realm_framework tvos
         exit 0
         ;;
 
     "osx")
-        xc -scheme Realm -configuration "$CONFIGURATION"
-        clean_retrieve "build/DerivedData/Realm/Build/Products/$CONFIGURATION/Realm.framework" "build/osx" "Realm.framework"
+        xc -scheme WabiRealm -configuration "$CONFIGURATION"
+        clean_retrieve "build/DerivedData/WabiRealm/Build/Products/$CONFIGURATION/WabiRealm.framework" "build/osx" "WabiRealm.framework"
         exit 0
         ;;
 
     "osx-swift")
         sh build.sh osx
-        xc -scheme RealmSwift -configuration "$CONFIGURATION" build
+        xc -scheme WabiRealmKit -configuration "$CONFIGURATION" build
         destination="build/osx/swift-$REALM_XCODE_VERSION"
-        clean_retrieve "build/DerivedData/Realm/Build/Products/$CONFIGURATION/RealmSwift.framework" "$destination" "RealmSwift.framework"
-        clean_retrieve "build/osx/Realm.framework" "$destination" "Realm.framework"
+        clean_retrieve "build/DerivedData/WabiRealm/Build/Products/$CONFIGURATION/WabiRealmKit.framework" "$destination" "WabiRealmKit.framework"
+        clean_retrieve "build/osx/WabiRealm.framework" "$destination" "WabiRealm.framework"
         exit 0
         ;;
 
@@ -412,17 +412,17 @@ case "$COMMAND" in
 
     "catalyst")
         export REALM_SDKROOT=iphoneos
-        xc -scheme Realm -configuration "$CONFIGURATION" -destination variant='Mac Catalyst'
-        clean_retrieve "build/DerivedData/Realm/Build/Products/$CONFIGURATION-maccatalyst/Realm.framework" "build/catalyst" "Realm.framework"
+        xc -scheme WabiRealm -configuration "$CONFIGURATION" -destination variant='Mac Catalyst'
+        clean_retrieve "build/DerivedData/WabiRealm/Build/Products/$CONFIGURATION-maccatalyst/WabiRealm.framework" "build/catalyst" "WabiRealm.framework"
         ;;
 
     "catalyst-swift")
         sh build.sh catalyst
         export REALM_SDKROOT=iphoneos
-        xc -scheme 'RealmSwift' -configuration "$CONFIGURATION" -destination variant='Mac Catalyst' build
+        xc -scheme 'WabiRealmKit' -configuration "$CONFIGURATION" -destination variant='Mac Catalyst' build
         destination="build/catalyst/swift-$REALM_XCODE_VERSION"
-        clean_retrieve "build/DerivedData/Realm/Build/Products/$CONFIGURATION-maccatalyst/RealmSwift.framework" "$destination" "RealmSwift.framework"
-        clean_retrieve "build/catalyst/Realm.framework" "$destination" "Realm.framework"
+        clean_retrieve "build/DerivedData/WabiRealm/Build/Products/$CONFIGURATION-maccatalyst/WabiRealmKit.framework" "$destination" "WabiRealmKit.framework"
+        clean_retrieve "build/catalyst/WabiRealm.framework" "$destination" "WabiRealm.framework"
         ;;
 
     "xcframework")
@@ -435,28 +435,28 @@ case "$COMMAND" in
 
         # Assemble them into xcframeworks
         rm -rf build/*.xcframework
-        find build/DerivedData/Realm/Build/Products -name 'Realm.framework' \
+        find build/DerivedData/WabiRealm/Build/Products -name 'WabiRealm.framework' \
             | grep -v '\-static' \
             | sed 's/.*/-framework &/' \
-            | xargs xcodebuild -create-xcframework -allow-internal-distribution -output build/Realm.xcframework
-        find build/DerivedData/Realm/Build/Products -name 'RealmSwift.framework' \
+            | xargs xcodebuild -create-xcframework -allow-internal-distribution -output build/WabiRealm.xcframework
+        find build/DerivedData/WabiRealm/Build/Products -name 'WabiRealmKit.framework' \
             | sed 's/.*/-framework &/' \
-            | xargs xcodebuild -create-xcframework -allow-internal-distribution -output build/RealmSwift.xcframework
+            | xargs xcodebuild -create-xcframework -allow-internal-distribution -output build/WabiRealmKit.xcframework
 
-        # Because we have a module named Realm and a type named Realm we need to manually resolve the naming
+        # Because we have a module named WabiRealm and a type named WabiRealm we need to manually resolve the naming
         # collisions that are happening. These collisions create a red herring which tells the user the xcframework
         # was compiled with an older Swift version and is not compatible with the current compiler.
-        find build/RealmSwift.xcframework -name "*.swiftinterface" \
-            -exec sed -i '' 's/Realm\.//g' {} \; \
-            -exec sed -i '' 's/import Private/import Realm.Private\nimport Realm.Swift/g' {} \; \
-            -exec sed -i '' 's/RealmSwift.Configuration/RealmSwift.Realm.Configuration/g' {} \; \
-            -exec sed -i '' 's/extension Configuration/extension Realm.Configuration/g' {} \; \
-            -exec sed -i '' 's/RealmSwift.Error[[:>:]]/RealmSwift.Realm.Error/g' {} \; \
-            -exec sed -i '' 's/extension Error/extension Realm.Error/g' {} \; \
-            -exec sed -i '' 's/RealmSwift.AsyncOpenTask/RealmSwift.Realm.AsyncOpenTask/g' {} \; \
-            -exec sed -i '' 's/RealmSwift.UpdatePolicy/RealmSwift.Realm.UpdatePolicy/g' {} \; \
-            -exec sed -i '' 's/RealmSwift.Notification[[:>:]]/RealmSwift.Realm.Notification/g' {} \; \
-            -exec sed -i '' 's/RealmSwift.OpenBehavior/RealmSwift.Realm.OpenBehavior/g' {} \; \
+        find build/WabiRealmKit.xcframework -name "*.swiftinterface" \
+            -exec sed -i '' 's/WabiRealm\.//g' {} \; \
+            -exec sed -i '' 's/import Private/import WabiRealm.Private\nimport WabiRealm.Swift/g' {} \; \
+            -exec sed -i '' 's/WabiRealmKit.Configuration/WabiRealmKit.WabiRealm.Configuration/g' {} \; \
+            -exec sed -i '' 's/extension Configuration/extension WabiRealm.Configuration/g' {} \; \
+            -exec sed -i '' 's/WabiRealmKit.Error[[:>:]]/WabiRealmKit.WabiRealm.Error/g' {} \; \
+            -exec sed -i '' 's/extension Error/extension WabiRealm.Error/g' {} \; \
+            -exec sed -i '' 's/WabiRealmKit.AsyncOpenTask/WabiRealmKit.WabiRealm.AsyncOpenTask/g' {} \; \
+            -exec sed -i '' 's/WabiRealmKit.UpdatePolicy/WabiRealmKit.WabiRealm.UpdatePolicy/g' {} \; \
+            -exec sed -i '' 's/WabiRealmKit.Notification[[:>:]]/WabiRealmKit.WabiRealm.Notification/g' {} \; \
+            -exec sed -i '' 's/WabiRealmKit.OpenBehavior/WabiRealmKit.WabiRealm.OpenBehavior/g' {} \; \
             -exec sed -i '' 's/τ_1_0/V/g' {} \; # Generics will use τ_1_0 which needs to be changed to the correct type name.
 
         exit 0
@@ -485,7 +485,7 @@ case "$COMMAND" in
     ######################################
 
     "analyze-osx")
-        xc -scheme Realm -configuration "$CONFIGURATION" analyze
+        xc -scheme WabiRealm -configuration "$CONFIGURATION" analyze
         exit 0
         ;;
 
@@ -521,12 +521,12 @@ case "$COMMAND" in
         ;;
 
     "test-ios-dynamic")
-        xctest Realm -configuration "$CONFIGURATION" -sdk iphonesimulator -destination 'name=iPhone 8'
+        xctest WabiRealm -configuration "$CONFIGURATION" -sdk iphonesimulator -destination 'name=iPhone 8'
         exit 0
         ;;
 
     "test-ios-swift")
-        xctest RealmSwift -configuration "$CONFIGURATION" -sdk iphonesimulator -destination 'name=iPhone 8'
+        xctest WabiRealmKit -configuration "$CONFIGURATION" -sdk iphonesimulator -destination 'name=iPhone 8'
         exit 0
         ;;
 
@@ -539,24 +539,24 @@ case "$COMMAND" in
         ;;
 
     "test-ios-devices-objc")
-        test_devices iphoneos "Realm" "$CONFIGURATION"
+        test_devices iphoneos "WabiRealm" "$CONFIGURATION"
         exit $?
         ;;
 
     "test-ios-devices-swift")
-        test_devices iphoneos "RealmSwift" "$CONFIGURATION"
+        test_devices iphoneos "WabiRealmKit" "$CONFIGURATION"
         exit $?
         ;;
 
     "test-tvos")
         destination="Apple TV"
-        xctest Realm -configuration "$CONFIGURATION" -sdk appletvsimulator -destination "name=$destination"
+        xctest WabiRealm -configuration "$CONFIGURATION" -sdk appletvsimulator -destination "name=$destination"
         exit $?
         ;;
 
     "test-tvos-swift")
         destination="Apple TV"
-        xctest RealmSwift -configuration "$CONFIGURATION" -sdk appletvsimulator -destination "name=$destination"
+        xctest WabiRealmKit -configuration "$CONFIGURATION" -sdk appletvsimulator -destination "name=$destination"
         exit $?
         ;;
 
@@ -569,12 +569,12 @@ case "$COMMAND" in
         if [[ "$CONFIGURATION" == "Debug" ]]; then
             COVERAGE_PARAMS=(GCC_GENERATE_TEST_COVERAGE_FILES=YES GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES)
         fi
-        xctest Realm -configuration "$CONFIGURATION" "${COVERAGE_PARAMS[@]}" -destination "platform=macOS,arch=$(uname -m)"
+        xctest WabiRealm -configuration "$CONFIGURATION" "${COVERAGE_PARAMS[@]}" -destination "platform=macOS,arch=$(uname -m)"
         exit 0
         ;;
 
     "test-osx-swift")
-        xctest RealmSwift -configuration $CONFIGURATION -destination "platform=macOS,arch=$(uname -m)"
+        xctest WabiRealmKit -configuration $CONFIGURATION -destination "platform=macOS,arch=$(uname -m)"
         exit 0
         ;;
 
@@ -611,13 +611,13 @@ case "$COMMAND" in
 
     "test-catalyst")
         export REALM_SDKROOT=iphoneos
-        xctest Realm -configuration "$CONFIGURATION" -destination 'platform=macOS,variant=Mac Catalyst' CODE_SIGN_IDENTITY=''
+        xctest WabiRealm -configuration "$CONFIGURATION" -destination 'platform=macOS,variant=Mac Catalyst' CODE_SIGN_IDENTITY=''
         exit 0
         ;;
 
     "test-catalyst-swift")
         export REALM_SDKROOT=iphoneos
-        xctest RealmSwift -configuration "$CONFIGURATION" -destination 'platform=macOS,variant=Mac Catalyst' CODE_SIGN_IDENTITY=''
+        xctest WabiRealmKit -configuration "$CONFIGURATION" -destination 'platform=macOS,variant=Mac Catalyst' CODE_SIGN_IDENTITY=''
         exit 0
         ;;
 
@@ -783,7 +783,7 @@ case "$COMMAND" in
         for lang in swift objc; do
             undocumented="docs/${lang}_output/undocumented.json"
             if ruby -rjson -e "j = JSON.parse(File.read('docs/${lang}_output/undocumented.json')); exit j['warnings'].length != 0"; then
-              echo "Undocumented Realm $lang declarations:"
+              echo "Undocumented WabiRealm $lang declarations:"
               cat "$undocumented"
               exit 1
             fi
@@ -953,7 +953,7 @@ case "$COMMAND" in
     # Versioning
     ######################################
     "get-version")
-        plist_get 'Realm/Realm-Info.plist' 'CFBundleShortVersionString'
+        plist_get 'WabiRealm/WabiRealm-Info.plist' 'CFBundleShortVersionString'
         exit 0
         ;;
 
@@ -964,7 +964,7 @@ case "$COMMAND" in
 
     "set-version")
         realm_version="$2"
-        version_files="Realm/Realm-Info.plist"
+        version_files="WabiRealm/WabiRealm-Info.plist"
 
         if [ -z "$realm_version" ]; then
             echo "You must specify a version."
@@ -1051,7 +1051,7 @@ case "$COMMAND" in
         fi
 
         if [ "$target" = "osx" ] && [ "$configuration" = "Debug" ]; then
-          gcovr -r . -f ".*Realm.*" -e ".*Tests.*" -e ".*core.*" --xml > build/reports/coverage-report.xml
+          gcovr -r . -f ".*WabiRealm.*" -e ".*Tests.*" -e ".*core.*" --xml > build/reports/coverage-report.xml
           WS=$(pwd | sed "s/\//\\\\\//g")
           sed -i ".bak" "s/<source>\./<source>${WS}/" build/reports/coverage-report.xml
         fi
@@ -1104,7 +1104,7 @@ case "$COMMAND" in
         sh build.sh ios-static
 
         cd build/ios-static
-        zip --symlinks -r realm-framework-ios-static.zip Realm.xcframework
+        zip --symlinks -r realm-framework-ios-static.zip WabiRealm.xcframework
         ;;
 
     "package")
@@ -1135,11 +1135,11 @@ case "$COMMAND" in
                 unzip "${WORKSPACE}/realm-framework-${platform}-${REALM_XCODE_VERSION}.zip" -d "${extract_dir}/${platform}"
             done
 
-            find "${extract_dir}" -name 'Realm.framework' \
+            find "${extract_dir}" -name 'WabiRealm.framework' \
                 | sed 's/.*/-framework &/' \
-                | xargs xcodebuild -create-xcframework -allow-internal-distribution -output "${package_dir}/Realm.xcframework"
+                | xargs xcodebuild -create-xcframework -allow-internal-distribution -output "${package_dir}/WabiRealm.xcframework"
 
-            cp "${WORKSPACE}/Realm/Swift/RLMSupport.swift" "${package_dir}"
+            cp "${WORKSPACE}/WabiRealm/Swift/RLMSupport.swift" "${package_dir}"
             rm -r "${extract_dir}"
         else
             xcode_versions=$(find . -name 'realm-framework-*-1*' | sed 's@./realm-framework-[a-z]*-\(.*\).zip@\1@' | sort -u)
@@ -1148,12 +1148,12 @@ case "$COMMAND" in
                 for platform in osx ios watchos tvos catalyst; do
                     unzip "realm-framework-$platform-$xcode_version.zip" -d "${extract_dir}/${platform}"
                 done
-                find "${extract_dir}" -name 'Realm.framework' \
+                find "${extract_dir}" -name 'WabiRealm.framework' \
                     | sed 's/.*/-framework &/' \
-                    | xargs xcodebuild -create-xcframework -allow-internal-distribution -output "${package_dir}/${xcode_version}/Realm.xcframework"
-                find "${extract_dir}" -name 'RealmSwift.framework' \
+                    | xargs xcodebuild -create-xcframework -allow-internal-distribution -output "${package_dir}/${xcode_version}/WabiRealm.xcframework"
+                find "${extract_dir}" -name 'WabiRealmKit.framework' \
                     | sed 's/.*/-framework &/' \
-                    | xargs xcodebuild -create-xcframework -allow-internal-distribution -output "${package_dir}/${xcode_version}/RealmSwift.xcframework"
+                    | xargs xcodebuild -create-xcframework -allow-internal-distribution -output "${package_dir}/${xcode_version}/WabiRealmKit.xcframework"
                 rm -r "${extract_dir}"
             done
         fi
@@ -1263,13 +1263,13 @@ x.y.z Release notes (yyyy-MM-dd)
 * None.
 
 ### Fixed
-* <How to hit and notice issue? what was the impact?> ([#????](https://github.com/realm/realm-swift/issues/????), since v?.?.?)
+* <How to hit and notice issue? what was the impact?> ([#????](https://github.com/Wabi-Studios/wabi-realm/issues/????), since v?.?.?)
 * None.
 
 <!-- ### Breaking Changes - ONLY INCLUDE FOR NEW MAJOR version -->
 
 ### Compatibility
-* Realm Studio: 14.0.1 or later.
+* WabiRealm Studio: 14.0.1 or later.
 * APIs are backwards compatible with all previous releases in the 10.x.y series.
 * Carthage release for Swift is built with Xcode 14.3.
 * CocoaPods: 1.10 or later.

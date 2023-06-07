@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright 2020 Realm Inc.
+// Copyright 2020 WabiRealm Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,6 +16,6 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-struct Constants {
-    static let groupId = "group.TEAM_ID.com.domain.APP_GROUP"
+enum Constants {
+  static let groupId = "group.TEAM_ID.com.domain.APP_GROUP"
 }

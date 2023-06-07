@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		3FCABC1F28BE9B9D008C966A /* libcompression.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FCABC1E28BE9B9C008C966A /* libcompression.tbd */; };
 		3FCABC2128BE9BC5008C966A /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FCABC2028BE9BB3008C966A /* libc++.tbd */; };
-		E85A7EEC1AFAAFBF005C839C /* Realm.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E88ABBDA1AFAA5D600FA1E1D /* Realm.xcframework */; };
+		E85A7EEC1AFAAFBF005C839C /* WabiRealm.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E88ABBDA1AFAA5D600FA1E1D /* WabiRealm.xcframework */; };
 		E88ABBB51AFA9DE300FA1E1D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E88ABBB41AFA9DE300FA1E1D /* main.m */; };
 		E88ABBB81AFA9DE300FA1E1D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E88ABBB71AFA9DE300FA1E1D /* AppDelegate.m */; };
 		E88ABBBB1AFA9DE300FA1E1D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E88ABBBA1AFA9DE300FA1E1D /* ViewController.m */; };
@@ -17,7 +17,7 @@
 		E88ABBC01AFA9DE300FA1E1D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E88ABBBF1AFA9DE300FA1E1D /* Images.xcassets */; };
 		E88ABBC31AFA9DE300FA1E1D /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E88ABBC11AFA9DE300FA1E1D /* LaunchScreen.xib */; };
 		E88ABBCF1AFA9DE400FA1E1D /* StaticExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E88ABBCE1AFA9DE400FA1E1D /* StaticExampleTests.m */; };
-		E88ABBDB1AFAA5D600FA1E1D /* Realm.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E88ABBDA1AFAA5D600FA1E1D /* Realm.xcframework */; };
+		E88ABBDB1AFAA5D600FA1E1D /* WabiRealm.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E88ABBDA1AFAA5D600FA1E1D /* WabiRealm.xcframework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,7 +46,7 @@
 		E88ABBC81AFA9DE400FA1E1D /* StaticExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StaticExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E88ABBCD1AFA9DE400FA1E1D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E88ABBCE1AFA9DE400FA1E1D /* StaticExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StaticExampleTests.m; sourceTree = "<group>"; };
-		E88ABBDA1AFAA5D600FA1E1D /* Realm.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Realm.xcframework; path = "../../../realm-objc-latest/ios-static/Realm.xcframework"; sourceTree = "<group>"; };
+		E88ABBDA1AFAA5D600FA1E1D /* WabiRealm.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = WabiRealm.xcframework; path = "../../../realm-objc-latest/ios-static/WabiRealm.xcframework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,7 +56,7 @@
 			files = (
 				3FCABC2128BE9BC5008C966A /* libc++.tbd in Frameworks */,
 				3FCABC1F28BE9B9D008C966A /* libcompression.tbd in Frameworks */,
-				E88ABBDB1AFAA5D600FA1E1D /* Realm.xcframework in Frameworks */,
+				E88ABBDB1AFAA5D600FA1E1D /* WabiRealm.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,7 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E85A7EEC1AFAAFBF005C839C /* Realm.xcframework in Frameworks */,
+				E85A7EEC1AFAAFBF005C839C /* WabiRealm.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,7 +87,7 @@
 				E88ABBB01AFA9DE300FA1E1D /* Products */,
 				E88ABBB11AFA9DE300FA1E1D /* StaticExample */,
 				E88ABBCB1AFA9DE400FA1E1D /* StaticExampleTests */,
-				E88ABBDA1AFAA5D600FA1E1D /* Realm.xcframework */,
+				E88ABBDA1AFAA5D600FA1E1D /* WabiRealm.xcframework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -186,7 +186,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1430;
-				ORGANIZATIONNAME = Realm;
+				ORGANIZATIONNAME = WabiRealm;
 				TargetAttributes = {
 					E88ABBAE1AFA9DE300FA1E1D = {
 						CreatedOnToolsVersion = 6.3.1;

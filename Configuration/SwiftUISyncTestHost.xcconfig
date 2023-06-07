@@ -1,4 +1,4 @@
 #include "TestHost.xcconfig"
 
-INFOPLIST_FILE = Realm/Tests/SwiftUISyncTestHost/Info.plist;
+INFOPLIST_FILE = WabiRealm/Tests/SwiftUISyncTestHost/Info.plist;
 SUPPORTED_PLATFORMS = macosx;

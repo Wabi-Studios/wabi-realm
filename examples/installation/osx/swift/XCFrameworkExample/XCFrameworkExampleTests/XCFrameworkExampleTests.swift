@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright 2014 Realm Inc.
+// Copyright 2014 WabiRealm Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,14 +17,14 @@
 ////////////////////////////////////////////////////////////////////////////
 
 import Cocoa
-import XCTest
+import WabiRealmKit
 import XCFrameworkExample
-import RealmSwift
+import XCTest
 
 class XCFrameworkExampleTests: XCTestCase {
-    func testExample() {
-        // This is an example of a functional test case.
-        XCTAssertNotNil(MyModel() as AnyObject is Object)
-        _ = try! Realm()
-    }
+  func testExample() {
+    // This is an example of a functional test case.
+    XCTAssertNotNil(MyModel() as AnyObject is Object)
+    _ = try! WabiRealm()
+  }
 }

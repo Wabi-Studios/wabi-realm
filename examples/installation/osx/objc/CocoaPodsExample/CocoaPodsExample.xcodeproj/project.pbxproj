@@ -195,7 +195,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1430;
-				ORGANIZATIONNAME = Realm;
+				ORGANIZATIONNAME = Wabi;
 				TargetAttributes = {
 					E8AA50F71B015B2B00C6A3F9 = {
 						CreatedOnToolsVersion = 6.3.1;

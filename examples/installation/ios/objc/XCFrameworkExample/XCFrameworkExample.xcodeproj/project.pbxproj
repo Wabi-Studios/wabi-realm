@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3FDA0A3223199D190099B474 /* Realm.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FDA0A3023199C600099B474 /* Realm.xcframework */; };
-		3FDA0A3323199D190099B474 /* Realm.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3FDA0A3023199C600099B474 /* Realm.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		3FDA0A3223199D190099B474 /* WabiRealm.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FDA0A3023199C600099B474 /* WabiRealm.xcframework */; };
+		3FDA0A3323199D190099B474 /* WabiRealm.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3FDA0A3023199C600099B474 /* WabiRealm.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		E8561AC31AFB1518006E087E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E8561AC21AFB1518006E087E /* main.m */; };
 		E8561AC61AFB1518006E087E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E8561AC51AFB1518006E087E /* AppDelegate.m */; };
 		E8561AC91AFB1518006E087E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8561AC81AFB1518006E087E /* ViewController.m */; };
@@ -35,7 +35,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				3FDA0A3323199D190099B474 /* Realm.xcframework in Embed Frameworks */,
+				3FDA0A3323199D190099B474 /* WabiRealm.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -43,7 +43,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		3FDA0A3023199C600099B474 /* Realm.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Realm.xcframework; path = "../../../realm-objc-latest/Realm.xcframework"; sourceTree = "<group>"; };
+		3FDA0A3023199C600099B474 /* WabiRealm.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = WabiRealm.xcframework; path = "../../../realm-objc-latest/WabiRealm.xcframework"; sourceTree = "<group>"; };
 		E8561ABD1AFB1518006E087E /* XCFrameworkExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XCFrameworkExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8561AC11AFB1518006E087E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E8561AC21AFB1518006E087E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -64,7 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3FDA0A3223199D190099B474 /* Realm.xcframework in Frameworks */,
+				3FDA0A3223199D190099B474 /* WabiRealm.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,7 +84,7 @@
 				E8561ABE1AFB1518006E087E /* Products */,
 				E8561ABF1AFB1518006E087E /* XCFrameworkExample */,
 				E8561AD91AFB1518006E087E /* XCFrameworkExampleTests */,
-				3FDA0A3023199C600099B474 /* Realm.xcframework */,
+				3FDA0A3023199C600099B474 /* WabiRealm.xcframework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -184,7 +184,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1430;
-				ORGANIZATIONNAME = Realm;
+				ORGANIZATIONNAME = Wabi;
 				TargetAttributes = {
 					E8561ABC1AFB1518006E087E = {
 						CreatedOnToolsVersion = 6.3.1;

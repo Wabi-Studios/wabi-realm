@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright 2014 Realm Inc.
+// Copyright 2014 WabiRealm Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,14 +21,15 @@
 
 @implementation AppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+- (BOOL)application:(UIApplication *)application
+    didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+  self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
-    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:
-                                      [[TableViewController alloc] initWithStyle:UITableViewStylePlain]];
-    [self.window makeKeyAndVisible];
-    return YES;
+  self.window.rootViewController = [[UINavigationController alloc]
+      initWithRootViewController:[[TableViewController alloc]
+                                     initWithStyle:UITableViewStylePlain]];
+  [self.window makeKeyAndVisible];
+  return YES;
 }
 
 @end

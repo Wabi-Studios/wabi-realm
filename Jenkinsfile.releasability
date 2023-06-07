@@ -94,7 +94,7 @@ def doBuild() {
           sh """
           hostname
           export REALM_SWIFT_VERSION=${docsSwiftVersion}
-          export PATH='/Users/realm/.rbenv/bin:/Users/realm/.rbenv/shims:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/realm/.gems/bin'
+          export PATH='/Users/wabi-realm/.rbenv/bin:/Users/wabi-realm/.rbenv/shims:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/wabi-realm/.gems/bin'
           ./scripts/reset-simulators.sh
           ./build.sh docs
           cd docs
@@ -155,9 +155,9 @@ def doBuild() {
 
           # Carthage doesn't let us tell it which schemes to build, so delete
           # all of them except for the two we actually want
-          find Realm.xcodeproj -name '*.xcscheme' \
-            -and -not -name 'Realm.xcscheme' \
-            -and -not -name 'RealmSwift.xcscheme' \
+          find WabiRealm.xcodeproj -name '*.xcscheme' \
+            -and -not -name 'WabiRealm.xcscheme' \
+            -and -not -name 'WabiRealmKit.xcscheme' \
             -delete
 
           carthage build --no-skip-current --platform ${platform} --derived-data DerivedData
@@ -261,11 +261,11 @@ def doBuild() {
           def sha = params.sha
           sh """
           hostname
-          curl -O https://raw.githubusercontent.com/realm/realm-swift/${sha}/build.sh
+          curl -O https://raw.githubusercontent.com/Wabi-Studios/wabi-realm/${sha}/build.sh
           mkdir -p scripts
-          curl https://raw.githubusercontent.com/realm/realm-swift/${sha}/scripts/swift-version.sh -o scripts/swift-version.sh
-          curl https://raw.githubusercontent.com/realm/realm-swift/${sha}/scripts/reset-simulators.sh -o scripts/reset-simulators.sh
-          curl https://raw.githubusercontent.com/realm/realm-swift/${sha}/scripts/reset-simulators.rb -o scripts/reset-simulators.rb
+          curl https://raw.githubusercontent.com/Wabi-Studios/wabi-realm/${sha}/scripts/swift-version.sh -o scripts/swift-version.sh
+          curl https://raw.githubusercontent.com/Wabi-Studios/wabi-realm/${sha}/scripts/reset-simulators.sh -o scripts/reset-simulators.sh
+          curl https://raw.githubusercontent.com/Wabi-Studios/wabi-realm/${sha}/scripts/reset-simulators.rb -o scripts/reset-simulators.rb
           chmod +x scripts/reset-simulators.rb
 
           sh build.sh package-test-examples-objc
@@ -282,11 +282,11 @@ def doBuild() {
           def sha = params.sha
           sh """
           hostname
-          curl -O https://raw.githubusercontent.com/realm/realm-swift/${sha}/build.sh
+          curl -O https://raw.githubusercontent.com/Wabi-Studios/wabi-realm/${sha}/build.sh
           mkdir -p scripts
-          curl https://raw.githubusercontent.com/realm/realm-swift/${sha}/scripts/swift-version.sh -o scripts/swift-version.sh
-          curl https://raw.githubusercontent.com/realm/realm-swift/${sha}/scripts/reset-simulators.sh -o scripts/reset-simulators.sh
-          curl https://raw.githubusercontent.com/realm/realm-swift/${sha}/scripts/reset-simulators.rb -o scripts/reset-simulators.rb
+          curl https://raw.githubusercontent.com/Wabi-Studios/wabi-realm/${sha}/scripts/swift-version.sh -o scripts/swift-version.sh
+          curl https://raw.githubusercontent.com/Wabi-Studios/wabi-realm/${sha}/scripts/reset-simulators.sh -o scripts/reset-simulators.sh
+          curl https://raw.githubusercontent.com/Wabi-Studios/wabi-realm/${sha}/scripts/reset-simulators.rb -o scripts/reset-simulators.rb
           chmod +x scripts/reset-simulators.rb
 
           sh build.sh package-test-examples-swift

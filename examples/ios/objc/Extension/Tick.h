@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright 2015 Realm Inc.
+// Copyright 2015 WabiRealm Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,12 +16,12 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-#import <Realm/Realm.h>
+#import <WabiRealm/WabiRealm.h>
 
 @interface Tick : RLMObject
 
-@property (nonatomic, strong) NSString *tickID;
+@property(nonatomic, strong) NSString *tickID;
 
-@property (nonatomic, assign) NSInteger count;
+@property(nonatomic, assign) NSInteger count;
 
 @end

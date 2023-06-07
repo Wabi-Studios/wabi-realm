@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright 2021 Realm Inc.
+// Copyright 2021 WabiRealm Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,13 +21,13 @@ import SwiftUI
 
 @main
 struct App: SwiftUI.App {
-    var view: some View {
-        ContentView()
-    }
+  var view: some View {
+    ContentView()
+  }
 
-    var body: some Scene {
-        WindowGroup {
-            view
-        }
+  var body: some Scene {
+    WindowGroup {
+      view
     }
+  }
 }

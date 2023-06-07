@@ -16,7 +16,7 @@ SWIFT_ZIP = BUILD + "realm-swift-#{VERSION}.zip"
 CARTHAGE_ZIP = BUILD + 'Carthage.framework.zip'
 CARTHAGE_XCFRAMEWORK_ZIP = BUILD + 'Carthage.xcframework.zip'
 
-REPOSITORY = 'realm/realm-swift'
+REPOSITORY = 'Wabi-Studios/wabi-realm'
 
 puts 'Creating Carthage XCFramework package'
 FileUtils.rm_f CARTHAGE_XCFRAMEWORK_ZIP
@@ -26,7 +26,7 @@ Dir.mktmpdir do |tmp|
   Dir.chdir(tmp) do
     system('unzip', SWIFT_ZIP.to_path, "realm-swift-#{VERSION}/#{CARTHAGE_XCODE_VERSION}/*.xcframework/*", :out=>"/dev/null") || exit(1)
     Dir.chdir("realm-swift-#{VERSION}/#{CARTHAGE_XCODE_VERSION}") do
-      system('zip', '--symlinks', '-r', CARTHAGE_XCFRAMEWORK_ZIP.to_path, 'Realm.xcframework', 'RealmSwift.xcframework', :out=>"/dev/null") || exit(1)
+      system('zip', '--symlinks', '-r', CARTHAGE_XCFRAMEWORK_ZIP.to_path, 'WabiRealm.xcframework', 'WabiRealmKit.xcframework', :out=>"/dev/null") || exit(1)
     end
   end
 end

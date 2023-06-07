@@ -1,4 +1,4 @@
-# NOTE: This is a common file that is overwritten by realm/ci-actions sync service
+# NOTE: This is a common file that is overwritten by wabi-realm/ci-actions sync service
 # and should only be modified in that repository.
 
 # See configuration in .github/advanced-issue-labeler.yml

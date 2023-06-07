@@ -1,18 +1,18 @@
-# Realm Examples
+# WabiRealm Examples
 
-Included in this folder are sample iOS/OSX apps using Realm.
+Included in this folder are sample iOS/OSX apps using WabiRealm.
 
 ## iOS (Objective-C)
 
-The following examples are located in the `ios/objc/RealmExamples.xcodeproj` project:
+The following examples are located in the `ios/objc/WabiRealmExamples.xcodeproj` project:
 
 ### Simple
 
-This app covers several introductory concepts about Realm. Without any UI distractions, just a little console output.
+This app covers several introductory concepts about WabiRealm. Without any UI distractions, just a little console output.
 
 ### TableView
 
-This app demonstrates how Realm can be the data source for UITableViews.
+This app demonstrates how WabiRealm can be the data source for UITableViews.
 
 You can add rows by tapping the add button and remove rows by swiping right-to-left.
 
@@ -20,15 +20,15 @@ The application also demonstrates how to import data in a background thread.
 
 ### GroupedTableView
 
-A sample app to demonstrate how to use Realm to populate a table view with sections.
+A sample app to demonstrate how to use WabiRealm to populate a table view with sections.
 
 ### Migration
 
-This example showcases Realm's migration features.
+This example showcases WabiRealm's migration features.
 
 ### REST
 
-Using data from FourSquare, this example demonstrates how to populate a Realm with external json data.
+Using data from FourSquare, this example demonstrates how to populate a WabiRealm with external json data.
 
 ### Encryption
 
@@ -40,33 +40,33 @@ This simple app demonstrates how to define models with inverse relationships usi
 
 ### Draw
 
-This is a simple drawing app designed to show off the collaborative features of the [Realm Mobile Platform](https://realm.io/news/introducing-realm-mobile-platform/).
+This is a simple drawing app designed to show off the collaborative features of the [WabiRealm Mobile Platform](https://realm.io/news/introducing-realm-mobile-platform/).
 
 Any number of users may draw on a single shared canvas in any given moment, with contributions from other devices appearing on the canvas in real-time.
 
 #### Installation Instructions
 
-1. [Download the macOS version](https://realm.io/docs/realm-mobile-platform/get-started/) of the Realm Mobile Platform.
-2. Run a local instance of the Realm Mobile Platform.
-3. Open the Realm Object Server Dashboard in your browser by visiting 'http://localhost:9080'.
+1. [Download the macOS version](https://realm.io/docs/realm-mobile-platform/get-started/) of the WabiRealm Mobile Platform.
+2. Run a local instance of the WabiRealm Mobile Platform.
+3. Open the WabiRealm Object Server Dashboard in your browser by visiting 'http://localhost:9080'.
 4. Create a user account with the email 'demo@realm.io' and the password 'password'.
 5. Build the Draw app and deploy it to iOS devices on the same network as your Mac.
 
 ## iOS (Swift)
 
-In the `ios/swift/RealmExamples.xcodeproj` project, you will find the following examples:
+In the `ios/swift/WabiRealmExamples.xcodeproj` project, you will find the following examples:
 
 ### GettingStarted.playground
 
-This is a Swift Playground that goes over a few Realm basics.
+This is a Swift Playground that goes over a few WabiRealm basics.
 
 ### Simple
 
-This app covers several introductory concepts about Realm. Without any UI distractions, just a little console output.
+This app covers several introductory concepts about WabiRealm. Without any UI distractions, just a little console output.
 
 ### TableView
 
-This app demonstrates how Realm can be the data source for UITableViews.
+This app demonstrates how WabiRealm can be the data source for UITableViews.
 
 You can add rows by tapping the add button and remove rows by swiping right-to-left.
 
@@ -74,11 +74,11 @@ The application also demonstrates how to import data in a background thread.
 
 ### GroupedTableView
 
-A sample app to demonstrate how to use Realm to populate a table view with sections.
+A sample app to demonstrate how to use WabiRealm to populate a table view with sections.
 
 ### Migration
 
-This example showcases Realm's migration features.
+This example showcases WabiRealm's migration features.
 
 ### Encryption
 
@@ -90,11 +90,11 @@ This simple app demonstrates how to define models with inverse relationships usi
 
 ### Projections
 
-This app demonstrates how to define Projection on Realm Object and how to use it in SwiftUI application.
+This app demonstrates how to define Projection on WabiRealm Object and how to use it in SwiftUI application.
 
 ### AppClip / AppClipParent
 
-These two targets demonstrate how to use Realm to persist data between an App Clip and its parent.
+These two targets demonstrate how to use WabiRealm to persist data between an App Clip and its parent.
 
 **Note:** This is only supported for non-synchronized realms.
 
@@ -104,7 +104,7 @@ For the purpose of this example, the app clip invocation and parent application 
 
 For more information on complete App Clip flow see: [Responding to invocations](https://developer.apple.com/documentation/app_clips/responding_to_invocations) and [Launch Experience](https://developer.apple.com/documentation/app_clips/testing_your_app_clip_s_launch_experience).
 
-![alt text](https://github.com/realm/realm-swift/blob/em/appclip_ex/examples/ios/swift/AppClip/appclip_ex.gif?raw=true)
+![alt text](https://github.com/Wabi-Studios/wabi-realm/blob/em/appclip_ex/examples/ios/swift/AppClip/appclip_ex.gif?raw=true)
 
 **Note:** When testing App Group Entitlements on MacOS (including the iOS simulator), `containerURL(forSecurityApplicationGroupIdentifier:)` will always return the shared directory URL, even when the group identifier is invalid.  Be sure to test on physical devices with non-simulated iOS for expected security behavior. See [Return Value](https://developer.apple.com/documentation/foundation/filemanager/1412643-containerurl).
 
@@ -112,36 +112,36 @@ For more information on complete App Clip flow see: [Responding to invocations](
 
 ## OSX (Objective-C)
 
-In the `osx/objc/RealmExamples.xcodeproj` project, you will find the following examples:
+In the `osx/objc/WabiRealmExamples.xcodeproj` project, you will find the following examples:
 
 ### JSONImport
 
-This is a small OS X command-line program which demonstrates how to import data from JSON into a Realm.
+This is a small OS X command-line program which demonstrates how to import data from JSON into a WabiRealm.
 
 Open the project in Xcode, and press "Run" to build and run the program. It will write output to the console.
 
 ## Installation Examples
 
 The `installation/` directory contains example Xcode projects demonstrating how
-to install Realm Objective-C and Realm Swift from all available methods defined
-in <https://www.mongodb.com/docs/realm/sdk/swift/install/#install-realm-for-ios--macos--tvos--and-watchos>.
+to install WabiRealm Objective-C and WabiRealm Swift from all available methods defined
+in <https://www.mongodb.com/docs/wabi-realm/sdk/swift/install/#install-realm-for-ios--macos--tvos--and-watchos>.
 
 ## tvOS (Objective-C)
 
 ### DownloadCache
 
-A tvOS app that demonstrates how to use Realm to store data and display data from a REST API.
+A tvOS app that demonstrates how to use WabiRealm to store data and display data from a REST API.
 
 ### PreloadedData
 
-A tvOS app that demonstrates how to use a Realm file included in your app bundle.
+A tvOS app that demonstrates how to use a WabiRealm file included in your app bundle.
 
 ## tvOS (Swift)
 
 ### DownloadCache
 
-A tvOS app that demonstrates how to use Realm to store data and display data from a REST API.
+A tvOS app that demonstrates how to use WabiRealm to store data and display data from a REST API.
 
 ### PreloadedData
 
-A tvOS app that demonstrates how to use a Realm file included in your app bundle.
+A tvOS app that demonstrates how to use a WabiRealm file included in your app bundle.

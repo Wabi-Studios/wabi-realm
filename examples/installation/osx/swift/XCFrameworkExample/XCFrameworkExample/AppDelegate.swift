@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright 2014 Realm Inc.
+// Copyright 2014 WabiRealm Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,12 +17,11 @@
 ////////////////////////////////////////////////////////////////////////////
 
 import Cocoa
-import RealmSwift
+import WabiRealmKit
 
 open class MyModel: Object {
-    @objc dynamic var requiredProperty: String?
+  @objc dynamic var requiredProperty: String?
 }
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
-}
+class AppDelegate: NSObject, NSApplicationDelegate {}

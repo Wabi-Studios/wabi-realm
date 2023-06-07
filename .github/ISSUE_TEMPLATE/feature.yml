@@ -1,4 +1,4 @@
-# NOTE: This is a common file that is overwritten by realm/ci-actions sync service
+# NOTE: This is a common file that is overwritten by wabi-realm/ci-actions sync service
 # and should only be modified in that repository.
 
 name: Feature Request
@@ -8,7 +8,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to suggest improvements to Realm!
+        Thanks for taking the time to suggest improvements to WabiRealm!
   - type: textarea
     id: problem
     attributes:

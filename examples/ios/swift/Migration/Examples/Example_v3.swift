@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright 2021 Realm Inc.
+// Copyright 2021 WabiRealm Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,120 +18,120 @@
 
 #if SCHEMA_VERSION_3
 
-import Foundation
-import RealmSwift
+  import Foundation
+  import WabiRealmKit
 
-// MARK: - Schema
+  // MARK: - Schema
 
-let schemaVersion = 3
+  let schemaVersion = 3
 
-// Changes from previous version:
-// rename the `Dog` object to `Pet`
-// add a `kind` property to `Pet`
-// change the `dogs` property on `Person`:
-// - rename to `pets`
-// - change type to `List<Pet>`
+  // Changes from previous version:
+  // rename the `Dog` object to `Pet`
+  // add a `kind` property to `Pet`
+  // change the `dogs` property on `Person`:
+  // - rename to `pets`
+  // - change type to `List<Pet>`
 
-// Renaming tables is not supported yet: https://github.com/realm/realm-swift/issues/2491
-// The recommended way is to create a new type instead and migrate the old type.
-// Here we create `Pet` and migrate its data from `Dog` so simulate renaming the table.
+  // Renaming tables is not supported yet: https://github.com/Wabi-Studios/wabi-realm/issues/2491
+  // The recommended way is to create a new type instead and migrate the old type.
+  // Here we create `Pet` and migrate its data from `Dog` so simulate renaming the table.
 
-class Pet: Object {
+  class Pet: Object {
     enum Kind: Int, PersistableEnum {
-        case unspecified
-        case dog
-        case chicken
-        case cow
+      case unspecified
+      case dog
+      case chicken
+      case cow
     }
 
     @Persisted var name = ""
     @Persisted var kind = Kind.unspecified
 
     convenience init(name: String, kind: Kind) {
-        self.init()
-        self.name = name
-        self.kind = kind
+      self.init()
+      self.name = name
+      self.kind = kind
     }
-}
+  }
 
-class Person: Object {
+  class Person: Object {
     @Persisted var fullName = ""
     @Persisted var age = 0
     @Persisted var pets: List<Pet>
     convenience init(fullName: String, age: Int) {
-        self.init()
-        self.fullName = fullName
-        self.age = age
+      self.init()
+      self.fullName = fullName
+      self.age = age
     }
-}
+  }
 
-// MARK: - Migration
+  // MARK: - Migration
 
-// Migration block to migrate from *any* previous version to this version.
-let migrationBlock: MigrationBlock = { migration, oldSchemaVersion in
+  // Migration block to migrate from *any* previous version to this version.
+  let migrationBlock: MigrationBlock = { migration, oldSchemaVersion in
     if oldSchemaVersion < 1 {
-        migration.enumerateObjects(ofType: Person.className()) { oldObject, newObject in
-            // combine name fields into a single field
-            let firstName = oldObject!["firstName"] as! String
-            let lastName = oldObject!["lastName"] as! String
-            newObject!["fullName"] = "\(firstName) \(lastName)"
-        }
+      migration.enumerateObjects(ofType: Person.className()) { oldObject, newObject in
+        // combine name fields into a single field
+        let firstName = oldObject!["firstName"] as! String
+        let lastName = oldObject!["lastName"] as! String
+        newObject!["fullName"] = "\(firstName) \(lastName)"
+      }
     }
     if oldSchemaVersion < 2 {
-        migration.enumerateObjects(ofType: Person.className()) { _, newObject in
-            // Add a pet to a specific person
-            if newObject!["fullName"] as! String == "John Doe" {
-                // `Dog` was changed to `Pet` in v2 already, but we still need to account for this
-                // if upgrading from pre v2 to v3.
-                let dogs = newObject!["pets"] as! List<MigrationObject>
-                let marley = migration.create(Pet.className(), value: ["Marley", Pet.Kind.dog.rawValue])
-                let lassie = migration.create(Pet.className(), value: ["Lassie", Pet.Kind.dog.rawValue])
-                dogs.append(marley)
-                dogs.append(lassie)
-            } else if newObject!["fullName"] as! String == "Jane Doe" {
-                let dogs = newObject!["pets"] as! List<MigrationObject>
-                let toto = migration.create(Pet.className(), value: ["Toto", Pet.Kind.dog.rawValue])
-                dogs.append(toto)
-            }
+      migration.enumerateObjects(ofType: Person.className()) { _, newObject in
+        // Add a pet to a specific person
+        if newObject!["fullName"] as! String == "John Doe" {
+          // `Dog` was changed to `Pet` in v2 already, but we still need to account for this
+          // if upgrading from pre v2 to v3.
+          let dogs = newObject!["pets"] as! List<MigrationObject>
+          let marley = migration.create(Pet.className(), value: ["Marley", Pet.Kind.dog.rawValue])
+          let lassie = migration.create(Pet.className(), value: ["Lassie", Pet.Kind.dog.rawValue])
+          dogs.append(marley)
+          dogs.append(lassie)
+        } else if newObject!["fullName"] as! String == "Jane Doe" {
+          let dogs = newObject!["pets"] as! List<MigrationObject>
+          let toto = migration.create(Pet.className(), value: ["Toto", Pet.Kind.dog.rawValue])
+          dogs.append(toto)
         }
-        let slinkey = migration.create(Pet.className(), value: ["Slinkey", Pet.Kind.dog.rawValue])
+      }
+      let slinkey = migration.create(Pet.className(), value: ["Slinkey", Pet.Kind.dog.rawValue])
     }
     if oldSchemaVersion == 2 {
-        // This branch is only relevant for version 2. If we are migration from a previous
-        // version, we would not be able to access `dogs` since they did not exist back there.
-        // Migration from v0 and v1 to v3 is done in the previous blocks.
-        // Related issue: https://github.com/realm/realm-swift/issues/6263
-        migration.enumerateObjects(ofType: Person.className()) { oldObject, newObject in
-            let pets = newObject!["pets"] as! List<MigrationObject>
-            for dog in oldObject!["dogs"] as! List<DynamicObject> {
-                let pet = migration.create(Pet.className(), value: [dog["name"], Pet.Kind.dog.rawValue])
-                pets.append(pet)
-            }
+      // This branch is only relevant for version 2. If we are migration from a previous
+      // version, we would not be able to access `dogs` since they did not exist back there.
+      // Migration from v0 and v1 to v3 is done in the previous blocks.
+      // Related issue: https://github.com/Wabi-Studios/wabi-realm/issues/6263
+      migration.enumerateObjects(ofType: Person.className()) { oldObject, newObject in
+        let pets = newObject!["pets"] as! List<MigrationObject>
+        for dog in oldObject!["dogs"] as! List<DynamicObject> {
+          let pet = migration.create(Pet.className(), value: [dog["name"], Pet.Kind.dog.rawValue])
+          pets.append(pet)
         }
-        // We migrate over the old dog list to make sure all dogs get added, even those without
-        // an owner.
-        // Related issue: https://github.com/realm/realm-swift/issues/6734
-        migration.enumerateObjects(ofType: "Dog") { oldDogObject, _ in
-            var dogFound = false
-            migration.enumerateObjects(ofType: Person.className()) { _, newObject in
-                for pet in newObject!["pets"] as! List<DynamicObject> where pet["name"] as! String == oldDogObject!["name"] as! String {
-                    dogFound = true
-                    break
-                }
-            }
-            if !dogFound {
-                migration.create(Pet.className(), value: [oldDogObject!["name"], Pet.Kind.dog.rawValue])
-            }
+      }
+      // We migrate over the old dog list to make sure all dogs get added, even those without
+      // an owner.
+      // Related issue: https://github.com/Wabi-Studios/wabi-realm/issues/6734
+      migration.enumerateObjects(ofType: "Dog") { oldDogObject, _ in
+        var dogFound = false
+        migration.enumerateObjects(ofType: Person.className()) { _, newObject in
+          for pet in newObject!["pets"] as! List<DynamicObject> where pet["name"] as! String == oldDogObject!["name"] as! String {
+            dogFound = true
+            break
+          }
         }
-        // The data cannot be deleted just yet since the table is target of cross-table link columns.
-        // See https://github.com/realm/realm-swift/issues/3686
-        // migration.deleteData(forType: Pet.Kind.dog)
+        if !dogFound {
+          migration.create(Pet.className(), value: [oldDogObject!["name"], Pet.Kind.dog.rawValue])
+        }
+      }
+      // The data cannot be deleted just yet since the table is target of cross-table link columns.
+      // See https://github.com/Wabi-Studios/wabi-realm/issues/3686
+      // migration.deleteData(forType: Pet.Kind.dog)
     }
-}
+  }
 
-// This block checks if the migration led to the expected result.
-// All older versions should have been migrated to the below stated `exampleData`.
-let migrationCheck: (Realm) -> Void = { realm in
+  // This block checks if the migration led to the expected result.
+  // All older versions should have been migrated to the below stated `exampleData`.
+  let migrationCheck: (WabiRealm) -> Void = { realm in
     let persons = realm.objects(Person.self)
     assert(persons.count == 3)
     assert(persons[0].fullName == "John Doe")
@@ -151,12 +151,12 @@ let migrationCheck: (Realm) -> Void = { realm in
     let pets = realm.objects(Pet.self)
     assert(pets.count == 4)
     assert(pets.contains { $0.name == "Slinkey" && $0.kind.rawValue == Pet.Kind.dog.rawValue })
-}
+  }
 
-// MARK: - Example data
+  // MARK: - Example data
 
-// Example data for this schema version.
-let exampleData: (Realm) -> Void = { realm in
+  // Example data for this schema version.
+  let exampleData: (WabiRealm) -> Void = { realm in
     let person1 = Person(fullName: "John Doe", age: 42)
     let person2 = Person(fullName: "Jane Doe", age: 43)
     let person3 = Person(fullName: "John Smith", age: 44)
@@ -171,6 +171,6 @@ let exampleData: (Realm) -> Void = { realm in
     // pet1, pet2 and pet3 get added automatically by adding them to a list.
     // pet4 has to be added manually though since it's not attached to a person yet.
     realm.add(pet4)
-}
+  }
 
 #endif

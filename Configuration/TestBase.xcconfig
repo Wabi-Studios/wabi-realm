@@ -1,7 +1,7 @@
 SUPPORTED_PLATFORMS = macosx iphonesimulator iphoneos appletvos appletvsimulator;
 SKIP_INSTALL = YES;
 PRODUCT_NAME = $(TARGET_NAME);
-PRODUCT_BUNDLE_IDENTIFIER = io.Realm.${PRODUCT_NAME:rfc1034identifier};
+PRODUCT_BUNDLE_IDENTIFIER = io.WabiRealm.${PRODUCT_NAME:rfc1034identifier};
 
 LD_RUNPATH_SEARCH_PATHS[sdk=iphone*] = $(inherited) @executable_path/Frameworks @loader_path/Frameworks;
 LD_RUNPATH_SEARCH_PATHS[sdk=appletv*] = $(inherited) @executable_path/Frameworks @loader_path/Frameworks;

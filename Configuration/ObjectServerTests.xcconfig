@@ -1,4 +1,4 @@
-#include "Realm/Tests.xcconfig"
+#include "WabiRealm/Tests.xcconfig"
 
 OTHER_LDFLAGS = -weak_framework Combine;
 SDKROOT = macosx;

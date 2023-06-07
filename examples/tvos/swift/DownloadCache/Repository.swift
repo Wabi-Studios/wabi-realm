@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright 2014 Realm Inc.
+// Copyright 2014 WabiRealm Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,14 +17,14 @@
 ////////////////////////////////////////////////////////////////////////////
 
 import UIKit
-import RealmSwift
+import WabiRealmKit
 
 class Repository: Object {
-    @objc dynamic var identifier = ""
-    @objc dynamic var name: String?
-    @objc dynamic var avatarURL: String?
+  @objc dynamic var identifier = ""
+  @objc dynamic var name: String?
+  @objc dynamic var avatarURL: String?
 
-    override static func primaryKey() -> String? {
-        return "identifier"
-    }
+  override static func primaryKey() -> String? {
+    return "identifier"
+  }
 }

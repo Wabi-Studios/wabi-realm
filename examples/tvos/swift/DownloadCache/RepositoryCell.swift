@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright 2014 Realm Inc.
+// Copyright 2014 WabiRealm Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,11 +19,11 @@
 import UIKit
 
 class RepositoryCell: UICollectionViewCell {
-    @IBOutlet weak var avatarImageView: UIImageView!
-    @IBOutlet weak var titleLabel: UILabel!
+  @IBOutlet var avatarImageView: UIImageView!
+  @IBOutlet var titleLabel: UILabel!
 
-    override func prepareForReuse() {
-        avatarImageView.image = nil
-        titleLabel.text = nil
-    }
+  override func prepareForReuse() {
+    avatarImageView.image = nil
+    titleLabel.text = nil
+  }
 }

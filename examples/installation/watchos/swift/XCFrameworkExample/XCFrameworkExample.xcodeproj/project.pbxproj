@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3FDA0A412319AF370099B474 /* RealmSwift.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FDA0A3F2319AF360099B474 /* RealmSwift.xcframework */; };
-		3FDA0A422319AF370099B474 /* RealmSwift.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FDA0A3F2319AF360099B474 /* RealmSwift.xcframework */; };
+		3FDA0A412319AF370099B474 /* WabiRealmKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FDA0A3F2319AF360099B474 /* WabiRealmKit.xcframework */; };
+		3FDA0A422319AF370099B474 /* WabiRealmKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FDA0A3F2319AF360099B474 /* WabiRealmKit.xcframework */; };
 		3FDA0A432319AF370099B474 /* RealmObjc.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FDA0A402319AF370099B474 /* RealmObjc.xcframework */; };
 		3FDA0A442319AF370099B474 /* RealmObjc.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FDA0A402319AF370099B474 /* RealmObjc.xcframework */; };
 		E806E98A1C7921FE00C5C9A8 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E806E9891C7921FE00C5C9A8 /* InterfaceController.swift */; };
@@ -71,7 +71,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		3FDA0A3F2319AF360099B474 /* RealmSwift.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = RealmSwift.xcframework; path = "../../../realm-swift-latest/RealmSwift.xcframework"; sourceTree = "<group>"; };
+		3FDA0A3F2319AF360099B474 /* WabiRealmKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = WabiRealmKit.xcframework; path = "../../../realm-swift-latest/WabiRealmKit.xcframework"; sourceTree = "<group>"; };
 		3FDA0A402319AF370099B474 /* RealmObjc.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = RealmObjc.xcframework; path = "../../../realm-swift-latest/RealmObjc.xcframework"; sourceTree = "<group>"; };
 		E806E9891C7921FE00C5C9A8 /* InterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
 		E8645B841C7913D600C241AA /* XCFrameworkExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XCFrameworkExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -90,7 +90,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3FDA0A432319AF370099B474 /* RealmObjc.xcframework in Frameworks */,
-				3FDA0A412319AF370099B474 /* RealmSwift.xcframework in Frameworks */,
+				3FDA0A412319AF370099B474 /* WabiRealmKit.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,7 +99,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3FDA0A442319AF370099B474 /* RealmObjc.xcframework in Frameworks */,
-				3FDA0A422319AF370099B474 /* RealmSwift.xcframework in Frameworks */,
+				3FDA0A422319AF370099B474 /* WabiRealmKit.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,7 +114,7 @@
 				E8645B9F1C7913D600C241AA /* XCFrameworkExample WatchKit App */,
 				E8645BAE1C7913D600C241AA /* XCFrameworkExample WatchKit Extension */,
 				3FDA0A402319AF370099B474 /* RealmObjc.xcframework */,
-				3FDA0A3F2319AF360099B474 /* RealmSwift.xcframework */,
+				3FDA0A3F2319AF360099B474 /* WabiRealmKit.xcframework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -219,7 +219,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1430;
-				ORGANIZATIONNAME = Realm;
+				ORGANIZATIONNAME = WabiRealm;
 				TargetAttributes = {
 					E8645B831C7913D600C241AA = {
 						CreatedOnToolsVersion = 7.2.1;

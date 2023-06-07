@@ -4,11 +4,11 @@ platform :ios, '11.0'
 branch = ENV['sha']
 
 target 'CocoaPodsExample' do
-  pod 'Realm', git: 'https://github.com/realm/realm-swift.git', branch: branch
+  pod 'WabiRealm', git: 'https://github.com/Wabi-Studios/wabi-realm.git', branch: branch
 end
 
 target 'CocoaPodsExampleTests' do
-  pod 'Realm/Headers', git: 'https://github.com/realm/realm-swift.git', branch: branch
+  pod 'WabiRealm/Headers', git: 'https://github.com/Wabi-Studios/wabi-realm.git', branch: branch
 end
 
 post_install do |installer|

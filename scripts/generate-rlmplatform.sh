@@ -2,7 +2,7 @@
 
 : ${SRCROOT:?"generate-rlmplatform.sh must be invoked as part of an Xcode script phase"}
 
-SOURCE_FILE="${SRCROOT}/Realm/RLMPlatform.h.in"
+SOURCE_FILE="${SRCROOT}/WabiRealm/RLMPlatform.h.in"
 DESTINATION_FILE="${TARGET_BUILD_DIR}/${PUBLIC_HEADERS_FOLDER_PATH}/RLMPlatform.h"
 TEMPORARY_FILE="${TARGET_TEMP_DIR}/RLMPlatform.h"
 
