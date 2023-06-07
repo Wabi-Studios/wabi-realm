@@ -1,6 +1,6 @@
 #include "../TestBase.xcconfig"
 
-INFOPLIST_FILE = WabiRealm/Tests/RealmTests-Info.plist;
+INFOPLIST_FILE = WabiRealm/Tests/WabiRealmTests-Info.plist;
 OTHER_CFLAGS = -fobjc-arc-exceptions;
 
 SWIFT_OBJC_BRIDGING_HEADER = WabiRealm/Tests/Swift/Swift-Tests-Bridging-Header.h;

@@ -479,21 +479,21 @@ import XCTest
     case flx([String]) // flexible sync
   }
 
-  // MARK: RealmServer
+  // MARK: WabiRealmServer
 
   /**
    A sandboxed server. This singleton launches and maintains all server processes
    and allows for app creation.
    */
   @available(OSX 10.13, *)
-  @objc(RealmServer)
-  public class RealmServer: NSObject {
+  @objc(WabiRealmServer)
+  public class WabiRealmServer: NSObject {
     public enum LogLevel: Sendable {
       case none, info, warn, error
     }
 
-    /// Shared RealmServer. This class only needs to be initialized and torn down once per test suite run.
-    @objc public static let shared = RealmServer()
+    /// Shared WabiRealmServer. This class only needs to be initialized and torn down once per test suite run.
+    @objc public static let shared = WabiRealmServer()
 
     /// Log level for the server and mongo processes.
     public var logLevel = LogLevel.none
@@ -505,7 +505,7 @@ import XCTest
 
     /// The root URL of the project.
     private static let rootUrl = URL(string: #file)!
-      .deletingLastPathComponent() // RealmServer.swift
+      .deletingLastPathComponent() // WabiRealmServer.swift
       .deletingLastPathComponent() // ObjectServerTests
       .deletingLastPathComponent() // WabiRealm
     private static let buildDir = rootUrl.appendingPathComponent(".baas")
@@ -524,7 +524,7 @@ import XCTest
 
     /// Check if the BaaS files are present and we can run the server
     @objc public class func haveServer() -> Bool {
-      let goDir = RealmServer.buildDir.appendingPathComponent("stitch")
+      let goDir = WabiRealmServer.buildDir.appendingPathComponent("stitch")
       return FileManager.default.fileExists(atPath: goDir.path)
     }
 
@@ -533,7 +533,7 @@ import XCTest
 
       if isParentProcess {
         atexit {
-          _ = RealmServer.shared.tearDown
+          _ = WabiRealmServer.shared.tearDown
         }
 
         do {
@@ -551,7 +551,7 @@ import XCTest
     private lazy var tearDown: () = {
       serverProcess.terminate()
 
-      let mongo = RealmServer.binDir.appendingPathComponent("mongo").path
+      let mongo = WabiRealmServer.binDir.appendingPathComponent("mongo").path
 
       // step down the replica set
       let rsStepDownProcess = Process()
@@ -587,7 +587,7 @@ import XCTest
                                          withIntermediateDirectories: false,
                                          attributes: nil)
 
-      mongoProcess.launchPath = RealmServer.binDir.appendingPathComponent("mongod").path
+      mongoProcess.launchPath = WabiRealmServer.binDir.appendingPathComponent("mongod").path
       mongoProcess.arguments = [
         "--quiet",
         "--dbpath", tempDir.path,
@@ -599,7 +599,7 @@ import XCTest
       try mongoProcess.run()
 
       let initProcess = Process()
-      initProcess.launchPath = RealmServer.binDir.appendingPathComponent("mongo").path
+      initProcess.launchPath = WabiRealmServer.binDir.appendingPathComponent("mongo").path
       initProcess.arguments = [
         "--port", "26000",
         "--eval", "rs.initiate()",
@@ -622,7 +622,7 @@ import XCTest
         "AWS_SECRET_ACCESS_KEY": awsSecretAccessKey,
       ]
 
-      let stitchRoot = RealmServer.buildDir.path + "/go/src/github.com/10gen/stitch"
+      let stitchRoot = WabiRealmServer.buildDir.path + "/go/src/github.com/10gen/stitch"
 
       for _ in 0 ..< 5 {
         // create the admin user
@@ -656,7 +656,7 @@ import XCTest
         "--configFile",
         "\(stitchRoot)/etc/configs/test_config.json",
         "--configFile",
-        "\(RealmServer.rootUrl)/WabiRealm/ObjectServerTests/config_overrides.json",
+        "\(WabiRealmServer.rootUrl)/WabiRealm/ObjectServerTests/config_overrides.json",
       ]
 
       let pipe = Pipe()
@@ -728,7 +728,7 @@ import XCTest
 
     private func makeUserAdmin() throws {
       let p = Process()
-      p.launchPath = RealmServer.binDir.appendingPathComponent("mongo").path
+      p.launchPath = WabiRealmServer.binDir.appendingPathComponent("mongo").path
       p.arguments = [
         "--quiet",
         "mongodb://localhost:26000/auth",
@@ -1043,7 +1043,7 @@ import XCTest
     }
 
     @objc public func deleteApp(_ appId: AppId) throws {
-      let appServerId = try RealmServer.shared.retrieveAppServerId(appId)
+      let appServerId = try WabiRealmServer.shared.retrieveAppServerId(appId)
       let app = try XCTUnwrap(session).apps[appServerId]
       _ = try app.delete().get()
     }
@@ -1193,7 +1193,7 @@ import XCTest
     }
 
     public func retrieveUser(_ appId: String, userId: String) -> Result<Any?, Error> {
-      guard let appServerId = try? RealmServer.shared.retrieveAppServerId(appId),
+      guard let appServerId = try? WabiRealmServer.shared.retrieveAppServerId(appId),
             let session = session
       else {
         return .failure(URLError(.unknown))
@@ -1203,7 +1203,7 @@ import XCTest
 
     // Remove User from Atlas App Services using the Admin API
     public func removeUserForApp(_ appId: String, userId: String) -> Result<Any?, Error> {
-      guard let appServerId = try? RealmServer.shared.retrieveAppServerId(appId),
+      guard let appServerId = try? WabiRealmServer.shared.retrieveAppServerId(appId),
             let session = session
       else {
         return .failure(URLError(.unknown))
@@ -1212,7 +1212,7 @@ import XCTest
     }
 
     public func retrieveSchemaProperties(_ appId: String, className: String, _ completion: @escaping (Result<[String], Error>) -> Void) {
-      guard let appServerId = try? RealmServer.shared.retrieveAppServerId(appId),
+      guard let appServerId = try? WabiRealmServer.shared.retrieveAppServerId(appId),
             let session = session
       else {
         fatalError()

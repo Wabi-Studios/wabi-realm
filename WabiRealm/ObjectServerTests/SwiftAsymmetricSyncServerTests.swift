@@ -22,10 +22,10 @@
   import WabiRealmKit
   import XCTest
 
-  #if canImport(RealmTestSupport)
+  #if canImport(WabiRealmTestSupport)
     import RealmSyncTestSupport
-    import RealmTestSupport
     import WabiRealmKitSyncTestSupport
+    import WabiRealmTestSupport
   #endif
 
   class SwiftObjectAsymmetric: AsymmetricObject {
@@ -141,7 +141,7 @@
           let objectSchemas = [SwiftObjectAsymmetric.self,
                                HugeObjectAsymmetric.self,
                                SwiftCustomColumnAsymmetricObject.self].map { RLMObjectSchema(forObjectClass: $0) }
-          appId = try RealmServer.shared.createAppForAsymmetricSchema(objectSchemas)
+          appId = try WabiRealmServer.shared.createAppForAsymmetricSchema(objectSchemas)
           SwiftAsymmetricSyncTests.asymmetricAppId = appId
         } catch {
           XCTFail("Failed to create Asymmetric app: \(error)")

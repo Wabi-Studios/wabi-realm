@@ -20,8 +20,8 @@ import Foundation
 import WabiRealm
 import XCTest
 
-#if canImport(RealmTestSupport)
-  import RealmTestSupport
+#if canImport(WabiRealmTestSupport)
+  import WabiRealmTestSupport
 #endif
 
 class OuterClass {
@@ -411,7 +411,7 @@ class SwiftRLMObjectInterfaceTests: RLMTestCase {
   // for swift class names and the demangling logic need to be updated
   func testNSStringFromClassDemangledTopLevelClassNames() {
     #if SWIFT_PACKAGE
-      XCTAssertEqual(NSStringFromClass(OuterClass.self), "RealmObjcSwiftTests.OuterClass")
+      XCTAssertEqual(NSStringFromClass(OuterClass.self), "WabiRealmObjcSwiftTests.OuterClass")
     #else
       XCTAssertEqual(NSStringFromClass(OuterClass.self), "Tests.OuterClass")
     #endif

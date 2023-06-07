@@ -19,8 +19,8 @@
 import WabiRealm
 import XCTest
 
-#if canImport(RealmTestSupport)
-  import RealmTestSupport
+#if canImport(WabiRealmTestSupport)
+  import WabiRealmTestSupport
 #endif
 
 let utf8TestString = "值значен™👍☞⎠‱௹♣︎☐▼❒∑⨌⧭иеمرحبا"

@@ -16,8 +16,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-#if canImport(RealmTestSupport)
-  import RealmTestSupport
+#if canImport(WabiRealmTestSupport)
+  import WabiRealmTestSupport
 #endif
 
 extension RLMTestCase {

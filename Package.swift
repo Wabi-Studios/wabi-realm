@@ -56,7 +56,7 @@ let objectServerTestSources = [
   "RLMWatchTestUtility.h",
   "RLMWatchTestUtility.m",
   "EventTests.swift",
-  "RealmServer.swift",
+  "WabiRealmServer.swift",
   "SwiftAsymmetricSyncServerTests.swift",
   "SwiftCollectionSyncTests.swift",
   "SwiftFlexibleSyncServerTests.swift",
@@ -269,7 +269,7 @@ let package = Package(
       ]
     ),
     .target(
-      name: "RealmTestSupport",
+      name: "WabiRealmTestSupport",
       dependencies: ["WabiRealm"],
       path: "WabiRealm/TestUtils",
       cxxSettings: testCxxSettings
@@ -289,7 +289,7 @@ let package = Package(
         "PrimitiveDictionaryPropertyTests.tpl.m",
         "PrimitiveRLMValuePropertyTests.tpl.m",
         "PrimitiveSetPropertyTests.tpl.m",
-        "RealmTests-Info.plist",
+        "WabiRealmTests-Info.plist",
         "Swift",
         "SwiftUITestHost",
         "SwiftUITestHostUITests",
@@ -308,7 +308,7 @@ let package = Package(
       name: "WabiRealmObjcSwiftTests",
       dependencies: ["WabiRealm", "WabiRealmTestSupport"],
       path: "WabiRealm/Tests/Swift",
-      exclude: ["RealmObjcSwiftTests-Info.plist"]
+      exclude: ["WabiRealmObjcSwiftTests-Info.plist"]
     ),
     .testTarget(
       name: "WabiRealmKitTests",
@@ -334,12 +334,12 @@ let package = Package(
     ),
     objectServerTestSupportTarget(
       name: "WabiRealmKitSyncTestSupport",
-      dependencies: ["WabiRealmKit", "RealmTestSupport", "RealmSyncTestSupport", "WabiRealmKitTestSupport"],
+      dependencies: ["WabiRealmKit", "WabiRealmTestSupport", "WabiRealmSyncTestSupport", "WabiRealmKitTestSupport"],
       sources: [
         "SwiftSyncTestCase.swift",
         "TimeoutProxyServer.swift",
         "WatchTestUtility.swift",
-        "RealmServer.swift",
+        "WabiRealmServer.swift",
         "SwiftServerObjects.swift",
       ]
     ),

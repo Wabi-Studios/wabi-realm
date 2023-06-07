@@ -18,8 +18,8 @@
 
 import WabiRealm
 
-#if canImport(RealmTestSupport)
-  import RealmTestSupport
+#if canImport(WabiRealmTestSupport)
+  import WabiRealmTestSupport
 #endif
 
 class SwiftRLMStringObject: RLMObject {

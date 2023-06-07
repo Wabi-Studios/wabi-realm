@@ -25,8 +25,8 @@ typedef void (^RLMSyncBasicErrorReportingBlock)(NSError *_Nullable);
 
 RLM_HEADER_AUDIT_BEGIN(nullability, sendability)
 
-@interface RealmServer : NSObject
-+ (RealmServer *)shared;
+@interface WabiRealmServer : NSObject
++ (WabiRealmServer *)shared;
 + (bool)haveServer;
 - (NSString *)createAppForBSONType:(NSString *)bsonType error:(NSError **)error;
 - (NSString *)createAppAndReturnError:(NSError **)error;

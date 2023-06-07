@@ -21,11 +21,11 @@ import Foundation
 import WabiRealmKit
 import XCTest
 
-#if canImport(RealmTestSupport)
+#if canImport(WabiRealmTestSupport)
   import RealmSyncTestSupport
-  import RealmTestSupport
   import WabiRealmKitSyncTestSupport
   import WabiRealmKitTestSupport
+  import WabiRealmTestSupport
 #endif
 
 class SwiftCustomEventRepresentation: Object, CustomEventRepresentable {

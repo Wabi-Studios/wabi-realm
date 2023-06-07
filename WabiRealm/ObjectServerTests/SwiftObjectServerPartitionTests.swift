@@ -19,7 +19,7 @@
 import WabiRealmKit
 import XCTest
 
-#if canImport(RealmTestSupport)
+#if canImport(WabiRealmTestSupport)
   import WabiRealmKitSyncTestSupport
 #endif
 
@@ -44,7 +44,7 @@ class SwiftObjectServerPartitionTests: SwiftSyncTestCase {
 
   func roundTripForPartitionValue<T: BSON>(partitionValue: T) throws {
     let partitionType = partitionBsonType(ObjectiveCSupport.convert(object: AnyBSON(partitionValue))!)
-    let appId = try RealmServer.shared.createAppForBSONType(partitionType)
+    let appId = try WabiRealmServer.shared.createAppForBSONType(partitionType)
 
     let partitionApp = app(fromAppId: appId)
     let user = try logInUser(for: basicCredentials(app: partitionApp), app: partitionApp)
@@ -62,7 +62,7 @@ class SwiftObjectServerPartitionTests: SwiftSyncTestCase {
     checkCount(expected: 8, realm, SwiftPerson.self)
     XCTAssertEqual(realm.objects(SwiftPerson.self).filter { $0.firstName == "Ringo" }.count, 2)
 
-    try RealmServer.shared.deleteApp(appId)
+    try WabiRealmServer.shared.deleteApp(appId)
   }
 
   func testSwiftRoundTripForObjectIdPartitionValue() throws {

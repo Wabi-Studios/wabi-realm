@@ -21,7 +21,7 @@ import SwiftUI
 import WabiRealmKit
 import XCTest
 
-#if canImport(RealmTestSupport)
+#if canImport(WabiRealmTestSupport)
   import RealmSyncTestSupport
   import WabiRealmKitSyncTestSupport
 #endif
@@ -108,7 +108,7 @@ class SwiftUIServerTests: SwiftSyncTestCase {
     let proxy = TimeoutProxyServer(port: 5678, targetPort: 9090)
     try proxy.start()
 
-    let appId = try RealmServer.shared.createApp()
+    let appId = try WabiRealmServer.shared.createApp()
     let appConfig = AppConfiguration(baseURL: "http://localhost:5678",
                                      transport: AsyncOpenConnectionTimeoutTransport(),
                                      localAppName: nil,
@@ -129,7 +129,7 @@ class SwiftUIServerTests: SwiftSyncTestCase {
     }
 
     proxy.stop()
-    try RealmServer.shared.deleteApp(appId)
+    try WabiRealmServer.shared.deleteApp(appId)
   }
 
   @MainActor

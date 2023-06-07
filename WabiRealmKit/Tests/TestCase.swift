@@ -22,9 +22,9 @@ import WabiRealm.Dynamic
 import WabiRealmKit
 import XCTest
 
-#if canImport(RealmTestSupport)
-  import RealmTestSupport
+#if canImport(WabiRealmTestSupport)
   import WabiRealmKitTestSupport
+  import WabiRealmTestSupport
 #endif
 
 func inMemoryRealm(_ inMememoryIdentifier: String) -> WabiRealm {

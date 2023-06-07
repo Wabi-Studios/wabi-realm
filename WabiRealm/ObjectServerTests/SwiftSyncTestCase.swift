@@ -22,10 +22,10 @@
   import WabiRealmKit
   import XCTest
 
-  #if canImport(RealmTestSupport)
+  #if canImport(WabiRealmTestSupport)
     import RealmSyncTestSupport
-    import RealmTestSupport
     import WabiRealmKitTestSupport
+    import WabiRealmTestSupport
   #endif
 
   public extension User {

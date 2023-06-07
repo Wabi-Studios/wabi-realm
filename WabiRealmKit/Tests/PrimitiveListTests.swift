@@ -19,8 +19,8 @@
 import WabiRealmKit
 import XCTest
 
-#if canImport(RealmTestSupport)
-  import RealmTestSupport
+#if canImport(WabiRealmTestSupport)
+  import WabiRealmTestSupport
 #endif
 
 class PrimitiveListTestsBase<O: ObjectFactory, V: ListValueFactory>: RLMTestCaseBase {

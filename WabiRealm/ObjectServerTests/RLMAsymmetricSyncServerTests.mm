@@ -159,7 +159,7 @@ RLM_COLLECTION_TYPE(PersonAsymmetric);
       NSArray *objectsSchema =
           @[ [RLMObjectSchema schemaForObjectClass:PersonAsymmetric.class] ];
       _asymmetricSyncAppId =
-          [RealmServer.shared createAppForAsymmetricSchema:objectsSchema
+          [WabiRealmServer.shared createAppForAsymmetricSchema:objectsSchema
                                                      error:&error];
       if (error) {
         NSLog(@"Failed to create asymmetric app: %@", error);

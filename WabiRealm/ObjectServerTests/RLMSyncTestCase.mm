@@ -577,7 +577,7 @@ static NSURL *syncDirectoryForChildProcess() {
 #pragma mark - XCUnitTest Lifecycle
 
 + (XCTestSuite *)defaultTestSuite {
-  if ([RealmServer haveServer]) {
+  if ([WabiRealmServer haveServer]) {
     return [super defaultTestSuite];
   }
   NSLog(@"Skipping sync tests: server is not present. Run `build.sh "
@@ -588,8 +588,8 @@ static NSURL *syncDirectoryForChildProcess() {
 + (void)setUp {
   [super setUp];
   // Wait for the server to launch
-  if ([RealmServer haveServer]) {
-    (void)[RealmServer shared];
+  if ([WabiRealmServer haveServer]) {
+    (void)[WabiRealmServer shared];
   }
 }
 
@@ -623,7 +623,7 @@ static NSURL *syncDirectoryForChildProcess() {
     } else {
       NSError *error;
       _appId = NSProcessInfo.processInfo.environment[@"RLMParentAppId"]
-                   ?: [RealmServer.shared createAppAndReturnError:&error];
+                   ?: [WabiRealmServer.shared createAppAndReturnError:&error];
       if (error) {
         NSLog(@"Failed to create app: %@", error);
         abort();
@@ -760,11 +760,11 @@ static NSURL *syncDirectoryForChildProcess() {
     } else {
       NSError *error;
       _flexibleSyncAppId =
-          [RealmServer.shared createAppWithQueryableFields:@[
+          [WabiRealmServer.shared createAppWithQueryableFields:@[
             @"age", @"breed", @"partition", @"firstName", @"boolCol", @"intCol",
             @"stringCol", @"dateCol", @"lastName", @"_id"
           ]
-                                                     error:&error];
+                                                         error:&error];
       if (error) {
         NSLog(@"Failed to create app: %@", error);
         abort();

@@ -903,8 +903,8 @@ static NSString *randomEmail() {
   NSString *appId1;
   NSString *appId2;
   if (self.isParent) {
-    appId1 = [RealmServer.shared createAppAndReturnError:nil];
-    appId2 = [RealmServer.shared createAppAndReturnError:nil];
+    appId1 = [WabiRealmServer.shared createAppAndReturnError:nil];
+    appId2 = [WabiRealmServer.shared createAppAndReturnError:nil];
 
   } else {
     appId1 = self.appIds[0];
@@ -954,8 +954,8 @@ static NSString *randomEmail() {
         [Person objectsInRealm:realm2 where:@"firstName = 'George'"].count,
         1UL);
 
-    [RealmServer.shared deleteApp:appId1 error:nil];
-    [RealmServer.shared deleteApp:appId2 error:nil];
+    [WabiRealmServer.shared deleteApp:appId1 error:nil];
+    [WabiRealmServer.shared deleteApp:appId2 error:nil];
   } else {
     // Add objects.
     [self addPersonsToRealm:realm1 persons:@[ [Person john], [Person paul] ]];
@@ -2188,7 +2188,7 @@ static const NSInteger NUMBER_OF_BIG_OBJECTS = 2;
                  localAppName:nil
               localAppVersion:nil
       defaultRequestTimeoutMS:60];
-  NSString *appId = [RealmServer.shared createAppAndReturnError:nil];
+  NSString *appId = [WabiRealmServer.shared createAppAndReturnError:nil];
   RLMApp *app = [RLMApp appWithId:appId configuration:config];
   RLMUser *user =
       [self logInUserForCredentials:[RLMCredentials anonymousCredentials]
@@ -2234,7 +2234,7 @@ static const NSInteger NUMBER_OF_BIG_OBJECTS = 2;
   [self waitForExpectationsWithTimeout:30.0 handler:nil];
 
   [proxy stop];
-  [RealmServer.shared deleteApp:appId error:nil];
+  [WabiRealmServer.shared deleteApp:appId error:nil];
 }
 
 #pragma mark - Compact on Launch

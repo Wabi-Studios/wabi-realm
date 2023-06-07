@@ -21,21 +21,21 @@
   import WabiRealmKit
   import XCTest
 
-  #if canImport(RealmTestSupport)
+  #if canImport(WabiRealmTestSupport)
     import RealmSyncTestSupport
-    import RealmTestSupport
     import SwiftUI
     import WabiRealmKitSyncTestSupport
     import WabiRealmKitTestSupport
+    import WabiRealmTestSupport
   #endif
 
   class SwiftFlexibleSyncTests: SwiftSyncTestCase {
     func testCreateFlexibleSyncApp() throws {
-      let appId = try RealmServer.shared.createAppWithQueryableFields(["age"])
+      let appId = try WabiRealmServer.shared.createAppWithQueryableFields(["age"])
       let flexibleApp = app(fromAppId: appId)
       let user = try logInUser(for: basicCredentials(app: flexibleApp), app: flexibleApp)
       XCTAssertNotNil(user)
-      try RealmServer.shared.deleteApp(appId)
+      try WabiRealmServer.shared.deleteApp(appId)
     }
 
     func testFlexibleSyncOpenRealm() throws {

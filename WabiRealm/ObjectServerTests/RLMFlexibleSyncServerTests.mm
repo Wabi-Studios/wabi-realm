@@ -33,13 +33,13 @@
 @implementation RLMFlexibleSyncTests
 - (void)testCreateFlexibleSyncApp {
   NSString *appId =
-      [RealmServer.shared createAppWithQueryableFields:@[ @"age", @"breed" ]
-                                                 error:nil];
+      [WabiRealmServer.shared createAppWithQueryableFields:@[ @"age", @"breed" ]
+                                                     error:nil];
   RLMApp *app = [RLMApp appWithId:appId
                     configuration:[self defaultAppConfiguration]
                     rootDirectory:[self clientDataRoot]];
   XCTAssertNotNil(app);
-  [RealmServer.shared deleteApp:appId error:nil];
+  [WabiRealmServer.shared deleteApp:appId error:nil];
 }
 
 - (void)testFlexibleSyncOpenRealm {

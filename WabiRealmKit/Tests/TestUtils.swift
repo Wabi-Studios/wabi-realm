@@ -20,8 +20,8 @@ import Foundation
 import WabiRealmKit
 import XCTest
 
-#if canImport(RealmTestSupport)
-  import RealmTestSupport
+#if canImport(WabiRealmTestSupport)
+  import WabiRealmTestSupport
 #endif
 
 // Wrap a sendable value in a lock to enable sharing a mutable variable between

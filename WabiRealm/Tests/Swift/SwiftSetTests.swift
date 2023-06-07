@@ -20,8 +20,8 @@ import Foundation
 import WabiRealm
 import XCTest
 
-#if canImport(RealmTestSupport)
-  import RealmTestSupport
+#if canImport(WabiRealmTestSupport)
+  import WabiRealmTestSupport
 #endif
 
 class SwiftRLMSetTests: RLMTestCase {

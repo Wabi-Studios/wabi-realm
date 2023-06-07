@@ -20,8 +20,8 @@ import WabiRealm
 import WabiRealm.Private
 import XCTest
 
-#if canImport(RealmTestSupport)
-  import RealmTestSupport
+#if canImport(WabiRealmTestSupport)
+  import WabiRealmTestSupport
 #endif
 
 #if os(macOS)

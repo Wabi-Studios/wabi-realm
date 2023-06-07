@@ -19,8 +19,8 @@
 import WabiRealm
 import XCTest
 
-#if canImport(RealmTestSupport)
-  import RealmTestSupport
+#if canImport(WabiRealmTestSupport)
+  import WabiRealmTestSupport
 #endif
 
 @available(iOS 13.0, *) // For @MainActor

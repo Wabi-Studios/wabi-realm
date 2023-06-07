@@ -21,8 +21,8 @@ import WabiRealm
 import WabiRealmKit
 import XCTest
 
-#if canImport(RealmTestSupport)
-  import RealmTestSupport
+#if canImport(WabiRealmTestSupport)
+  import WabiRealmTestSupport
 #endif
 
 // MARK: Test objects definitions

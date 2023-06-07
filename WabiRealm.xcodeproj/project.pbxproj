@@ -317,7 +317,7 @@
 		535EAA7525B0B02B00DBF3CD /* SwiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535EAA7425B0B02B00DBF3CD /* SwiftUITests.swift */; };
 		53626AAF25D31CAC00D9515D /* Objects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53626AAE25D31CAC00D9515D /* Objects.swift */; };
 		53626AB025D31CAC00D9515D /* Objects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53626AAE25D31CAC00D9515D /* Objects.swift */; };
-		537130C824A9E417001FDBBC /* RealmServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537130C724A9E417001FDBBC /* RealmServer.swift */; };
+		537130C824A9E417001FDBBC /* WabiRealmServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537130C724A9E417001FDBBC /* WabiRealmServer.swift */; };
 		53A34E3625CDA0AC00698930 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 53A34E3325CDA0AC00698930 /* LaunchScreen.storyboard */; };
 		53A34E3725CDA0AC00698930 /* SwiftUITestHostApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A34E3425CDA0AC00698930 /* SwiftUITestHostApp.swift */; };
 		53CCC6C4257EC8A300A8FC50 /* RLMApp_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 53CCC6C3257EC8A300A8FC50 /* RLMApp_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -491,7 +491,7 @@
 		AC8846782686573B00DF4A65 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8846772686573B00DF4A65 /* ContentView.swift */; };
 		AC8846B72687BC4100DF4A65 /* SwiftUIServerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8846B62687BC4100DF4A65 /* SwiftUIServerTests.swift */; };
 		AC88478626888CEE00DF4A65 /* SwiftUISyncTestHostUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8846902686573D00DF4A65 /* SwiftUISyncTestHostUITests.swift */; };
-		AC8847A9268926B500DF4A65 /* RealmServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537130C724A9E417001FDBBC /* RealmServer.swift */; };
+		AC8847A9268926B500DF4A65 /* WabiRealmServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537130C724A9E417001FDBBC /* WabiRealmServer.swift */; };
 		AC8AE64B26BAD4B00037D4E5 /* SwiftMongoClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8AE64A26BAD4B00037D4E5 /* SwiftMongoClientTests.swift */; };
 		ACB6FD35273C60CC0009712F /* SyncSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB6FD34273C60CC0009712F /* SyncSubscription.swift */; };
 		ACB6FD36273C60FD0009712F /* SwiftFlexibleSyncServerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB6FD31273C60920009712F /* SwiftFlexibleSyncServerTests.swift */; };
@@ -1009,7 +1009,7 @@
 		53626A8C25D3172000D9515D /* SwiftUITests.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SwiftUITests.xcconfig; sourceTree = "<group>"; };
 		53626AAE25D31CAC00D9515D /* Objects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Objects.swift; sourceTree = "<group>"; };
 		536B7C0B24A4C223006B535D /* dependencies.list */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dependencies.list; sourceTree = "<group>"; };
-		537130C724A9E417001FDBBC /* RealmServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RealmServer.swift; path = WabiRealm/ObjectServerTests/RealmServer.swift; sourceTree = "<group>"; };
+		537130C724A9E417001FDBBC /* WabiRealmServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WabiRealmServer.swift; path = WabiRealm/ObjectServerTests/WabiRealmServer.swift; sourceTree = "<group>"; };
 		53A34E3325CDA0AC00698930 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		53A34E3425CDA0AC00698930 /* SwiftUITestHostApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftUITestHostApp.swift; sourceTree = "<group>"; };
 		53A34E3525CDA0AC00698930 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1224,8 +1224,8 @@
 		E81A1FBE1955FE0100FDED82 /* ObjectInterfaceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjectInterfaceTests.m; sourceTree = "<group>"; };
 		E81A1FBF1955FE0100FDED82 /* ObjectTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjectTests.m; sourceTree = "<group>"; };
 		E81A1FC11955FE0100FDED82 /* QueryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QueryTests.m; sourceTree = "<group>"; };
-		E81A1FC21955FE0100FDED82 /* RealmTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "RealmTests-Info.plist"; sourceTree = "<group>"; };
-		E81A1FC31955FE0100FDED82 /* RealmTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RealmTests.mm; sourceTree = "<group>"; };
+		E81A1FC21955FE0100FDED82 /* WabiRealmTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "WabiRealmTests-Info.plist"; sourceTree = "<group>"; };
+		E81A1FC31955FE0100FDED82 /* WabiRealmTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WabiRealmTests.mm; sourceTree = "<group>"; };
 		E81A1FD01955FE0100FDED82 /* SwiftRealmTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftRealmTests.swift; sourceTree = "<group>"; };
 		E81A1FD11955FE0100FDED82 /* TransactionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransactionTests.m; sourceTree = "<group>"; };
 		E8267FED1D90B79000E001C7 /* ObjectServerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ObjectServerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1380,7 +1380,7 @@
 			children = (
 				1AA5AE9A1D98A1B000ED8C27 /* Object-Server-Tests-Bridging-Header.h */,
 				3F73BC871E3A876600FE80B6 /* ObjectServerTests-Info.plist */,
-				537130C724A9E417001FDBBC /* RealmServer.swift */,
+				537130C724A9E417001FDBBC /* WabiRealmServer.swift */,
 				1AF64DD01DA304A90081EB15 /* RLMUser+ObjectServerTests.h */,
 				1AF64DD11DA304A90081EB15 /* RLMUser+ObjectServerTests.mm */,
 				CF330BBC24E57D5F00F07EE2 /* RLMWatchTestUtility.h */,
@@ -2041,7 +2041,7 @@
 				3FDAB84B290B7A0200168F24 /* file-format-version-10.realm */,
 				3FDAB847290B658300168F24 /* file-format-version-21.realm */,
 				29B7FDF71C0DE76B0023224E /* fileformat-pre-null.realm */,
-				E81A1FC21955FE0100FDED82 /* RealmTests-Info.plist */,
+				E81A1FC21955FE0100FDED82 /* WabiRealmTests-Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -3132,7 +3132,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC8847A9268926B500DF4A65 /* RealmServer.swift in Sources */,
+				AC8847A9268926B500DF4A65 /* WabiRealmServer.swift in Sources */,
 				ACBD595528364DFF009A664E /* RLMChildProcessEnvironment.m in Sources */,
 				ACBD595A283653CF009A664E /* RLMMultiProcessTestCase.m in Sources */,
 				ACBD59592836539B009A664E /* RLMServerTestObjects.m in Sources */,
@@ -3152,7 +3152,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3FEE4F45281C439D009194C7 /* EventTests.swift in Sources */,
-				537130C824A9E417001FDBBC /* RealmServer.swift in Sources */,
+				537130C824A9E417001FDBBC /* WabiRealmServer.swift in Sources */,
 				AC05380B2885B23E00CE27C4 /* RLMAsymmetricSyncServerTests.mm in Sources */,
 				5346E7322487AC9D00595C68 /* RLMBSONTests.mm in Sources */,
 				530BA61626DFA1CB008FC550 /* RLMChildProcessEnvironment.m in Sources */,

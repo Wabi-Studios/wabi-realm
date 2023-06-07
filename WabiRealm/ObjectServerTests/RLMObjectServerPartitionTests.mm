@@ -31,9 +31,9 @@
 
 - (void)roundTripForPartitionValue:(id<RLMBSON>)value testName:(SEL)callerName {
   NSError *error;
-  NSString *appId =
-      [RealmServer.shared createAppForBSONType:[self partitionBsonType:value]
-                                         error:&error];
+  NSString *appId = [WabiRealmServer.shared
+      createAppForBSONType:[self partitionBsonType:value]
+                     error:&error];
 
   if (error) {
     XCTFail(@"Could not create app for partition value %@d", value);
@@ -75,7 +75,7 @@
   XCTAssertEqual(
       [Person objectsInRealm:realm where:@"firstName = 'John'"].count, 2UL);
 
-  [RealmServer.shared deleteApp:appId error:&error];
+  [WabiRealmServer.shared deleteApp:appId error:&error];
   XCTAssertNil(error);
 }
 

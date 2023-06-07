@@ -24,11 +24,11 @@
   import WabiRealmKit
   import XCTest
 
-  #if canImport(RealmTestSupport)
+  #if canImport(WabiRealmTestSupport)
     import RealmSyncTestSupport
-    import RealmTestSupport
     import WabiRealmKitSyncTestSupport
     import WabiRealmKitTestSupport
+    import WabiRealmTestSupport
   #endif
 
   // SE-0392 exposes this functionality directly, but for now we have to call the
@@ -312,17 +312,17 @@
     // MARK: - Client reset
 
     func waitForSyncDisabled(flexibleSync: Bool = false, appServerId: String, syncServiceId: String) {
-      XCTAssertTrue(try RealmServer.shared.isSyncEnabled(flexibleSync: flexibleSync, appServerId: appServerId, syncServiceId: syncServiceId))
-      _ = expectSuccess(RealmServer.shared.disableSync(
+      XCTAssertTrue(try WabiRealmServer.shared.isSyncEnabled(flexibleSync: flexibleSync, appServerId: appServerId, syncServiceId: syncServiceId))
+      _ = expectSuccess(WabiRealmServer.shared.disableSync(
         flexibleSync: flexibleSync, appServerId: appServerId, syncServiceId: syncServiceId
       ))
-      XCTAssertFalse(try RealmServer.shared.isSyncEnabled(appServerId: appServerId, syncServiceId: syncServiceId))
+      XCTAssertFalse(try WabiRealmServer.shared.isSyncEnabled(appServerId: appServerId, syncServiceId: syncServiceId))
     }
 
     func waitForSyncEnabled(flexibleSync: Bool = false, appServerId: String, syncServiceId: String, syncServiceConfig: [String: Any]) {
       while true {
         do {
-          _ = try RealmServer.shared.enableSync(
+          _ = try WabiRealmServer.shared.enableSync(
             flexibleSync: flexibleSync, appServerId: appServerId,
             syncServiceId: syncServiceId, syncServiceConfiguration: syncServiceConfig
           ).get()
@@ -337,28 +337,28 @@
           sleep(1)
         }
       }
-      XCTAssertTrue(try RealmServer.shared.isSyncEnabled(flexibleSync: flexibleSync, appServerId: appServerId, syncServiceId: syncServiceId))
+      XCTAssertTrue(try WabiRealmServer.shared.isSyncEnabled(flexibleSync: flexibleSync, appServerId: appServerId, syncServiceId: syncServiceId))
     }
 
     func waitForDevModeEnabled(appServerId: String, syncServiceId: String, syncServiceConfig: [String: Any]) throws {
-      let devModeEnabled = try RealmServer.shared.isDevModeEnabled(appServerId: appServerId, syncServiceId: syncServiceId)
+      let devModeEnabled = try WabiRealmServer.shared.isDevModeEnabled(appServerId: appServerId, syncServiceId: syncServiceId)
       if !devModeEnabled {
-        _ = expectSuccess(RealmServer.shared.enableDevMode(
+        _ = expectSuccess(WabiRealmServer.shared.enableDevMode(
           appServerId: appServerId, syncServiceId: syncServiceId,
           syncServiceConfiguration: syncServiceConfig
         ))
       }
-      XCTAssertTrue(try RealmServer.shared.isDevModeEnabled(appServerId: appServerId, syncServiceId: syncServiceId))
+      XCTAssertTrue(try WabiRealmServer.shared.isDevModeEnabled(appServerId: appServerId, syncServiceId: syncServiceId))
     }
 
     // Uses admin API to toggle recovery mode on the baas server
     func waitForEditRecoveryMode(flexibleSync: Bool = false, appId: String, disable: Bool) throws {
       // Retrieve server IDs
-      let appServerId = try RealmServer.shared.retrieveAppServerId(appId)
-      let syncServiceId = try RealmServer.shared.retrieveSyncServiceId(appServerId: appServerId)
-      guard let syncServiceConfig = try RealmServer.shared.getSyncServiceConfiguration(appServerId: appServerId, syncServiceId: syncServiceId) else { fatalError("precondition failure: no sync service configuration found") }
+      let appServerId = try WabiRealmServer.shared.retrieveAppServerId(appId)
+      let syncServiceId = try WabiRealmServer.shared.retrieveSyncServiceId(appServerId: appServerId)
+      guard let syncServiceConfig = try WabiRealmServer.shared.getSyncServiceConfiguration(appServerId: appServerId, syncServiceId: syncServiceId) else { fatalError("precondition failure: no sync service configuration found") }
 
-      _ = expectSuccess(RealmServer.shared.patchRecoveryMode(
+      _ = expectSuccess(WabiRealmServer.shared.patchRecoveryMode(
         flexibleSync: flexibleSync, disable: disable, appServerId,
         syncServiceId, syncServiceConfig
       ))
@@ -366,9 +366,9 @@
 
     // This function disables sync, executes a block while the sync service is disabled, then re-enables the sync service and dev mode.
     func executeBlockOffline(flexibleSync: Bool = false, appId: String, block: () throws -> Void) throws {
-      let appServerId = try RealmServer.shared.retrieveAppServerId(appId)
-      let syncServiceId = try RealmServer.shared.retrieveSyncServiceId(appServerId: appServerId)
-      guard let syncServiceConfig = try RealmServer.shared.getSyncServiceConfiguration(appServerId: appServerId, syncServiceId: syncServiceId) else { fatalError("precondition failure: no sync service configuration found") }
+      let appServerId = try WabiRealmServer.shared.retrieveAppServerId(appId)
+      let syncServiceId = try WabiRealmServer.shared.retrieveSyncServiceId(appServerId: appServerId)
+      guard let syncServiceConfig = try WabiRealmServer.shared.getSyncServiceConfiguration(appServerId: appServerId, syncServiceId: syncServiceId) else { fatalError("precondition failure: no sync service configuration found") }
 
       waitForSyncDisabled(flexibleSync: flexibleSync, appServerId: appServerId, syncServiceId: syncServiceId)
 
@@ -455,7 +455,7 @@
         let realm = try WabiRealm(configuration: configuration)
         waitForUploads(for: realm)
         realm.syncSession!.suspend()
-        try RealmServer.shared.triggerClientReset(appId, realm)
+        try WabiRealmServer.shared.triggerClientReset(appId, realm)
 
         // Add an object to the local realm that won't be synced due to the suspend
         try realm.write {
@@ -479,7 +479,7 @@
     }
 
     func prepareFlexibleClientReset(disableRecoveryMode: Bool = false) throws -> (User, String) {
-      let appId = try RealmServer.shared.createAppWithQueryableFields(["age"])
+      let appId = try WabiRealmServer.shared.createAppWithQueryableFields(["age"])
       let app = app(fromAppId: appId)
       let user = try logInUser(for: basicCredentials(app: app), app: app)
       let collection = setupMongoCollection(user: user, collectionName: "SwiftPerson")
@@ -991,7 +991,7 @@
         XCTAssertEqual(realm.objects(SwiftPerson.self).first?.firstName, "Paul")
       }
 
-      try RealmServer.shared.deleteApp(appId)
+      try WabiRealmServer.shared.deleteApp(appId)
     }
 
     func testFlexibleSyncDiscardUnsyncedChangesClientReset() throws {
@@ -1022,7 +1022,7 @@
         XCTAssertEqual(realm.objects(SwiftPerson.self).first?.firstName, "Paul")
       }
 
-      try RealmServer.shared.deleteApp(appId)
+      try WabiRealmServer.shared.deleteApp(appId)
     }
 
     func testFlexibleSyncClientResetRecover() throws {
@@ -1056,7 +1056,7 @@
         XCTAssertEqual(realm.objects(SwiftPerson.self).filter("firstName == 'Paul'").count, 1)
       }
 
-      try RealmServer.shared.deleteApp(appId)
+      try WabiRealmServer.shared.deleteApp(appId)
     }
 
     func testFlexibleSyncClientResetRecoverWithInitialSubscriptions() throws {
@@ -1093,7 +1093,7 @@
         XCTAssertEqual(realm.objects(SwiftPerson.self).filter("firstName == 'Paul'").count, 1)
       }
 
-      try RealmServer.shared.deleteApp(appId)
+      try WabiRealmServer.shared.deleteApp(appId)
     }
 
     @available(*, deprecated) // .discardLocal
@@ -1131,7 +1131,7 @@
         XCTAssertEqual(realm.objects(SwiftPerson.self)[0].firstName, "Paul")
       }
 
-      try RealmServer.shared.deleteApp(appId)
+      try WabiRealmServer.shared.deleteApp(appId)
     }
 
     func testFlexibleSyncClientResetRecoverOrDiscardLocalFailedRecovery() throws {
@@ -1167,7 +1167,7 @@
         XCTAssertEqual(realm.objects(SwiftPerson.self)[0].firstName, "Paul")
       }
 
-      try RealmServer.shared.deleteApp(appId)
+      try WabiRealmServer.shared.deleteApp(appId)
     }
 
     func testFlexibleClientResetManual() throws {
@@ -1208,7 +1208,7 @@
         XCTAssertEqual(realm.objects(SwiftPerson.self)[0].firstName, "Paul")
       }
 
-      try RealmServer.shared.deleteApp(appId)
+      try WabiRealmServer.shared.deleteApp(appId)
     }
 
     func testDefaultClientResetMode() throws {
@@ -1516,7 +1516,7 @@
       let proxy = TimeoutProxyServer(port: 5678, targetPort: 9090)
       try proxy.start()
 
-      let appId = try RealmServer.shared.createApp()
+      let appId = try WabiRealmServer.shared.createApp()
       let appConfig = AppConfiguration(baseURL: "http://localhost:5678",
                                        transport: AsyncOpenConnectionTimeoutTransport(),
                                        localAppName: nil, localAppVersion: nil)
@@ -1562,7 +1562,7 @@
       }
 
       proxy.stop()
-      try RealmServer.shared.deleteApp(appId)
+      try WabiRealmServer.shared.deleteApp(appId)
     }
 
     func testAppCredentialSupport() {
@@ -1725,7 +1725,7 @@
       app.login(credentials: .anonymous).await(self)
 
       let user = app.currentUser!
-      _ = expectSuccess(RealmServer.shared.removeUserForApp(appId, userId: user.id))
+      _ = expectSuccess(WabiRealmServer.shared.removeUserForApp(appId, userId: user.id))
 
       // Set a callback on the user
       let ex = expectation(description: "Error callback should fire upon receiving an error")
@@ -1743,7 +1743,7 @@
     func testDeleteUser() {
       func userExistsOnServer(_ user: User) -> Bool {
         var userExists = false
-        switch RealmServer.shared.retrieveUser(appId, userId: user.id) {
+        switch WabiRealmServer.shared.retrieveUser(appId, userId: user.id) {
         case let .success(u):
           let u = u as! [String: Any]
           XCTAssertEqual(u["_id"] as! String, user.id)
@@ -2214,9 +2214,9 @@
     }
 
     func testServerSchemaValidationWithCustomColumnNames() throws {
-      let appId = try RealmServer.shared.createApp()
+      let appId = try WabiRealmServer.shared.createApp()
       let className = "SwiftCustomColumnObject"
-      RealmServer.shared.retrieveSchemaProperties(appId, className: className) { result in
+      WabiRealmServer.shared.retrieveSchemaProperties(appId, className: className) { result in
         switch result {
         case let .failure(error):
           XCTFail("Couldn't retrieve schema properties for \(className): \(error)")
@@ -2226,7 +2226,7 @@
           }
         }
       }
-      try RealmServer.shared.deleteApp(appId)
+      try WabiRealmServer.shared.deleteApp(appId)
     }
 
     func testVerifyDocumentsWithCustomColumnNames() throws {

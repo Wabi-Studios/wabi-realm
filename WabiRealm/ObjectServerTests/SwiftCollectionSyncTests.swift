@@ -20,10 +20,10 @@ import WabiRealm
 import WabiRealmKit
 import XCTest
 
-#if canImport(RealmTestSupport)
+#if canImport(WabiRealmTestSupport)
   import RealmSyncTestSupport
-  import RealmTestSupport
   import WabiRealmKitSyncTestSupport
+  import WabiRealmTestSupport
 #endif
 
 class CollectionSyncTestCase: SwiftSyncTestCase {
