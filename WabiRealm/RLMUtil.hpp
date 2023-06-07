@@ -20,12 +20,12 @@
 #import <WabiRealm/RLMSwiftValueStorage.h>
 #import <WabiRealm/RLMValue.h>
 
-#import <wabi-realm/array.hpp>
-#import <wabi-realm/binary_data.hpp>
-#import <wabi-realm/object-store/object.hpp>
-#import <wabi-realm/string_data.hpp>
-#import <wabi-realm/timestamp.hpp>
-#import <wabi-realm/util/file.hpp>
+#import <realm/array.hpp>
+#import <realm/binary_data.hpp>
+#import <realm/object-store/object.hpp>
+#import <realm/string_data.hpp>
+#import <realm/timestamp.hpp>
+#import <realm/util/file.hpp>
 
 #import <objc/runtime.h>
 #import <os/lock.h>

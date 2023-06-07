@@ -19,8 +19,8 @@
 #import "RLMClassInfo.hpp"
 #import "RLMSectionedResults.h"
 
-#import <wabi-realm/object-store/results.hpp>
-#import <wabi-realm/object-store/sectioned_results.hpp>
+#import <realm/object-store/results.hpp>
+#import <realm/object-store/sectioned_results.hpp>
 
 @protocol RLMValue;
 

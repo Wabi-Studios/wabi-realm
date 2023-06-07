@@ -18,7 +18,7 @@
 
 #import <WabiRealm/RLMApp_Private.h>
 
-#import <wabi-realm/object-store/sync/app.hpp>
+#import <realm/object-store/sync/app.hpp>
 
 #import <memory>
 

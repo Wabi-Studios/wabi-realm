@@ -28,7 +28,7 @@
 #import "RLMSwiftSupport.h"
 #import "RLMUtil.hpp"
 
-#import <wabi-realm/object-store/property.hpp>
+#import <realm/object-store/property.hpp>
 
 static_assert((int)RLMPropertyTypeInt == (int)wabi_realm::PropertyType::Int);
 static_assert((int)RLMPropertyTypeBool == (int)wabi_realm::PropertyType::Bool);

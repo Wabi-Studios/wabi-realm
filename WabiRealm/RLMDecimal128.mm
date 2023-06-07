@@ -20,7 +20,7 @@
 
 #import "RLMUtil.hpp"
 
-#import <wabi-realm/decimal128.hpp>
+#import <realm/decimal128.hpp>
 
 // Swift's obj-c bridging does not support making an obj-c defined class conform
 // to Decodable, so we need a Swift-defined subclass for that. This means that

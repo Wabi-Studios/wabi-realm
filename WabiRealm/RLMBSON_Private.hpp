@@ -17,7 +17,7 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #import <WabiRealm/RLMBSON.h>
-#import <wabi-realm/util/optional.hpp>
+#import <realm/util/optional.hpp>
 
 namespace wabi_realm::bson {
 class Bson;

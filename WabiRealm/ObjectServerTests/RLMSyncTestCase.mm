@@ -32,9 +32,9 @@
 #import "RLMSyncManager_Private.hpp"
 #import "RLMUtil.hpp"
 
-#import <wabi-realm/object-store/sync/sync_manager.hpp>
-#import <wabi-realm/object-store/sync/sync_session.hpp>
-#import <wabi-realm/object-store/sync/sync_user.hpp>
+#import <realm/object-store/sync/sync_manager.hpp>
+#import <realm/object-store/sync/sync_session.hpp>
+#import <realm/object-store/sync/sync_user.hpp>
 
 #if TARGET_OS_OSX
 

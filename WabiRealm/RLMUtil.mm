@@ -36,8 +36,8 @@
 #import "RLMUUID_Private.hpp"
 #import "RLMValue.h"
 
-#import <wabi-realm/mixed.hpp>
-#import <wabi-realm/util/overload.hpp>
+#import <realm/mixed.hpp>
+#import <realm/util/overload.hpp>
 
 #include <sys/sysctl.h>
 #include <sys/types.h>

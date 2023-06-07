@@ -34,8 +34,8 @@
 #import "RLMUUID_Private.hpp"
 #import "RLMUtil.hpp"
 
-#import <wabi-realm/object-store/property.hpp>
-#import <wabi-realm/object-store/results.hpp>
+#import <realm/object-store/property.hpp>
+#import <realm/object-store/results.hpp>
 
 #import <objc/message.h>
 #import <objc/runtime.h>

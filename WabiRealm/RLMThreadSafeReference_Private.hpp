@@ -18,7 +18,7 @@
 
 #import "RLMThreadSafeReference.h"
 
-#import <wabi-realm/object-store/thread_safe_reference.hpp>
+#import <realm/object-store/thread_safe_reference.hpp>
 
 RLM_HEADER_AUDIT_BEGIN(nullability, sendability)
 

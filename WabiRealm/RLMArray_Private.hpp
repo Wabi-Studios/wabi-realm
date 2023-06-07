@@ -22,7 +22,7 @@
 
 #import "RLMResults_Private.hpp"
 
-#import <wabi-realm/table_ref.hpp>
+#import <realm/table_ref.hpp>
 
 namespace wabi_realm {
 class Results;

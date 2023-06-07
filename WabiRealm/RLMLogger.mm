@@ -20,7 +20,7 @@
 
 #import "RLMUtil.hpp"
 
-#import <wabi-realm/util/logger.hpp>
+#import <realm/util/logger.hpp>
 
 typedef void (^RLMLoggerFunction)(RLMLogLevel level, NSString *message);
 

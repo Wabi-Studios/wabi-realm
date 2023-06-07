@@ -25,8 +25,8 @@
 #import "RLMSyncUtil_Private.hpp"
 #import "RLMUtil.hpp"
 
-#import <wabi-realm/object-store/sync/generic_network_transport.hpp>
-#import <wabi-realm/util/scope_exit.hpp>
+#import <realm/object-store/sync/generic_network_transport.hpp>
+#import <realm/util/scope_exit.hpp>
 
 using namespace wabi_realm;
 

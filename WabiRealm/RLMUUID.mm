@@ -18,7 +18,7 @@
 
 #import "RLMUUID_Private.hpp"
 
-#import <wabi-realm/uuid.hpp>
+#import <realm/uuid.hpp>
 
 @implementation NSUUID (RLMUUIDSupport)
 

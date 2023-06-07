@@ -28,8 +28,8 @@
 #import "RLMSwiftSupport.h"
 #import "RLMUtil.hpp"
 
-#import <wabi-realm/object-store/object_schema.hpp>
-#import <wabi-realm/object-store/object_store.hpp>
+#import <realm/object-store/object_schema.hpp>
+#import <realm/object-store/object_store.hpp>
 
 using namespace wabi_realm;
 

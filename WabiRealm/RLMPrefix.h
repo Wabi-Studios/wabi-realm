@@ -27,9 +27,9 @@
 #import <string>
 #import <vector>
 
-#import <wabi-realm/group.hpp>
-#import <wabi-realm/link_view.hpp>
-#import <wabi-realm/row.hpp>
-#import <wabi-realm/table.hpp>
-#import <wabi-realm/table_view.hpp>
+#import <realm/group.hpp>
+#import <realm/link_view.hpp>
+#import <realm/row.hpp>
+#import <realm/table.hpp>
+#import <realm/table_view.hpp>
 #endif

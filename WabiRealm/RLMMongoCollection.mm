@@ -27,9 +27,9 @@
 #import "RLMUpdateResult_Private.hpp"
 #import "RLMUser_Private.hpp"
 
-#import <wabi-realm/object-store/sync/mongo_client.hpp>
-#import <wabi-realm/object-store/sync/mongo_collection.hpp>
-#import <wabi-realm/object-store/sync/mongo_database.hpp>
+#import <realm/object-store/sync/mongo_client.hpp>
+#import <realm/object-store/sync/mongo_collection.hpp>
+#import <realm/object-store/sync/mongo_database.hpp>
 
 __attribute__((objc_direct_members))
 @implementation RLMChangeStream {

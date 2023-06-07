@@ -34,9 +34,9 @@
 #import "RLMThreadSafeReference_Private.hpp"
 #import "RLMUtil.hpp"
 
-#import <wabi-realm/object-store/object.hpp>
-#import <wabi-realm/object-store/object_schema.hpp>
-#import <wabi-realm/object-store/shared_realm.hpp>
+#import <realm/object-store/object.hpp>
+#import <realm/object-store/object_schema.hpp>
+#import <realm/object-store/shared_realm.hpp>
 
 using namespace wabi_realm;
 

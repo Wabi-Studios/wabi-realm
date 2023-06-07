@@ -24,7 +24,7 @@
 #import "RLMUUID_Private.hpp"
 #import "RLMUtil.hpp"
 
-#import <wabi-realm/object-store/object_accessor.hpp>
+#import <realm/object-store/object_accessor.hpp>
 
 @class RLMRealm;
 class RLMClassInfo;

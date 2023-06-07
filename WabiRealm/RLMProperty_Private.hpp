@@ -18,7 +18,7 @@
 
 #import <WabiRealm/RLMProperty_Private.h>
 
-#import <wabi-realm/object-store/property.hpp>
+#import <realm/object-store/property.hpp>
 
 @class RLMSchema;
 

@@ -25,8 +25,8 @@
 #import "RLMRealm_Private.hpp"
 #import "RLMSchema_Private.h"
 
-#import <wabi-realm/group.hpp>
-#import <wabi-realm/object-store/shared_realm.hpp>
+#import <realm/group.hpp>
+#import <realm/object-store/shared_realm.hpp>
 
 #import <atomic>
 #import <memory>

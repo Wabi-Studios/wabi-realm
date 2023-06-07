@@ -31,12 +31,12 @@
 #import "RLMThreadSafeReference_Private.hpp"
 #import "RLMUtil.hpp"
 
-#import <wabi-realm/collection.hpp>
-#import <wabi-realm/object-store/set.hpp>
-#import <wabi-realm/set.hpp>
+#import <realm/collection.hpp>
+#import <realm/object-store/set.hpp>
+#import <realm/set.hpp>
 
-#import <wabi-realm/object-store/results.hpp>
-#import <wabi-realm/object-store/shared_realm.hpp>
+#import <realm/object-store/results.hpp>
+#import <realm/object-store/shared_realm.hpp>
 
 @interface RLMManagedSetHandoverMetadata : NSObject
 @property(nonatomic) NSString *parentClassName;

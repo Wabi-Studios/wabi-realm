@@ -29,10 +29,10 @@
 #import "RLMSet_Private.hpp"
 #import "RLMSwiftCollectionBase.h"
 
-#import <wabi-realm/object-store/dictionary.hpp>
-#import <wabi-realm/object-store/list.hpp>
-#import <wabi-realm/object-store/results.hpp>
-#import <wabi-realm/object-store/set.hpp>
+#import <realm/object-store/dictionary.hpp>
+#import <realm/object-store/list.hpp>
+#import <realm/object-store/results.hpp>
+#import <realm/object-store/set.hpp>
 
 static const int RLMEnumerationBufferSize = 16;
 

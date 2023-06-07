@@ -18,8 +18,8 @@
 
 #import <WabiRealm/RLMConstants.h>
 
-#import <wabi-realm/table_ref.hpp>
-#import <wabi-realm/util/optional.hpp>
+#import <realm/table_ref.hpp>
+#import <realm/util/optional.hpp>
 
 #import <unordered_map>
 #import <vector>

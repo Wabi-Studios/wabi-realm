@@ -21,9 +21,9 @@
 #import "RLMSyncSession_Private.hpp"
 #import "RLMUtil.hpp"
 
-#import <wabi-realm/object-store/sync/app.hpp>
-#import <wabi-realm/sync/client.hpp>
-#import <wabi-realm/util/basic_system_errors.hpp>
+#import <realm/object-store/sync/app.hpp>
+#import <realm/sync/client.hpp>
+#import <realm/util/basic_system_errors.hpp>
 
 NSString *const RLMErrorDomain = @"io.realm";
 NSString *const RLMUnknownSystemErrorDomain = @"io.realm.unknown";

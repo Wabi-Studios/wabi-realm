@@ -26,8 +26,8 @@
 #import "RLMSchema.h"
 #import "RLMSyncSession.h"
 
-#import <wabi-realm/object-store/results.hpp>
-#import <wabi-realm/object-store/shared_realm.hpp>
+#import <realm/object-store/results.hpp>
+#import <realm/object-store/shared_realm.hpp>
 
 using namespace wabi_realm;
 

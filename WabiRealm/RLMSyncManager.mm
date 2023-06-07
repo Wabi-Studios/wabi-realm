@@ -24,9 +24,9 @@
 #import "RLMUser_Private.hpp"
 #import "RLMUtil.hpp"
 
-#import <wabi-realm/object-store/sync/sync_manager.hpp>
-#import <wabi-realm/object-store/sync/sync_session.hpp>
-#import <wabi-realm/sync/config.hpp>
+#import <realm/object-store/sync/sync_manager.hpp>
+#import <realm/object-store/sync/sync_session.hpp>
+#import <realm/sync/config.hpp>
 
 #if !defined(REALM_COCOA_VERSION)
 #import "RLMVersion.h"

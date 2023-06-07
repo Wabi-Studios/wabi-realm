@@ -26,8 +26,8 @@
 #import "RLMSyncUtil_Private.hpp"
 #import "RLMUser_Private.hpp"
 
-#import <wabi-realm/object-store/sync/app.hpp>
-#import <wabi-realm/object-store/sync/sync_session.hpp>
+#import <realm/object-store/sync/app.hpp>
+#import <realm/object-store/sync/sync_session.hpp>
 
 using namespace wabi_realm;
 

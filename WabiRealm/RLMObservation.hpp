@@ -18,10 +18,10 @@
 
 #import <Foundation/Foundation.h>
 
-#import <wabi-realm/obj.hpp>
-#import <wabi-realm/object-store/binding_context.hpp>
-#import <wabi-realm/object-store/impl/deep_change_checker.hpp>
-#import <wabi-realm/table.hpp>
+#import <realm/obj.hpp>
+#import <realm/object-store/binding_context.hpp>
+#import <realm/object-store/impl/deep_change_checker.hpp>
+#import <realm/table.hpp>
 
 @class RLMObjectBase, RLMRealm, RLMSchema, RLMProperty, RLMObjectSchema;
 class RLMClassInfo;

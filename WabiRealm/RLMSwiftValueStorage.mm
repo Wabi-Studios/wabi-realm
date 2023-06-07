@@ -23,7 +23,7 @@
 #import "RLMProperty_Private.h"
 #import "RLMUtil.hpp"
 
-#import <wabi-realm/object-store/object.hpp>
+#import <realm/object-store/object.hpp>
 
 namespace {
 struct SwiftValueStorageBase {

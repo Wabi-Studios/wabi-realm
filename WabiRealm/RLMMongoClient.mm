@@ -22,9 +22,9 @@
 #import "RLMMongoCollection_Private.h"
 #import "RLMMongoDatabase_Private.hpp"
 
-#import <wabi-realm/object-store/sync/mongo_client.hpp>
-#import <wabi-realm/object-store/sync/mongo_database.hpp>
-#import <wabi-realm/util/optional.hpp>
+#import <realm/object-store/sync/mongo_client.hpp>
+#import <realm/object-store/sync/mongo_database.hpp>
+#import <realm/util/optional.hpp>
 
 @implementation RLMMongoClient
 

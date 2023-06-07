@@ -20,8 +20,8 @@
 
 #import "RLMSyncConfiguration.h"
 
-#import <wabi-realm/object-store/sync/sync_user.hpp>
-#import <wabi-realm/sync/config.hpp>
+#import <realm/object-store/sync/sync_user.hpp>
+#import <realm/sync/config.hpp>
 
 @class RLMSyncConfiguration, RLMSyncSessionRefreshHandle, RLMApp;
 

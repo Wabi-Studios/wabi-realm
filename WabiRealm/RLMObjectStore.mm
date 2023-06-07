@@ -33,10 +33,10 @@
 #import "RLMSwiftValueStorage.h"
 #import "RLMUtil.hpp"
 
-#import <wabi-realm/group.hpp>
-#import <wabi-realm/object-store/object_store.hpp>
-#import <wabi-realm/object-store/results.hpp>
-#import <wabi-realm/object-store/shared_realm.hpp>
+#import <realm/group.hpp>
+#import <realm/object-store/object_store.hpp>
+#import <realm/object-store/results.hpp>
+#import <realm/object-store/shared_realm.hpp>
 
 #import <objc/message.h>
 

@@ -36,10 +36,10 @@
 #import "RLMUser_Private.hpp"
 #import "RLMWatchTestUtility.h"
 
-#import <wabi-realm/object-store/shared_realm.hpp>
-#import <wabi-realm/object-store/sync/sync_manager.hpp>
-#import <wabi-realm/object-store/thread_safe_reference.hpp>
-#import <wabi-realm/util/file.hpp>
+#import <realm/object-store/shared_realm.hpp>
+#import <realm/object-store/sync/sync_manager.hpp>
+#import <realm/object-store/thread_safe_reference.hpp>
+#import <realm/util/file.hpp>
 
 #import <atomic>
 

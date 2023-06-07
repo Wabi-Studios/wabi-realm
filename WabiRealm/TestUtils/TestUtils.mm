@@ -26,11 +26,11 @@
 #import "RLMSyncConfiguration_Private.hpp"
 #import "RLMSyncManager_Private.hpp"
 
-#import <wabi-realm/object-store/impl/apple/keychain_helper.hpp>
-#import <wabi-realm/object-store/sync/impl/sync_file.hpp>
-#import <wabi-realm/object-store/sync/impl/sync_metadata.hpp>
-#import <wabi-realm/object-store/sync/sync_manager.hpp>
-#import <wabi-realm/util/base64.hpp>
+#import <realm/object-store/impl/apple/keychain_helper.hpp>
+#import <realm/object-store/sync/impl/sync_file.hpp>
+#import <realm/object-store/sync/impl/sync_metadata.hpp>
+#import <realm/object-store/sync/sync_manager.hpp>
+#import <realm/util/base64.hpp>
 
 #import <Availability.h>
 

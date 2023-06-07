@@ -27,11 +27,11 @@
 #import "RLMSwiftSupport.h"
 #import "RLMUtil.hpp"
 
-#import <wabi-realm/group.hpp>
-#import <wabi-realm/object-store/object_schema.hpp>
-#import <wabi-realm/object-store/object_store.hpp>
-#import <wabi-realm/object-store/schema.hpp>
-#import <wabi-realm/util/scope_exit.hpp>
+#import <realm/group.hpp>
+#import <realm/object-store/object_schema.hpp>
+#import <realm/object-store/object_store.hpp>
+#import <realm/object-store/schema.hpp>
+#import <realm/util/scope_exit.hpp>
 
 #import <mutex>
 #import <objc/runtime.h>

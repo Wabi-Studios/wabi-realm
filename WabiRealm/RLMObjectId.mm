@@ -21,7 +21,7 @@
 #import "RLMError_Private.hpp"
 #import "RLMUtil.hpp"
 
-#import <wabi-realm/object_id.hpp>
+#import <realm/object_id.hpp>
 
 // Swift's obj-c bridging does not support making an obj-c defined class conform
 // to Decodable, so we need a Swift-defined subclass for that. This means that

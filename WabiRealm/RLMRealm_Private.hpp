@@ -20,7 +20,7 @@
 
 #import "RLMClassInfo.hpp"
 
-#import <wabi-realm/object-store/object_schema.hpp>
+#import <realm/object-store/object_schema.hpp>
 
 #import <memory>
 

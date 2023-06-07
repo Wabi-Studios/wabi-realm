@@ -18,7 +18,7 @@
 
 #import <WabiRealm/RLMProviderClient.h>
 
-#import <wabi-realm/object-store/sync/app.hpp>
+#import <realm/object-store/sync/app.hpp>
 
 @interface RLMProviderClient ()
 

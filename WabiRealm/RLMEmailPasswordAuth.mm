@@ -22,7 +22,7 @@
 #import "RLMBSON_Private.hpp"
 #import "RLMProviderClient_Private.hpp"
 
-#import <wabi-realm/object-store/sync/app.hpp>
+#import <realm/object-store/sync/app.hpp>
 
 @implementation RLMEmailPasswordAuth
 

@@ -21,7 +21,7 @@
 #import "RLMBSON_Private.hpp"
 #import "RLMUtil.hpp"
 
-#import <wabi-realm/object-store/util/bson/bson.hpp>
+#import <realm/object-store/util/bson/bson.hpp>
 
 using namespace wabi_realm::app;
 

@@ -25,10 +25,10 @@
 #import "RLMSyncSubscription_Private.h"
 #import "RLMUtil.hpp"
 
-#import <wabi-realm/exceptions.hpp>
-#import <wabi-realm/object-store/sync/async_open_task.hpp>
-#import <wabi-realm/object-store/sync/sync_session.hpp>
-#import <wabi-realm/object-store/thread_safe_reference.hpp>
+#import <realm/exceptions.hpp>
+#import <realm/object-store/sync/async_open_task.hpp>
+#import <realm/object-store/sync/sync_session.hpp>
+#import <realm/object-store/thread_safe_reference.hpp>
 
 static dispatch_queue_t s_async_open_queue = dispatch_queue_create(
     "io.realm.asyncOpenDispatchQueue", DISPATCH_QUEUE_CONCURRENT);

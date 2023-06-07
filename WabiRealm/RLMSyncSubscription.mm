@@ -24,9 +24,9 @@
 #import "RLMRealm_Private.hpp"
 #import "RLMUtil.hpp"
 
-#import <wabi-realm/status_with.hpp>
-#import <wabi-realm/sync/subscriptions.hpp>
-#import <wabi-realm/util/future.hpp>
+#import <realm/status_with.hpp>
+#import <realm/sync/subscriptions.hpp>
+#import <realm/util/future.hpp>
 
 #pragma mark - Subscription
 

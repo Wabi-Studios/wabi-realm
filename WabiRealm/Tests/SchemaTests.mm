@@ -33,8 +33,8 @@
 #import "RLMUser_Private.h"
 #import "RLMUtil.hpp"
 
-#import <wabi-realm/object-store/schema.hpp>
-#import <wabi-realm/table.hpp>
+#import <realm/object-store/schema.hpp>
+#import <realm/table.hpp>
 
 #import <algorithm>
 #import <objc/runtime.h>

@@ -18,7 +18,7 @@
 
 #import "RLMRealmConfiguration_Private.h"
 
-#import <wabi-realm/object-store/shared_realm.hpp>
+#import <realm/object-store/shared_realm.hpp>
 
 @interface RLMRealmConfiguration ()
 - (wabi_realm::WabiRealm::Config)config;

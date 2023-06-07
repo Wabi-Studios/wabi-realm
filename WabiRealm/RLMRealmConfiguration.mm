@@ -24,16 +24,16 @@
 #import "RLMSchema_Private.hpp"
 #import "RLMUtil.hpp"
 
-#import <wabi-realm/object-store/schema.hpp>
-#import <wabi-realm/object-store/shared_realm.hpp>
+#import <realm/object-store/schema.hpp>
+#import <realm/object-store/shared_realm.hpp>
 
 #if REALM_ENABLE_SYNC
 #import "RLMSyncConfiguration_Private.hpp"
 #import "RLMUser_Private.hpp"
 
-#import <wabi-realm/object-store/sync/sync_manager.hpp>
-#import <wabi-realm/object-store/util/bson/bson.hpp>
-#import <wabi-realm/sync/config.hpp>
+#import <realm/object-store/sync/sync_manager.hpp>
+#import <realm/object-store/util/bson/bson.hpp>
+#import <realm/sync/config.hpp>
 #else
 @class RLMSyncConfiguration;
 #endif

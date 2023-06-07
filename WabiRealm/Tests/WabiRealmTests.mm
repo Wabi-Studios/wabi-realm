@@ -32,8 +32,8 @@
 #import <thread>
 #import <unordered_set>
 
-#import <wabi-realm/db_options.hpp>
-#import <wabi-realm/util/file.hpp>
+#import <realm/db_options.hpp>
+#import <realm/util/file.hpp>
 
 @interface RLMObjectSchema (Private)
 + (instancetype)schemaForObjectClass:(Class)objectClass;

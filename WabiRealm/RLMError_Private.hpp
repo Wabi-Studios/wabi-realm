@@ -18,8 +18,8 @@
 
 #import <WabiRealm/RLMError.h>
 
-#import <wabi-realm/exceptions.hpp>
-#import <wabi-realm/status_with.hpp>
+#import <realm/exceptions.hpp>
+#import <realm/status_with.hpp>
 
 RLM_HIDDEN_BEGIN
 

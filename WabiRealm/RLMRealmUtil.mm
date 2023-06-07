@@ -25,10 +25,10 @@
 #import "RLMScheduler.h"
 #import "RLMUtil.hpp"
 
-#import <wabi-realm/object-store/binding_context.hpp>
-#import <wabi-realm/object-store/impl/realm_coordinator.hpp>
-#import <wabi-realm/object-store/shared_realm.hpp>
-#import <wabi-realm/object-store/util/scheduler.hpp>
+#import <realm/object-store/binding_context.hpp>
+#import <realm/object-store/impl/realm_coordinator.hpp>
+#import <realm/object-store/shared_realm.hpp>
+#import <realm/object-store/util/scheduler.hpp>
 
 #import <map>
 

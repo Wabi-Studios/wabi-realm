@@ -20,7 +20,7 @@
 
 #import "RLMCollection_Private.hpp"
 
-#import <wabi-realm/object-store/results.hpp>
+#import <realm/object-store/results.hpp>
 
 class RLMClassInfo;
 

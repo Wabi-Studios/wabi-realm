@@ -30,7 +30,7 @@
 #import "RLMSwiftCollectionBase.h"
 #import "RLMSwiftValueStorage.h"
 
-#import <wabi-realm/group.hpp>
+#import <realm/group.hpp>
 
 using namespace wabi_realm;
 

@@ -18,7 +18,7 @@
 
 #import "RLMCredentials.h"
 
-#import <wabi-realm/object-store/sync/app_credentials.hpp>
+#import <realm/object-store/sync/app_credentials.hpp>
 
 @interface RLMCredentials ()
 @property(nonatomic, direct) wabi_realm::app::AppCredentials &appCredentials;

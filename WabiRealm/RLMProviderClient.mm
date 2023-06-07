@@ -20,8 +20,8 @@
 
 #import "RLMApp_Private.hpp"
 
-#import <wabi-realm/object-store/sync/app.hpp>
-#import <wabi-realm/util/optional.hpp>
+#import <realm/object-store/sync/app.hpp>
+#import <realm/util/optional.hpp>
 
 @implementation RLMProviderClient
 - (instancetype)initWithApp:(RLMApp *)app {

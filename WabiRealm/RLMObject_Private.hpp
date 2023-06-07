@@ -22,7 +22,7 @@
 #import "RLMSwiftObject.h"
 #import "RLMUtil.hpp"
 
-#import <wabi-realm/obj.hpp>
+#import <realm/obj.hpp>
 
 class RLMObservationInfo;
 

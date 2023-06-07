@@ -20,8 +20,8 @@
 
 #import <WabiRealm/RLMRealm.h>
 
-#import <wabi-realm/keys.hpp>
-#import <wabi-realm/object-store/collection_notifications.hpp>
+#import <realm/keys.hpp>
+#import <realm/object-store/collection_notifications.hpp>
 
 #import <mutex>
 #import <vector>

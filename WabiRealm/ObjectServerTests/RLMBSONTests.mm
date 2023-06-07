@@ -19,7 +19,7 @@
 #import "RLMBSON_Private.hpp"
 #import "RLMUUID_Private.hpp"
 
-#import <wabi-realm/object-store/util/bson/bson.hpp>
+#import <realm/object-store/util/bson/bson.hpp>
 
 #import <XCTest/XCTest.h>
 

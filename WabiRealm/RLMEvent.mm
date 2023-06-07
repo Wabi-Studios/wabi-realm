@@ -31,8 +31,8 @@
 #import "RLMUtil.hpp"
 
 #import <external/json/json.hpp>
-#import <wabi-realm/object-store/audit.hpp>
-#import <wabi-realm/object-store/audit_serializer.hpp>
+#import <realm/object-store/audit.hpp>
+#import <realm/object-store/audit_serializer.hpp>
 
 using namespace wabi_realm;
 

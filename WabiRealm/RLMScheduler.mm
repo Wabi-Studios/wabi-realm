@@ -20,7 +20,7 @@
 
 #import "RLMUtil.hpp"
 
-#include <wabi-realm/object-store/util/scheduler.hpp>
+#include <realm/object-store/util/scheduler.hpp>
 
 @interface RLMMainRunLoopScheduler : RLMScheduler
 @end

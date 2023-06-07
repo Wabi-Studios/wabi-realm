@@ -44,14 +44,14 @@
 #import "RLMUpdateChecker.hpp"
 #import "RLMUtil.hpp"
 
-#import <wabi-realm/disable_sync_to_disk.hpp>
-#import <wabi-realm/object-store/impl/realm_coordinator.hpp>
-#import <wabi-realm/object-store/object_store.hpp>
-#import <wabi-realm/object-store/schema.hpp>
-#import <wabi-realm/object-store/shared_realm.hpp>
-#import <wabi-realm/object-store/util/scheduler.hpp>
-#import <wabi-realm/util/scope_exit.hpp>
-#import <wabi-realm/version.hpp>
+#import <realm/disable_sync_to_disk.hpp>
+#import <realm/object-store/impl/realm_coordinator.hpp>
+#import <realm/object-store/object_store.hpp>
+#import <realm/object-store/schema.hpp>
+#import <realm/object-store/shared_realm.hpp>
+#import <realm/object-store/util/scheduler.hpp>
+#import <realm/util/scope_exit.hpp>
+#import <realm/version.hpp>
 
 #if REALM_ENABLE_SYNC
 #import "RLMSyncManager_Private.hpp"
@@ -59,7 +59,7 @@
 #import "RLMSyncSubscription_Private.hpp"
 #import "RLMSyncUtil_Private.hpp"
 
-#import <wabi-realm/object-store/sync/sync_session.hpp>
+#import <realm/object-store/sync/sync_session.hpp>
 #endif
 
 using namespace wabi_realm;

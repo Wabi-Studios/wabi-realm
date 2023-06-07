@@ -18,7 +18,7 @@
 
 #import <WabiRealm/RLMFindOptions.h>
 
-#import <wabi-realm/object-store/sync/mongo_collection.hpp>
+#import <realm/object-store/sync/mongo_collection.hpp>
 
 RLM_HEADER_AUDIT_BEGIN(nullability, sendability)
 

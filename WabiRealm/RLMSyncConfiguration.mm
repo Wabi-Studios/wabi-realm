@@ -32,11 +32,11 @@
 #import "RLMUser_Private.hpp"
 #import "RLMUtil.hpp"
 
-#import <wabi-realm/object-store/sync/sync_manager.hpp>
-#import <wabi-realm/object-store/sync/sync_session.hpp>
-#import <wabi-realm/object-store/thread_safe_reference.hpp>
-#import <wabi-realm/sync/config.hpp>
-#import <wabi-realm/sync/protocol.hpp>
+#import <realm/object-store/sync/sync_manager.hpp>
+#import <realm/object-store/sync/sync_session.hpp>
+#import <realm/object-store/thread_safe_reference.hpp>
+#import <realm/sync/config.hpp>
+#import <realm/sync/protocol.hpp>
 
 using namespace wabi_realm;
 

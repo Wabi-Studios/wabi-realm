@@ -17,7 +17,7 @@
 
 #import "RLMPredicateUtil.hpp"
 
-#include <wabi-realm/util/assert.hpp>
+#include <realm/util/assert.hpp>
 
 namespace {
 

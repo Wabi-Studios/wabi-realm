@@ -21,7 +21,7 @@
 #import "RLMApp_Private.hpp"
 #import "RLMUser_Private.hpp"
 
-#import <wabi-realm/object-store/sync/push_client.hpp>
+#import <realm/object-store/sync/push_client.hpp>
 
 @implementation RLMPushClient {
   std::optional<wabi_realm::app::PushClient> _pushClient;

@@ -33,10 +33,10 @@
 #import "RLMThreadSafeReference_Private.hpp"
 #import "RLMUtil.hpp"
 
-#import <wabi-realm/object-store/list.hpp>
-#import <wabi-realm/object-store/results.hpp>
-#import <wabi-realm/object-store/shared_realm.hpp>
-#import <wabi-realm/table_view.hpp>
+#import <realm/object-store/list.hpp>
+#import <realm/object-store/results.hpp>
+#import <realm/object-store/shared_realm.hpp>
+#import <realm/table_view.hpp>
 
 #import <objc/runtime.h>
 

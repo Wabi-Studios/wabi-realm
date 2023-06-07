@@ -30,10 +30,10 @@
 #import "RLMSchema_Private.h"
 #import "RLMUtil.hpp"
 
-#import <wabi-realm/object-store/object_store.hpp>
-#import <wabi-realm/object-store/shared_realm.hpp>
-#import <wabi-realm/table.hpp>
-#import <wabi-realm/version.hpp>
+#import <realm/object-store/object_store.hpp>
+#import <realm/object-store/shared_realm.hpp>
+#import <realm/table.hpp>
+#import <realm/version.hpp>
 
 #import <objc/runtime.h>
 

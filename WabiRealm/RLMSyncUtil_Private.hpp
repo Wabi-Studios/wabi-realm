@@ -18,7 +18,7 @@
 
 #import "RLMSyncConfiguration_Private.h"
 
-#import <wabi-realm/object-store/sync/sync_manager.hpp>
+#import <realm/object-store/sync/sync_manager.hpp>
 
 class CocoaSyncUserContext;
 

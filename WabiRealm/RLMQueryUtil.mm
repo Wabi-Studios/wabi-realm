@@ -26,12 +26,12 @@
 #import "RLMSchema.h"
 #import "RLMUtil.hpp"
 
-#import <wabi-realm/object-store/object_store.hpp>
-#import <wabi-realm/object-store/results.hpp>
-#import <wabi-realm/query_engine.hpp>
-#import <wabi-realm/query_expression.hpp>
-#import <wabi-realm/util/cf_ptr.hpp>
-#import <wabi-realm/util/overload.hpp>
+#import <realm/object-store/object_store.hpp>
+#import <realm/object-store/results.hpp>
+#import <realm/query_engine.hpp>
+#import <realm/query_expression.hpp>
+#import <realm/util/cf_ptr.hpp>
+#import <realm/util/overload.hpp>
 
 using namespace wabi_realm;
 

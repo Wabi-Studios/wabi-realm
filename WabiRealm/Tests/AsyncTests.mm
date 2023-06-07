@@ -21,8 +21,8 @@
 #import "RLMRealmConfiguration_Private.hpp"
 #import "RLMRealm_Private.hpp"
 
-#import <wabi-realm/object-store/impl/realm_coordinator.hpp>
-#import <wabi-realm/string_data.hpp>
+#import <realm/object-store/impl/realm_coordinator.hpp>
+#import <realm/string_data.hpp>
 
 #import <sys/resource.h>
 
