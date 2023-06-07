@@ -182,7 +182,7 @@ static BOOL validateValue(__unsafe_unretained id const value,
   case RLMPropertyTypeUUID:
     return [value isKindOfClass:[NSUUID class]] ||
            ([value isKindOfClass:[NSString class]] &&
-            wabi_realm::UUID::is_valid_string([value UTF8String]));
+            realm::UUID::is_valid_string([value UTF8String]));
   }
   @throw RLMException(@"Invalid RLMPropertyType specified");
 }
@@ -488,7 +488,7 @@ id RLMMixedToObjc(wabi_realm::Mixed const &mixed,
     return RLMCreateObjectAccessor(*classInfo, std::move(obj));
   }
   case wabi_realm::type_UUID:
-    return [[NSUUID alloc] initWithRealmUUID:mixed.get<wabi_realm::UUID>()];
+    return [[NSUUID alloc] initWithRealmUUID:mixed.get<realm::UUID>()];
   case wabi_realm::type_LinkList:
     REALM_UNREACHABLE();
   default:
@@ -496,13 +496,13 @@ id RLMMixedToObjc(wabi_realm::Mixed const &mixed,
   }
 }
 
-wabi_realm::UUID RLMObjcToUUID(__unsafe_unretained id const value) {
+realm::UUID RLMObjcToUUID(__unsafe_unretained id const value) {
   try {
     if (auto uuid = RLMDynamicCast<NSUUID>(value)) {
       return uuid.rlm_uuidValue;
     }
     if (auto string = RLMDynamicCast<NSString>(value)) {
-      return wabi_realm::UUID(string.UTF8String);
+      return realm::UUID(string.UTF8String);
     }
   } catch (std::exception const &e) {
     @throw RLMException(@"Cannot convert value '%@' of type '%@' to uuid: %s",

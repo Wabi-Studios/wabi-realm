@@ -22,13 +22,13 @@
 
 @implementation NSUUID (RLMUUIDSupport)
 
-- (instancetype)initWithRealmUUID:(wabi_realm::UUID)rUuid {
+- (instancetype)initWithRealmUUID:(realm::UUID)rUuid {
   self = [self initWithUUIDBytes:rUuid.to_bytes().data()];
   return self;
 }
 
-- (wabi_realm::UUID)rlm_uuidValue {
-  return wabi_realm::UUID(self.UUIDString.UTF8String);
+- (realm::UUID)rlm_uuidValue {
+  return realm::UUID(self.UUIDString.UTF8String);
 }
 
 @end

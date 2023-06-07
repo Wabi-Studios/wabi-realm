@@ -72,7 +72,7 @@ template <> bool isNull(wabi_realm::Timestamp const &v) { return v.is_null(); }
 template <> bool isNull(wabi_realm::ObjectId const &) { return false; }
 template <> bool isNull(wabi_realm::Decimal128 const &v) { return v.is_null(); }
 template <> bool isNull(wabi_realm::Mixed const &v) { return v.is_null(); }
-template <> bool isNull(wabi_realm::UUID const &) { return false; }
+template <> bool isNull(realm::UUID const &) { return false; }
 
 template <typename T>
 T get(__unsafe_unretained RLMObjectBase *const obj, NSUInteger index) {
@@ -251,7 +251,7 @@ void setValue(__unsafe_unretained RLMObjectBase *const obj, ColKey key,
 
 void setValue(__unsafe_unretained RLMObjectBase *const obj, ColKey key,
               __unsafe_unretained NSUUID *const value) {
-  setValueOrNull<wabi_realm::UUID>(obj, key, value);
+  setValueOrNull<realm::UUID>(obj, key, value);
 }
 
 void setValue(__unsafe_unretained RLMObjectBase *const obj, ColKey key,
@@ -368,7 +368,7 @@ id managedGetter(RLMProperty *prop, const char *type) {
       return getLinkingObjects(obj, prop);
     };
   case RLMPropertyTypeUUID:
-    return makeWrapperGetter<wabi_realm::UUID>(index, prop.optional);
+    return makeWrapperGetter<realm::UUID>(index, prop.optional);
   }
 }
 
@@ -815,7 +815,7 @@ NSDate *RLMGetSwiftPropertyDate(__unsafe_unretained RLMObjectBase *const obj,
 
 NSUUID *RLMGetSwiftPropertyUUID(__unsafe_unretained RLMObjectBase *const obj,
                                 uint16_t key) {
-  return getBoxed<std::optional<wabi_realm::UUID>>(obj, key);
+  return getBoxed<std::optional<realm::UUID>>(obj, key);
 }
 
 RLMObjectId *
@@ -1055,7 +1055,7 @@ template <> wabi_realm::Decimal128 RLMStatelessAccessorContext::unbox(id v) {
 template <> wabi_realm::ObjectId RLMStatelessAccessorContext::unbox(id v) {
   return bridged<RLMObjectId>(v).value;
 }
-template <> wabi_realm::UUID RLMStatelessAccessorContext::unbox(id v) {
+template <> realm::UUID RLMStatelessAccessorContext::unbox(id v) {
   return RLMObjcToUUID(bridged<NSUUID>(v));
 }
 template <>
@@ -1098,9 +1098,9 @@ RLMStatelessAccessorContext::unbox(__unsafe_unretained id const v) {
   return toOptional<wabi_realm::ObjectId>(v);
 }
 template <>
-std::optional<wabi_realm::UUID>
+std::optional<realm::UUID>
 RLMStatelessAccessorContext::unbox(__unsafe_unretained id const v) {
-  return toOptional<wabi_realm::UUID>(v);
+  return toOptional<realm::UUID>(v);
 }
 
 std::pair<wabi_realm::Obj, bool>

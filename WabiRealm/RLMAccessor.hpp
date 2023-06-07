@@ -67,7 +67,7 @@ struct RLMStatelessAccessorContext {
   static id box(wabi_realm::ObjectId v) {
     return [[RLMObjectId alloc] initWithValue:v];
   }
-  static id box(wabi_realm::UUID v) {
+  static id box(realm::UUID v) {
     return [[NSUUID alloc] initWithRealmUUID:v];
   }
 
@@ -78,7 +78,7 @@ struct RLMStatelessAccessorContext {
   static id box(std::optional<wabi_realm::ObjectId> v) {
     return v ? box(*v) : NSNull.null;
   }
-  static id box(std::optional<wabi_realm::UUID> v) {
+  static id box(std::optional<realm::UUID> v) {
     return v ? box(*v) : NSNull.null;
   }
 

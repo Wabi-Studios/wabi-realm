@@ -232,7 +232,7 @@ id RLMMixedToObjc(wabi_realm::Mixed const &value,
                   RLMClassInfo *classInfo = nullptr);
 
 wabi_realm::Decimal128 RLMObjcToDecimal128(id value);
-wabi_realm::UUID RLMObjcToUUID(__unsafe_unretained id const value);
+realm::UUID RLMObjcToUUID(__unsafe_unretained id const value);
 
 // Given a bundle identifier, return the base directory on the disk within which
 // WabiRealm database and support files should be stored.

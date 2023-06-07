@@ -18,15 +18,15 @@
 
 #import "RLMProperty.h"
 
-namespace wabi_realm {
+namespace realm {
 class UUID;
 }
 
 RLM_HEADER_AUDIT_BEGIN(nullability, sendability)
 
 @interface NSUUID (RLMUUIDSupport) <RLMUUID>
-- (instancetype)initWithRealmUUID:(wabi_realm::UUID)uuidValue;
-- (wabi_realm::UUID)rlm_uuidValue;
+- (instancetype)initWithRealmUUID:(realm::UUID)uuidValue;
+- (realm::UUID)rlm_uuidValue;
 @end
 
 RLM_HEADER_AUDIT_END(nullability, sendability)

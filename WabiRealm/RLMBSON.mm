@@ -414,7 +414,7 @@ id<RLMBSON> RLMConvertBsonToRLMBSON(const Bson &b) {
   case wabi_realm::bson::Bson::Type::Array:
     return [[NSMutableArray alloc] initWithBsonArray:static_cast<BsonArray>(b)];
   case wabi_realm::bson::Bson::Type::Uuid:
-    return [[NSUUID alloc] initWithRealmUUID:static_cast<wabi_realm::UUID>(b)];
+    return [[NSUUID alloc] initWithRealmUUID:static_cast<realm::UUID>(b)];
   }
   return nil;
 }
