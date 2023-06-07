@@ -20,7 +20,7 @@ x.y.z Release notes (yyyy-MM-dd)
 * Upgraded realm-core from ? to ?
 * Overhauled SDK metrics collection to better drive future development efforts.
 
-10.40.0 Release notes (2023-05-26)
+10.40.1 Release notes (2023-05-26)
 =============================================================
 
 Drop support for Xcode 13 and add Xcode 14.3.1. Xcode 14.1 is now the minimum
