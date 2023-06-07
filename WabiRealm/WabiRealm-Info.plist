@@ -17,11 +17,11 @@
     <key>CFBundlePackageType</key>
     <string>FMWK</string>
     <key>CFBundleShortVersionString</key>
-    <string>10.40.3</string>
+    <string>10.40.4</string>
     <key>CFBundleSignature</key>
     <string>????</string>
     <key>CFBundleVersion</key>
-    <string>10.40.3</string>
+    <string>10.40.4</string>
     <key>NSHumanReadableCopyright</key>
     <string>Copyright © 2014-2021 WabiRealm. All rights reserved.</string>
     <key>NSPrincipalClass</key>
